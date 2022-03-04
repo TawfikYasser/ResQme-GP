@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".common.Login">
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/applogo"
+                    android:layout_height="wrap_content">
+                </ImageView>
+
+            <TextView
+                android:layout_margin="12dp"
+                android:gravity="center"
+                android:text="أهلا بيك تاني!"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/logo_color_3"
+                android:fontFamily="@font/fontbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    android:text="تسجيل الدخول الى حسابك"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/logo_color_3"
+                    android:fontFamily="@font/fontlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:drawableEnd="@drawable/ic_baseline_email_24"
+                        android:drawablePadding="15dp"
+                        android:inputType="textEmailAddress"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/email_login"
+                        android:hint="البريد الإلكتروني"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="textPassword"
+                        android:drawableEnd="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/password_login"
+                        android:hint="كلمة المرور"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:layout_margin="15dp"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:id="@+id/login_btn"
+                    android:fontFamily="@font/fontbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="تسجيل الدخول"
+                    />
+
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="اشترك الآن"
+                        android:textSize="12dp"
+                        android:id="@+id/register_text_from_login"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_blue"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+                    <TextView
+                        android:text="لسه معندكش حساب؟"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/logo_color_3"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

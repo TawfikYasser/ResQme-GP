@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".common.Registeration">
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    android:text="إنشاء حساب"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/logo_color_3"
+                    android:fontFamily="@font/fontbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </TextView>
+                <LinearLayout
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/choose_image_register"
+                        android:layout_width="70dp"
+                        android:src="@drawable/chooseimage"
+                        android:layout_height="70dp"/>
+
+                    <TextView
+                        android:gravity="center"
+                        android:text="اختار صورة"
+                        android:layout_marginLeft="80dp"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/logo_color_3"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+
+                </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="text"
+                        android:drawableEnd="@drawable/ic_baseline_person_24"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/username_register"
+                        android:hint="اسم المستخدم"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:drawableEnd="@drawable/ic_baseline_email_24"
+                        android:drawablePadding="15dp"
+                        android:inputType="textEmailAddress"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/email_register"
+                        android:hint="البريد الإلكتروني"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="textPassword"
+                        android:drawableEnd="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/password_register"
+                        android:hint="كلمة المرور"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="text"
+                        android:drawableEnd="@drawable/ic_baseline_location_on_24"
+                        android:drawablePadding="15dp"
+                        android:enabled="false"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/address_register"
+                        android:hint="العنوان"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="phone"
+                        android:drawableEnd="@drawable/ic_baseline_local_phone_24"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/whatsapp_register"
+                        android:hint="رقم الواتساب"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/pick_date_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/fontlight"
+                    android:text="اختار تاريخ الميلاد"
+                    android:layout_marginBottom="10dp"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/ic_baseline_date_range_24"/>
+
+                <RadioGroup
+                    android:id="@+id/radio_register_user_type"
+                    android:gravity="right"
+                    android:checkedButton="@id/radio_customer"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/radio_sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="مقدم خدمة"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_customer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="عميل"/>
+                    <TextView
+                        android:text="اختار نوع الحساب"
+                        android:textSize="12dp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_marginLeft="50dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/logo_color_3"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/radio_register_user_gender"
+                    android:checkedButton="@id/radio_male"
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/radio_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="انثى"/>
+                    <RadioButton
+                        android:id="@+id/radio_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ذكر"/>
+
+                    <TextView
+                        android:text="اخنار النوع"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="50dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/logo_color_3"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+                </RadioGroup>
+
+                <Button
+                    android:layout_margin="15dp"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:id="@+id/register_btn"
+                    android:fontFamily="@font/fontbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="إنشاء الحساب"
+                    />
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="تسجيل الدخول"
+                        android:textSize="12dp"
+                        android:id="@+id/login_text_from_register"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_blue"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+                    <TextView
+                        android:text="هل لديك حساب بالفعل؟"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/logo_color_3"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

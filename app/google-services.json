@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "611157830840",
+    "project_id": "resqme-60664",
+    "storage_bucket": "resqme-60664.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611157830840:android:3cdcc08bf3b8873102d84d",
+        "android_client_info": {
+          "package_name": "com.example.resqme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611157830840-qgbu1dl212qn1vk4qe3e5nrbndjk4r34.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByZ9aJyWQEt4DkQxkRhDVRB09LsNaUsuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611157830840-qgbu1dl212qn1vk4qe3e5nrbndjk4r34.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
