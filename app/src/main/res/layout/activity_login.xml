@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -23,10 +24,11 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="match_parent"
+
+                    android:layout_width="170dp"
                     android:layout_marginTop="24dp"
                     android:src="@drawable/applogo"
-                    android:layout_height="wrap_content">
+                    android:layout_height="170dp">
                 </ImageView>
 
             <TextView
@@ -35,7 +37,7 @@
                 android:text="أهلا بيك تاني!"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:textColor="@color/logo_color_3"
+                android:textColor="@color/black"
                 android:fontFamily="@font/fontbold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -52,7 +54,9 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="12dp"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
@@ -66,7 +70,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText

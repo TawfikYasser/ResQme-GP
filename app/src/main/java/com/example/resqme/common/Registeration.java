@@ -55,7 +55,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     // Views Initiation
     ImageView iUserImage;
     TextInputEditText etUsername, etEmailAddress, etWhatsApp, etPassword, etAddress;
-    Button btnChooseDate, btnCreateAccount;
+    Button btnChooseDate, btnCreateAccount, btnChooseImage;
     RadioGroup rgUserType, rgUserGender;
     RadioButton rbtnCustomer, rbtnServiceProvider, rbtnMale, rbtnFemale;
     TextView tvLogin;
@@ -106,7 +106,9 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
     void initViews(){
         iUserImage = findViewById(R.id.choose_image_register);
-        iUserImage.setOnClickListener(this);
+
+        btnChooseImage = findViewById(R.id.choose_image_button);
+        btnChooseImage.setOnClickListener(this);
 
         etUsername = findViewById(R.id.username_register);
         etEmailAddress = findViewById(R.id.email_register);
@@ -144,7 +146,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.choose_image_register:
+            case R.id.choose_image_button:
                 gettingImageFromGallery();
                 break;
             case R.id.login_text_from_register:
@@ -157,10 +159,13 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 String email = etEmailAddress.getText().toString();
                 String password = etPassword.getText().toString();
                 if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) ){
+                    progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
+                    progressDialog.show();
                     createNewAccount(email,password,username);
                 }else{
+                    progressDialog.dismiss();
                     Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
-                            .setBackgroundTint(getResources().getColor(R.color.logo_color))
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
                             .setTextColor(getResources().getColor(R.color.white))
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
@@ -179,8 +184,9 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                     //after creation we need to update profile with username and img
                     updateUserInfo(username,user);
                 }else{
+                    progressDialog.dismiss();
                     String errorMsg = task.getException().getMessage();
-                    Toast.makeText(Registeration.this, "Error: "+errorMsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Registeration.this, "خطأ: "+errorMsg, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -188,8 +194,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
 
     void updateUserInfo(String username, final FirebaseUser user){
-        progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
-        progressDialog.show();
+
 
         final String userEmail= user.getEmail();
         final String generatedID = user.getUid();
@@ -251,8 +256,9 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                     progressDialog.dismiss();
                                 }else{
                                     //something wrong
+                                    progressDialog.dismiss();
                                     Snackbar.make(findViewById(android.R.id.content),"يوجد خطأ ما، برجاء المحاولة مرة أخرى!",Snackbar.LENGTH_LONG)
-                                            .setBackgroundTint(getResources().getColor(R.color.logo_color))
+                                            .setBackgroundTint(getResources().getColor(R.color.red_color))
                                             .setTextColor(getResources().getColor(R.color.white))
                                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                 }

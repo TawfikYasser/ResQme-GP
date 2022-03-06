@@ -3,6 +3,7 @@ package com.example.resqme.common;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,10 +41,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private TextView mDontHave;
     private FirebaseAuth mAuth;
     private StringBuilder userType;
-
     private DatabaseReference databaseCustomers;
     private DatabaseReference databaseServiceProviders;
 
+    ProgressDialog progressDialog;
+
+
+
+
+    // User Data Attrs
     int carID;
     String username = "";
     String password = "";
@@ -54,6 +60,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     String userId = "";
     float rate = 0;
     String gender = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +84,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         mLoginBtn.setOnClickListener(this);
         mDontHave=findViewById(R.id.register_text_from_login);
         mDontHave.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login_btn:
+                progressDialog.setMessage("من فضلك انتظر قليلاً...");
+                progressDialog.show();
                 String LoginEmail = mEmailLogin.getText().toString();
                 String LoginPass = mPasswordLogin.getText().toString();
                 if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
@@ -91,14 +102,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             if(task.isSuccessful()){
                                 getUserData(LoginEmail);
                             }else{
+                                progressDialog.dismiss();
                                 String errorMessage = task.getException().getMessage();
                                 Toast.makeText(Login.this, "خطأ: "+errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }else{
+                    progressDialog.dismiss();
                     Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
-                            .setBackgroundTint(getResources().getColor(R.color.logo_color))
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
                             .setTextColor(getResources().getColor(R.color.white))
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
@@ -148,6 +161,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                     i.putExtra("USERID", userId);
                                     i.putExtra("RATE", rate);
                                     i.putExtra("GENDER", gender);
+                                    progressDialog.dismiss();
                                     startActivity(i);
                                     finish();
                                 }
@@ -202,6 +216,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                     i.putExtra("USERID", userId);
                                     i.putExtra("RATE", rate);
                                     i.putExtra("GENDER", gender);
+                                    progressDialog.dismiss();
                                     startActivity(i);
                                     finish();
                                 }
