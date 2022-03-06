@@ -10,8 +10,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -175,7 +177,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         && !TextUtils.isEmpty(whatsApp) && !TextUtils.isEmpty(bod) && mainImageUri != null){
             new AlertDialog.Builder(this)
                     .setTitle("تأكيد إنشاء الحساب")
-                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟")
+                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                                 progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
@@ -263,10 +265,16 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                     int selectedType = rgUserType.getCheckedRadioButtonId();
                                     rbtnCustomer=(RadioButton)findViewById(selectedType);
                                     if(rbtnCustomer.getText().toString().equals("عميل")){
+                                        saveLocalDataCustomer(username, userEmail, etPassword.getText().toString().trim(),
+                                                "DEFAULT", etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
+                                                "عميل", selectedUserType, "0", "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, CustomerHome.class);
                                         startActivity(mainIntent);
                                         finish();
                                     }else{
+                                        saveLocalDataSP(username, userEmail, etPassword.getText().toString().trim(),
+                                                "DEFAULT", etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
+                                                "عميل", selectedUserType, "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, ServiceProviderHome.class);
                                         startActivity(mainIntent);
                                         finish();
@@ -305,4 +313,45 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         mainImageUri = uri;
         iUserImage.setImageURI(uri);
     }
+
+
+    void saveLocalDataCustomer(String username, String email, String password, String address, String whatsApp,
+                       String DOB, String userImage, String userType, String userGender, String carID, String userRate, String userID){
+
+        SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = cld.edit();
+        editor.putString("C_USERNAME", username);
+        editor.putString("C_EMAIL", email);
+        editor.putString("C_PASSWORD", password);
+        editor.putString("C_ADDRESS", address);
+        editor.putString("C_WHATSAPP", whatsApp);
+        editor.putString("C_DOB", DOB);
+        editor.putString("C_USERIMAGE", userImage);
+        editor.putString("C_USERTYPE", userType);
+        editor.putString("C_USERGENDER", userGender);
+        editor.putString("C_CARID", carID);
+        editor.putString("C_USERRATE", userRate);
+        editor.putString("C_USERID", userID);
+        editor.apply();
+    }
+    void saveLocalDataSP(String username, String email, String password, String address, String whatsApp,
+                               String DOB, String userImage, String userType, String userGender, String userRate, String userID){
+
+        SharedPreferences spld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spld.edit();
+        editor.putString("SP_USERNAME", username);
+        editor.putString("SP_EMAIL", email);
+        editor.putString("SP_PASSWORD", password);
+        editor.putString("SP_ADDRESS", address);
+        editor.putString("SP_WHATSAPP", whatsApp);
+        editor.putString("SP_DOB", DOB);
+        editor.putString("SP_USERIMAGE", userImage);
+        editor.putString("SP_USERTYPE", userType);
+        editor.putString("SP_USERGENDER", userGender);
+        editor.putString("SP_USERRATE", userRate);
+        editor.putString("SP_USERID", userID);
+        editor.apply();
+
+    }
+
 }

@@ -3,9 +3,12 @@ package com.example.resqme.common;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
@@ -29,14 +32,10 @@ public class Splash extends AppCompatActivity {
     private DatabaseReference databaseServiceProviders;
     private String userType = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-
-
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -45,8 +44,13 @@ public class Splash extends AppCompatActivity {
 
         if(user!=null){
             //user signed in
-            // We need to check if the user is customer or service provider
-            getUser();
+            SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
+            SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
+            if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
+                checkUserData(user.getEmail());
+            }else{
+                getUser();
+            }
         }else{
             // user logged out
             Intent loginIntent = new Intent(Splash.this, Login.class);
@@ -57,8 +61,39 @@ public class Splash extends AppCompatActivity {
     }
 
 
-    private void getUser() {
+    void checkUserData(String email){
+        SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        SharedPreferences userDataSP = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        if(userData.contains("C_EMAIL")){
+            String c_email = userData.getString("C_EMAIL","C_DEFAULT");
+            if(email.equals(c_email)){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(Splash.this, CustomerHome.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }, 1000);
+            }
+        }
+        if(userDataSP.contains("SP_EMAIL")){
+            String sp_email = userDataSP.getString("SP_EMAIL","SP_DEFAULT");
+            if(email.equals(sp_email)){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(Splash.this, ServiceProviderHome.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }, 1000);
+            }
+        }
+    }
 
+
+    private void getUser() {
         databaseCustomers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,10 +113,6 @@ public class Splash extends AppCompatActivity {
 
             }
         });
-
-
-
-
         databaseServiceProviders.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -102,9 +133,6 @@ public class Splash extends AppCompatActivity {
 
             }
         });
-
-        // If the usertype is 'عميل'
-        // Go to Customer Home
 
         if(userType.equals("عميل")){
             goToCustomerHome();

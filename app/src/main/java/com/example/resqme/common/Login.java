@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -93,14 +95,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             case R.id.login_btn:
                 progressDialog.setMessage("من فضلك انتظر قليلاً...");
                 progressDialog.show();
-                String LoginEmail = mEmailLogin.getText().toString();
-                String LoginPass = mPasswordLogin.getText().toString();
+                String LoginEmail = mEmailLogin.getText().toString().trim();
+                String LoginPass = mPasswordLogin.getText().toString().trim();
                 if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
                     mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                getUserData(LoginEmail);
+                                SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
+                                SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
+                                if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
+                                    if(!checkUserData(LoginEmail)){
+                                        getUserData(LoginEmail);
+                                    }
+                                }else{
+                                    getUserData(LoginEmail);
+                                }
                             }else{
                                 progressDialog.dismiss();
                                 String errorMessage = task.getException().getMessage();
@@ -124,6 +134,63 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    boolean checkUserData(String loginEmail) {
+        boolean found = true;
+        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        SharedPreferences userDataSP = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        if(userData.contains("C_EMAIL")){
+            String c_email = userData.getString("C_EMAIL","C_DEFAULT");
+            if(loginEmail.equals(c_email)){
+                Intent i = new Intent(Login.this, CustomerHome.class);
+                progressDialog.dismiss();
+                startActivity(i);
+                finish();
+            }else{
+                found =  false;
+            }
+        }
+        if(userData.contains("SP_EMAIL")){
+            String sp_email = userDataSP.getString("SP_EMAIL","SP_DEFAULT");
+            if(loginEmail.equals(sp_email)){
+                Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                progressDialog.dismiss();
+                startActivity(i);
+                finish();
+            }else{
+                found =  false;
+            }
+        }
+
+//        String c_username = userData.getString("C_USERNAME","C_DEFAULT");
+//        String c_password = userData.getString("C_PASSWORD","C_DEFAULT");
+//        String c_address = userData.getString("C_ADDRESS","C_DEFAULT");
+//        String c_whatsapp = userData.getString("C_WHATSAPP","C_DEFAULT");
+//        String c_dob = userData.getString("C_DOB","C_DEFAULT");
+//        String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
+//        String c_usertype = userData.getString("C_USERTYPE","C_DEFAULT");
+//        String c_usergender = userData.getString("C_USERGENDER","C_DEFAULT");
+//        String c_carid = userData.getString("C_CARID","C_DEFAULT");
+//        String c_userrate = userData.getString("C_USERRATE","C_DEFAULT");
+//        String c_userid = userData.getString("C_USERID","C_DEFAULT");
+
+
+//CHANGE C_DEFAULT to SP_DEFAULT
+//        String sp_username = userData.getString("SP_USERNAME","C_DEFAULT");
+//        String sp_password = userData.getString("SP_PASSWORD","C_DEFAULT");
+//        String sp_address = userData.getString("SP_ADDRESS","C_DEFAULT");
+//        String sp_whatsapp = userData.getString("SP_WHATSAPP","C_DEFAULT");
+//        String sp_dob = userData.getString("SP_DOB","C_DEFAULT");
+//        String sp_userimage = userData.getString("SP_USERIMAGE","C_DEFAULT");
+//        String sp_usertype = userData.getString("SP_USERTYPE","C_DEFAULT");
+//        String sp_usergender = userData.getString("SP_USERGENDER","C_DEFAULT");
+//        String sp_userrate = userData.getString("SP_USERRATE","C_DEFAULT");
+//        String sp_userid = userData.getString("SP_USERID","C_DEFAULT");
+
+        return found;
+    }
+
+
+    //UDPDATE
     void getUserData(String email) {
         databaseCustomers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -145,22 +212,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             rate = customer.getRate();
                             gender = customer.getGender();
 
+                            SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = cld.edit();
+                            editor.putString("C_USERNAME", username);
+                            editor.putString("C_EMAIL", email);
+                            editor.putString("C_PASSWORD", password);
+                            editor.putString("C_ADDRESS", address);
+                            editor.putString("C_WHATSAPP", whatsApp);
+                            editor.putString("C_DOB", bod);
+                            editor.putString("C_USERIMAGE", image);
+                            editor.putString("C_USERTYPE", "عميل");
+                            editor.putString("C_USERGENDER", gender);
+                            editor.putString("C_CARID", String.valueOf(carID));
+                            editor.putString("C_USERRATE", String.valueOf(rate));
+                            editor.putString("C_USERID", userId);
+                            editor.apply();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     Intent i = new Intent(Login.this, CustomerHome.class);
-                                    i.putExtra("USERNAME", username);
-                                    i.putExtra("CARDID", carID);
-                                    i.putExtra("PASSWORD", password);
-                                    i.putExtra("IMAGE", image);
-                                    i.putExtra("ADDRESS", address);
-                                    i.putExtra("WHATSAPP", whatsApp);
-                                    i.putExtra("EMAIL", email);
-                                    i.putExtra("BOD", bod);
-                                    i.putExtra("TYPE", userType.toString());
-                                    i.putExtra("USERID", userId);
-                                    i.putExtra("RATE", rate);
-                                    i.putExtra("GENDER", gender);
                                     progressDialog.dismiss();
                                     startActivity(i);
                                     finish();
@@ -201,21 +271,26 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             rate = serviceProvider.getRate();
                             gender = serviceProvider.getGender();
 
+                            SharedPreferences spld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = spld.edit();
+                            editor.putString("SP_USERNAME", username);
+                            editor.putString("SP_EMAIL", email);
+                            editor.putString("SP_PASSWORD", password);
+                            editor.putString("SP_ADDRESS", address);
+                            editor.putString("SP_WHATSAPP", whatsApp);
+                            editor.putString("SP_DOB", bod);
+                            editor.putString("SP_USERIMAGE", image);
+                            editor.putString("SP_USERTYPE", "مقدم خدمة");
+                            editor.putString("SP_USERGENDER", gender);
+                            editor.putString("SP_USERRATE", String.valueOf(rate));
+                            editor.putString("SP_USERID", userId);
+                            editor.apply();
+
+
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     Intent i = new Intent(Login.this, ServiceProviderHome.class);
-                                    i.putExtra("USERNAME", username);
-                                    i.putExtra("PASSWORD", password);
-                                    i.putExtra("IMAGE", image);
-                                    i.putExtra("ADDRESS", address);
-                                    i.putExtra("WHATSAPP", whatsApp);
-                                    i.putExtra("EMAIL", email);
-                                    i.putExtra("BOD", bod);
-                                    i.putExtra("TYPE", userType.toString());
-                                    i.putExtra("USERID", userId);
-                                    i.putExtra("RATE", rate);
-                                    i.putExtra("GENDER", gender);
                                     progressDialog.dismiss();
                                     startActivity(i);
                                     finish();
