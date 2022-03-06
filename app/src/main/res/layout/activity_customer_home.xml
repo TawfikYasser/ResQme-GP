@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".customer.CustomerHome">
-    <TextView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="wrap_content"
-        android:text="HOME CUSTOMER"
-        android:layout_height="wrap_content"/>
-    <TextView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="300dp"
-        android:text="CUSTOMER_DATA"
-        android:id="@+id/cdata_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/logouthomec"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="100dp"
-        android:text="Logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/customer_home_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/customer_home_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="24dp"
+            android:src="@drawable/chooseimage" />
+        <Button
+            android:id="@+id/logouthomec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="24dp"
+            android:text="Logout" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/customer_home_header"
+        android:layout_above="@id/bottom_navigation" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            app:menu="@menu/customer_home_menu"
+            android:background="?android:attr/windowBackground"/>
+
+</RelativeLayout>

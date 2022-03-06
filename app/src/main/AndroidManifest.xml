@@ -18,6 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:name=".customer.CustomerProfile"
+            android:parentActivityName=".customer.CustomerHome"
+            android:exported="false" />
+        <activity
             android:name=".common.Login"
             android:exported="false" />
         <activity
@@ -28,12 +32,10 @@
             android:exported="false" />
         <activity
             android:name=".common.Registeration"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".common.Splash"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
