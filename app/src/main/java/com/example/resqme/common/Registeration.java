@@ -8,7 +8,9 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -61,7 +63,9 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     TextView tvLogin;
 
     String bod = "";
+
     Uri mainImageUri = null;
+
     //Firebase Initiation
     FirebaseAuth registrationFirebase;
     FirebaseUser theUser;
@@ -155,21 +159,38 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.register_btn:
-                String username = etUsername.getText().toString();
-                String email = etEmailAddress.getText().toString();
-                String password = etPassword.getText().toString();
-                if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) ){
-                    progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
-                    progressDialog.show();
-                    createNewAccount(email,password,username);
-                }else{
-                    progressDialog.dismiss();
-                    Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
-                            .setBackgroundTint(getResources().getColor(R.color.red_color))
-                            .setTextColor(getResources().getColor(R.color.white))
-                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                }
+                createAccountClick();
                 break;
+        }
+    }
+
+
+    void createAccountClick(){
+        String username = etUsername.getText().toString();
+        String email = etEmailAddress.getText().toString();
+        String password = etPassword.getText().toString();
+        String whatsApp = etWhatsApp.getText().toString();
+
+        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)
+        && !TextUtils.isEmpty(whatsApp) && !TextUtils.isEmpty(bod) && mainImageUri != null){
+            new AlertDialog.Builder(this)
+                    .setTitle("تأكيد إنشاء الحساب")
+                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟")
+                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
+                                progressDialog.show();
+                                createNewAccount(email.trim(),password.trim(),username.trim());
+                        }
+                    })
+                    .setNegativeButton("لا", null)
+                    .show();
+        }else{
+            progressDialog.dismiss();
+            Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
     }
 
@@ -239,10 +260,8 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
                                     //user info updated
-
                                     int selectedType = rgUserType.getCheckedRadioButtonId();
                                     rbtnCustomer=(RadioButton)findViewById(selectedType);
-
                                     if(rbtnCustomer.getText().toString().equals("عميل")){
                                         Intent mainIntent = new Intent(Registeration.this, CustomerHome.class);
                                         startActivity(mainIntent);
@@ -252,7 +271,6 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                         startActivity(mainIntent);
                                         finish();
                                     }
-
                                     progressDialog.dismiss();
                                 }else{
                                     //something wrong
@@ -287,6 +305,4 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         mainImageUri = uri;
         iUserImage.setImageURI(uri);
     }
-
-
 }
