@@ -25,6 +25,8 @@ public class CustomerProfile extends AppCompatActivity {
         initToolbar();
         forceRTLIfSupported();
 
+        /// Data
+
         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_email = userData.getString("C_EMAIL","C_DEFAULT");
         String c_username = userData.getString("C_USERNAME","C_DEFAULT");
