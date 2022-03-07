@@ -53,7 +53,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     void initViews(){
         mAuth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logouthomec);

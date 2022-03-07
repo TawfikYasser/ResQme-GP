@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 
 public class Registeration extends AppCompatActivity implements View.OnClickListener{
@@ -59,10 +66,10 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     // Views Initiation
     ImageView iUserImage;
     TextInputEditText etUsername, etEmailAddress, etWhatsApp, etPassword, etAddress;
-    Button btnChooseDate, btnCreateAccount, btnChooseImage;
+    Button btnChooseDate, btnCreateAccount, btnChooseImage, btnChooseAddress;
     RadioGroup rgUserType, rgUserGender;
     RadioButton rbtnCustomer, rbtnServiceProvider, rbtnMale, rbtnFemale;
-    TextView tvLogin;
+    TextView tvLogin, tvAddress;
 
     String bod = "";
 
@@ -120,13 +127,13 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         etEmailAddress = findViewById(R.id.email_register);
         etWhatsApp = findViewById(R.id.whatsapp_register);
         etPassword = findViewById(R.id.password_register);
-        etAddress = findViewById(R.id.address_register);
 
         btnChooseDate = findViewById(R.id.pick_date_button);
         btnChooseDate.setOnClickListener(this);
         btnCreateAccount = findViewById(R.id.register_btn);
         btnCreateAccount.setOnClickListener(this);
-
+        btnChooseAddress = findViewById(R.id.choose_address_button);
+        btnChooseAddress.setOnClickListener(this);
 
         rgUserType = findViewById(R.id.radio_register_user_type);
         rgUserGender = findViewById(R.id.radio_register_user_gender);
@@ -136,6 +143,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         rbtnFemale = findViewById(R.id.radio_female);
         tvLogin = findViewById(R.id.login_text_from_register);
         tvLogin.setOnClickListener(this);
+        tvAddress = findViewById(R.id.choosed_address_text);
 
         progressDialog = new ProgressDialog(this);
     }
@@ -163,7 +171,38 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
             case R.id.register_btn:
                 createAccountClick();
                 break;
+            case R.id.choose_address_button:
+                checkLocationPermission();
+                break;
         }
+    }
+
+    void getAddress() {
+        Intent addressMapIntent = new Intent(Registeration.this,AddressMap.class);
+        startActivityForResult(addressMapIntent, 11);
+    }
+
+    private void checkLocationPermission() {
+        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                    getAddress();
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(),"");
+                intent.setData(uri);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                permissionToken.continuePermissionRequest();
+            }
+        }).check();
     }
 
 
@@ -174,7 +213,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         String whatsApp = etWhatsApp.getText().toString();
 
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)
-        && !TextUtils.isEmpty(whatsApp) && !TextUtils.isEmpty(bod) && mainImageUri != null){
+        && !TextUtils.isEmpty(whatsApp) && !TextUtils.isEmpty(bod) && mainImageUri != null && !TextUtils.isEmpty(tvAddress.getText())){
             new AlertDialog.Builder(this)
                     .setTitle("تأكيد إنشاء الحساب")
                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
@@ -244,14 +283,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                         if(selectedUserType.equals("عميل")){
                             DatabaseReference databaseReference_customer =databaseTableCustomers.child(generatedID);
 
-                            Customer customer = new Customer(0, username, userEmail, etPassword.getText().toString(), uri.toString(), "DEFAULT", etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
+                            Customer customer = new Customer(0, username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
 
                             databaseReference_customer.setValue(customer);
 
                         }else{
                             DatabaseReference databaseReference_sp =databaseTableSP.child(generatedID);
 
-                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), "DEFAULT", etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
+                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
 
                             databaseReference_sp.setValue(serviceProvider);
                         }
@@ -266,14 +305,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                     rbtnCustomer=(RadioButton)findViewById(selectedType);
                                     if(rbtnCustomer.getText().toString().equals("عميل")){
                                         saveLocalDataCustomer(username, userEmail, etPassword.getText().toString().trim(),
-                                                "DEFAULT", etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
+                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
                                                 "عميل", selectedUserType, "0", "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, CustomerHome.class);
                                         startActivity(mainIntent);
                                         finish();
                                     }else{
                                         saveLocalDataSP(username, userEmail, etPassword.getText().toString().trim(),
-                                                "DEFAULT", etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
+                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
                                                 "عميل", selectedUserType, "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, ServiceProviderHome.class);
                                         startActivity(mainIntent);
@@ -309,13 +348,21 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri uri = data.getData();
-        mainImageUri = uri;
-        iUserImage.setImageURI(uri);
+
+        if(requestCode == 11){
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("ADDRESS_VALUE");
+                tvAddress.setVisibility(View.VISIBLE);
+                tvAddress.setText(result);
+            }
+        }else{
+            Uri uri = data.getData();
+            mainImageUri = uri;
+            iUserImage.setImageURI(uri);
+        }
+
     }
-
-
-    void saveLocalDataCustomer(String username, String email, String password, String address, String whatsApp,
+        void saveLocalDataCustomer(String username, String email, String password, String address, String whatsApp,
                        String DOB, String userImage, String userType, String userGender, String carID, String userRate, String userID){
 
         SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);

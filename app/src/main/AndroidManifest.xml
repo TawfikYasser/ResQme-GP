@@ -9,6 +9,7 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,9 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
-            android:name=".customer.CustomerProfile"
-            android:parentActivityName=".customer.CustomerHome"
+            android:name=".common.AddressMap"
             android:exported="false" />
+        <activity
+            android:name=".customer.CustomerProfile"
+            android:exported="false"
+            android:parentActivityName=".customer.CustomerHome" />
         <activity
             android:name=".common.Login"
             android:exported="false" />
@@ -42,6 +46,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAt5mPiOyNthLhk1aAaDOgVYsIHVxCsz_U" />
     </application>
 
 </manifest>

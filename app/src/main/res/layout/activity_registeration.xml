@@ -37,7 +37,7 @@
 
                 </TextView>
                 <LinearLayout
-                    android:gravity="center_vertical|center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -48,8 +48,7 @@
                         android:layout_height="70dp"/>
 
                     <Button
-                        android:layout_marginLeft="24dp"
-                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_marginLeft="100dp"
                         android:id="@+id/choose_image_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -58,6 +57,13 @@
                         style="?attr/materialButtonOutlinedStyle"
                         app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@color/color_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_marginLeft="24dp"
@@ -112,23 +118,6 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginRight="24dp"
                     android:layout_marginTop="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:inputType="text"
-                        android:drawableEnd="@drawable/ic_baseline_location_on_24"
-                        android:drawablePadding="15dp"
-                        android:enabled="false"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/address_register"
-                        android:hint="العنوان"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -141,7 +130,13 @@
                         android:id="@+id/whatsapp_register"
                         android:hint="رقم الواتساب"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <LinearLayout
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@color/color_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <Button
                     android:id="@+id/pick_date_button"
                     android:layout_width="wrap_content"
@@ -152,7 +147,40 @@
                     android:layout_marginBottom="10dp"
                     style="?attr/materialButtonOutlinedStyle"
                     app:icon="@drawable/ic_baseline_date_range_24"/>
+                <LinearLayout
 
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@color/color_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+                <Button
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:id="@+id/choose_address_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fontlight"
+                    android:text="اختار عنوانك"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/ic_baseline_location_on_24"/>
+                <TextView
+                    android:id="@+id/choosed_address_text"
+                    android:fontFamily="@font/fontlight"
+                    android:textStyle="bold"
+                    android:text=""
+                    android:visibility="gone"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@color/color_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <RadioGroup
                     android:id="@+id/radio_register_user_type"
                     android:gravity="right"
@@ -217,7 +245,12 @@
                     </TextView>
 
                 </RadioGroup>
-
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@color/color_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
                 <Button
                     android:layout_margin="15dp"
                     android:paddingLeft="50dp"
