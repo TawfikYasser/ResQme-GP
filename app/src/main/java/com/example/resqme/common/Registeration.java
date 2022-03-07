@@ -174,6 +174,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
             case R.id.choose_address_button:
                 checkLocationPermission();
                 break;
+
         }
     }
 
