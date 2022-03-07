@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/winch"
+        android:title="ونش"
+        android:icon="@drawable/winch_icon"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/spare_parts"
+        android:title="قطع غيار"
+        android:icon="@drawable/spare_icon"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        app:showAsAction="ifRoom"
+        android:id="@+id/cmc"
+        android:title="مركز خدمة سيارات"
+        android:icon="@drawable/cmc_icon"
+        />
+    <item
+        app:showAsAction="ifRoom"
+        android:id="@+id/settings"
+        android:title="الإعدادات"
+        android:icon="@drawable/settings_icon"
+        />
+</menu>
