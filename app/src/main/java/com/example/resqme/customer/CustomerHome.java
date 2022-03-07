@@ -25,10 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
-    Button button;
-    private FirebaseAuth mAuth;
     ImageView customerProfile;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,21 +38,9 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new WinchFragment()).commit();
         }
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                sendToLogin();
-                finish();
-            }
-        });
-
     }
 
     void initViews(){
-        mAuth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logouthomec);
         customerProfile = findViewById(R.id.customer_home_image);
         customerProfile.setOnClickListener(this);
         SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
@@ -91,11 +76,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                 }
             };
 
-    void sendToLogin() {
-        Intent loginIntent = new Intent(CustomerHome.this, Login.class);
-        startActivity(loginIntent);
-        finish();
-    }
 
     @Override
     public void onClick(View view) {

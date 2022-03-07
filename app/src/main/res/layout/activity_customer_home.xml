@@ -18,13 +18,8 @@
             android:layout_alignParentRight="true"
             android:layout_margin="24dp"
             android:src="@drawable/chooseimage" />
-        <Button
-            android:id="@+id/logouthomec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="24dp"
-            android:text="Logout" />
+
+
     </RelativeLayout>
 
     <FrameLayout

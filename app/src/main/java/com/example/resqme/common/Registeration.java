@@ -307,14 +307,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                     if(rbtnCustomer.getText().toString().equals("عميل")){
                                         saveLocalDataCustomer(username, userEmail, etPassword.getText().toString().trim(),
                                                 tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
-                                                "عميل", selectedUserType, "0", "5", generatedID);
+                                                "عميل", rbtnMale.getText().toString(), "0", "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, CustomerHome.class);
                                         startActivity(mainIntent);
                                         finish();
                                     }else{
                                         saveLocalDataSP(username, userEmail, etPassword.getText().toString().trim(),
                                                 tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
-                                                "عميل", selectedUserType, "5", generatedID);
+                                                "مقدم خدمة", rbtnMale.getText().toString(), "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, ServiceProviderHome.class);
                                         startActivity(mainIntent);
                                         finish();

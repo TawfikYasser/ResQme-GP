@@ -12,5 +12,7 @@
     <color name="logo_color_3">#4d4d4d</color>
     <color name="text_blue">#000DEC</color>
     <color name="red_color">#BE0E0E</color>
-    <color name="color_gray">#EAEAEA</color>
+    <color name="color_gray">#F7F5F5</color>
+    <color name="color_gray_2">#535353</color>
+    <color name="color_gray_3">#C8C8C8</color>
 </resources>
