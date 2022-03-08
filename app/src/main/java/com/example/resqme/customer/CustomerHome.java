@@ -24,8 +24,10 @@ import com.example.resqme.model.Customer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
-    ImageView customerProfile;
+    CircleImageView customerProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

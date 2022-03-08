@@ -6,21 +6,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".customer.CustomerHome">
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:id="@+id/customer_home_header"
-        android:layout_width="match_parent"
+        android:gravity="right|center_vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/customer_home_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentRight="true"
-            android:layout_margin="24dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="12dp"
+            android:layout_gravity="right"
             android:src="@drawable/chooseimage" />
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fragment_container"
