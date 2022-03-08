@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
+import com.example.resqme.common.Registeration;
 import com.google.firebase.auth.FirebaseAuth;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -105,13 +106,16 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_car_data_button:
-                Toast.makeText(this, "Open new page for adding car data!!!", Toast.LENGTH_SHORT).show();
+                Intent mainIntent = new Intent(CustomerProfile.this, AddCarData.class);
+                startActivity(mainIntent);
+                //Toast.makeText(this, "Open new page for adding car data!!!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.logout_customer_profile:
                 mAuth.signOut();
                 sendToLogin();
                 finish();
                 break;
+
         }
     }
 }

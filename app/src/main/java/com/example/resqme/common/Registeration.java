@@ -78,7 +78,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     //Firebase Initiation
     FirebaseAuth registrationFirebase;
     FirebaseUser theUser;
-    DatabaseReference databaseTableCustomers, databaseTableSP;
+    DatabaseReference databaseTableCustomers, databaseTableSP; // Reference on database
     StorageReference mStorageReference;
 
 

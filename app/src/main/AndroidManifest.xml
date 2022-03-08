@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:name=".customer.AddCarData"
+            android:exported="false" />
+        <activity
             android:name=".customer.CustomerReports"
             android:exported="false" />
         <activity
