@@ -83,8 +83,8 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.customer_home_image:
-                Intent loginIntent = new Intent(CustomerHome.this, CustomerProfile.class);
-                startActivity(loginIntent);
+                Intent intent = new Intent(CustomerHome.this, CustomerProfile.class);
+                startActivity(intent);
                 break;
         }
     }

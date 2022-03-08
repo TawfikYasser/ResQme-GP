@@ -2,4 +2,64 @@
     <string name="app_name">ResQme</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string-array name="cartypes">
+        <item>Mercedes</item>
+        <item>BMW</item>
+        <item>Mitsubishi</item>
+        <item>Hyundai</item>
+        <item>Chevrolet</item>
+        <item>KIA</item>
+        <item>Geely</item>
+        <item>MG</item>
+        <item>Renault</item>
+        <item>Toyota</item>
+        <item>Nissan</item>
+        <item>Volkswagen</item>
+        <item>Speranza</item>
+        <item>Honda</item>
+        <item>Skoda</item>
+        <item>Fiat</item>
+    </string-array>
+
+    <string-array name="carmodelyears">
+        <item>2000</item>
+        <item>2001</item>
+        <item>2002</item>
+        <item>2003</item>
+        <item>2004</item>
+        <item>2005</item>
+        <item>2006</item>
+        <item>2007</item>
+        <item>2008</item>
+        <item>2009</item>
+        <item>2010</item>
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+    </string-array>
+
+    <string-array name="maintenanceperoid">
+        <item>شهر</item>
+        <item>شهران</item>
+        <item>3 شهور</item>
+        <item>4 شهور</item>
+        <item>5 شهور</item>
+        <item>6 شهور</item>
+        <item>7 شهور</item>
+        <item>8 شهور</item>
+        <item>9 شهور</item>
+        <item>10 شهور</item>
+        <item>11 شهر</item>
+        <item>سنة</item>
+    </string-array>
 </resources>

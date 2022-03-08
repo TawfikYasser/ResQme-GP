@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, userTypeTV, rateTV;
     Button addCarBtn, logoutBtn;
     FirebaseAuth mAuth;
+    TextView tvCarStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,15 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         rateTV.setText(c_userrate);
         if(!c_carid.equals("0")){
             addCarBtn.setVisibility(View.GONE);
+            SharedPreferences cardLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+            String car_status = cardLocalData.getString("CAR_STATUS","CAR_DEFAULT");
+            if(car_status.equals("Pending")){
+                tvCarStatus.setVisibility(View.VISIBLE);
+                tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+            }else{
+                tvCarStatus.setVisibility(View.VISIBLE);
+                tvCarStatus.setText("تم قبول العربية");
+            }
         }
     }
 
@@ -77,7 +88,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         addCarBtn.setOnClickListener(this);
         logoutBtn = findViewById(R.id.logout_customer_profile);
         logoutBtn.setOnClickListener(this);
-
+        tvCarStatus = findViewById(R.id.car_status_tv);
     }
 
     void sendToLogin() {
@@ -94,7 +105,6 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setTitle("الصفحة الشخصية");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextAppearance(CustomerProfile.this, R.style.Theme_ResQme);
-
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -103,12 +113,19 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_car_data_button:
                 Intent mainIntent = new Intent(CustomerProfile.this, AddCarData.class);
                 startActivity(mainIntent);
-                //Toast.makeText(this, "Open new page for adding car data!!!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.logout_customer_profile:
                 mAuth.signOut();
@@ -116,6 +133,25 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
 
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        String c_carid = userData.getString("C_CARID","C_DEFAULT");
+        if(!c_carid.equals("0")){
+            addCarBtn.setVisibility(View.GONE);
+            SharedPreferences cardLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+            String car_status = cardLocalData.getString("CAR_STATUS","CAR_DEFAULT");
+            if(car_status.equals("Pending")){
+                tvCarStatus.setVisibility(View.VISIBLE);
+                tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+            }else{
+                tvCarStatus.setVisibility(View.VISIBLE);
+                tvCarStatus.setText("تم قبول العربية");
+            }
         }
     }
 }

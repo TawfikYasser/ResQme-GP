@@ -8,20 +8,15 @@
     tools:context=".customer.CustomerProfile">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:id="@+id/appbar_customer_profile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_customer_profile"
             android:layout_width="match_parent"
+            android:tooltipText="رجوع"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentInsetStartWithNavigation="0dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
+            app:title="الصفحة الشخصية"
+            app:titleTextAppearance="@font/fontlight"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -230,9 +225,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/fontlight"
-                android:text="إضافة بيانات السيارة"
+                android:text="إضافة بيانات العربية"
                 style="?attr/materialButtonOutlinedStyle"
                 app:icon="@drawable/ic_baseline_add_box_24"/>
+            <TextView
+                android:id="@+id/car_status_tv"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12dp"
+                android:text="حالة العربية"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_marginLeft="24dp"
                 android:layout_marginBottom="24dp"
