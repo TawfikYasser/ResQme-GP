@@ -31,13 +31,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CustomerProfile extends AppCompatActivity implements View.OnClickListener{
+public class CustomerProfile extends AppCompatActivity implements View.OnClickListener {
     CircleImageView customerImage;
     TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, userTypeTV, rateTV;
     Button addCarBtn, logoutBtn;
     FirebaseAuth mAuth;
     TextView tvCarStatus;
     DatabaseReference customerTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,18 +47,33 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-                SharedPreferences carLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-
-                String c_userid = userData.getString("C_USERID","C_DEFAULT");
-                String car_id_local = carLocalData.getString("CAR_ID","CAR_DEFAULT");
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                SharedPreferences carLocalData = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                String c_userid = userData.getString("C_USERID", "C_DEFAULT");
+                String car_id_local = carLocalData.getString("CAR_ID", "CAR_DEFAULT");
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Car carObj = dataSnapshot.getValue(Car.class);
                     if (carObj.getCarID().equals(car_id_local) && carObj.getUserID().equals(c_userid)) {
-                        if(carObj.getCarStatus().equals("Pending")){
+                        if (carObj.getCarStatus().equals("Pending")) {
+                            SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                            editor_carStatus.putString("CAR_STATUS", "Pending");
+                            editor_carStatus.apply();
                             tvCarStatus.setVisibility(View.VISIBLE);
                             tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+                            tvCarStatus.setTextColor(Color.rgb(255, 166, 53));
+                        } else if (carObj.getCarStatus().equals("Refused")) {
+                            SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                            editor_carStatus.putString("CAR_STATUS", "Refused");
+                            editor_carStatus.apply();
+                            tvCarStatus.setVisibility(View.VISIBLE);
+                            tvCarStatus.setText("تم رفض العربية، تواصل معانا لمعرفة معلومات اكتر.");
                             tvCarStatus.setTextColor(Color.RED);
-                        }else{
+                        } else if (carObj.getCarStatus().equals("Approved")) {
+                            SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                            editor_carStatus.putString("CAR_STATUS", "Approved");
+                            editor_carStatus.apply();
                             tvCarStatus.setVisibility(View.VISIBLE);
                             tvCarStatus.setText("تم قبول العربية");
                             tvCarStatus.setTextColor(Color.GREEN);
@@ -65,6 +81,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -76,18 +93,18 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         initToolbar();
         forceRTLIfSupported();
         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        String c_email = userData.getString("C_EMAIL","C_DEFAULT");
-        String c_username = userData.getString("C_USERNAME","C_DEFAULT");
-        String c_password = userData.getString("C_PASSWORD","C_DEFAULT");
-        String c_address = userData.getString("C_ADDRESS","C_DEFAULT");
-        String c_whatsapp = userData.getString("C_WHATSAPP","C_DEFAULT");
-        String c_dob = userData.getString("C_DOB","C_DEFAULT");
-        String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
-        String c_usertype = userData.getString("C_USERTYPE","C_DEFAULT");
-        String c_usergender = userData.getString("C_USERGENDER","C_DEFAULT");
-        String c_carid = userData.getString("C_CARID","C_DEFAULT");
-        String c_userrate = userData.getString("C_USERRATE","C_DEFAULT");
-        String c_userid = userData.getString("C_USERID","C_DEFAULT");
+        String c_email = userData.getString("C_EMAIL", "C_DEFAULT");
+        String c_username = userData.getString("C_USERNAME", "C_DEFAULT");
+        String c_password = userData.getString("C_PASSWORD", "C_DEFAULT");
+        String c_address = userData.getString("C_ADDRESS", "C_DEFAULT");
+        String c_whatsapp = userData.getString("C_WHATSAPP", "C_DEFAULT");
+        String c_dob = userData.getString("C_DOB", "C_DEFAULT");
+        String c_userimage = userData.getString("C_USERIMAGE", "C_DEFAULT");
+        String c_usertype = userData.getString("C_USERTYPE", "C_DEFAULT");
+        String c_usergender = userData.getString("C_USERGENDER", "C_DEFAULT");
+        String c_carid = userData.getString("C_CARID", "C_DEFAULT");
+        String c_userrate = userData.getString("C_USERRATE", "C_DEFAULT");
+        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
         customerImage.setImageURI(Uri.parse(c_userimage));
         usernameTV.setText(c_username);
         emailTV.setText(c_email);
@@ -97,16 +114,19 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         genderTV.setText(c_usergender);
         userTypeTV.setText(c_usertype);
         rateTV.setText(c_userrate);
-        if(!c_carid.equals("0")){
+        if (!c_carid.equals("0")) {
             addCarBtn.setVisibility(View.GONE);
-            SharedPreferences cardLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-            String car_status = cardLocalData.getString("CAR_STATUS","CAR_DEFAULT");
-            if(car_status.equals("Pending")){
+            SharedPreferences cardLocalData = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+            String car_status = cardLocalData.getString("CAR_STATUS", "CAR_DEFAULT");
+            if (car_status.equals("Pending")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+                tvCarStatus.setTextColor(Color.rgb(255, 166, 53));
+            } else if (car_status.equals("Refused")) {
+                tvCarStatus.setVisibility(View.VISIBLE);
+                tvCarStatus.setText("تم رفض العربية، تواصل معانا لمعرفة معلومات اكتر.");
                 tvCarStatus.setTextColor(Color.RED);
-
-            }else{
+            } else if (car_status.equals("Approved")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم قبول العربية");
                 tvCarStatus.setTextColor(Color.GREEN);
@@ -140,7 +160,6 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_customer_profile);
         setSupportActionBar(toolbar);
@@ -164,7 +183,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.add_car_data_button:
                 Intent mainIntent = new Intent(CustomerProfile.this, AddCarData.class);
                 startActivity(mainIntent);
@@ -182,17 +201,20 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        String c_carid = userData.getString("C_CARID","C_DEFAULT");
-        if(!c_carid.equals("0")){
+        String c_carid = userData.getString("C_CARID", "C_DEFAULT");
+        if (!c_carid.equals("0")) {
             addCarBtn.setVisibility(View.GONE);
-            SharedPreferences cardLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-            String car_status = cardLocalData.getString("CAR_STATUS","CAR_DEFAULT");
-            if(car_status.equals("Pending")){
+            SharedPreferences cardLocalData = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+            String car_status = cardLocalData.getString("CAR_STATUS", "CAR_DEFAULT");
+            if (car_status.equals("Pending")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+                tvCarStatus.setTextColor(Color.rgb(255, 166, 53));
+            } else if (car_status.equals("Refused")) {
+                tvCarStatus.setVisibility(View.VISIBLE);
+                tvCarStatus.setText("تم رفض العربية، تواصل معانا لمعرفة معلومات اكتر.");
                 tvCarStatus.setTextColor(Color.RED);
-
-            }else{
+            } else if (car_status.equals("Approved")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم قبول العربية");
                 tvCarStatus.setTextColor(Color.GREEN);
