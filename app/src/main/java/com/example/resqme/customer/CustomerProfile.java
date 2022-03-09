@@ -1,5 +1,6 @@
 package com.example.resqme.customer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -7,6 +8,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +21,13 @@ import android.widget.Toast;
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.Registeration;
+import com.example.resqme.model.Car;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,9 +37,39 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     Button addCarBtn, logoutBtn;
     FirebaseAuth mAuth;
     TextView tvCarStatus;
+    DatabaseReference customerTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        customerTable = FirebaseDatabase.getInstance().getReference().child("Cars");
+        customerTable.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences carLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+
+                String c_userid = userData.getString("C_USERID","C_DEFAULT");
+                String car_id_local = carLocalData.getString("CAR_ID","CAR_DEFAULT");
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Car carObj = dataSnapshot.getValue(Car.class);
+                    if (carObj.getCarID().equals(car_id_local) && carObj.getUserID().equals(c_userid)) {
+                        if(carObj.getCarStatus().equals("Pending")){
+                            tvCarStatus.setVisibility(View.VISIBLE);
+                            tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+                            tvCarStatus.setTextColor(Color.RED);
+                        }else{
+                            tvCarStatus.setVisibility(View.VISIBLE);
+                            tvCarStatus.setText("تم قبول العربية");
+                            tvCarStatus.setTextColor(Color.GREEN);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         setContentView(R.layout.activity_customer_profile);
         mAuth = FirebaseAuth.getInstance();
         initViews();
@@ -66,9 +104,13 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
             if(car_status.equals("Pending")){
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+                tvCarStatus.setTextColor(Color.RED);
+
             }else{
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم قبول العربية");
+                tvCarStatus.setTextColor(Color.GREEN);
+
             }
         }
     }
@@ -148,9 +190,13 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
             if(car_status.equals("Pending")){
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("يتم مراجعة بيانات العربية...");
+                tvCarStatus.setTextColor(Color.RED);
+
             }else{
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم قبول العربية");
+                tvCarStatus.setTextColor(Color.GREEN);
+
             }
         }
     }

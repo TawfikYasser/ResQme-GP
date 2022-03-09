@@ -228,7 +228,6 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                                     public void onSuccess(Uri uri) {
                                         carLicence_URI[0] = uri;
 
-
                                         //Saving data to firebase realtime database
                                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                                         String carID = database.getReference("Cars").push().getKey();
@@ -240,8 +239,7 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                                         Car car = new Car(carID, c_userid, carType, carModel, carMaintenance,
                                                 rbtnAuto.getText().toString(), driverLicence.toString().trim(),
                                                 carLicence.toString().trim(), "Pending");
-
-
+                                        
                                         // Changing car id in customer local file
                                         SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = cld.edit();
@@ -263,6 +261,10 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                                         editor_car.apply();
 
                                         carTable.child(carID).setValue(car);
+                                        // Changing the car id in customer data
+                                        DatabaseReference customerTable = FirebaseDatabase.getInstance().getReference().child("Customer");
+                                        customerTable.child(c_userid).child("carID").setValue(carID);
+
                                         progressDialog.dismiss();
                                         finish();
                                     }
@@ -276,6 +278,7 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
             }
         });
     }
+
 
     void getDriverLicenceImage(){
         ImagePicker.with(this)

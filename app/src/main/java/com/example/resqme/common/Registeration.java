@@ -59,12 +59,14 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class Registeration extends AppCompatActivity implements View.OnClickListener{
 
 
     // Views Initiation
-    ImageView iUserImage;
+    CircleImageView iUserImage;
     TextInputEditText etUsername, etEmailAddress, etWhatsApp, etPassword, etAddress;
     Button btnChooseDate, btnCreateAccount, btnChooseImage, btnChooseAddress;
     RadioGroup rgUserType, rgUserGender;
