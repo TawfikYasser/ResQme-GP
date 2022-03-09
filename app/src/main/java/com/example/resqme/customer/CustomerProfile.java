@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,19 +35,33 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerProfile extends AppCompatActivity implements View.OnClickListener {
     CircleImageView customerImage;
-    TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, userTypeTV, rateTV;
+    TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, userTypeTV, rateTV, carDataHeaderTV,
+    carTypeTV, carModelTV, carMaintenanceTV, carTransTV;
     Button addCarBtn, logoutBtn;
+    LinearLayout carLayout;
     FirebaseAuth mAuth;
     TextView tvCarStatus;
     DatabaseReference customerTable;
+    ImageView ivDriverLicence, ivCarLicence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         customerTable = FirebaseDatabase.getInstance().getReference().child("Cars");
+
+
         customerTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                carDataHeaderTV = findViewById(R.id.car_data_header);
+                carLayout = findViewById(R.id.car_data_layout);
+                carTypeTV = findViewById(R.id.car_type_text);
+                carModelTV = findViewById(R.id.car_model_text);
+                carMaintenanceTV = findViewById(R.id.car_maintenance_text);
+                carTransTV = findViewById(R.id.car_trnasmission_text);
+                ivDriverLicence = findViewById(R.id.driver_licence_image_after_approval);
+                ivCarLicence = findViewById(R.id.car_licence_image__after_approval);
+
                 SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                 SharedPreferences carLocalData = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
                 String c_userid = userData.getString("C_USERID", "C_DEFAULT");
@@ -77,6 +93,22 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             tvCarStatus.setVisibility(View.VISIBLE);
                             tvCarStatus.setText("تم قبول العربية");
                             tvCarStatus.setTextColor(Color.GREEN);
+
+                            // Showing Car Data
+
+                            carDataHeaderTV.setVisibility(View.VISIBLE);
+                            carLayout.setVisibility(View.VISIBLE);
+
+                            SharedPreferences carDataInLocal = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                            carTypeTV.setText(carDataInLocal.getString("CAR_TYPE","CAR_DEFAULT"));
+                            carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
+                            carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
+                            carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
+                            ivDriverLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")));
+                            ivCarLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")));
+
+
+
                         }
                     }
                 }
@@ -122,20 +154,57 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("يتم مراجعة بيانات العربية...");
                 tvCarStatus.setTextColor(Color.rgb(255, 166, 53));
+
+                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                editor_carStatus.putString("CAR_STATUS", "Pending");
+                editor_carStatus.apply();
+
             } else if (car_status.equals("Refused")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم رفض العربية، تواصل معانا لمعرفة معلومات اكتر.");
                 tvCarStatus.setTextColor(Color.RED);
+
+                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                editor_carStatus.putString("CAR_STATUS", "Refused");
+                editor_carStatus.apply();
             } else if (car_status.equals("Approved")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم قبول العربية");
                 tvCarStatus.setTextColor(Color.GREEN);
+
+                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                editor_carStatus.putString("CAR_STATUS", "Approved");
+                editor_carStatus.apply();
+
+                // Showing Car Data
+                carDataHeaderTV.setVisibility(View.VISIBLE);
+                carLayout.setVisibility(View.VISIBLE);
+
+                SharedPreferences carDataInLocal = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                carTypeTV.setText(carDataInLocal.getString("CAR_TYPE","CAR_DEFAULT"));
+                carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
+                carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
+                carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
+                ivDriverLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")));
+                ivCarLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")));
 
             }
         }
     }
 
     private void initViews() {
+
+        carDataHeaderTV = findViewById(R.id.car_data_header);
+        carLayout = findViewById(R.id.car_data_layout);
+        carTypeTV = findViewById(R.id.car_type_text);
+        carModelTV = findViewById(R.id.car_model_text);
+        carMaintenanceTV = findViewById(R.id.car_maintenance_text);
+        carTransTV = findViewById(R.id.car_trnasmission_text);
+        ivDriverLicence = findViewById(R.id.driver_licence_image_after_approval);
+        ivCarLicence = findViewById(R.id.car_licence_image__after_approval);
 
         customerImage = findViewById(R.id.customer_profile_profile_image);
         usernameTV = findViewById(R.id.username_profile_text);
@@ -210,14 +279,43 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("يتم مراجعة بيانات العربية...");
                 tvCarStatus.setTextColor(Color.rgb(255, 166, 53));
+
+                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                editor_carStatus.putString("CAR_STATUS", "Pending");
+                editor_carStatus.apply();
+
             } else if (car_status.equals("Refused")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم رفض العربية، تواصل معانا لمعرفة معلومات اكتر.");
                 tvCarStatus.setTextColor(Color.RED);
+
+                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                editor_carStatus.putString("CAR_STATUS", "Refused");
+                editor_carStatus.apply();
+
             } else if (car_status.equals("Approved")) {
                 tvCarStatus.setVisibility(View.VISIBLE);
                 tvCarStatus.setText("تم قبول العربية");
                 tvCarStatus.setTextColor(Color.GREEN);
+
+                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
+                editor_carStatus.putString("CAR_STATUS", "Approved");
+                editor_carStatus.apply();
+
+                // Showing Car Data
+                carDataHeaderTV.setVisibility(View.VISIBLE);
+                carLayout.setVisibility(View.VISIBLE);
+
+                SharedPreferences carDataInLocal = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                carTypeTV.setText(carDataInLocal.getString("CAR_TYPE","CAR_DEFAULT"));
+                carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
+                carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
+                carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
+                ivDriverLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")));
+                ivCarLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")));
 
             }
         }
