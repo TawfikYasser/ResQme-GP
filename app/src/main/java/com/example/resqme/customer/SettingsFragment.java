@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
+import com.example.resqme.common.MyReports;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -27,7 +28,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     FirebaseAuth mAuth;
-    Button logoutBtn, reportsBtn,aboutusBtn,contactusBtn;
+    Button logoutBtn, reportsBtn,aboutusBtn,contactusBtn, viewReportsBtn;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -78,6 +79,10 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
 
         reportsBtn=(Button) v.findViewById(R.id.reportsBtn);
         reportsBtn.setOnClickListener((View.OnClickListener) this);
+
+        viewReportsBtn = v.findViewById(R.id.reports_list_btn);
+        viewReportsBtn.setOnClickListener((View.OnClickListener)this);
+
         return v;
     }
 
@@ -89,8 +94,10 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                 sendToLogin();
                 break;
             case R.id.reportsBtn:
-
                 sendReport();
+                break;
+            case R.id.reports_list_btn:
+                sendToMyReports();
                 break;
 
         }
@@ -98,6 +105,11 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
 
     private void sendReport() {
         Intent intent = new Intent(getActivity(), SendReport.class);
+        startActivity(intent);
+    }
+
+    private void sendToMyReports() {
+        Intent intent = new Intent(getActivity(), MyReports.class);
         startActivity(intent);
     }
 

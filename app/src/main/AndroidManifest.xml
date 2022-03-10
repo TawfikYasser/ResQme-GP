@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:name=".common.MyReports"
+            android:exported="false" />
+        <activity
             android:name=".customer.SendReport"
             android:exported="false" />
         <activity

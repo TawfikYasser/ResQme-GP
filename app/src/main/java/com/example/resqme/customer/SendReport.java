@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SendReport extends AppCompatActivity {
+
     Button sendButn;
     TextInputEditText reportDescriptionBtn;
     DatabaseReference reportsTable;

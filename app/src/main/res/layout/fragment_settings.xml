@@ -52,9 +52,24 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_marginTop="20dp">
         </Button>
+
+        <Button
+            android:id="@+id/reports_list_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="عرض التقارير/المشاكل"
+            android:backgroundTint="@color/color_gray_3"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp">
+        </Button>
+
         <Button
             android:id="@+id/aboutusBtn"
             android:layout_width="match_parent"
