@@ -87,8 +87,6 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         btnChooseAddress = findViewById(R.id.choose_address_button);
         btnChooseAddress.setOnClickListener(this);
 
-        tvLogin = findViewById(R.id.login_text_from_register);
-        tvLogin.setOnClickListener(this);
         tvAddress = findViewById(R.id.choosed_address_text);
 
         progressDialog = new ProgressDialog(this);
