@@ -3,8 +3,6 @@ package com.example.resqme.common;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,15 +12,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -96,9 +91,9 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         firebaseData();
 
 
-        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+        MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("اختار تاريخ الميلاد");
-        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+        final MaterialDatePicker<Long> materialDatePicker = materialDateBuilder.build();
         btnChooseDate.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -108,13 +103,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 });
 
         materialDatePicker.addOnPositiveButtonClickListener(
-                new MaterialPickerOnPositiveButtonClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onPositiveButtonClick(Object selection) {
-                        bod = materialDatePicker.getHeaderText();
-                    }
-                });
+                (MaterialPickerOnPositiveButtonClickListener) selection -> bod = materialDatePicker.getHeaderText());
 
 
     }
