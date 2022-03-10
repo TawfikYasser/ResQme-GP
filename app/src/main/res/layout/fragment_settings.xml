@@ -1,17 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:layout_height="wrap_content"
     tools:context=".customer.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
-        android:fontFamily="@font/fontbold"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Settings Fragment" />
 
-</RelativeLayout>
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:src="@drawable/splashbackgroundnew"
+            android:layout_height="wrap_content">
+        </ImageView>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_marginTop="-24dp"
+            android:src="@drawable/applogo"
+            android:layout_height="wrap_content">
+        </ImageView>
+
+        <TextView
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="الإعدادات"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_color_3"
+            android:fontFamily="@font/resqmefont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <Button
+            android:id="@+id/reportsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="الإبلاغ عن مشكلة"
+            android:backgroundTint="@color/color_gray_3"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp"
+            >
+        </Button>
+        <Button
+            android:id="@+id/aboutusBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="معلومات عنا"
+            android:backgroundTint="@color/color_gray_3"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp"
+            >
+        </Button>
+        <Button
+            android:id="@+id/contactusBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="تواصل معنا"
+            android:backgroundTint="@color/color_gray_3"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp"
+            >
+        </Button>
+        <Button
+            android:id="@+id/logout_customer_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/red_color"
+            android:text="تسجيل الخروج" />
+    </LinearLayout>
+</ScrollView>

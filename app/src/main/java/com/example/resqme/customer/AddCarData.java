@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.model.Car;
