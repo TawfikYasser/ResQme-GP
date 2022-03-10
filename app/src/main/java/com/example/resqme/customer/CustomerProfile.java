@@ -37,7 +37,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     CircleImageView customerImage;
     TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, userTypeTV, rateTV, carDataHeaderTV,
     carTypeTV, carModelTV, carMaintenanceTV, carTransTV;
-    Button addCarBtn;
+    Button addCarBtn,updateProfileBtn;
     LinearLayout carLayout;
     FirebaseAuth mAuth;
     TextView tvCarStatus;
@@ -205,6 +205,8 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         rateTV = findViewById(R.id.userRate_profile_text);
         addCarBtn = findViewById(R.id.add_car_data_button);
         addCarBtn.setOnClickListener(this);
+        updateProfileBtn = findViewById(R.id.update_profile_button);
+        updateProfileBtn.setOnClickListener(this);
         tvCarStatus = findViewById(R.id.car_status_tv);
     }
 
@@ -242,6 +244,10 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
             case R.id.add_car_data_button:
                 Intent mainIntent = new Intent(CustomerProfile.this, AddCarData.class);
                 startActivity(mainIntent);
+                break;
+            case R.id.update_profile_button:
+                Intent i = new Intent(CustomerProfile.this, CustomerUpdateProfile.class);
+                startActivity(i);
                 break;
 
 

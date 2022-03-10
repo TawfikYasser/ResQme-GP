@@ -23,6 +23,9 @@
             android:name=".common.MyReports"
             android:exported="false" />
         <activity
+            android:name=".customer.CustomerUpdateProfile"
+            android:exported="false" />
+        <activity
             android:name=".customer.SendReport"
             android:exported="false" />
         <activity

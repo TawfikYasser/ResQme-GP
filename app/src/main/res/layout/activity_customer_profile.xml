@@ -230,6 +230,19 @@
                 android:text="إضافة بيانات العربية"
                 style="?attr/materialButtonOutlinedStyle"
                 app:icon="@drawable/ic_baseline_add_box_24"/>
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:id="@+id/update_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fontlight"
+                android:text="تحديث الملف الشخصي"
+                style="?attr/materialButtonOutlinedStyle"
+
+                />
             <TextView
                 android:id="@+id/car_status_tv"
                 android:visibility="gone"
