@@ -97,12 +97,9 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     }
 
     private void sendReport() {
-//        Intent i = new Intent(getActivity(), SendReport.class);
-//        startActivity(i);
-//        ((SendReport) getActivity()).overridePendingTransition(0, 0);
         Intent intent = new Intent(getActivity(), SendReport.class);
         startActivity(intent);
-        }
+    }
 
 
     void sendToLogin() {
