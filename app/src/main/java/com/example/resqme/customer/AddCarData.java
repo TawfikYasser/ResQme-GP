@@ -224,8 +224,8 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 filepath_carlicence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
-                                    public void onSuccess(Uri uri) {
-                                        carLicence_URI[0] = uri;
+                                    public void onSuccess(Uri uri2) {
+                                        carLicence_URI[0] = uri2;
 
                                         //Saving data to firebase realtime database
                                         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -236,8 +236,8 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                                         int selectedType = rgTransmissionType.getCheckedRadioButtonId();
                                         rbtnAuto=(RadioButton)findViewById(selectedType);
                                         Car car = new Car(carID, c_userid, carType, carModel, carMaintenance,
-                                                rbtnAuto.getText().toString(), driverLicence.toString().trim(),
-                                                carLicence.toString().trim(), "Pending");
+                                                rbtnAuto.getText().toString(), uri.toString(),
+                                                uri2.toString(), "Pending");
                                         
                                         // Changing car id in customer local file
                                         SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
@@ -254,8 +254,8 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                                         editor_car.putString("CAR_MODEL", carModel);
                                         editor_car.putString("CAR_MAINTENANCE", carMaintenance);
                                         editor_car.putString("CAR_TRANSMISSION", rbtnAuto.getText().toString());
-                                        editor_car.putString("CAR_DRIVER_LICENCE", driverLicence.toString().trim());
-                                        editor_car.putString("CAR_LICENCE", carLicence.toString().trim());
+                                        editor_car.putString("CAR_DRIVER_LICENCE", uri.toString());
+                                        editor_car.putString("CAR_LICENCE", uri2.toString());
                                         editor_car.putString("CAR_STATUS", "Pending");
                                         editor_car.apply();
 

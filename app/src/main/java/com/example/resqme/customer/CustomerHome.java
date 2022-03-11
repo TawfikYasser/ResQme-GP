@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
 import com.example.resqme.model.Customer;
@@ -48,7 +49,9 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         customerProfile.setOnClickListener(this);
         SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
-        customerProfile.setImageURI(Uri.parse(c_userimage));
+        //customerProfile.setImageURI(Uri.parse(c_userimage));
+        Glide.with(this).load(c_userimage).into(customerProfile);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =

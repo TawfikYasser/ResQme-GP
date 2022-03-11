@@ -276,14 +276,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
                             DatabaseReference databaseReference_customer =databaseTableCustomers.child(generatedID);
 
-                            Customer customer = new Customer("0", username, userEmail, etPassword.getText().toString(), mainImageUri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
+                            Customer customer = new Customer("0", username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
 
                             databaseReference_customer.setValue(customer);
 
                         }else{
                             DatabaseReference databaseReference_sp =databaseTableSP.child(generatedID);
 
-                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), mainImageUri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
+                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
 
                             databaseReference_sp.setValue(serviceProvider);
                         }
@@ -298,14 +298,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                     rbtnCustomer=(RadioButton)findViewById(selectedType);
                                     if(rbtnCustomer.getText().toString().equals("عميل")){
                                         saveLocalDataCustomer(username, userEmail, etPassword.getText().toString().trim(),
-                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
+                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, uri.toString(),
                                                 "عميل", rbtnMale.getText().toString(), "0", "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, CustomerHome.class);
                                         startActivity(mainIntent);
                                         finish();
                                     }else{
                                         saveLocalDataSP(username, userEmail, etPassword.getText().toString().trim(),
-                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
+                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, uri.toString(),
                                                 "مقدم خدمة", rbtnMale.getText().toString(), "5", generatedID);
                                         Intent mainIntent = new Intent(Registeration.this, ServiceProviderHome.class);
                                         startActivity(mainIntent);

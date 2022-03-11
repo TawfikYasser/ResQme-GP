@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.Registeration;
@@ -43,9 +44,11 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     TextView tvCarStatus;
     DatabaseReference customerTable;
     ImageView ivDriverLicence, ivCarLicence;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this.getApplicationContext();
         customerTable = FirebaseDatabase.getInstance().getReference().child("Cars");
         customerTable.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,8 +103,8 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
                             carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
                             carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
-                            ivDriverLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")));
-                            ivCarLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")));
+                            Glide.with(context).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
+                            Glide.with(context).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
                         }
                     }
                 }
@@ -130,7 +133,8 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         String c_carid = userData.getString("C_CARID", "C_DEFAULT");
         String c_userrate = userData.getString("C_USERRATE", "C_DEFAULT");
         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-        customerImage.setImageURI(Uri.parse(c_userimage));
+        //customerImage.setImageURI(Uri.parse(c_userimage));
+        Glide.with(this).load(c_userimage).into(customerImage);
         usernameTV.setText(c_username);
         emailTV.setText(c_email);
         addressTV.setText(c_address);
@@ -177,8 +181,9 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
                 carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
                 carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
-                ivDriverLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")));
-                ivCarLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")));
+                Glide.with(this).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
+                Glide.with(this).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
+
             }
         }
     }
@@ -297,8 +302,8 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
                 carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
                 carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
-                ivDriverLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")));
-                ivCarLicence.setImageURI(Uri.parse(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")));
+                Glide.with(this).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
+                Glide.with(this).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
             }
         }
     }
