@@ -32,9 +32,6 @@
             android:name=".customer.AddCarData"
             android:exported="false" />
         <activity
-            android:name=".customer.CustomerReports"
-            android:exported="false" />
-        <activity
             android:name=".common.AddressMap"
             android:exported="false" />
         <activity
