@@ -64,13 +64,23 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
     StorageReference mStorageReference;
     //More views
     ProgressDialog progressDialog;
-
+    private DatabaseReference databaseCustomers;
+    SharedPreferences c_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_update_profile);
         initViews();
         firebaseData();
+        c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
+
+        etUsername.setText(c_data.getString("C_USERNAME","C_DEFAULT"));
+        etPassword.setText(c_data.getString("C_PASSWORD","C_DEFAULT"));
+        etWhatsApp.setText(c_data.getString("C_WHATSAPP","C_DEFAULT"));
+        String UserID= c_data.getString("C_USERID","C_DEFAULT");
+        Toast.makeText(this,UserID,Toast.LENGTH_LONG).show();
+        // etAddress.setText(c_data.getString("C_ADDRESS","C_DEFAULT"));
+
     }
     void initViews(){
         iUserImage = findViewById(R.id.choose_image_register);
@@ -192,10 +202,18 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String whatsApp = etWhatsApp.getText().toString();
+        c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
+
+        String UserID= c_data.getString("C_USERID","C_DEFAULT");
+
+        databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
+        databaseCustomers.child(UserID).child("username").setValue(username);
+
 
         if(!TextUtils.isEmpty(username) || !TextUtils.isEmpty(password)
                 || !TextUtils.isEmpty(whatsApp) || mainImageUri != null || !TextUtils.isEmpty(tvAddress.getText())){
             new AlertDialog.Builder(this)
+
                     .setTitle("تأكيد تغيير البيانات")
                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
