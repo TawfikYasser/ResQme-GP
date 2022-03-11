@@ -1,7 +1,7 @@
 package com.example.resqme.model;
 
 public class Customer{
-    int carID;
+    String carID;
     String username = "";
     String email = "";
     String password = "";
@@ -19,7 +19,7 @@ public class Customer{
     }
 
 
-    public Customer(int carID, String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType) {
+    public Customer(String carID, String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType) {
         this.carID = carID;
         this.username = username;
         this.email = email;
@@ -34,11 +34,11 @@ public class Customer{
         this.userType = userType;
     }
 
-    public int getCarID() {
+    public String getCarID() {
         return carID;
     }
 
-    public void setCarID(int carID) {
+    public void setCarID(String carID) {
         this.carID = carID;
     }
 

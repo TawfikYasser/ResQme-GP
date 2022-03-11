@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
+import com.example.resqme.model.Car;
 import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
@@ -45,14 +46,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private StringBuilder userType;
     private DatabaseReference databaseCustomers;
     private DatabaseReference databaseServiceProviders;
-
+    private DatabaseReference carDB;
     ProgressDialog progressDialog;
 
 
 
 
     // User Data Attrs
-    int carID;
+    String carID;
     String username = "";
     String password = "";
     String image = "";
@@ -74,6 +75,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         /// System Data END ************************************************************///
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
         databaseServiceProviders = FirebaseDatabase.getInstance().getReference("ServiceProviders");
+        carDB = FirebaseDatabase.getInstance().getReference().child("Cars");
         initViews();
 
     }
@@ -141,6 +143,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         if(userData.contains("C_EMAIL")){
             String c_email = userData.getString("C_EMAIL","C_DEFAULT");
             if(loginEmail.equals(c_email)){
+                String c_carid = userData.getString("C_CARID","C_DEFAULT");
                 Intent i = new Intent(Login.this, CustomerHome.class);
                 progressDialog.dismiss();
                 startActivity(i);
@@ -227,6 +230,41 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("C_USERRATE", String.valueOf(rate));
                             editor.putString("C_USERID", userId);
                             editor.apply();
+
+
+
+                            carDB.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snapshotCar : snapshot.getChildren()) {
+                                        Car car = snapshotCar.getValue(Car.class);
+                                        if(car != null){
+                                            if(car.getCarID().equals(String.valueOf(carID))){
+
+                                                SharedPreferences cardLocalData = getSharedPreferences ("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor_car = cardLocalData.edit();
+                                                editor_car.putString("CAR_ID", carID);
+                                                editor_car.putString("CAR_USER_ID", userId);
+                                                editor_car.putString("CAR_TYPE", car.getCarType());
+                                                editor_car.putString("CAR_MODEL", car.getCarModel());
+                                                editor_car.putString("CAR_MAINTENANCE", car.getCarMaintenance());
+                                                editor_car.putString("CAR_TRANSMISSION", car.getCarTransmission());
+                                                editor_car.putString("CAR_DRIVER_LICENCE", car.getCarDriverLicence());
+                                                editor_car.putString("CAR_LICENCE", car.getCarLicence());
+                                                editor_car.putString("CAR_STATUS", car.getCarStatus());
+                                                editor_car.apply();
+
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
