@@ -208,7 +208,7 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
 
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
         databaseCustomers.child(UserID).child("username").setValue(username);
-
+        databaseCustomers.child(UserID).child("whatsApp").setValue(whatsApp);
 
         if(!TextUtils.isEmpty(username) || !TextUtils.isEmpty(password)
                 || !TextUtils.isEmpty(whatsApp) || mainImageUri != null || !TextUtils.isEmpty(tvAddress.getText())){
