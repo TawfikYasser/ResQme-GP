@@ -30,32 +30,33 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <RelativeLayout
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Button
-                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="24dp"
                         android:id="@+id/choose_image_button_update_customer_profile"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/fontlight"
                         android:text="اختار صورة"
-                        style="?attr/materialButtonOutlinedStyle"
-                        app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
+                        android:layout_marginBottom="24dp"
+                        app:icon="@drawable/ic_baseline_add_photo_alternate_24" />
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/customer_update_profile_image"
-                        android:layout_alignParentLeft="true"
                         android:layout_width="70dp"
-                        android:src="@drawable/chooseimage"
-                        android:layout_height="70dp"/>
+                        android:layout_height="70dp"
+                        android:src="@drawable/chooseimage" />
 
-                </RelativeLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="24dp"

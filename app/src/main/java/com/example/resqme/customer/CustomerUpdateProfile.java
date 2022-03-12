@@ -107,7 +107,7 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
     void updateProfileClick(){
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
         new AlertDialog.Builder(this)
-              .setTitle("تأكيد تغيير البيانات")
+                .setTitle("تأكيد تغيير البيانات")
                 .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -209,7 +209,6 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                                     });
                                 }
                             });
-
                         }
                         if(mainImageUri == null){
                             progressDialog.dismiss();

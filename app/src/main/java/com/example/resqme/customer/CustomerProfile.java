@@ -263,49 +263,5 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         showCustomerData();
-//        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-//        String c_carid = userData.getString("C_CARID", "C_DEFAULT");
-//        if (!c_carid.equals("0")) {
-//            addCarBtn.setVisibility(View.GONE);
-//            SharedPreferences cardLocalData = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-//            String car_status = cardLocalData.getString("CAR_STATUS", "CAR_DEFAULT");
-//            if (car_status.equals("Pending")) {
-//                tvCarStatus.setVisibility(View.VISIBLE);
-//                tvCarStatus.setText("يتم مراجعة بيانات العربية...");
-//                tvCarStatus.setTextColor(Color.rgb(255, 166, 53));
-//                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
-//                editor_carStatus.putString("CAR_STATUS", "Pending");
-//                editor_carStatus.apply();
-//            } else if (car_status.equals("Refused")) {
-//                tvCarStatus.setVisibility(View.VISIBLE);
-//                tvCarStatus.setText("تم رفض العربية، تواصل معانا لمعرفة معلومات اكتر.");
-//                tvCarStatus.setTextColor(Color.RED);
-//                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
-//                editor_carStatus.putString("CAR_STATUS", "Refused");
-//                editor_carStatus.apply();
-//                carDataHeaderTV.setVisibility(View.GONE);
-//                carLayout.setVisibility(View.GONE);
-//            } else if (car_status.equals("Approved")) {
-//                tvCarStatus.setVisibility(View.VISIBLE);
-//                tvCarStatus.setText("تم قبول العربية");
-//                tvCarStatus.setTextColor(Color.GREEN);
-//                SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
-//                editor_carStatus.putString("CAR_STATUS", "Approved");
-//                editor_carStatus.apply();
-//                // Showing Car Data
-//                carDataHeaderTV.setVisibility(View.VISIBLE);
-//                carLayout.setVisibility(View.VISIBLE);
-//                SharedPreferences carDataInLocal = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
-//                carTypeTV.setText(carDataInLocal.getString("CAR_TYPE","CAR_DEFAULT"));
-//                carModelTV.setText(carDataInLocal.getString("CAR_MODEL","CAR_DEFAULT"));
-//                carMaintenanceTV.setText(carDataInLocal.getString("CAR_MAINTENANCE","CAR_DEFAULT"));
-//                carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
-//                Glide.with(this).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
-//                Glide.with(this).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
-//            }
-//        }
     }
 }
