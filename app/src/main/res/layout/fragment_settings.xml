@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     tools:context=".customer.SettingsFragment">
 
-
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
@@ -16,20 +15,8 @@
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="match_parent"
-            android:src="@drawable/splashbackgroundnew"
-            android:layout_height="wrap_content">
-        </ImageView>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_marginTop="-24dp"
-            android:src="@drawable/applogo"
-            android:layout_height="wrap_content">
-        </ImageView>
 
         <TextView
-            android:layout_marginTop="24dp"
             android:gravity="center"
             android:text="الإعدادات"
             android:textSize="22dp"
@@ -43,12 +30,10 @@
         <Button
             android:id="@+id/reportsBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:text="الإبلاغ عن مشكلة"
-            android:backgroundTint="@color/color_gray_3"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
@@ -58,12 +43,10 @@
         <Button
             android:id="@+id/reports_list_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:text="عرض التقارير/المشاكل"
-            android:backgroundTint="@color/color_gray_3"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
@@ -73,12 +56,10 @@
         <Button
             android:id="@+id/aboutusBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:text="معلومات عنا"
-            android:backgroundTint="@color/color_gray_3"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
@@ -88,12 +69,10 @@
         <Button
             android:id="@+id/contactusBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:text="تواصل معنا"
-            android:backgroundTint="@color/color_gray_3"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
