@@ -36,39 +36,26 @@
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_margin="12dp"
-                    android:gravity="center"
-                    android:text="تعديل بيانات الحساب"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/logo_color_3"
-                    android:fontFamily="@font/fontbold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-                <LinearLayout
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/choose_image_register"
-                        android:layout_width="70dp"
-                        android:src="@drawable/chooseimage"
-                        android:layout_height="70dp"/>
-
                     <Button
-                        android:layout_marginLeft="100dp"
-                        android:id="@+id/choose_image_button"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/choose_image_button_update_customer_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/fontlight"
                         android:text="اختار صورة"
                         style="?attr/materialButtonOutlinedStyle"
                         app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
-                </LinearLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/customer_update_profile_image"
+                        android:layout_alignParentLeft="true"
+                        android:layout_width="70dp"
+                        android:src="@drawable/chooseimage"
+                        android:layout_height="70dp"/>
+
+                </RelativeLayout>
                 <LinearLayout
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="24dp"
@@ -136,7 +123,7 @@
                 <Button
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:id="@+id/choose_address_button"
+                    android:id="@+id/choose_address_button_update_profile_customer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/fontlight"
@@ -144,7 +131,7 @@
                     style="?attr/materialButtonOutlinedStyle"
                     app:icon="@drawable/ic_baseline_location_on_24"/>
                 <TextView
-                    android:id="@+id/choosed_address_text"
+                    android:id="@+id/update_profile_choosed_address_text"
                     android:fontFamily="@font/fontlight"
                     android:textStyle="bold"
                     android:text=""
@@ -161,17 +148,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
 
-                <LinearLayout
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:background="@color/color_gray"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
                 <Button
                     android:layout_margin="15dp"
                     android:paddingLeft="50dp"
                     android:paddingRight="50dp"
-                    android:id="@+id/update_btn"
+                    android:id="@+id/customer_profile_update_btn"
                     android:fontFamily="@font/fontbold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

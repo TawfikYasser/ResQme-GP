@@ -3,8 +3,10 @@ package com.example.resqme.customer;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,33 +14,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.AddressMap;
-import com.example.resqme.common.Registeration;
-import com.example.resqme.model.Customer;
-import com.example.resqme.model.ServiceProvider;
-import com.example.resqme.serviceProvider.ServiceProviderHome;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.karumi.dexter.Dexter;
@@ -51,189 +50,177 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerUpdateProfile extends AppCompatActivity implements View.OnClickListener{
-    // Views Initiation
     CircleImageView iUserImage;
-    TextInputEditText etUsername, etWhatsApp, etPassword, etAddress;
+    TextInputEditText etUsername, etWhatsApp, etPassword;
     Button btnUpdateAccount, btnChooseImage, btnChooseAddress;
-    TextView tvLogin, tvAddress;
-
+    TextView tvAddress;
     Uri mainImageUri = null;
-
-    //Firebase Initiation
-    DatabaseReference databaseTableCustomers, databaseTableSP; // Reference on database
-    StorageReference mStorageReference;
-    //More views
     ProgressDialog progressDialog;
-    private DatabaseReference databaseCustomers;
+    DatabaseReference databaseCustomers;
     SharedPreferences c_data;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_update_profile);
         initViews();
-        firebaseData();
+        initToolbar();
+        forceRTLIfSupported();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
-
         etUsername.setText(c_data.getString("C_USERNAME","C_DEFAULT"));
         etPassword.setText(c_data.getString("C_PASSWORD","C_DEFAULT"));
         etWhatsApp.setText(c_data.getString("C_WHATSAPP","C_DEFAULT"));
-        String UserID= c_data.getString("C_USERID","C_DEFAULT");
-        Toast.makeText(this,UserID,Toast.LENGTH_LONG).show();
-        // etAddress.setText(c_data.getString("C_ADDRESS","C_DEFAULT"));
+        Glide.with(this).load(c_data.getString("C_USERIMAGE","C_DEFAULT")).into(iUserImage);
 
     }
     void initViews(){
-        iUserImage = findViewById(R.id.choose_image_register);
-
-        btnChooseImage = findViewById(R.id.choose_image_button);
+        iUserImage = findViewById(R.id.customer_update_profile_image);
+        btnChooseImage = findViewById(R.id.choose_image_button_update_customer_profile);
         btnChooseImage.setOnClickListener(this);
-
         etUsername = findViewById(R.id.username_register);
         etWhatsApp = findViewById(R.id.whatsapp_register);
         etPassword = findViewById(R.id.password_register);
-
-        btnUpdateAccount = findViewById(R.id.update_btn);
+        btnUpdateAccount = findViewById(R.id.customer_profile_update_btn);
         btnUpdateAccount.setOnClickListener(this);
-        btnChooseAddress = findViewById(R.id.choose_address_button);
+        btnChooseAddress = findViewById(R.id.choose_address_button_update_profile_customer);
         btnChooseAddress.setOnClickListener(this);
-
-        tvAddress = findViewById(R.id.choosed_address_text);
-
+        tvAddress = findViewById(R.id.update_profile_choosed_address_text);
         progressDialog = new ProgressDialog(this);
-    }
-
-    void firebaseData(){
-        databaseTableCustomers = FirebaseDatabase.getInstance().getReference().child("Customer");
-
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.update_btn:
+            case R.id.customer_profile_update_btn:
                 updateProfileClick();
                 break;
-            case R.id.choose_image_button:
+            case R.id.choose_image_button_update_customer_profile:
                 gettingImageFromGallery();
                 break;
-            case R.id.choose_address_button:
+            case R.id.choose_address_button_update_profile_customer:
                 checkLocationPermission();
                 break;
         }
     }
 
 
-//    void updateUserInfo(String username, final FirebaseUser user){
-//
-//
-//        final String userEmail= user.getEmail();
-//        final String generatedID = user.getUid();
-//
-//        final StorageReference filepath = mStorageReference.child("UserImages").child(mainImageUri.getLastPathSegment());
-//
-//
-//        filepath.putFile(mainImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        UserProfileChangeRequest userProfileChangeRequest =new UserProfileChangeRequest.Builder()
-//                                .setDisplayName(username).setPhotoUri(uri).build();
-//
-//                        if(selectedUserType.equals("عميل")){
-//
-//                            DatabaseReference databaseReference_customer =databaseTableCustomers.child(generatedID);
-//
-//                            Customer customer = new Customer(0, username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
-//
-//                            databaseReference_customer.setValue(customer);
-//
-//                        }else{
-//                            DatabaseReference databaseReference_sp =databaseTableSP.child(generatedID);
-//
-//                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
-//
-//                            databaseReference_sp.setValue(serviceProvider);
-//                        }
-//
-//
-//                        user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if(task.isSuccessful()){
-//                                    //user info updated
-//                                    int selectedType = rgUserType.getCheckedRadioButtonId();
-//                                    rbtnCustomer=(RadioButton)findViewById(selectedType);
-//                                    if(rbtnCustomer.getText().toString().equals("عميل")){
-//                                        saveLocalDataCustomer(username, userEmail, etPassword.getText().toString().trim(),
-//                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
-//                                                "عميل", rbtnMale.getText().toString(), "0", "5", generatedID);
-//                                        Intent mainIntent = new Intent(Registeration.this, CustomerHome.class);
-//                                        startActivity(mainIntent);
-//                                        finish();
-//                                    }else{
-//                                        saveLocalDataSP(username, userEmail, etPassword.getText().toString().trim(),
-//                                                tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, mainImageUri.toString(),
-//                                                "مقدم خدمة", rbtnMale.getText().toString(), "5", generatedID);
-//                                        Intent mainIntent = new Intent(Registeration.this, ServiceProviderHome.class);
-//                                        startActivity(mainIntent);
-//                                        finish();
-//                                    }
-//                                    progressDialog.dismiss();
-//                                }else{
-//                                    //something wrong
-//                                    progressDialog.dismiss();
-//                                    Snackbar.make(findViewById(android.R.id.content),"يوجد خطأ ما، برجاء المحاولة مرة أخرى!",Snackbar.LENGTH_LONG)
-//                                            .setBackgroundTint(getResources().getColor(R.color.red_color))
-//                                            .setTextColor(getResources().getColor(R.color.white))
-//                                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-//                                }
-//                            }
-//                        });
-//                    }
-//                });
-//            }
-//
-//        });
-//
-//    }
-
     void updateProfileClick(){
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-        String whatsApp = etWhatsApp.getText().toString();
-        c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
-
-        String UserID= c_data.getString("C_USERID","C_DEFAULT");
-
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
-        databaseCustomers.child(UserID).child("username").setValue(username);
-        databaseCustomers.child(UserID).child("whatsApp").setValue(whatsApp);
+        new AlertDialog.Builder(this)
+              .setTitle("تأكيد تغيير البيانات")
+                .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.setMessage(" يرجى الانتظار قليلاً، جاري تغيير البيانات... ");
+                        progressDialog.show();
 
-        if(!TextUtils.isEmpty(username) || !TextUtils.isEmpty(password)
-                || !TextUtils.isEmpty(whatsApp) || mainImageUri != null || !TextUtils.isEmpty(tvAddress.getText())){
-            new AlertDialog.Builder(this)
 
-                    .setTitle("تأكيد تغيير البيانات")
-                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
-                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            progressDialog.setMessage(" يرجى الانتظار قليلاً، جاري تغيير البيانات... ");
-                            progressDialog.show();
-                            //updateAccount(password.trim(),username.trim());
+                        // Check if username changed, change it in firebase and local data
+                        if(!TextUtils.isEmpty(etUsername.getText())){
+                            if(!etUsername.getText().equals(c_data.getString("C_USERNAME","C_DEFAULT"))){
+                                // Change username in firebase for the current user, in realtime db, in local data
+                                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(etUsername.getText().toString().trim()).build();
+                                user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            databaseCustomers.child(user.getUid()).child("username").setValue(etUsername.getText().toString());
+                                            SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = cld.edit();
+                                            editor.putString("C_USERNAME", etUsername.getText().toString());
+                                            editor.apply();
+                                        }
+                                    }
+                                });
+                            }
                         }
-                    })
-                    .setNegativeButton("لا", null)
-                    .show();
-        }else{
-            progressDialog.dismiss();
-            Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
-                    .setBackgroundTint(getResources().getColor(R.color.red_color))
-                    .setTextColor(getResources().getColor(R.color.white))
-                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-        }
+
+                        //Check if password changed, change it in firebase and local data
+                        if(!TextUtils.isEmpty(etPassword.getText())){
+                            if(!etPassword.getText().equals(c_data.getString("C_PASSWORD","C_DEFAULT"))){
+                                user.updatePassword(etPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            databaseCustomers.child(user.getUid()).child("password").setValue(etPassword.getText().toString());
+                                            SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = cld.edit();
+                                            editor.putString("C_PASSWORD", etPassword.getText().toString());
+                                            editor.apply();
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        }
+
+                        //Check if whatsApp changed, change it in firebase, local data
+                        if(!TextUtils.isEmpty(etWhatsApp.getText())){
+                            if(!etWhatsApp.getText().equals(c_data.getString("C_WHATSAPP","C_DEFAULT"))){
+                                databaseCustomers.child(user.getUid()).child("whatsApp").setValue(etWhatsApp.getText().toString());
+                                SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = cld.edit();
+                                editor.putString("C_WHATSAPP", etWhatsApp.getText().toString());
+                                editor.apply();
+                            }
+                        }
+
+
+                        //Check if address changed, change it in firebase, local data
+                        if(!TextUtils.isEmpty(tvAddress.getText())){
+                            databaseCustomers.child(user.getUid()).child("address").setValue(tvAddress.getText().toString());
+                            SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = cld.edit();
+                            editor.putString("C_ADDRESS", tvAddress.getText().toString());
+                            editor.apply();
+                        }
+
+
+                        //Check if image changed, upload it to storage, change it in firebase realtime db, change in local data
+                        if(mainImageUri != null){
+                            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                            final StorageReference image = storageReference.child("UserImages").child(mainImageUri.getLastPathSegment());
+                            // Upload the image to firebase storage
+                            image.putFile(mainImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Uri> taskImage) {
+                                            UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
+                                                    .setPhotoUri(taskImage.getResult()).build();
+                                            user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        databaseCustomers.child(user.getUid()).child("image").setValue(taskImage.getResult().toString());
+                                                        SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = cld.edit();
+                                                        editor.putString("C_USERIMAGE", taskImage.getResult().toString());
+                                                        editor.apply();
+                                                        progressDialog.dismiss();
+                                                        finish();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                        if(mainImageUri == null){
+                            progressDialog.dismiss();
+                            finish();
+                        }
+                    }
+                })
+                .setNegativeButton("لا", null)
+                .show();
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     void getAddress() {
         Intent addressMapIntent = new Intent(com.example.resqme.customer.CustomerUpdateProfile.this, AddressMap.class);
         startActivityForResult(addressMapIntent, 11);
@@ -252,20 +239,6 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
             mainImageUri = uri;
             iUserImage.setImageURI(uri);
         }
-
-    }
-
-    void saveLocalDataCustomer(String username, String email, String password, String address, String whatsApp,
-                               String DOB, String userImage, String userType, String userGender, String carID, String userRate, String userID){
-
-        SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = cld.edit();
-        editor.putString("C_USERNAME", username);
-        editor.putString("C_PASSWORD", password);
-        editor.putString("C_ADDRESS", address);
-        editor.putString("C_WHATSAPP", whatsApp);
-        editor.putString("C_USERIMAGE", userImage);
-        editor.apply();
     }
     void gettingImageFromGallery(){
         ImagePicker.with(this)
@@ -295,5 +268,23 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                 permissionToken.continuePermissionRequest();
             }
         }).check();
+    }
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_customer_profile_update);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("تحديث بيانات الصفحة الشخصية");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextAppearance(CustomerUpdateProfile.this, R.style.Theme_ResQme);
+    }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void forceRTLIfSupported() {
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
