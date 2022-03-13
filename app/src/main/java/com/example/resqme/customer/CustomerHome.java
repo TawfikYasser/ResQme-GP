@@ -42,15 +42,15 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new WinchFragment()).commit();
         }
+        SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
+        Glide.with(this).load(c_userimage).into(customerProfile);
     }
 
     void initViews(){
         customerProfile = findViewById(R.id.customer_home_image);
         customerProfile.setOnClickListener(this);
-        SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
-        //customerProfile.setImageURI(Uri.parse(c_userimage));
-        Glide.with(this).load(c_userimage).into(customerProfile);
+
 
     }
 
@@ -99,8 +99,13 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
+        Glide.with(this).load(c_userimage).into(customerProfile);
+    }
 }
 //        SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
 //        String c_email = userData.getString("C_EMAIL","C_DEFAULT");

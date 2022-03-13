@@ -68,8 +68,6 @@ public class MyReports extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void initToolbar() {
