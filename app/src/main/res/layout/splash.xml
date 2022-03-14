@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".common.Splash">
 
-    <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <ImageView
+            android:layout_marginTop="-10dp"
             android:layout_width="match_parent"
             android:src="@drawable/splashbackgroundnew"
             android:layout_height="wrap_content">
@@ -26,49 +20,8 @@
             android:layout_height="wrap_content">
         </ImageView>
 
-<!--        <LinearLayout-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <TextView-->
-<!--                android:gravity="center"-->
-<!--                android:text="Res"-->
-<!--                android:textSize="48dp"-->
-<!--                android:textColor="@color/logo_color_3"-->
-<!--                android:fontFamily="@font/resqmefont"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content">-->
-
-<!--            </TextView>-->
-
-<!--            <TextView-->
-<!--                android:gravity="center"-->
-<!--                android:text="Q"-->
-<!--                android:textSize="48dp"-->
-<!--                android:textColor="@color/logo_color"-->
-<!--                android:fontFamily="@font/resqmefont"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content">-->
-
-<!--            </TextView>-->
-
-<!--            <TextView-->
-<!--                android:gravity="center"-->
-<!--                android:text="me"-->
-<!--                android:textSize="48dp"-->
-<!--                android:textColor="@color/logo_color_3"-->
-<!--                android:fontFamily="@font/resqmefont"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content">-->
-
-<!--            </TextView>-->
-
-
-<!--        </LinearLayout>-->
-
         <TextView
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
             android:gravity="center"
             android:text="سلامتك تهمنا"
@@ -80,9 +33,4 @@
             android:layout_height="wrap_content">
 
         </TextView>
-    </LinearLayout>
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
