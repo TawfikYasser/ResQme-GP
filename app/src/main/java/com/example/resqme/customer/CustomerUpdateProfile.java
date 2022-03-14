@@ -114,7 +114,6 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                         progressDialog.setMessage(" يرجى الانتظار قليلاً، جاري تغيير البيانات... ");
                         progressDialog.show();
 
-
                         // Check if username changed, change it in firebase and local data
                         if(!TextUtils.isEmpty(etUsername.getText())){
                             if(!etUsername.getText().equals(c_data.getString("C_USERNAME","C_DEFAULT"))){
