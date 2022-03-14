@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/color_gray"
     android:layout_margin="12dp"
     app:cardElevation="8dp"
     app:cardCornerRadius="8dp"
@@ -28,7 +27,7 @@
         <TextView
             android:layout_gravity="right|center_vertical"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="12dp"
+            android:textStyle="bold"
             android:layout_marginBottom="12dp"
             android:layout_marginRight="12dp"
             android:id="@+id/report_description_item_text"
@@ -51,6 +50,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
 
 </com.google.android.material.card.MaterialCardView>
