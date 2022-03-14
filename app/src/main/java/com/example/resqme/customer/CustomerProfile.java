@@ -254,8 +254,6 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 Intent i = new Intent(CustomerProfile.this, CustomerUpdateProfile.class);
                 startActivity(i);
                 break;
-
-
         }
     }
 

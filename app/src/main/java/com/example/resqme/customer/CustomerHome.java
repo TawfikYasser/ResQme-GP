@@ -30,6 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
     CircleImageView customerProfile;
+    TextView headerTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new WinchFragment()).commit();
+            headerTV.setText("ونش");
         }
         SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
@@ -50,8 +52,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     void initViews(){
         customerProfile = findViewById(R.id.customer_home_image);
         customerProfile.setOnClickListener(this);
-
-
+        headerTV = findViewById(R.id.customer_home_header_text);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -63,18 +64,21 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                     switch (item.getItemId()) {
                         case R.id.winch:
                             selectedFragment = new WinchFragment();
+                            headerTV.setText("ونش");
                             break;
                         case R.id.spare_parts:
                             selectedFragment = new SpareFragment();
+                            headerTV.setText("قطع غيار");
                             break;
                         case R.id.cmc:
                             selectedFragment = new CMCFragment();
+                            headerTV.setText("مركز خدمة سيارات");
                             break;
                         case R.id.settings:
                             selectedFragment = new SettingsFragment();
+                            headerTV.setText("الإعدادات");
                             break;
                     }
-
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
 
