@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/logo_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".customer.WinchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
-        android:fontFamily="@font/fontbold"
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/fragment_map_winchs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Winch Fragment" />
+        android:layout_height="match_parent"/>
+    <Button
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="24dp"
+        android:layout_width="250dp"
+        android:text="اطلب ونش"
+        android:textColor="@color/black"
+        android:fontFamily="@font/resqmefont"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:backgroundTint="@color/white"
+        android:layout_height="60dp"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
