@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class WinchFragment extends Fragment implements OnMapReadyCallback {
+public class WinchFragment extends Fragment {
 
 
 
@@ -40,31 +41,27 @@ public class WinchFragment extends Fragment implements OnMapReadyCallback {
         View view =  inflater.inflate(R.layout.fragment_winch, container, false);
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
-//            mapFragment.getMapAsync(new OnMapReadyCallback() {
-//                @Override
-//                public void onMapReady(GoogleMap googleMap) {
-//                    LatLng latLng = new LatLng(1.289545, 103.849972);
-//                    googleMap.addMarker(new MarkerOptions().position(latLng)
-//                            .title("Singapore"));
-//                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-//
-//                    googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//                        @Override
-//                        public void onMapClick(@NonNull LatLng latLng) {
-//
-//                        }
-//                    });
-//
-//                }
-//            });
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    LatLng latLng = new LatLng(1.289545, 103.849972);
+                    googleMap.addMarker(new MarkerOptions().position(latLng)
+                            .title("Singapore"));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                    googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(@NonNull LatLng latLng) {
+                            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            });
         }
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
 
         return view;
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-
-    }
 }
