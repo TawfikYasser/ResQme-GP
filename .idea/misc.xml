@@ -15,12 +15,14 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_main.xml" value="0.21822916666666667" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_my_reports.xml" value="0.20521590423257802" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_processing_request_cmc.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_processing_request_spare_parts.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_registeration.xml" value="0.264" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_send_report.xml" value="0.20261713803292528" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_item_customer_home.xml" value="0.10747663551401869" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_c_m_c.xml" value="0.152" />
-        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_settings.xml" value="0.20521590423257802" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_settings.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_spare.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_winch.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/item_add_car_data_dropdownlist.xml" value="0.20521590423257802" />

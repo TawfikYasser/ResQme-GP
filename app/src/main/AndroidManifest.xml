@@ -10,7 +10,7 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +19,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
+        <activity
+            android:name=".customer.ProcessingRequestCMC"
+            android:exported="false" />
+        <activity
+            android:name=".customer.ProcessingRequestSpareParts"
+            android:exported="false" />
         <activity
             android:name=".common.MyReports"
             android:exported="false" />

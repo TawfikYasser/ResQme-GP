@@ -65,9 +65,20 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
-            android:layout_marginTop="20dp"
-            >
-        </Button>
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/test_btn_keepit"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="Test Button (Keep it)"
+            android:textStyle="bold"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp"/>
+
         <Button
             android:id="@+id/logout_customer_profile"
             android:layout_width="wrap_content"

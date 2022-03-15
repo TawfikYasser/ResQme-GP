@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.ProcessingRequestCMC">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_processing_request_cmc"
+                android:layout_width="match_parent"
+                android:tooltipText="رجوع"
+                android:layout_height="?attr/actionBarSize"
+                app:title="إتمام الطلب"
+                app:titleTextAppearance="@font/fontlight"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="سيتم مشاركة بياناتك مع مالك مركز الخدمة، مثل بريدك الإلكتروني، رقم الواتساب، اسمك، وموقعك الحالي."
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="سيتم إرسال إشعار لمالك مركز الخدمة بعد الضغط على إرسال (اسفل الصفحة) حيث يمكنه قبول أو رفض الطلب، إذا تم قبول الطلب سيصلك إشعار ويمكنك ان ترى حالة الطلب في صفحة الطلبات الخاصة بك (في الإعدادات)."
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="إذا لم يجيب مالك مركز الخدمة على طلبك في غضون ساعة، سيتم إلغاء الطلب. بعد الضغط على إرسال سيتم تحويلك الى صفحة الدفع، وبعد إتمام الخدمة يمكنك الضغط على تم في صفحة الطلبات ثم يمكنك إعطاء تقييم لمالك مركز الخدمة."
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="إذا واجهتك أي مشكلة يمكنك التواصل معنا أو إرسال طلب مشكلة من الإعدادات."
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="يجب عليك ملئ وصف ليتم إرساله مع الطلب حتى يستطيع مالك مركز الخدمة تقديم أفضل خدمة."
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/send_cmc_request_description_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginLeft="24dp"
+                        android:inputType="text|textMultiLine"
+                        android:layout_marginBottom="24dp"
+                        android:hint="وصف طلبك هنا..."/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:layout_margin="24dp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/send_cmc_request_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="إرسال"
+                    android:fontFamily="@font/resqmefont"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

@@ -28,7 +28,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     FirebaseAuth mAuth;
-    Button logoutBtn, reportsBtn,aboutusBtn,contactusBtn, viewReportsBtn;
+    Button logoutBtn, reportsBtn,aboutusBtn,contactusBtn, viewReportsBtn, testBTN;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -83,6 +83,9 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
         viewReportsBtn = v.findViewById(R.id.reports_list_btn);
         viewReportsBtn.setOnClickListener((View.OnClickListener)this);
 
+        testBTN = v.findViewById(R.id.test_btn_keepit);
+        testBTN.setOnClickListener((View.OnClickListener)this);
+
         return v;
     }
 
@@ -98,6 +101,10 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                 break;
             case R.id.reports_list_btn:
                 sendToMyReports();
+                break;
+            case R.id.test_btn_keepit:
+                Intent intent = new Intent(getActivity(), ProcessingRequestCMC.class);
+                startActivity(intent);
                 break;
 
         }
