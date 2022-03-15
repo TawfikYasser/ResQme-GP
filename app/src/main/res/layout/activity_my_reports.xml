@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".common.MyReports">
     <LinearLayout
@@ -21,9 +22,14 @@
                 app:titleTextAppearance="@font/fontlight"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
         </com.google.android.material.appbar.AppBarLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/myreports_recycler"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/myreports_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </ScrollView>
+
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
