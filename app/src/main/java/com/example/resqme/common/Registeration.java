@@ -272,19 +272,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
                         String selectedUserType = rbtnCustomer.getText().toString();
                         if(selectedUserType.equals("عميل")){
-
                             DatabaseReference databaseReference_customer =databaseTableCustomers.child(generatedID);
-
                             Customer customer = new Customer("0", username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
-
                             databaseReference_customer.setValue(customer);
-
                         }else{
                             DatabaseReference databaseReference_sp =databaseTableSP.child(generatedID);
                             ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType);
                             databaseReference_sp.setValue(serviceProvider);
                         }
-
 
                         user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

@@ -43,7 +43,6 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.MyView
         }else{
             holder.tvReportStatus.setText("تم الرد على المشكلة، راجع البريد الإلكتروني...");
             holder.tvReportStatus.setTextColor(Color.rgb(20, 155, 24));
-
         }
 
     }

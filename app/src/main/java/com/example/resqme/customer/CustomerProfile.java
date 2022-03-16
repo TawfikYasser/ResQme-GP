@@ -3,8 +3,13 @@ package com.example.resqme.customer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +45,10 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     DatabaseReference customerTable;
     ImageView ivDriverLicence, ivCarLicence;
     Context context;
+
+    NotificationManagerCompat notificationManagerCompat;
+    Notification notificationcar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +91,19 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             tvCarStatus.setTextColor(Color.RED);
                             carDataHeaderTV.setVisibility(View.GONE);
                             carLayout.setVisibility(View.GONE);
+                            // Sending a Notification to the customer to inform him/his that car is refused.
+//                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//                                NotificationChannel channelCarNotification = new NotificationChannel("CHANNEL_ID_CAR_NOTI","CAR_NOTIFICATION", NotificationManager.IMPORTANCE_HIGH);
+//                                NotificationManager carNotiManager = getSystemService(NotificationManager.class);
+//                                carNotiManager.createNotificationChannel(channelCarNotification);
+//                            }
+//                            NotificationCompat.Builder noticompatbuilder = new NotificationCompat.Builder(context, "CHANNEL_ID_CAR_NOTI")
+//                                    .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+//                                    .setContentTitle("إشعار عن العربية")
+//                                    .setContentText("للأسف تم رفض العربية، يمكنك التواصل معانا لمعرفة تفاصيل اكتر.");
+//                            notificationcar = noticompatbuilder.build();
+//                            notificationManagerCompat = NotificationManagerCompat.from(context);
+//                            notificationManagerCompat.notify(1, notificationcar);
                         } else if (carObj.getCarStatus().equals("Approved")) {
                             SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
@@ -100,6 +122,19 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
                             Glide.with(context).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
                             Glide.with(context).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
+                            // Sending a Notification to the customer to inform him/his that car accepted.
+//                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//                                NotificationChannel channelCarNotification = new NotificationChannel("CHANNEL_ID_CAR_NOTI","CAR_NOTIFICATION", NotificationManager.IMPORTANCE_HIGH);
+//                                NotificationManager carNotiManager = getSystemService(NotificationManager.class);
+//                                carNotiManager.createNotificationChannel(channelCarNotification);
+//                            }
+//                            NotificationCompat.Builder noticompatbuilder = new NotificationCompat.Builder(context, "CHANNEL_ID_CAR_NOTI")
+//                                    .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+//                                    .setContentTitle("إشعار عن العربية")
+//                                    .setContentText("تم قبول العربية، شكراً لك.");
+//                            notificationcar = noticompatbuilder.build();
+//                            notificationManagerCompat = NotificationManagerCompat.from(context);
+//                            notificationManagerCompat.notify(1, notificationcar);
                         }
                     }
                 }
@@ -257,4 +292,5 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         showCustomerData();
     }
+
 }

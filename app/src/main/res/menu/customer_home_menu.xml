@@ -4,25 +4,25 @@
     <item
         android:id="@+id/winch"
         android:title="ونش"
-        android:icon="@drawable/winch_icon"
+        android:icon="@drawable/winch_icon_bottom_bar"
         app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/spare_parts"
         android:title="قطع غيار"
-        android:icon="@drawable/spare_icon"
+        android:icon="@drawable/spare_parts_icon_bottom_bar"
         app:showAsAction="ifRoom"
         />
     <item
         app:showAsAction="ifRoom"
         android:id="@+id/cmc"
         android:title="مركز خدمة سيارات"
-        android:icon="@drawable/cmc_icon"
+        android:icon="@drawable/car_maintenance_center_icon_bottom_bar"
         />
     <item
         app:showAsAction="ifRoom"
         android:id="@+id/settings"
         android:title="الإعدادات"
-        android:icon="@drawable/settings_icon"
+        android:icon="@drawable/ic_baseline_settings_24"
         />
 </menu>
