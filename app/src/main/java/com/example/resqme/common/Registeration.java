@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,7 +27,7 @@ import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
-import com.example.resqme.serviceProvider.ServiceProviderHome;
+import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -300,7 +299,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                         saveLocalDataSP(username, userEmail, etPassword.getText().toString().trim(),
                                                 tvAddress.getText().toString().trim(), etWhatsApp.getText().toString().trim(), bod, uri.toString(),
                                                 "مقدم خدمة", rbtnMale.getText().toString(), "5", generatedID);
-                                        Intent mainIntent = new Intent(Registeration.this, ServiceProviderHome.class);
+                                        Intent mainIntent = new Intent(Registeration.this, ServiceProviderAddService.class);
                                         startActivity(mainIntent);
                                         finish();
                                     }
