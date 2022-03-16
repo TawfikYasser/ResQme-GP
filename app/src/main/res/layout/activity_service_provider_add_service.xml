@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".serviceProvider.ServiceProviderAddService">>
+    tools:context=".serviceProvider.ServiceProviderAddService">
 
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
