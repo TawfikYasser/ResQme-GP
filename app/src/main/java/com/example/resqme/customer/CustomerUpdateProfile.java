@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.AddressMap;
+import com.example.resqme.common.Splash;
+import com.example.resqme.serviceProvider.ServiceProviderHome;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -210,8 +213,14 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                             });
                         }
                         if(mainImageUri == null){
-                            progressDialog.dismiss();
-                            finish();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressDialog.dismiss();
+                                    finish();
+                                }
+                            }, 1000);
+
                         }
                     }
                 })
