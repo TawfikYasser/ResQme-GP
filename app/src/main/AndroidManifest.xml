@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:name=".common.ContactUs"
+            android:exported="false" />
+        <activity
+            android:name=".common.AboutUs"
+            android:exported="false" />
+        <activity
             android:name=".customer.ProcessingRequestCMC"
             android:exported="false" />
         <activity

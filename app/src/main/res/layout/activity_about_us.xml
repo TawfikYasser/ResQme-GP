@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".common.AboutUs">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_aboutus"
+            android:layout_width="match_parent"
+            android:tooltipText="رجوع"
+            android:layout_height="?attr/actionBarSize"
+            app:title="عن ResQme"
+            app:titleTextAppearance="@font/fontlight"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="200dp"
+                android:layout_gravity="center"
+                app:civ_border_width="5dp"
+                android:layout_marginTop="24dp"
+                app:civ_border_color="@color/logo_color_3"
+                android:src="@drawable/resqme_logo_icon"
+                android:layout_height="200dp">
+            </de.hdodenhof.circleimageview.CircleImageView>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="24dp"
+                android:gravity="right"
+                android:text="من نحن؟"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/logo_color_3"
+                android:fontFamily="@font/fontlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="24dp"
+                android:gravity="right"
+                android:layout_marginLeft="24dp"
+                android:text="تطبيق ResQme هو تطبيق لمساعدة سائقي السيارات في المواقف التي يحتاجون فيها الوصول الى أقرب ونش أو مركز صيانة أو طلب قطع غيار في الحال، هدفنا تقديم أسرع وأفضل خدمة مصممة خصصياً لك لتناسب احتياجتك حيث نقدم ترشيحات لتقديم أفضل خدمة."
+                android:fontFamily="@font/fontlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="24dp"
+                android:gravity="right"
+                android:text="كلية الحاسبات والذكاء الإصطناعي"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/logo_color_3"
+                android:fontFamily="@font/fontlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="24dp"
+                android:gravity="right"
+                android:layout_marginLeft="24dp"
+                android:text="هذا التطبيق هو مشروع التخرج في كلية الحاسبات والذكاء الإصطناعي، جامعة القاهرة، قسم نظم المعلومات. لعام 2022."
+                android:fontFamily="@font/fontlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="24dp"
+                android:gravity="right"
+                android:text="إصدار 1.0"
+                android:layout_marginLeft="24dp"
+                android:fontFamily="@font/fontlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

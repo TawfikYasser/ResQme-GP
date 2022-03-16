@@ -1,6 +1,8 @@
 package com.example.resqme.customer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.resqme.R;
+import com.example.resqme.common.AboutUs;
+import com.example.resqme.common.ContactUs;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +34,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     FirebaseAuth mAuth;
-    Button logoutBtn, reportsBtn,aboutusBtn,contactusBtn, viewReportsBtn, testBTN;
+    Button logoutBtn, reportsBtn, aboutusBtn, contactusBtn, viewReportsBtn, testBTN;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -88,6 +92,12 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
         testBTN = v.findViewById(R.id.test_btn_keepit);
         testBTN.setOnClickListener((View.OnClickListener)this);
 
+        aboutusBtn = v.findViewById(R.id.aboutusBtn);
+        aboutusBtn.setOnClickListener((View.OnClickListener)this);
+
+        contactusBtn = v.findViewById(R.id.contactusBtn);
+        contactusBtn.setOnClickListener((View.OnClickListener)this);
+
         return v;
     }
 
@@ -95,8 +105,18 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.logout_customer_profile:
-                mAuth.signOut();
-                sendToLogin();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("تسجيل الخروج")
+                        .setMessage("هل أنت متأكد انك تريد تسجيل الخروج؟")
+                        .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mAuth.signOut();
+                                sendToLogin();
+
+                            }
+                        })
+                        .setNegativeButton("لا", null)
+                        .show();
                 break;
             case R.id.reportsBtn:
                 sendReport();
@@ -107,6 +127,14 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
             case R.id.test_btn_keepit:
                 Intent intent = new Intent(getActivity(), ProcessingRequestCMC.class);
                 startActivity(intent);
+                break;
+            case R.id.aboutusBtn:
+                Intent intentAboutUs = new Intent(getActivity(), AboutUs.class);
+                startActivity(intentAboutUs);
+                break;
+            case R.id.contactusBtn:
+                Intent intentContactUs = new Intent(getActivity(), ContactUs.class);
+                startActivity(intentContactUs);
                 break;
 
         }

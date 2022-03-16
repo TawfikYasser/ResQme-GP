@@ -56,7 +56,7 @@ public class WinchFragment extends Fragment {
             mapFragment = SupportMapFragment.newInstance();
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
-                public void onMapReady(GoogleMap googleMap) {
+                public void onMapReady(@NonNull GoogleMap googleMap) {
                     LatLng latLng = new LatLng(1.289545, 103.849972);
                     googleMap.addMarker(new MarkerOptions().position(latLng)
                             .title("Singapore"));
