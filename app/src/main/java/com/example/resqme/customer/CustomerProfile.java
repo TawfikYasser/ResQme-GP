@@ -50,6 +50,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     DatabaseReference customerTable;
     ImageView ivDriverLicence, ivCarLicence;
     Context context;
+
     NotificationManagerCompat notificationManagerCompat;
     Notification notificationcar;
 
@@ -296,4 +297,5 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         showCustomerData();
     }
+
 }
