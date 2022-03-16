@@ -152,7 +152,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 found =  false;
             }
         }
-        if(userData.contains("SP_EMAIL")){
+        if(userDataSP.contains("SP_EMAIL")){
             String sp_email = userDataSP.getString("SP_EMAIL","SP_DEFAULT");
             if(loginEmail.equals(sp_email)){
                 Intent i = new Intent(Login.this, ServiceProviderHome.class);

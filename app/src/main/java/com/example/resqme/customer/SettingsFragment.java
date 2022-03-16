@@ -1,6 +1,8 @@
 package com.example.resqme.customer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -122,7 +124,12 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
 
 
     void sendToLogin() {
+        SharedPreferences settings = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        settings.edit().clear().commit();
+        SharedPreferences sp = getActivity().getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        sp.edit().clear().commit();
         Intent intent = new Intent(getActivity(), Login.class);
         startActivity(intent);
+        getActivity().finish();
     }
 }
