@@ -12,7 +12,6 @@ public class CMC {
         this.cmcServiceProviderId = cmcServiceProviderId;
         this.cmcStatus = cmcStatus;
     }
-
     public CMC() {
     }
 
