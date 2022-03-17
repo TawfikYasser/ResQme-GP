@@ -53,13 +53,13 @@ public class SpareFragment extends Fragment {
         sparepartsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         spareParts = new ArrayList<>();
 
-        spareParts.add(new SparePart("","إطارات West Lake ", "https://firebasestorage.googleapis.com/v0/b/resqme-60664.appspot.com/o/UserImages%2FIMG_20220316_134648913.jpg?alt=media&token=f86bd598-5476-4562-8dcf-e15f36643ee5"
+        spareParts.add(new SparePart("","إطارات West Lake ", "https://firebasestorage.googleapis.com/v0/b/resqme-60664.appspot.com/o/sparepartsdefaultimage.jpg?alt=media&token=2a65e70b-716c-4cff-b00d-31b5118b0cda"
         ,"500 جنيه", "جديد", "", "","مرسيدس"));
 
-        spareParts.add(new SparePart("","طقم مرايا يمين وشمال", "https://firebasestorage.googleapis.com/v0/b/resqme-60664.appspot.com/o/UserImages%2FIMG_20220316_134648913.jpg?alt=media&token=f86bd598-5476-4562-8dcf-e15f36643ee5"
+        spareParts.add(new SparePart("","طقم مرايا يمين وشمال", "https://firebasestorage.googleapis.com/v0/b/resqme-60664.appspot.com/o/sparepartsdefaultimage.jpg?alt=media&token=2a65e70b-716c-4cff-b00d-31b5118b0cda"
                 ,"300 جنيه", "مستعمل", "", "","هونداي"));
 
-        spareParts.add(new SparePart("","مضخم صوت", "https://firebasestorage.googleapis.com/v0/b/resqme-60664.appspot.com/o/UserImages%2FIMG_20220316_134648913.jpg?alt=media&token=f86bd598-5476-4562-8dcf-e15f36643ee5"
+        spareParts.add(new SparePart("","مضخم صوت", "https://firebasestorage.googleapis.com/v0/b/resqme-60664.appspot.com/o/sparepartsdefaultimage.jpg?alt=media&token=2a65e70b-716c-4cff-b00d-31b5118b0cda"
                 ,"270 جنيه", "جديد", "", "","الجميع"));
 
         sparepartsAdapter = new SparePartsAdapter(getActivity(), spareParts);
