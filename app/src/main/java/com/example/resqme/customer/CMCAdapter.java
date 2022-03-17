@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.model.CMC;
-import com.example.resqme.model.SparePart;
 
 import java.util.ArrayList;
 
