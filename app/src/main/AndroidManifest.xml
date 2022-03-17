@@ -54,6 +54,7 @@
         <activity
             android:name=".common.Login"
             android:exported="false" />
+        <activity android:name=".serviceProvider.AddWinchData" android:exported="false"/>
         <activity
             android:name=".serviceProvider.ServiceProviderHome"
             android:exported="false" />
@@ -66,6 +67,13 @@
         <activity
             android:name=".serviceProvider.ServiceProviderAddService"
             android:exported="false" />
+        <activity
+            android:name=".serviceProvider.AddSpareParts"
+            android:exported="false" />
+        <activity
+            android:name=".serviceProvider.AddCmc"
+            android:exported="false" />
+
         <activity
             android:name=".common.Splash"
             android:exported="true" >

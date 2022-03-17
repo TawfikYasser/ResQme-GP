@@ -1,7 +1,5 @@
 package com.example.resqme.serviceProvider;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
-import com.example.resqme.customer.CustomerHome;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ServiceProviderHome extends AppCompatActivity {
@@ -56,7 +55,7 @@ public class ServiceProviderHome extends AppCompatActivity {
     }
 
     void sendToLogin() {
-        Intent loginIntent = new Intent(ServiceProviderHome.this, Login.class);
+        Intent loginIntent = new Intent(this, Login.class);
         startActivity(loginIntent);
         finish();
     }
