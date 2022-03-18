@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".serviceProvider.AddCmc">
 
+
+
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
@@ -14,6 +16,20 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_AddCMC"
+                android:layout_width="match_parent"
+                android:tooltipText="رجوع"
+                android:layout_height="?attr/actionBarSize"
+                app:title="اضافه مركز خدمه"
+                app:titleTextAppearance="@font/fontlight"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -24,19 +40,6 @@
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_margin="12dp"
-                    android:gravity="center"
-                    android:text="اضافه بيانات مركز الخدمه"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/logo_color_3"
-                    android:fontFamily="@font/fontbold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-
 
                 <LinearLayout
                     android:layout_marginTop="15dp"
@@ -61,84 +64,23 @@
                         android:id="@+id/namecmc"
                         android:hint="اسم مركز الخدمه"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
                     android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:drawablePadding="15dp"
-                        android:inputType="text"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/cmcbrand"
-                        android:hint="نوع مركز الخدمه"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
                     android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
                     android:layout_marginTop="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:inputType="none"
+                        android:text="نوع العربية"
+                        android:id="@+id/itembrand_dropdown_list"
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:inputType="text"
-                        android:drawablePadding="15dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/namecmcowner"
-                        android:hint="اسم المالك"/>
+                        android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:inputType="text"
-                        android:drawablePadding="15dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/cmclocation"
-                        android:hint=" مكان مركز الخدمه"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:inputType="text"
-                        android:drawablePadding="15dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/cmctime"
-                        android:hint="مواعيد مركز الخدمه"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:inputType="text"
-                        android:drawablePadding="15dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/cmcdescription"
-                        android:hint=" اضف شرح للخدمه المقدمه"/>
-                </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
@@ -149,7 +91,7 @@
                         android:id="@+id/chooseimagecmc"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:src="@drawable/chooseimage" />
+                        />
 
                     <Button
                         android:layout_marginLeft="100dp"
@@ -161,11 +103,25 @@
                         style="?attr/materialButtonOutlinedStyle"
                         app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
                 </LinearLayout>
+
+
+
                 <LinearLayout
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/choose_address_button_for_cmc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/fontlight"
+                        android:text="اختار عنوان مركز الخدمة"
+                        style="?attr/materialButtonOutlinedStyle"
+                        app:icon="@drawable/ic_baseline_location_on_24"/>
 
 
                 </LinearLayout>

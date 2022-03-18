@@ -2,9 +2,9 @@ package com.example.resqme.model;
 
 public class Winch {
 
-    String drivingLicense,carLicense,Location,Status,CostPerKM,id, winchPlate,Availability;
+    String drivingLicense,carLicense,Location,Status,CostPerKM,id, winchPlate,Availability,SP_ID;
 
-    public Winch(String drivingLicense, String carLicense, String location, String status, String costPerKM, String id, String winchPlate, String availability) {
+    public Winch(String drivingLicense, String carLicense, String location, String status, String costPerKM, String id, String winchPlate, String availability, String SP_ID) {
         this.drivingLicense = drivingLicense;
         this.carLicense = carLicense;
         Location = location;
@@ -13,6 +13,7 @@ public class Winch {
         this.id = id;
         this.winchPlate = winchPlate;
         Availability = availability;
+        this.SP_ID = SP_ID;
     }
 
     public String getDrivingLicense() {
@@ -29,6 +30,14 @@ public class Winch {
 
     public String getStatus() {
         return Status;
+    }
+
+    public String getSP_ID() {
+        return SP_ID;
+    }
+
+    public void setSP_ID(String SP_ID) {
+        this.SP_ID = SP_ID;
     }
 
     public String getCostPerKM() {

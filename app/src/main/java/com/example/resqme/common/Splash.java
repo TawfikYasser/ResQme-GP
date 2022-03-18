@@ -14,6 +14,7 @@ import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
+import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,7 +72,7 @@ public class Splash extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent(Splash.this, ServiceProviderHome.class);
+                        Intent i = new Intent(Splash.this, ServiceProviderAddService.class);
                         startActivity(i);
                         finish();
                     }

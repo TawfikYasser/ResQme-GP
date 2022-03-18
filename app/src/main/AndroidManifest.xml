@@ -54,7 +54,13 @@
         <activity
             android:name=".common.Login"
             android:exported="false" />
-        <activity android:name=".serviceProvider.AddWinchData" android:exported="false"/>
+
+        <activity
+            android:name=".serviceProvider.AddWinchData"
+            android:exported="false"
+            android:parentActivityName=".serviceProvider.ServiceProviderAddService"
+            />
+
         <activity
             android:name=".serviceProvider.ServiceProviderHome"
             android:exported="false" />
@@ -69,10 +75,15 @@
             android:exported="false" />
         <activity
             android:name=".serviceProvider.AddSpareParts"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".serviceProvider.ServiceProviderAddService"/>
+
+
+
         <activity
             android:name=".serviceProvider.AddCmc"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".serviceProvider.ServiceProviderAddService"/>
 
         <activity
             android:name=".common.Splash"

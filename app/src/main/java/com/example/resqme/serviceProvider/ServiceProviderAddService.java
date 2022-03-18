@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.resqme.R;
+import com.google.android.material.button.MaterialButton;
 
 public class ServiceProviderAddService extends AppCompatActivity implements View.OnClickListener {
     Button sp,cmc,winch;
@@ -22,6 +24,8 @@ public class ServiceProviderAddService extends AppCompatActivity implements View
         context = getApplicationContext();
         initViews();
     }
+
+
     void initViews(){
         sp = findViewById(R.id.Spare_Parts_btn);
         sp.setOnClickListener(this);
@@ -37,18 +41,14 @@ public class ServiceProviderAddService extends AppCompatActivity implements View
             case R.id.Spare_Parts_btn:
                 Intent toAddsparepartintent = new Intent(this,AddSpareParts.class);
                 startActivity(toAddsparepartintent);
-                finish();
                 break;
             case R.id.CMC_btn:
                 Intent toAddcmcintent = new Intent(this,AddCmc.class);
                 startActivity(toAddcmcintent);
-                finish();
                 break;
             case R.id.Towing_Car_btn:
                 Intent toAddWinchintent = new Intent(this,AddWinchData.class);
                 startActivity(toAddWinchintent);
-                finish();
-
                 break;
         }
     }
