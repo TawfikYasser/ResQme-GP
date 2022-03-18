@@ -136,12 +136,12 @@ public class WinchFragment extends Fragment {
                 winchesList.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Winch winch = dataSnapshot.getValue(Winch.class);
-                    winchesList.add(winch);
+                    if(winch.getWinchStatus().equals("Approved")){
+                        winchesList.add(winch);
+                    }
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
-
-
                             for(int i = 0 ; i <winchesList.size() ; i++){
 
                                 //Get each winch and pin on the map
@@ -163,7 +163,7 @@ public class WinchFragment extends Fragment {
                                             .title(winch.getWinchName())
                                             .snippet("تكلفة الخدمة " + winch.getWinchCostPerKM() + " جنيه لكل كيلومتر")
                                     .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
-                                    //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                     float zoomLevel = 10.0f; //This goes up to 21
                                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
 
