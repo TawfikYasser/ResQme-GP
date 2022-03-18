@@ -84,39 +84,38 @@ public class WinchFragment extends Fragment {
                 @Override
                 public void onMapReady(@NonNull GoogleMap googleMap) {
 
-//                    for(int i = 0 ; i <winchesList.size() ; i++){
-//
-//                        //Get each winch and pin on the map
-//                        Winch winch = winchesList.get(i);
-//                        Geocoder coder = new Geocoder(getActivity());
-//                        List<Address> address = null;
-//                        GeoPoint p1 = null;
-//
-//                        try {
-//                            address = coder.getFromLocationName(winch.getWinchCurrentLocation().toString(), 5);
-//                            Address location = address.get(0);
-//                            location.getLatitude();
-//                            location.getLongitude();
-//
-//                            p1 = new GeoPoint((double) (location.getLatitude() * 1E6),
-//                                    (double) (location.getLongitude() * 1E6));
-//
-//                            // Put the winch on the map
-//                            LatLng latLng = new LatLng(p1.getLatitude(), p1.getLongitude());
-//                            googleMap.addMarker(new MarkerOptions().position(latLng)
-//                            .title(winch.getWinchName()));
-//                            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
+                    for(int i = 0 ; i <winchesList.size() ; i++){
+
+                        //Get each winch and pin on the map
+                        Winch winch = winchesList.get(i);
+                        Geocoder coder = new Geocoder(getActivity());
+                        List<Address> address;
+                        LatLng p1 = null;
+
+                        try {
+                            // May throw an IOException
+                            address = coder.getFromLocationName(winch.getWinchCurrentLocation(), 5);
+
+                            Address location = address.get(0);
+                            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+                            // Put the winch on the map
+                            LatLng latLng = new LatLng(p1.latitude, p1.longitude);
+                            Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
+                                    .title(winch.getWinchName())
+                                    .snippet("تكلفة الخدمة " + winch.getWinchCostPerKM() + " جنيه لكل كيلومتر")
+                                    .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
+                            //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                            float zoomLevel = 10.0f; //This goes up to 21
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+
+                        } catch (IOException ex) {
+
+                            ex.printStackTrace();
+                        }
 
 
-//                    LatLng latLng = new LatLng(1.289545, 103.849972);
-//                    googleMap.addMarker(new MarkerOptions().position(latLng)
-//                            .title("Singapore"));
-//                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    }
 
                     googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
