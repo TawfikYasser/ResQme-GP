@@ -15,13 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.Splash;
 import com.example.resqme.model.Winch;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +35,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class WinchFragment extends Fragment {
+public class WinchFragment extends Fragment implements View.OnClickListener{
 
 
 
@@ -68,6 +73,7 @@ public class WinchFragment extends Fragment {
     boolean isPermissionGranted = false;
     DatabaseReference winches;
     ArrayList<Winch> winchesList;
+    MaterialButton requestWinchBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,58 +83,13 @@ public class WinchFragment extends Fragment {
         checkLocationPermission();
         winches = FirebaseDatabase.getInstance().getReference().child("Winches");
         winchesList = new ArrayList<>();
+        requestWinchBtn = (MaterialButton) view.findViewById(R.id.requestWinchBTN);
+        requestWinchBtn.setOnClickListener((View.OnClickListener) this);
 
         if (mapFragment == null && isPermissionGranted) {
             mapFragment = SupportMapFragment.newInstance();
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(@NonNull GoogleMap googleMap) {
-
-                    for(int i = 0 ; i <winchesList.size() ; i++){
-
-                        //Get each winch and pin on the map
-                        Winch winch = winchesList.get(i);
-                        Geocoder coder = new Geocoder(getActivity());
-                        List<Address> address;
-                        LatLng p1 = null;
-
-                        try {
-                            // May throw an IOException
-                            address = coder.getFromLocationName(winch.getWinchCurrentLocation(), 5);
-
-                            Address location = address.get(0);
-                            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
-                            // Put the winch on the map
-                            LatLng latLng = new LatLng(p1.latitude, p1.longitude);
-                            Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
-                                    .title(winch.getWinchName())
-                                    .snippet("تكلفة الخدمة " + winch.getWinchCostPerKM() + " جنيه لكل كيلومتر")
-                                    .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
-                            //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                            float zoomLevel = 10.0f; //This goes up to 21
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-
-                        } catch (IOException ex) {
-
-                            ex.printStackTrace();
-                        }
-
-
-                    }
-
-                    googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(@NonNull LatLng latLng) {
-
-                        }
-                    });
-
-                }
-            });
             getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
         }
-
 
         winches.addValueEventListener(new ValueEventListener() {
             @Override
@@ -142,6 +103,8 @@ public class WinchFragment extends Fragment {
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
+
+
                             for(int i = 0 ; i <winchesList.size() ; i++){
 
                                 //Get each winch and pin on the map
@@ -185,6 +148,7 @@ public class WinchFragment extends Fragment {
 
             }
         });
+
 
 
         return view;
@@ -237,4 +201,14 @@ public class WinchFragment extends Fragment {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.requestWinchBTN:
+                if(winchesList.size() > 0){
+                    Toast.makeText(getContext(), "سوف نقوم بترشيح ونش لك.", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
 }
