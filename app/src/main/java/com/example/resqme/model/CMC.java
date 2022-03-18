@@ -1,9 +1,19 @@
 package com.example.resqme.model;
 
 public class CMC {
-    String cmcID, cmcName, cmcImage, cmcLocation, cmcBrand, cmcServiceProviderId, cmcStatus;
+    String cmcID;
+    String cmcName;
+    String cmcImage;
+    String cmcLocation;
+    String cmcBrand;
+    String cmcServiceProviderId;
+    String cmcStatus;
 
-    public CMC(String cmcID, String cmcName, String cmcImage, String cmcLocation, String cmcBrand, String cmcServiceProviderId, String cmcStatus) {
+
+
+    String cmcAvailablity;
+
+    public CMC(String cmcID, String cmcName, String cmcImage, String cmcLocation, String cmcBrand, String cmcServiceProviderId, String cmcStatus,String cmcAvailablity) {
         this.cmcID = cmcID;
         this.cmcName = cmcName;
         this.cmcImage = cmcImage;
@@ -11,10 +21,17 @@ public class CMC {
         this.cmcBrand = cmcBrand;
         this.cmcServiceProviderId = cmcServiceProviderId;
         this.cmcStatus = cmcStatus;
+        this.cmcAvailablity = cmcAvailablity;
     }
     public CMC() {
     }
+    public String getCmcAvailablity() {
+        return cmcAvailablity;
+    }
 
+    public void setCmcAvailablity(String cmcAvailablity) {
+        this.cmcAvailablity = cmcAvailablity;
+    }
     public String getCmcID() {
         return cmcID;
     }
