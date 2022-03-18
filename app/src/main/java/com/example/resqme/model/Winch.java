@@ -2,57 +2,100 @@ package com.example.resqme.model;
 
 public class Winch {
 
-    String drivingLicense,carLicense,Location,Status,CostPerKM,id, winchPlate,Availability,SP_ID;
+    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLocation, driverLicence, winchLicence, winchOwnerID;
 
-    public Winch(String drivingLicense, String carLicense, String location, String status, String costPerKM, String id, String winchPlate, String availability, String SP_ID) {
-        this.drivingLicense = drivingLicense;
-        this.carLicense = carLicense;
-        Location = location;
-        Status = status;
-        CostPerKM = costPerKM;
-        this.id = id;
-        this.winchPlate = winchPlate;
-        Availability = availability;
-        this.SP_ID = SP_ID;
+    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLocation, String driverLicence, String winchLicence, String winchOwnerID) {
+        this.winchID = winchID;
+        this.winchName = winchName;
+        this.winchCostPerKM = winchCostPerKM;
+        this.winchStatus = winchStatus;
+        this.winchAvailability = winchAvailability;
+        this.winchAddress = winchAddress;
+        this.winchCurrentLocation = winchCurrentLocation;
+        this.driverLicence = driverLicence;
+        this.winchLicence = winchLicence;
+        this.winchOwnerID = winchOwnerID;
     }
 
-    public String getDrivingLicense() {
-        return drivingLicense;
+    public Winch(){}
+
+    public String getWinchID() {
+        return winchID;
     }
 
-    public String getCarLicense() {
-        return carLicense;
+    public void setWinchID(String winchID) {
+        this.winchID = winchID;
     }
 
-    public String getLocation() {
-        return Location;
+    public String getWinchName() {
+        return winchName;
     }
 
-    public String getStatus() {
-        return Status;
+    public void setWinchName(String winchName) {
+        this.winchName = winchName;
     }
 
-    public String getSP_ID() {
-        return SP_ID;
+    public String getWinchCostPerKM() {
+        return winchCostPerKM;
     }
 
-    public void setSP_ID(String SP_ID) {
-        this.SP_ID = SP_ID;
+    public void setWinchCostPerKM(String winchCostPerKM) {
+        this.winchCostPerKM = winchCostPerKM;
     }
 
-    public String getCostPerKM() {
-        return CostPerKM;
+    public String getWinchStatus() {
+        return winchStatus;
     }
 
-    public String getId() {
-        return id;
+    public void setWinchStatus(String winchStatus) {
+        this.winchStatus = winchStatus;
     }
 
-    public String getWinchPlate() {
-        return winchPlate;
+    public String getWinchAvailability() {
+        return winchAvailability;
     }
 
-    public String getAvailability() {
-        return Availability;
+    public void setWinchAvailability(String winchAvailability) {
+        this.winchAvailability = winchAvailability;
+    }
+
+    public String getWinchAddress() {
+        return winchAddress;
+    }
+
+    public void setWinchAddress(String winchAddress) {
+        this.winchAddress = winchAddress;
+    }
+
+    public String getWinchCurrentLocation() {
+        return winchCurrentLocation;
+    }
+
+    public void setWinchCurrentLocation(String winchCurrentLocation) {
+        this.winchCurrentLocation = winchCurrentLocation;
+    }
+
+    public String getDriverLicence() {
+        return driverLicence;
+    }
+
+    public void setDriverLicence(String driverLicence) {
+        this.driverLicence = driverLicence;
+    }
+
+    public String getWinchLicence() {
+        return winchLicence;
+    }
+
+    public void setWinchLicence(String winchLicence) {
+        this.winchLicence = winchLicence;
+    }
+
+    public String getWinchOwnerID() {
+        return winchOwnerID;
+    }
+
+    public void setWinchOwnerID(String winchOwnerID) {
+        this.winchOwnerID = winchOwnerID;
     }
 }

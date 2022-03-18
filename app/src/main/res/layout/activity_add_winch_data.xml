@@ -1,70 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".serviceProvider.AddWinchData">
 
-
-
-    <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_AddWinch"
+            android:layout_width="match_parent"
+            android:tooltipText="رجوع"
+            android:layout_height="?attr/actionBarSize"
+            app:title="اضافة بيانات الونش"
+            app:titleTextAppearance="@font/fontlight"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <LinearLayout
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <com.google.android.material.appbar.AppBarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/toolbar_AddWinch"
-                        android:layout_width="match_parent"
-                        android:tooltipText="رجوع"
-                        android:layout_height="?attr/actionBarSize"
-                        app:title="اضاقه بيانات الونش"
-                        app:titleTextAppearance="@font/fontlight"
-                        style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
-                </com.google.android.material.appbar.AppBarLayout>
-
-
-                <LinearLayout
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:background="@color/color_gray"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:inputType="text"
-                        android:drawablePadding="15dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/namewinch"
-                        android:hint="اسم الونش"/>
-                </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_marginLeft="24dp"
@@ -75,112 +39,89 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
+                        android:inputType="text"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/winchname_et"
+                        android:hint="اسم الونش"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
                         android:inputType="number"
                         android:drawablePadding="15dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/platenumberwinch"
-                        android:hint="رخصة الونش الونش"/>
+                        android:id="@+id/costperkm_et"
+                        android:hint="التكلفة بالـKM"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <LinearLayout
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/chooseimagewinch"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                         />
 
-                    <Button
-                        android:layout_marginLeft="100dp"
-                        android:id="@+id/chooseimagewinch_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/fontlight"
-                        android:text=" اضف صورةالونش        "
-                        style="?attr/materialButtonOutlinedStyle"
-                        app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/chooseimagelisencedirverwinch"
-                        android:layout_width="97dp"
-                        android:layout_height="70dp"
-                        />
-
-                    <Button
-                        android:layout_marginLeft="100dp"
-                        android:id="@+id/chooseimagelisencedirverwinch_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/fontlight"
-                        android:text="اضف صوره رخصه السائق"
-                        style="?attr/materialButtonOutlinedStyle"
-                        app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/chooseimagelisencewinch"
-                        android:layout_width="97dp"
-                        android:layout_height="70dp"
-                        />
-
-                    <Button
-                        android:layout_marginLeft="100dp"
-                        android:id="@+id/chooseimagelisencewinch_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/fontlight"
-                        android:text="اضف صوره رخصه الونش"
-                        style="?attr/materialButtonOutlinedStyle"
-                        app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
-                </LinearLayout>
-                <LinearLayout
+                <com.google.android.material.button.MaterialButton
+                    android:layout_margin="24dp"
+                    android:id="@+id/choose_winch_address_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/ic_baseline_location_on_24"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <Button
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:id="@+id/choose_address_button_for_winch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/fontlight"
-                        android:text="ادخل مكان تواجد الونش"
-                        style="?attr/materialButtonOutlinedStyle"
-                        app:icon="@drawable/ic_baseline_location_on_24"/>
-
-
-
-
-                </LinearLayout>
-                <Button
-                    android:id="@+id/addwinch"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginTop="100dp"
-                    android:text="اضف الونش"
+                    android:text="العنوان الدائم للونش"
+                    android:layout_height="60dp"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_winch_address"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="12dp"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_margin="24dp"
+                    android:id="@+id/choose_driver_licence_image_for_winch_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/ic_baseline_add_photo_alternate_24"
+                    android:layout_width="wrap_content"
+                    android:text="اختار صورة رخصة القياة"
+                    android:layout_height="60dp"/>
 
+                <ImageView
+                    android:layout_margin="24dp"
+                    android:id="@+id/driver_licence_image_add_winch_data"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/driverlisenceimage"
+                    android:layout_height="200dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_margin="24dp"
+                    android:id="@+id/choose_winch_licence_image_for_winch_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/ic_baseline_add_photo_alternate_24"
+                    android:layout_width="wrap_content"
+                    android:text="اختار صورة رخصة الونش"
+                    android:layout_height="60dp"/>
+
+                <ImageView
+                    android:layout_margin="24dp"
+                    android:id="@+id/winch_licence_image_add_winch_data"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/driverlisenceimage"
+                    android:layout_height="200dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_margin="24dp"
+                    android:id="@+id/submit_winch_data_btn"
+                    android:layout_width="wrap_content"
+                    android:text="حفظ وارسال"
+                    android:layout_height="60dp"/>
+
+            </LinearLayout>
         </ScrollView>
 
-    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

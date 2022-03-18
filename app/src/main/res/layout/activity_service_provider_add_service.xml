@@ -11,30 +11,25 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/Towing_Car_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="اضافه ونش"/>
-
-            <Button
-                android:id="@+id/CMC_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="اضافه مركز خدمه"
-                />
-            <Button
-                android:id="@+id/Spare_Parts_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="مزود قطع غيار"
-                />
+                <Button
+                    android:id="@+id/Towing_Car_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="اضافه ونش"/>
+                <Button
+                    android:id="@+id/CMC_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="اضافه مركز خدمه" />
+                <Button
+                    android:id="@+id/Spare_Parts_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="مزود قطع غيار" />
             </LinearLayout>
-
 </ScrollView>
