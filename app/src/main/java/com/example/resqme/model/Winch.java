@@ -2,9 +2,9 @@ package com.example.resqme.model;
 
 public class Winch {
 
-    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLocation, driverLicence, winchLicence, winchOwnerID;
+    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLocation, driverLicence, winchLicence, winchOwnerID, winchCurrentLat, winchCurrentLong, winchAddressLat, winchAddressLong;
 
-    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLocation, String driverLicence, String winchLicence, String winchOwnerID) {
+    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLocation, String driverLicence, String winchLicence, String winchOwnerID, String winchCurrentLat, String winchCurrentLong, String winchAddressLat, String winchAddressLong) {
         this.winchID = winchID;
         this.winchName = winchName;
         this.winchCostPerKM = winchCostPerKM;
@@ -15,6 +15,10 @@ public class Winch {
         this.driverLicence = driverLicence;
         this.winchLicence = winchLicence;
         this.winchOwnerID = winchOwnerID;
+        this.winchCurrentLat = winchCurrentLat;
+        this.winchCurrentLong = winchCurrentLong;
+        this.winchAddressLat = winchAddressLat;
+        this.winchAddressLong = winchAddressLong;
     }
 
     public Winch(){}
@@ -97,5 +101,37 @@ public class Winch {
 
     public void setWinchOwnerID(String winchOwnerID) {
         this.winchOwnerID = winchOwnerID;
+    }
+
+    public String getWinchCurrentLat() {
+        return winchCurrentLat;
+    }
+
+    public void setWinchCurrentLat(String winchCurrentLat) {
+        this.winchCurrentLat = winchCurrentLat;
+    }
+
+    public String getWinchCurrentLong() {
+        return winchCurrentLong;
+    }
+
+    public void setWinchCurrentLong(String winchCurrentLong) {
+        this.winchCurrentLong = winchCurrentLong;
+    }
+
+    public String getWinchAddressLat() {
+        return winchAddressLat;
+    }
+
+    public void setWinchAddressLat(String winchAddressLat) {
+        this.winchAddressLat = winchAddressLat;
+    }
+
+    public String getWinchAddressLong() {
+        return winchAddressLong;
+    }
+
+    public void setWinchAddressLong(String winchAddressLong) {
+        this.winchAddressLong = winchAddressLong;
     }
 }

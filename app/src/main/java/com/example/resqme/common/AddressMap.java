@@ -95,6 +95,8 @@ public class AddressMap extends AppCompatActivity implements OnMapReadyCallback{
                         Toast.makeText(AddressMap.this, address, Toast.LENGTH_LONG).show();
                         Intent addressValue = new Intent();
                         addressValue.putExtra("ADDRESS_VALUE", address);
+                        addressValue.putExtra("ADDRESS_LAT", point.latitude);
+                        addressValue.putExtra("ADDRESS_LONG", point.longitude);
                         setResult(RESULT_OK, addressValue);
                         finish();
                     }

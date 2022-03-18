@@ -63,6 +63,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     StorageReference storageWinchImages;
     Uri driverLicenceUri = null;
     Uri winchLicenceUri = null;
+    String lat = "", lng = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +181,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                         String sp_userid = serviceProviderLocale.getString("SP_USERID","SP_DEFAULT");
                                         Winch winch = new Winch(winchID, winchNameET.getText().toString().trim(),
                                                 winchCostPerKMET.getText().toString().trim(), "Pending", "Available", winchAddressTV.getText().toString().trim()
-                                        , winchAddressTV.getText().toString().trim(),  uri.toString(), uri2.toString(), sp_userid);
+                                        , winchAddressTV.getText().toString().trim(),  uri.toString(), uri2.toString(), sp_userid, lat, lng, lat, lng);
 
                                         winchesDB.child(winchID).setValue(winch);
                                         progressDialog.dismiss();
@@ -228,6 +229,8 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         }else if(requestCode == 3){
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("ADDRESS_VALUE");
+                lat = data.getStringExtra("ADDRESS_LAT");
+                lng = data.getStringExtra("ADDRESS_LONG");
                 winchAddressTV.setVisibility(View.VISIBLE);
                 winchAddressTV.setText(result);
             }
