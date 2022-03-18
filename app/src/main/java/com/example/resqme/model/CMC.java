@@ -5,24 +5,26 @@ public class CMC {
     String cmcName;
     String cmcImage;
     String cmcLocation;
-    String cmcBrand;
+    String CarMfgCountry;
     String cmcServiceProviderId;
     String cmcStatus;
+    String cmcAvailablity,cmcMobileNumber;
+    float rate = 0;
 
 
-
-    String cmcAvailablity;
-
-    public CMC(String cmcID, String cmcName, String cmcImage, String cmcLocation, String cmcBrand, String cmcServiceProviderId, String cmcStatus,String cmcAvailablity) {
+    public CMC(String cmcID, String cmcName, String cmcImage, String cmcLocation, String carMfgCountry, String cmcServiceProviderId, String cmcStatus, String cmcAvailablity, String cmcMobileNumber, float rate) {
         this.cmcID = cmcID;
         this.cmcName = cmcName;
         this.cmcImage = cmcImage;
         this.cmcLocation = cmcLocation;
-        this.cmcBrand = cmcBrand;
+        CarMfgCountry = carMfgCountry;
         this.cmcServiceProviderId = cmcServiceProviderId;
         this.cmcStatus = cmcStatus;
         this.cmcAvailablity = cmcAvailablity;
+        this.cmcMobileNumber = cmcMobileNumber;
+        this.rate = rate;
     }
+
     public CMC() {
     }
     public String getCmcAvailablity() {
@@ -64,12 +66,12 @@ public class CMC {
         this.cmcLocation = cmcLocation;
     }
 
-    public String getCmcBrand() {
-        return cmcBrand;
+    public String getCarMfgCountry() {
+        return CarMfgCountry;
     }
 
-    public void setCmcBrand(String cmcBrand) {
-        this.cmcBrand = cmcBrand;
+    public void setCarMfgCountry(String cmcBrand) {
+        this.CarMfgCountry = CarMfgCountry;
     }
 
     public String getCmcServiceProviderId() {
@@ -86,5 +88,21 @@ public class CMC {
 
     public void setCmcStatus(String cmcStatus) {
         this.cmcStatus = cmcStatus;
+    }
+
+    public String getcmcMobileNumber() {
+        return cmcMobileNumber;
+    }
+
+    public void setcmcMobileNumber(String cmcMobileNumber) {
+        this.cmcMobileNumber = cmcMobileNumber;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 }

@@ -39,7 +39,7 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
         Glide.with(context).load(cmc.getCmcImage()).into(holder.cmcImage);
         holder.cmcName.setText(cmc.getCmcName());
         holder.cmcLocation.setText(cmc.getCmcLocation());
-        holder.cmcBrand.setText(cmc.getCmcBrand());
+        holder.cmcBrand.setText(cmc.getCarMfgCountry());
     }
 
     @Override

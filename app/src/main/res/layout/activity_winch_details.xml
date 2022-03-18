@@ -52,18 +52,18 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="اسم المركز"
+                    android:text="اسم الونش"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/cmcname_text"
+                    android:id="@+id/winchname_text"
                     android:textColor="@color/black"
                     android:layout_gravity="right"
                     android:fontFamily="@font/resqmefont"
                     android:textStyle="bold"
                     android:layout_marginRight="24dp"
                     android:layout_marginTop="12dp"
-                    android:text="اسم المركز"
+                    android:text="اسم الونش"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

@@ -21,6 +21,17 @@
         <item>Skoda</item>
         <item>Fiat</item>
     </string-array>
+    <string-array name="carmanufacturingcountry">
+        <item>كوري</item>
+        <item>ياباني</item>
+        <item>أمريكي</item>
+        <item>صيني</item>
+        <item>تايواني</item>
+        <item>ألماني</item>
+        <item>فرنسي</item>
+        <item>هندي</item>
+        <item>إيطالي</item>
+    </string-array>
 
     <string-array name="carmodelyears">
         <item>2000</item>

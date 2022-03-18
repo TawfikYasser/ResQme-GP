@@ -20,6 +20,7 @@ import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.Car;
 import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
+import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -152,11 +153,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
         if(userDataSP.contains("SP_EMAIL")){
             String sp_email = userDataSP.getString("SP_EMAIL","SP_DEFAULT");
+            String serviceType = userDataSP.getString("SP_ServiceType","SP_DEFAULT");
             if(loginEmail.equals(sp_email)){
-                Intent i = new Intent(Login.this, ServiceProviderHome.class);
-                progressDialog.dismiss();
-                startActivity(i);
-                finish();
+                if(serviceType.isEmpty()){
+                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
+                    progressDialog.dismiss();
+                    startActivity(i);
+                    finish();
+                }
+                else{
+                    Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                    progressDialog.dismiss();
+                    startActivity(i);
+                    finish();
+                }
             }else{
                 found =  false;
             }

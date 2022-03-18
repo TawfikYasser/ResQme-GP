@@ -382,6 +382,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         editor.putString("SP_USERGENDER", userGender);
         editor.putString("SP_USERRATE", userRate);
         editor.putString("SP_USERID", userID);
+        editor.putString("SP_ServiceType", "");
         editor.apply();
 
     }

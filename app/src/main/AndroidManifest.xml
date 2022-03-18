@@ -19,7 +19,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ResQme" >
+        android:theme="@style/Theme.ResQme">
+        <activity
+            android:name=".customer.WinchDetails"
+            android:exported="false" />
         <activity
             android:name=".common.ContactUs"
             android:exported="false" />
@@ -54,13 +57,10 @@
         <activity
             android:name=".common.Login"
             android:exported="false" />
-
         <activity
             android:name=".serviceProvider.AddWinchData"
             android:exported="false"
-            android:parentActivityName=".serviceProvider.ServiceProviderAddService"
-            />
-
+            android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
             android:name=".serviceProvider.ServiceProviderHome"
             android:exported="false" />
@@ -76,18 +76,14 @@
         <activity
             android:name=".serviceProvider.AddSpareParts"
             android:exported="false"
-            android:parentActivityName=".serviceProvider.ServiceProviderAddService"/>
-
-
-
+            android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
             android:name=".serviceProvider.AddCmc"
             android:exported="false"
-            android:parentActivityName=".serviceProvider.ServiceProviderAddService"/>
-
+            android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
             android:name=".common.Splash"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

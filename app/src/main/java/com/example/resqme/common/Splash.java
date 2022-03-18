@@ -68,14 +68,22 @@ public class Splash extends AppCompatActivity {
         }
         if(userDataSP.contains("SP_EMAIL")){
             String sp_email = userDataSP.getString("SP_EMAIL","SP_DEFAULT");
+            String serviceType = userDataSP.getString("SP_ServiceType","SP_DEFAULT");
             if(currentUser.getEmail().equals(sp_email)){
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
-                        Intent i = new Intent(Splash.this, ServiceProviderAddService.class);
-                        startActivity(i);
-                        finish();
+                        if(serviceType.isEmpty()){
+                            Intent i = new Intent(Splash.this, ServiceProviderAddService.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else{
+                            Intent i = new Intent(Splash.this, ServiceProviderHome.class);
+                            startActivity(i);
+                            finish();
+                        }
                     }
                 }, 1000);
             }
