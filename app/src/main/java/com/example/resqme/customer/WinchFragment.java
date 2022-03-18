@@ -149,7 +149,15 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-
+//        final Handler handler = new Handler();
+//        final int delay = 5000;
+//
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show(); // Do your work here
+//                handler.postDelayed(this, delay);
+//            }
+//        }, delay);
 
         return view;
     }
