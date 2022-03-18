@@ -57,15 +57,15 @@ public class WinchFragment extends Fragment {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(@NonNull GoogleMap googleMap) {
-                    LatLng latLng = new LatLng(1.289545, 103.849972);
-                    googleMap.addMarker(new MarkerOptions().position(latLng)
-                            .title("Singapore"));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+//                    LatLng latLng = new LatLng(1.289545, 103.849972);
+//                    googleMap.addMarker(new MarkerOptions().position(latLng)
+//                            .title("Singapore"));
+//                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                     googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(@NonNull LatLng latLng) {
-                            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+
                         }
                     });
 

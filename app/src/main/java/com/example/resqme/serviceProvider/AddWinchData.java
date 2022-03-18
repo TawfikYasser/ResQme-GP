@@ -61,10 +61,8 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     ProgressDialog progressDialog;
     TextView winchAddressTV;
     StorageReference storageWinchImages;
-
     Uri driverLicenceUri = null;
     Uri winchLicenceUri = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +96,6 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
-
-
     private void initViews() {
         chooseWinchAddressBtn = findViewById(R.id.choose_winch_address_btn);
         chooseWinchAddressBtn.setOnClickListener(this);
@@ -109,12 +105,9 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         chooseWinchLicenceImageBtn.setOnClickListener(this);
         submitWinchDataBtn = findViewById(R.id.submit_winch_data_btn);
         submitWinchDataBtn.setOnClickListener(this);
-
         winchNameET = findViewById(R.id.winchname_et);
         winchCostPerKMET = findViewById(R.id.costperkm_et);
-
         winchAddressTV = findViewById(R.id.tv_winch_address);
-
         driverLicenceImage = findViewById(R.id.driver_licence_image_add_winch_data);
         winchLicenceImage = findViewById(R.id.winch_licence_image_add_winch_data);
         progressDialog = new ProgressDialog(this);
@@ -150,12 +143,10 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                             progressDialog.setMessage("يرجى الإنتظار قليلاً جاري إرسال البيانات!");
                             progressDialog.show();
                             uploadWinchData();
-
                         }
                     })
                     .setNegativeButton("لا", null)
                     .show();
-
         }else{
             Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(getResources().getColor(R.color.red_color))

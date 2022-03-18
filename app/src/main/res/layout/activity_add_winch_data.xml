@@ -61,7 +61,6 @@
                         android:hint="التكلفة بالـKM"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                 <com.google.android.material.button.MaterialButton
                     android:layout_margin="24dp"
                     android:id="@+id/choose_winch_address_btn"
