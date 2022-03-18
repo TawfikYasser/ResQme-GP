@@ -37,7 +37,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_add_spareparts_data);
         context = this.getApplicationContext();
-        ServicesTable = FirebaseDatabase.getInstance().getReference().child("Services");
+        ServicesTable = FirebaseDatabase.getInstance().getReference().child("SparePartsProvider");
         initToolbar();
         initViews();
     }
@@ -94,15 +94,13 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
     private void AddSparePart() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String ServiceID = database.getReference("Services").push().getKey();// create new id
+        String ServiceID = database.getReference("SparePartsProvider").push().getKey();// create new id
         SharedPreferences SP_services = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
         String sp_userid = SP_services.getString("SP_USERID","SP_DEFAULT");
         SparePart spPart = new SparePart(ServiceID,sparepartname.getText().toString(),"123",Pricesparepart.getText().toString(),SparePartStatus.getText().toString(),"Available",sp_userid,Cartype);
-        ServicesTable.child("SparePart").setValue(spPart);//Entering Service in database
+        ServicesTable.child(ServiceID).setValue(spPart);//Entering Service in database
         Toast.makeText(this,"تم تسجيل القطعه بنجاح",Toast.LENGTH_LONG).show();
         finish();
-
-//      SparePart(String itemID, String itemName, String itemImage, String itemPrice, String itemNewOrUsed, String itemStatus, String itemServiceProviderId, String itemCarType)
     }
 
     private void gettingImageFromGallery() {

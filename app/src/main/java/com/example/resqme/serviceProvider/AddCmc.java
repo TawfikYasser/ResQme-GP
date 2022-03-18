@@ -38,7 +38,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_cmc);
         context = this.getApplicationContext();
-        ServicesTable = FirebaseDatabase.getInstance().getReference().child("Services");
+        ServicesTable = FirebaseDatabase.getInstance().getReference().child("CMC's");
         initToolbar();
         initViews();
     }
@@ -98,11 +98,11 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
 
     private void AddCMC() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String ServiceID = database.getReference("Services").push().getKey();// create new id
+        String ServiceID = database.getReference("CMC's").push().getKey();// create new id
         SharedPreferences SP_services = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
         String sp_userid = SP_services.getString("SP_USERID","SP_DEFAULT");
         CMC cmc = new CMC(ServiceID,cmcname.getText().toString(),"123","ddsfs",Cartype,sp_userid,"Available");
-        ServicesTable.child("CMC").setValue(cmc);//Entering Service in database
+        ServicesTable.child(ServiceID).setValue(cmc);//Entering Service in database
         Toast.makeText(this,"تم تسجيل مركز الخدمه بنجاح",Toast.LENGTH_LONG).show();
         finish();
     }

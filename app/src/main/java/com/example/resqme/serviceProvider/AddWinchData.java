@@ -34,7 +34,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_winch_data);
-        ServicesTable = FirebaseDatabase.getInstance().getReference().child("Services");
+        ServicesTable = FirebaseDatabase.getInstance().getReference().child("Winches");
         context = this.getApplicationContext();
         initToolbar();
         initViews();
@@ -87,18 +87,13 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
 //    Add Winch Data to service Table
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String ServiceID = database.getReference("Services").push().getKey();// create new id
+        String ServiceID = database.getReference("Winches").push().getKey();// create new id
         SharedPreferences SP_services = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
         String sp_userid = SP_services.getString("SP_USERID","SP_DEFAULT");
         Winch winch = new Winch( "1","0", "3", "Available","x",ServiceID,  platenumberwinch.getText().toString(),  "Available",sp_userid);
-        ServicesTable.child("Winch").setValue(winch);//Entering Service in database
+        ServicesTable.child(ServiceID).setValue(winch);//Entering Service in database
         Toast.makeText(this,"تم تسجيل الونش بنجاح",Toast.LENGTH_LONG).show();
         finish();
-
-
-
-
-
     }
 
 
