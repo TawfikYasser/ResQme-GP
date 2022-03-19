@@ -68,7 +68,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_cmc);
         context = this.getApplicationContext();
-        ServicesTable = FirebaseDatabase.getInstance().getReference().child("CMC");
+        ServicesTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
         initToolbar();
         initViews();
     }
@@ -168,10 +168,8 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
                         String ServiceID = database.getReference("CMC").push().getKey();// create new id
                         SharedPreferences SP_services = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
                         String sp_userid = SP_services.getString("SP_USERID","SP_DEFAULT");
-                        CMC cmc = new CMC(ServiceID,cmcname.getText().toString(),uri.toString()
-                                ,cmcAddressTV.getText().toString().trim()
-                                ,CarMfgCountry,sp_userid,"Pending","Available"
-                                ,cmcmobilenumber.getText().toString(),0);
+                        CMC cmc = new CMC(ServiceID, cmcname.getText().toString().trim(), uri.toString(),
+                                cmcAddressTV.getText().toString().trim(), CarMfgCountry, sp_userid, "Pending", "Available");
                         ServicesTable.child(ServiceID).setValue(cmc);//Entering Service in database
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
@@ -179,16 +177,12 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
                         editor.apply();
 
                         progressDialog.dismiss();
-                        Intent i = new Intent(AddCmc.this, ServiceProviderHome.class);
-                        startActivity(i);
                         finish();
 
                     }
                 });
             }
         });
-//        Toast.makeText(this,"تم تسجيل مركز الخدمه بنجاح",Toast.LENGTH_LONG).show();
-//        finish();
 
     }
 

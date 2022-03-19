@@ -1,39 +1,22 @@
 package com.example.resqme.model;
 
 public class CMC {
-    String cmcID;
-    String cmcName;
-    String cmcImage;
-    String cmcLocation;
-    String CarMfgCountry;
-    String cmcServiceProviderId;
-    String cmcStatus;
-    String cmcAvailablity,cmcMobileNumber;
-    float rate = 0;
+    String cmcID, cmcName, cmcImage, cmcLocation, cmcBrand, cmcServiceProviderId, cmcStatus, cmcAvailability;
 
-
-    public CMC(String cmcID, String cmcName, String cmcImage, String cmcLocation, String carMfgCountry, String cmcServiceProviderId, String cmcStatus, String cmcAvailablity, String cmcMobileNumber, float rate) {
+    public CMC(String cmcID, String cmcName, String cmcImage, String cmcLocation, String cmcBrand, String cmcServiceProviderId, String cmcStatus, String cmcAvailability) {
         this.cmcID = cmcID;
         this.cmcName = cmcName;
         this.cmcImage = cmcImage;
         this.cmcLocation = cmcLocation;
-        CarMfgCountry = carMfgCountry;
+        this.cmcBrand = cmcBrand;
         this.cmcServiceProviderId = cmcServiceProviderId;
         this.cmcStatus = cmcStatus;
-        this.cmcAvailablity = cmcAvailablity;
-        this.cmcMobileNumber = cmcMobileNumber;
-        this.rate = rate;
+        this.cmcAvailability = cmcAvailability;
     }
 
     public CMC() {
     }
-    public String getCmcAvailablity() {
-        return cmcAvailablity;
-    }
 
-    public void setCmcAvailablity(String cmcAvailablity) {
-        this.cmcAvailablity = cmcAvailablity;
-    }
     public String getCmcID() {
         return cmcID;
     }
@@ -66,12 +49,12 @@ public class CMC {
         this.cmcLocation = cmcLocation;
     }
 
-    public String getCarMfgCountry() {
-        return CarMfgCountry;
+    public String getCmcBrand() {
+        return cmcBrand;
     }
 
-    public void setCarMfgCountry(String cmcBrand) {
-        this.CarMfgCountry = CarMfgCountry;
+    public void setCmcBrand(String cmcBrand) {
+        this.cmcBrand = cmcBrand;
     }
 
     public String getCmcServiceProviderId() {
@@ -90,19 +73,11 @@ public class CMC {
         this.cmcStatus = cmcStatus;
     }
 
-    public String getcmcMobileNumber() {
-        return cmcMobileNumber;
+    public String getCmcAvailability() {
+        return cmcAvailability;
     }
 
-    public void setcmcMobileNumber(String cmcMobileNumber) {
-        this.cmcMobileNumber = cmcMobileNumber;
-    }
-
-    public float getRate() {
-        return rate;
-    }
-
-    public void setRate(float rate) {
-        this.rate = rate;
+    public void setCmcAvailability(String cmcAvailability) {
+        this.cmcAvailability = cmcAvailability;
     }
 }
