@@ -68,7 +68,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_winch_data);
         winchesDB = FirebaseDatabase.getInstance().getReference().child("Winches");
-        storageWinchImages= FirebaseStorage.getInstance().getReference();
+        storageWinchImages= FirebaseStorage.getInstance().getReference().child("ServiceImages");
         context = this.getApplicationContext();
         initViews();
         initToolbar();

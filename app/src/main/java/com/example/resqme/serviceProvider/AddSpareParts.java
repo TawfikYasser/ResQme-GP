@@ -20,6 +20,8 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +33,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
     String  Cartype="";
     Context context;
     DatabaseReference ServicesTable;
+    StorageReference sparePartsImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.acitivity_add_spareparts_data);
         context = this.getApplicationContext();
         ServicesTable = FirebaseDatabase.getInstance().getReference().child("SparePartsProvider");
+        sparePartsImages = FirebaseStorage.getInstance().getReference().child("ServiceImages");
         initToolbar();
         initViews();
     }

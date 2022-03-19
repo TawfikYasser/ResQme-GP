@@ -157,7 +157,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        StorageReference filepath_CMCImage = FirebaseStorage.getInstance().getReference().child("UserImages").child(cmcImageURI.getLastPathSegment());
+        StorageReference filepath_CMCImage = FirebaseStorage.getInstance().getReference().child("ServiceImages").child(cmcImageURI.getLastPathSegment());
 
         filepath_CMCImage.putFile(cmcImageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
