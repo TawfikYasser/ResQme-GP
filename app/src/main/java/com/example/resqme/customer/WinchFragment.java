@@ -1,8 +1,11 @@
 package com.example.resqme.customer;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -20,7 +23,9 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
@@ -35,6 +40,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.database.DataSnapshot;
@@ -74,6 +81,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
     DatabaseReference winches;
     ArrayList<Winch> winchesList;
     MaterialButton requestWinchBtn;
+    BottomSheetDialog winchBottomDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +93,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
         winchesList = new ArrayList<>();
         requestWinchBtn = (MaterialButton) view.findViewById(R.id.requestWinchBTN);
         requestWinchBtn.setOnClickListener((View.OnClickListener) this);
+        winchBottomDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+
+
 
         if (mapFragment == null && isPermissionGranted) {
             mapFragment = SupportMapFragment.newInstance();
@@ -124,7 +135,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
                                     LatLng latLng = new LatLng(p1.latitude, p1.longitude);
                                     Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
                                             .title(winch.getWinchName())
-                                            .snippet("تكلفة الخدمة " + winch.getWinchCostPerKM() + " جنيه لكل كيلومتر")
+                                            .snippet(winch.getWinchCurrentLocation())
                                     .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
                                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                     float zoomLevel = 10.0f; //This goes up to 21
@@ -213,8 +224,50 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.requestWinchBTN:
+                // Customer must have car and there are available winches on the map
+                SharedPreferences cld = getContext().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                String customerCarID = cld.getString("C_CARID", "C_DEFAULT"); // Car must be approved also
+
                 if(winchesList.size() > 0){
-                    Toast.makeText(getContext(), "سوف نقوم بترشيح ونش لك.", Toast.LENGTH_SHORT).show();
+//
+//                    if(customerCarID.equals("0")){
+//
+//                    }else{
+//
+//                    }
+
+                    View winchSheetView = LayoutInflater.from(getContext()).inflate(R.layout.winch_bottom_layout,
+                            (LinearLayout) view.findViewById(R.id.bottom_sheet_winch_linear_layout));
+
+                    TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
+                    TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
+
+                    // Recommending the winch equation:
+
+
+
+
+
+                    winchNameInBottomSheet.setText(winchesList.get(0).getWinchName());
+                    winchServiceCostInBottomSheet.setText("تكلفة الخدمة " + winchesList.get(0).getWinchCostPerKM() + " جنيه لكل كيلومتر");
+
+                            winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("طلب ونش")
+                                            .setMessage("هل أنت متأكد من طلبك؟")
+                                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(getContext(), "سيتم ....", Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .setNegativeButton("لا", null)
+                                            .show();
+                                }
+                            });
+                    winchBottomDialog.setContentView(winchSheetView);
+                    winchBottomDialog.show();
                 }
                 break;
         }

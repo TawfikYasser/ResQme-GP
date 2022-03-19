@@ -2,9 +2,9 @@ package com.example.resqme.model;
 
 public class Winch {
 
-    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLocation, driverLicence, winchLicence, winchOwnerID;
+    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLocation, driverLicence, winchLicence, winchOwnerID, winchOwnerRate;
 
-    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLocation, String driverLicence, String winchLicence, String winchOwnerID) {
+    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLocation, String driverLicence, String winchLicence, String winchOwnerID, String winchOwnerRate) {
         this.winchID = winchID;
         this.winchName = winchName;
         this.winchCostPerKM = winchCostPerKM;
@@ -15,6 +15,7 @@ public class Winch {
         this.driverLicence = driverLicence;
         this.winchLicence = winchLicence;
         this.winchOwnerID = winchOwnerID;
+        this.winchOwnerRate = winchOwnerRate;
     }
 
     public Winch(){}
@@ -99,4 +100,11 @@ public class Winch {
         this.winchOwnerID = winchOwnerID;
     }
 
+    public String getWinchOwnerRate() {
+        return winchOwnerRate;
+    }
+
+    public void setWinchOwnerRate(String winchOwnerRate) {
+        this.winchOwnerRate = winchOwnerRate;
+    }
 }

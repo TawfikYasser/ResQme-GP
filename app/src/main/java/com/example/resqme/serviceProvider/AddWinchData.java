@@ -134,19 +134,23 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     private void submitWinchData() {
         if(!TextUtils.isEmpty(winchNameET.getText().toString()) && !TextUtils.isEmpty(winchCostPerKMET.getText().toString())
         && !TextUtils.isEmpty(winchAddressTV.getText()) && winchLicenceUri != null && driverLicenceUri != null){
+            if(Integer.parseInt( winchCostPerKMET.getText().toString() ) >= 5 && Integer.parseInt( winchCostPerKMET.getText().toString() ) <= 30  ){
+                new AlertDialog.Builder(this)
+                        .setTitle("تأكيد إدخال البيانات")
+                        .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
+                        .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.setMessage("يرجى الإنتظار قليلاً جاري إرسال البيانات!");
+                                progressDialog.show();
+                                uploadWinchData();
+                            }
+                        })
+                        .setNegativeButton("لا", null)
+                        .show();
+            }else{
+                Toast.makeText(context, "سعر الكيلو لازم يكون بين 5 جنيه أو 30 جنيه.", Toast.LENGTH_SHORT).show();
+            }
 
-            new AlertDialog.Builder(this)
-                    .setTitle("تأكيد إدخال البيانات")
-                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
-                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            progressDialog.setMessage("يرجى الإنتظار قليلاً جاري إرسال البيانات!");
-                            progressDialog.show();
-                            uploadWinchData();
-                        }
-                    })
-                    .setNegativeButton("لا", null)
-                    .show();
         }else{
             Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(getResources().getColor(R.color.red_color))
@@ -176,11 +180,12 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                                         String winchID = database.getReference("Winches").push().getKey();
 
-                                        SharedPreferences serviceProviderLocale = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
+                                        SharedPreferences serviceProviderLocale = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE); //Pointer on local data
                                         String sp_userid = serviceProviderLocale.getString("SP_USERID","SP_DEFAULT");
+                                        String sp_rate = serviceProviderLocale.getString("SP_USERRATE","SP_DEFAULT");
                                         Winch winch = new Winch(winchID, winchNameET.getText().toString().trim(),
                                                 winchCostPerKMET.getText().toString().trim(), "Pending", "Available", winchAddressTV.getText().toString().trim()
-                                        , winchAddressTV.getText().toString().trim(),  uri.toString(), uri2.toString(), sp_userid);
+                                        , winchAddressTV.getText().toString().trim(),  uri.toString(), uri2.toString(), sp_userid, sp_rate);
 
                                         winchesDB.child(winchID).setValue(winch);
                                         progressDialog.dismiss();

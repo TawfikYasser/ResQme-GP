@@ -43,6 +43,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/customer_home_image"
             android:layout_width="60dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/color_gray_3"
             android:layout_height="60dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
