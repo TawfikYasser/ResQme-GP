@@ -18,18 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
-import com.example.resqme.common.Splash;
 import com.example.resqme.model.Winch;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,16 +37,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.GeoPoint;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -59,11 +53,11 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
-public class WinchFragment extends Fragment implements View.OnClickListener{
-
+public class WinchFragment extends Fragment implements View.OnClickListener {
 
 
     public WinchFragment() {
@@ -76,6 +70,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
     }
+
     private SupportMapFragment mapFragment;
     boolean isPermissionGranted = false;
     DatabaseReference winches;
@@ -83,17 +78,20 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
     MaterialButton requestWinchBtn;
     BottomSheetDialog winchBottomDialog;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_winch, container, false);
-        checkLocationPermission();
+        View view = inflater.inflate(R.layout.fragment_winch, container, false);
+
         winches = FirebaseDatabase.getInstance().getReference().child("Winches");
         winchesList = new ArrayList<>();
         requestWinchBtn = (MaterialButton) view.findViewById(R.id.requestWinchBTN);
         requestWinchBtn.setOnClickListener((View.OnClickListener) this);
         winchBottomDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+
+        checkLocationPermission();
 
 
 
@@ -106,9 +104,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 winchesList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Winch winch = dataSnapshot.getValue(Winch.class);
-                    if(winch.getWinchStatus().equals("Approved")){
+                    if (winch.getWinchStatus().equals("Approved")) {
                         winchesList.add(winch);
                     }
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -116,7 +114,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
                         public void onMapReady(@NonNull GoogleMap googleMap) {
 
 
-                            for(int i = 0 ; i <winchesList.size() ; i++){
+                            for (int i = 0; i < winchesList.size(); i++) {
 
                                 //Get each winch and pin on the map
                                 Winch winch = winchesList.get(i);
@@ -129,14 +127,14 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
                                     address = coder.getFromLocationName(winch.getWinchCurrentLocation(), 5);
 
                                     Address location = address.get(0);
-                                    p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+                                    p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
                                     // Put the winch on the map
                                     LatLng latLng = new LatLng(p1.latitude, p1.longitude);
                                     Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
                                             .title(winch.getWinchName())
                                             .snippet(winch.getWinchCurrentLocation())
-                                    .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
+                                            .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
                                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                     float zoomLevel = 10.0f; //This goes up to 21
                                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
@@ -173,6 +171,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
+
+
+
     private void checkLocationPermission() {
         Dexter.withContext(getContext()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
@@ -184,7 +185,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
             public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
                 Intent intent = new Intent();
                 intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", getActivity().getPackageName(),"");
+                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), "");
                 intent.setData(uri);
                 startActivity(intent);
             }
@@ -222,13 +223,13 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.requestWinchBTN:
                 // Customer must have car and there are available winches on the map
                 SharedPreferences cld = getContext().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                 String customerCarID = cld.getString("C_CARID", "C_DEFAULT"); // Car must be approved also
 
-                if(winchesList.size() > 0){
+                if (winchesList.size() > 0) {
 //
 //                    if(customerCarID.equals("0")){
 //
@@ -242,10 +243,14 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
                     TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
                     TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
 
-                    // Recommending the winch equation:
+                    // Recommending the best winch based on the current location of both winch and customer
+                    // The nearest winch to the customer is the best
+
+                    //Getting current customer location
 
 
 
+                    HashMap<String, String> winchCustomerDistance = new HashMap<String, String>();
 
 
                     winchNameInBottomSheet.setText(winchesList.get(0).getWinchName());
@@ -272,4 +277,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
+
+
 }
