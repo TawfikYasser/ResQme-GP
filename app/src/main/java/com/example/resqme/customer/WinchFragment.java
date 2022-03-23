@@ -3,6 +3,7 @@ package com.example.resqme.customer;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.model.Winch;
+import com.example.resqme.model.WinchRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -81,9 +84,12 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -115,7 +121,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     final boolean[] LocationPermission = {false};
     GoogleMap googleMapObj;
     String myLat = "", myLong = "";
-
+    String requestAttachedDescription = "";
+    Winch finalBestWinch = null;
+    ProgressDialog progressDialog;
+    String winchRequestServiceCost = "";
 
     /*
      * This fragment procedure as the follows:
@@ -287,6 +296,15 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             }else{
                 Toast.makeText(context, "لم يتم تفعيل بيانات الموقع.", Toast.LENGTH_SHORT).show();
             }
+        }else if(requestCode == 25){
+            if(data!=null){
+                if(!TextUtils.isEmpty(data.getStringExtra("DESC_WINCH_VALUE"))){
+                    requestAttachedDescription = data.getStringExtra("DESC_WINCH_VALUE");
+                    if(!TextUtils.isEmpty(requestAttachedDescription)){
+                        processingWinchRequest(finalBestWinch);
+                    }
+                }
+            }
         }
     }
 
@@ -402,18 +420,22 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                         )
                                 + 50
                 );
+                winchRequestServiceCost = serviceCost;
                 winchNameInBottomSheet.setText(bestWinch.getWinchName());
                 winchServiceCostInBottomSheet.setText("تكلفة الخدمة " + serviceCost  + " جنيه.");
-
+                finalBestWinch = bestWinch;
                 winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        // Going to processing winch request page to get the description
+
                         new AlertDialog.Builder(getContext())
                                 .setTitle("طلب ونش")
-                                .setMessage("هل أنت متأكد من طلبك؟")
+                                .setMessage("هل أنت متأكد من المتابعة؟")
                                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getContext(), "سيتم ....", Toast.LENGTH_SHORT).show();
+                                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
+                                        startActivityForResult(wpr, 25);
                                     }
                                 })
                                 .setNegativeButton("لا", null)
@@ -430,8 +452,32 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void processingWinchRequest(){
+    private void processingWinchRequest(Winch finalBestWinch) {
+        // If customer added description, initiate the request.
+        if(!TextUtils.isEmpty(requestAttachedDescription)){
+            // Initiate the request
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("جاري إرسال البيانات..");
+            progressDialog.show();
+            DatabaseReference winchRequestDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+            FirebaseDatabase databaseRef = FirebaseDatabase.getInstance();
+            String winchRequestID = databaseRef.getReference("WinchRequests").push().getKey();
 
+            Date currentTime = Calendar.getInstance().getTime();
+            String pattern = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String date = simpleDateFormat.format(currentTime);
+            String requestTimestamp = date;
+
+            SharedPreferences userData = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+            String c_userid = userData.getString("C_USERID", "C_DEFAULT");
+            WinchRequest winchRequest = new WinchRequest(winchRequestID, c_userid, finalBestWinch.getWinchOwnerID(),
+                    finalBestWinch.getWinchID(), winchRequestServiceCost, requestAttachedDescription, requestTimestamp);
+
+            winchRequestDB.child(winchRequestID).setValue(winchRequest);
+            Toast.makeText(context, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            winchBottomDialog.cancel();
+        }
     }
-
 }
