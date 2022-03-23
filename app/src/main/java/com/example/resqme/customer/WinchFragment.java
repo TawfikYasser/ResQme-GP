@@ -61,8 +61,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
@@ -103,7 +105,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
 
     // Views and Variables
     private SupportMapFragment mapFragment = null;
-    GoogleMap mMap;
     DatabaseReference winches;
     ArrayList<Winch> winchesList;
     MaterialButton requestWinchBtn;
@@ -122,7 +123,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
      * If they are enabled show the map and show winches
      * And get current customer location to calculate the distance
      * Between the customer and each winch
-     * Else ask for the permissions and ....
+     * Else ask for the permissions.
      * */
 
     @Override
@@ -139,8 +140,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
 
         mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
-
-
 
         // GPS
         try {
@@ -197,98 +196,101 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     getFusedLocationProviderClient(getActivity());
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             }
-            locationProviderClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            myLat = String.valueOf(location.getLatitude());
-                            myLong = String.valueOf(location.getLongitude());
-                        }
-                    });
 
-            winches.addValueEventListener(new ValueEventListener() {
+            locationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new CancellationToken() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    winchesList.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Winch winch = dataSnapshot.getValue(Winch.class);
-                        if (winch.getWinchStatus().equals("Approved")) {
-                            winchesList.add(winch);
-                        }
-                    }
-                    mapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(@NonNull GoogleMap googleMap) {
-                            googleMap.clear();
-                            googleMapObj = googleMap;
-                            LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
-                            googleMap.addMarker(new MarkerOptions()
-                                    .position(me)
-                                    .title("عنواني")).showInfoWindow();
-                            //Toast.makeText(context, myLat + " - " + myLong, Toast.LENGTH_SHORT).show();
-                            for (int i = 0; i < winchesList.size(); i++) {
-                                //Get each winch and pin on the map
-                                Winch winch = winchesList.get(i);
-                                Geocoder coder = new Geocoder(getActivity());
-                                List<Address> address;
-                                LatLng p1 = null;
-                                try {
-                                    // May throw an IOException
-                                    address = coder.getFromLocationName(winch.getWinchCurrentLocation(), 5);
-
-                                    Address location = address.get(0);
-                                    p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
-                                    // Put the winch on the map
-                                    LatLng latLng = new LatLng(p1.latitude, p1.longitude);
-                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
-                                            .title(winch.getWinchName())
-                                            .snippet(winch.getWinchCurrentLocation())
-                                            .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
-                                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                                    float zoomLevel = 12.0f; //This goes up to 21
-                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-
-                                } catch (IOException ex) {
-
-                                    ex.printStackTrace();
-                                }
-                            }
-                        }
-                    });
+                public boolean isCancellationRequested() {
+                    return false;
                 }
 
+                @NonNull
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
+                    return null;
+                }
+            }).addOnCompleteListener(location -> {
+                if (location.isSuccessful()){
+                    myLat = String.valueOf(location.getResult().getLatitude());
+                    myLong = String.valueOf(location.getResult().getLongitude());
+                    // Getting winches, pinning current location of the customer.
+                    winches.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            winchesList.clear();
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Winch winch = dataSnapshot.getValue(Winch.class);
+                                if (winch.getWinchStatus().equals("Approved")) {
+                                    winchesList.add(winch);
+                                }
+                            }
+                            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                                @Override
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+                                    googleMap.clear();
+                                    googleMapObj = googleMap;
+                                    LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
+                                    googleMap.addMarker(new MarkerOptions()
+                                            .position(me)
+                                            .title("موقعك الحالي")).showInfoWindow();
+                                    //Toast.makeText(context, myLat + " - " + myLong, Toast.LENGTH_SHORT).show();
+                                    for (int i = 0; i < winchesList.size(); i++) {
+                                        //Get each winch and pin on the map
+                                        Winch winch = winchesList.get(i);
+                                        Geocoder coder = new Geocoder(getActivity());
+                                        List<Address> address;
+                                        LatLng p1 = null;
+                                        try {
+                                            address = coder.getFromLocationName(winch.getWinchCurrentLocation(), 5);
+                                            Address location = address.get(0);
+                                            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                                            // Put the winch on the map
+                                            LatLng latLng = new LatLng(p1.latitude, p1.longitude);
+                                            Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
+                                                    .title(winch.getWinchName())
+                                                    .snippet(winch.getWinchCurrentLocation())
+                                                    .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
+                                            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                                            float zoomLevel = 12.0f; //This goes up to 21
+                                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                                        } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
                 }
             });
 
         } else {
-            Toast.makeText(getContext(), "Permissions Denied, Data won't be showed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "بيانات الموقع غير متاحة.", Toast.LENGTH_SHORT).show();
         }
-
         return view;
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 150) {
-//            try {
-//                GPS = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
-//            } catch (Settings.SettingNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            Toast.makeText(context, "R" + String.valueOf(GPS), Toast.LENGTH_SHORT).show();
-//            if (GPS != 0) {
-//                getFragmentManager().beginTransaction().detach(WinchFragment.this).attach(WinchFragment.this).commit();
-//            }
-//        }
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 150) {
+            try {
+                GPS = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (GPS != 0) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(WinchFragment.this.getId(), new WinchFragment()).commit();
+            }else{
+                Toast.makeText(context, "لم يتم تفعيل بيانات الموقع.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     // Marker Shape
-
     private BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
         int height = 100;
         int width = 100;
@@ -314,132 +316,122 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     }
 
     // Clicking methods
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.requestWinchBTN:
-                requestingWinch(view);
+                if(winchesList.size() > 0){
+                    requestingWinch(view);
+                }else{
+                    Toast.makeText(context, "عذراً، الخدمة غير متاحة حالياً.", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
 
+    // The following function is to handle getting the best winch for the current customer.
+    // The rest of the process is in another function.
     private void requestingWinch(View view) {
 
-        // Customer must have car and there are available winches on the map
-        SharedPreferences cld = getContext().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        String customerCarID = cld.getString("C_CARID", "C_DEFAULT"); // Car must be approved also
+        // Customer must have an approved car
+        SharedPreferences userData = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        SharedPreferences carLocalData = getActivity().getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
+        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
+        String car_user_id = carLocalData.getString("CAR_USER_ID", "CAR_DEFAULT");
+        String car_status = carLocalData.getString("CAR_STATUS", "CAR_DEFAULT");
+        if(!carLocalData.contains("CAR_ID")){
+            // Car not added yet.
+            Toast.makeText(context, "لم تقم بإضافة عربية حتى الآن.", Toast.LENGTH_SHORT).show();
+        }else{
+            // Car added, but may be approved or not.
+            if(c_userid.equals(car_user_id) && car_status.equals("Approved")){
+                // Defining the bottom sheet view and it's components
+                View winchSheetView = LayoutInflater.from(getContext()).inflate(R.layout.winch_bottom_layout,
+                        (LinearLayout) view.findViewById(R.id.bottom_sheet_winch_linear_layout));
+                TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
+                TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
 
-        if (winchesList.size() > 0) {
-            View winchSheetView = LayoutInflater.from(getContext()).inflate(R.layout.winch_bottom_layout,
-                    (LinearLayout) view.findViewById(R.id.bottom_sheet_winch_linear_layout));
-
-//
-//                    if(customerCarID.equals("0")){
-//
-//                    }else{
-//
-//                    }
-
-
-
-            TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
-            TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
-
-            // Recommending the best winch based on the current location of both winch and customer
-            // The nearest winch to the customer is the best
-            LatLng p1 = null;
-            HashMap<String, Float> winchCustomerDistance = new HashMap<String, Float>();
-            float[] resultDistances = new float[1];
-            for(int i = 0 ; i < winchesList.size() ; i++){
-
-                Geocoder coder = new Geocoder(getActivity());
-                List<Address> address;
-
-                try {
-                    // May throw an IOException
-                    address = coder.getFromLocationName(winchesList.get(i).getWinchCurrentLocation(), 5);
-                    Address location = address.get(0);
-                    p1 = new LatLng(location.getLatitude(), location.getLongitude());
-                    Location.distanceBetween(Double.valueOf(myLat), Double.valueOf(myLong), p1.latitude, p1.longitude, resultDistances);
-                    winchCustomerDistance.put(winchesList.get(i).getWinchID(), resultDistances[0]);
-
-                } catch (IOException ex) {
-
-                    ex.printStackTrace();
+                // Recommending the best winch based on the current location of both winch and customer
+                // The nearest winch to the customer is the best
+                LatLng p1 = null;
+                HashMap<String, Float> winchCustomerDistance = new HashMap<String, Float>();
+                float[] resultDistances = new float[1];
+                for(int i = 0 ; i < winchesList.size() ; i++){
+                    Geocoder coder = new Geocoder(getActivity());
+                    List<Address> address;
+                    try {
+                        // May throw an IOException
+                        address = coder.getFromLocationName(winchesList.get(i).getWinchCurrentLocation(), 5);
+                        Address location = address.get(0);
+                        p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                        Location.distanceBetween(Double.valueOf(myLat), Double.valueOf(myLong), p1.latitude, p1.longitude, resultDistances);
+                        winchCustomerDistance.put(winchesList.get(i).getWinchID(), resultDistances[0]);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                List<Map.Entry<String, Float> > list =
+                        new LinkedList<Map.Entry<String, Float> >(winchCustomerDistance.entrySet());
+                Collections.sort(list, new Comparator<Map.Entry<String, Float> >() {
+                    public int compare(Map.Entry<String, Float> o1,
+                                       Map.Entry<String, Float> o2)
+                    {
+                        return (o1.getValue()).compareTo(o2.getValue());
+                    }
+                });
+                // put data from sorted list to hashmap
+                HashMap<String, Float> temp = new LinkedHashMap<String, Float>();
+                for (Map.Entry<String, Float> aa : list) {
+                    temp.put(aa.getKey(), aa.getValue());
+                }
+                String bestId = String.valueOf(temp.keySet().toArray()[0]);
+                String bestDistance = String.valueOf(temp.values().toArray()[0]);
+                Winch bestWinch = null;
+                for(int i = 0 ; i < winchesList.size() ; i++){
+                    if(winchesList.get(i).getWinchID().equals(bestId)){
+                        bestWinch = winchesList.get(i);
+                        break;
+                    }
                 }
 
+                String serviceCost = String.valueOf(
+                        (int)(
+                                (Double.parseDouble(bestDistance) / 1000)
+                                        *
+                                        Integer.parseInt(bestWinch.getWinchCostPerKM())
+                        )
+                                + 50
+                );
+                winchNameInBottomSheet.setText(bestWinch.getWinchName());
+                winchServiceCostInBottomSheet.setText("تكلفة الخدمة " + serviceCost  + " جنيه.");
+
+                winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("طلب ونش")
+                                .setMessage("هل أنت متأكد من طلبك؟")
+                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getContext(), "سيتم ....", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("لا", null)
+                                .show();
+                    }
+                });
+                winchBottomDialog.setContentView(winchSheetView);
+                winchBottomDialog.show();
+            }else if(c_userid.equals(car_user_id) && car_status.equals("Pending")){
+                Toast.makeText(context, "العربية لم يتم قبولها حتى الآن، برجاء المحاولة في وقت لاحق أو تواصل معنا.", Toast.LENGTH_SHORT).show();
+            }else if(c_userid.equals(car_user_id) && car_status.equals("Refused")){
+                Toast.makeText(context, "تم رفض بيانات العربية، تواصل معنا لمعرفة المزيد.", Toast.LENGTH_SHORT).show();
             }
-
-            List<Map.Entry<String, Float> > list =
-                    new LinkedList<Map.Entry<String, Float> >(winchCustomerDistance.entrySet());
-
-            Collections.sort(list, new Comparator<Map.Entry<String, Float> >() {
-                public int compare(Map.Entry<String, Float> o1,
-                                   Map.Entry<String, Float> o2)
-                {
-                    return (o1.getValue()).compareTo(o2.getValue());
-                }
-            });
-
-
-            // put data from sorted list to hashmap
-            HashMap<String, Float> temp = new LinkedHashMap<String, Float>();
-            for (Map.Entry<String, Float> aa : list) {
-                temp.put(aa.getKey(), aa.getValue());
-            }
-
-            String bestDistance = String.valueOf(temp.values().toArray()[0]);
-            String bestId = String.valueOf(temp.keySet().toArray()[0]);
-
-            //Toast.makeText(context, bestId + " - " + bestDistance, Toast.LENGTH_SHORT).show();
-
-            Winch bestWinch = null;
-
-            for(int i = 0 ; i < winchesList.size() ; i++){
-                if(winchesList.get(i).getWinchID().equals(bestId)){
-                    bestWinch = winchesList.get(i);
-                    break;
-                }
-            }
-
-//            PolylineOptions polylineOptions = new PolylineOptions()
-//                    .add(new LatLng(Double.valueOf(myLat), Double.valueOf(myLong)))
-//                    .add(new LatLng(p1.latitude, p1.longitude)); // Closes the polyline.
-//
-//            // Get back the mutable Polyline
-//            Polyline polyline = googleMapObj.addPolyline(polylineOptions);
-
-            String serviceCost = String.valueOf(
-
-                    (int)(
-                    (Double.parseDouble(bestDistance) / 1000)
-                    *
-                    Integer.parseInt(bestWinch.getWinchCostPerKM())
-                    )
-                            + 50
-            );
-            winchNameInBottomSheet.setText(bestWinch.getWinchName());
-            winchServiceCostInBottomSheet.setText("تكلفة الخدمة " + serviceCost  + " جنيه.");
-
-            winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("طلب ونش")
-                            .setMessage("هل أنت متأكد من طلبك؟")
-                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getContext(), "سيتم ....", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton("لا", null)
-                            .show();
-                }
-            });
-            winchBottomDialog.setContentView(winchSheetView);
-            winchBottomDialog.show();
         }
+    }
+
+    private void processingWinchRequest(){
+
     }
 
 }
