@@ -143,7 +143,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
 
     private void goToRequests() {
         String[] Requests = {"طلبات الونش", "طلبات مراكز الخدمة", "طلبات قطع الغيار"};
-        final String[] selectedRequestType = {""};
+        final String[] selectedRequestType = {"طلبات الونش"};
         new AlertDialog.Builder(getContext())
                 .setTitle("طلباتك")
                 .setSingleChoiceItems(Requests, 0, new DialogInterface.OnClickListener() {
@@ -155,7 +155,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                 .setPositiveButton("عرض", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(selectedRequestType[0].equals("طلبات الونش")){
-                            Intent goToWinchRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
+                            Intent goToWinchRequests = new Intent(getActivity(), WinchRequests.class);
                             startActivity(goToWinchRequests);
                         }else if(selectedRequestType[0].equals("طلبات مراكز الخدمة")){
                             Intent goToCMCRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
