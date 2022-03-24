@@ -37,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,10 +122,12 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     final boolean[] LocationPermission = {false};
     GoogleMap googleMapObj;
     String myLat = "", myLong = "";
+    String woLat = "", woLong = "";
     String requestAttachedDescription = "";
     Winch finalBestWinch = null;
     ProgressDialog progressDialog;
     String winchRequestServiceCost = "";
+    ProgressBar progressBar;
 
     /*
      * This fragment procedure as the follows:
@@ -146,6 +149,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         requestWinchBtn = (MaterialButton) view.findViewById(R.id.requestWinchBTN);
         requestWinchBtn.setOnClickListener((View.OnClickListener) this);
         winchBottomDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+        progressBar = (ProgressBar) view.findViewById(R.id.winchprogressmain);
 
         mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
@@ -157,6 +161,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         if (GPS == 0) {
+            progressBar.setVisibility(View.GONE);
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
             alertDialog.setTitle("إعدادات الموقع");
             alertDialog.setMessage("الـ GPS غير مُفعل، لإستخدام التطبيق يجب تفعيله هل انت موافق؟");
@@ -261,6 +266,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                             float zoomLevel = 12.0f; //This goes up to 21
                                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                                            progressBar.setVisibility(View.GONE);
                                         } catch (IOException ex) {
                                             ex.printStackTrace();
                                         }
@@ -339,6 +345,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.requestWinchBTN:
                 if(winchesList.size() > 0){
+                    progressBar.setVisibility(View.VISIBLE);
                     requestingWinch(view);
                 }else{
                     Toast.makeText(context, "عذراً، الخدمة غير متاحة حالياً.", Toast.LENGTH_SHORT).show();
@@ -382,6 +389,8 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                         address = coder.getFromLocationName(winchesList.get(i).getWinchCurrentLocation(), 5);
                         Address location = address.get(0);
                         p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                        woLat = String.valueOf(p1.latitude);
+                        woLong = String.valueOf(p1.longitude);
                         Location.distanceBetween(Double.valueOf(myLat), Double.valueOf(myLong), p1.latitude, p1.longitude, resultDistances);
                         winchCustomerDistance.put(winchesList.get(i).getWinchID(), resultDistances[0]);
                     } catch (IOException ex) {
@@ -444,6 +453,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 });
                 winchBottomDialog.setContentView(winchSheetView);
                 winchBottomDialog.show();
+                progressBar.setVisibility(View.GONE);
             }else if(c_userid.equals(car_user_id) && car_status.equals("Pending")){
                 Toast.makeText(context, "العربية لم يتم قبولها حتى الآن، برجاء المحاولة في وقت لاحق أو تواصل معنا.", Toast.LENGTH_SHORT).show();
             }else if(c_userid.equals(car_user_id) && car_status.equals("Refused")){
@@ -471,8 +481,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
 
             SharedPreferences userData = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
             String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-            WinchRequest winchRequest = new WinchRequest(winchRequestID, c_userid, finalBestWinch.getWinchOwnerID(),
-                    finalBestWinch.getWinchID(), winchRequestServiceCost, requestAttachedDescription, requestTimestamp);
+            String c_car_id = userData.getString("C_CARID", "C_DEFAULT");
+            WinchRequest winchRequest = new WinchRequest(winchRequestID, c_userid, myLat, myLong, c_car_id, finalBestWinch.getWinchOwnerID(),
+                     woLat, woLong, finalBestWinch.getWinchID(), winchRequestServiceCost, requestAttachedDescription, requestTimestamp, "Pending");
 
             winchRequestDB.child(winchRequestID).setValue(winchRequest);
             Toast.makeText(context, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
