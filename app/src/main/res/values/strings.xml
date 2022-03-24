@@ -21,6 +21,9 @@
         <item>Skoda</item>
         <item>Fiat</item>
     </string-array>
+
+
+
     <string-array name="carmanufacturingcountry">
         <item>كوري</item>
         <item>ياباني</item>

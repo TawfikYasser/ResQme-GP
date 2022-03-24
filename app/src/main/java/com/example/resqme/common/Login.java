@@ -162,7 +162,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     finish();
                 }
                 else{
-                    Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                     progressDialog.dismiss();
                     startActivity(i);
                     finish();

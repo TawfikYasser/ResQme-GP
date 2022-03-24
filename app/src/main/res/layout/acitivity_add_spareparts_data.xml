@@ -39,20 +39,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <LinearLayout
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:background="@color/color_gray"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_marginLeft="24dp"
                     android:layout_marginRight="24dp"
                     android:layout_marginTop="12dp"
-
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
@@ -60,8 +51,8 @@
                         android:inputType="text"
                         android:drawablePadding="15dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/namespareparts"
-                        android:hint="اسم قطعه الغيار"/>
+                        android:id="@+id/spare_parts_item_name_et"
+                        android:hint="اسم قطعة الغيار"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -73,27 +64,11 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:drawablePadding="15dp"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:layout_height="wrap_content"
                         android:id="@+id/pricespareparts"
-                        android:hint="السعر"/>
+                        android:hint="سعر القطعة"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:drawablePadding="15dp"
-                        android:inputType="text"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spare_part_status"
-                        android:hint="الحاله (جديد او مستعمل)"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
@@ -104,25 +79,53 @@
                     <AutoCompleteTextView
                         android:inputType="none"
                         android:text="نوع العربية"
-                        android:id="@+id/itembrand_dropdown_list"
+                        android:id="@+id/spare_parts_brand_dropdown_list"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <RadioGroup
+                        android:gravity="right"
+                        android:layout_gravity="center"
+                        android:id="@+id/radio_spare_part_item_used_or_new"
+                        android:checkedButton="@id/radio_new_item"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="حالة القطعة"
+                            android:textSize="12dp"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:layout_marginLeft="50dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/logo_color_3"
+                            android:fontFamily="@font/fontlight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <RadioButton
+                            android:id="@+id/radio_used_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="مُستعمل"/>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/chooseimagespareparts"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        />
+                        <RadioButton
+                            android:id="@+id/radio_new_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="جديد"/>
+
+
+                    </RadioGroup>
 
                     <Button
-                        android:layout_marginLeft="100dp"
+                        android:layout_margin="24dp"
                         android:id="@+id/chooseimagespareparts_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -131,21 +134,16 @@
                         style="?attr/materialButtonOutlinedStyle"
                         app:icon="@drawable/ic_baseline_add_photo_alternate_24"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
+                <ImageView
+                    android:layout_margin="24dp"
+                    android:id="@+id/spare_parts_image_add_spare_parts_data"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:src="@drawable/driverlisenceimage"
+                    android:layout_height="200dp"/>
 
-
-                </LinearLayout>
                 <Button
-                    android:id="@+id/addspareparts"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginTop="100dp"
-                    android:text="اضف القطعه"
+                    android:id="@+id/submit_spare_part_data"
+                    android:text="حفظ وإرسال"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

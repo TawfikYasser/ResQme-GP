@@ -1,9 +1,9 @@
 package com.example.resqme.model;
 
 public class SparePart {
-    String itemID, itemName, itemImage, itemPrice, itemNewOrUsed, itemStatus, itemServiceProviderId, itemCarType;
+    String itemID, itemName, itemImage, itemPrice, itemNewOrUsed, itemStatus, itemServiceProviderId, itemCarType, itemAvailability;
 
-    public SparePart(String itemID, String itemName, String itemImage, String itemPrice, String itemNewOrUsed, String itemStatus, String itemServiceProviderId, String itemCarType) {
+    public SparePart(String itemID, String itemName, String itemImage, String itemPrice, String itemNewOrUsed, String itemStatus, String itemServiceProviderId, String itemCarType, String itemAvailability) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemImage = itemImage;
@@ -12,6 +12,7 @@ public class SparePart {
         this.itemStatus = itemStatus;
         this.itemServiceProviderId = itemServiceProviderId;
         this.itemCarType = itemCarType;
+        this.itemAvailability = itemAvailability;
     }
 
     public SparePart() {
@@ -79,5 +80,13 @@ public class SparePart {
 
     public void setItemCarType(String itemCarType) {
         this.itemCarType = itemCarType;
+    }
+
+    public String getItemAvailability() {
+        return itemAvailability;
+    }
+
+    public void setItemAvailability(String itemAvailability) {
+        this.itemAvailability = itemAvailability;
     }
 }

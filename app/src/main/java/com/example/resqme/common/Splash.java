@@ -80,7 +80,7 @@ public class Splash extends AppCompatActivity {
                             finish();
                         }
                         else{
-                            Intent i = new Intent(Splash.this, ServiceProviderHome.class);
+                            Intent i = new Intent(Splash.this, ServiceProviderAddService.class);
                             startActivity(i);
                             finish();
                         }

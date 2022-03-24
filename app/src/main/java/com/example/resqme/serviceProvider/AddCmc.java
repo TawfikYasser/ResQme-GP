@@ -1,6 +1,7 @@
 package com.example.resqme.serviceProvider;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -52,8 +54,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddCmc extends AppCompatActivity implements View.OnClickListener{
     Button choosecmcimage,SbmtBtn,Addressbtn;
-    TextInputEditText cmcname,cmcmobilenumber;
-    CircleImageView cmcimage;
+    TextInputEditText cmcname;
+    ImageView cmcimage;
     ProgressDialog progressDialog;
     TextView cmcAddressTV;
 
@@ -61,7 +63,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
     Context context;
     DatabaseReference ServicesTable;
     AutoCompleteTextView cartype;
-    String  CarMfgCountry="";
+    String  CarMfgCountry = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +73,24 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
         ServicesTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
         initToolbar();
         initViews();
+        forceRTLIfSupported();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void forceRTLIfSupported() {
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_AddCMC);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("اضافه مركز خدمه");
+        getSupportActionBar().setTitle("إضافة بيانات مركز الخدمة");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextAppearance(AddCmc.this, R.style.Theme_ResQme);
     }
 
     private void initViews() {
-        cartype= findViewById(R.id.itembrand_dropdown_list);
+        cartype= findViewById(R.id.cmc_brand_dropdown_list);
         String[] carmfgcountry = getResources().getStringArray(R.array.carmanufacturingcountry);
         ArrayAdapter<String> adapterCarTypes = new ArrayAdapter<String>
                 (this, R.layout.item_add_car_data_dropdownlist, carmfgcountry);
@@ -95,13 +103,12 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
             public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
                 Object item = parent.getItemAtPosition(position);
                 CarMfgCountry= item.toString().trim();
-                Toast.makeText(AddCmc.this, CarMfgCountry, Toast.LENGTH_SHORT).show();
             }
         });
 
         Addressbtn = findViewById(R.id.choose_address_button_for_cmc);
         Addressbtn.setOnClickListener(this);
-        cmcimage = findViewById(R.id.chooseimagecmc) ;
+        cmcimage = findViewById(R.id.cmc_image_add_cmc_data) ;
         choosecmcimage = findViewById(R.id.chooseimagecmcbutton);
 
         choosecmcimage.setOnClickListener(this);
@@ -109,9 +116,8 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
 
         cmcAddressTV = findViewById(R.id.tv_cmc_address);
 
-        cmcname = findViewById(R.id.namecmc);
-        cmcmobilenumber = findViewById(R.id.cmcmobilenumber);
-        SbmtBtn = findViewById(R.id.addcmcbtn);
+        cmcname = findViewById(R.id.cmc_name_et);
+        SbmtBtn = findViewById(R.id.submit_cmc_data_btn);
         SbmtBtn.setOnClickListener(this);
     }
 
@@ -124,16 +130,15 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
             case R.id.choose_address_button_for_cmc:
                 checkLocationPermission();
                 break;
-            case R.id.addcmcbtn:
+            case R.id.submit_cmc_data_btn:
                 submitCMCData();
                 break;
         }
     }
 
     private void submitCMCData() {
-        if(!TextUtils.isEmpty(cmcname.getText().toString()) && !TextUtils.isEmpty(cmcmobilenumber.getText().toString())
+        if(!TextUtils.isEmpty(cmcname.getText().toString())
                 &&!TextUtils.isEmpty(CarMfgCountry) && !TextUtils.isEmpty(cmcAddressTV.getText())  && cmcImageURI != null ){
-
             new AlertDialog.Builder(this)
                     .setTitle("تأكيد إدخال البيانات")
                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
@@ -165,12 +170,15 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
                 filepath_CMCImage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        String ServiceID = database.getReference("CMC").push().getKey();// create new id
-                        SharedPreferences SP_services = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
+                        String ServiceID = database.getReference("CMCs").push().getKey();// create new id
+                        SharedPreferences SP_services = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE); //Pointer on local data
                         String sp_userid = SP_services.getString("SP_USERID","SP_DEFAULT");
                         CMC cmc = new CMC(ServiceID, cmcname.getText().toString().trim(), uri.toString(),
-                                cmcAddressTV.getText().toString().trim(), CarMfgCountry, sp_userid, "Pending", "Available");
-                        ServicesTable.child(ServiceID).setValue(cmc);//Entering Service in database
+                                cmcAddressTV.getText().toString().trim(),
+                                CarMfgCountry, sp_userid, "Pending", "Available");
+                        ServicesTable.child(ServiceID).setValue(cmc); //Entering Service in database
+
+                        // Related to service provider service type handling.
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
                         editor.putString("SP_ServiceType", "CMC");

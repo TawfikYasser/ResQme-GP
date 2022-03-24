@@ -73,4 +73,12 @@ public class CMC {
         this.cmcStatus = cmcStatus;
     }
 
+
+    public String getCmcAvailability() {
+        return cmcAvailability;
+    }
+
+    public void setCmcAvailability(String cmcAvailability) {
+        this.cmcAvailability = cmcAvailability;
+    }
 }
