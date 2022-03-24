@@ -158,11 +158,9 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                             Intent goToWinchRequests = new Intent(getActivity(), WinchRequests.class);
                             startActivity(goToWinchRequests);
                         }else if(selectedRequestType[0].equals("طلبات مراكز الخدمة")){
-                            Intent goToCMCRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
-                            startActivity(goToCMCRequests);
+
                         }else if(selectedRequestType[0].equals("طلبات قطع الغيار")){
-                            Intent goToSpareRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
-                            startActivity(goToSpareRequests);
+
                         }
                     }
                 })
