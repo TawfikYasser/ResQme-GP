@@ -24,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:name=".customer.WinchRequests"
+            android:exported="false" />
+        <activity
             android:name=".customer.ProcessingRequestWinch"
             android:exported="false" />
         <activity

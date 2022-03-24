@@ -1,10 +1,12 @@
 package com.example.resqme.customer;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,7 +36,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     FirebaseAuth mAuth;
-    Button logoutBtn, reportsBtn, aboutusBtn, contactusBtn, viewReportsBtn, testBTN, requestsBTN;
+    Button logoutBtn, reportsBtn, aboutusBtn, contactusBtn, viewReportsBtn, requestsBTN;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -89,9 +91,6 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
         viewReportsBtn = v.findViewById(R.id.reports_list_btn);
         viewReportsBtn.setOnClickListener((View.OnClickListener)this);
 
-        testBTN = v.findViewById(R.id.test_btn_keepit);
-        testBTN.setOnClickListener((View.OnClickListener)this);
-
         aboutusBtn = v.findViewById(R.id.aboutusBtn);
         aboutusBtn.setOnClickListener((View.OnClickListener)this);
 
@@ -127,10 +126,6 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
             case R.id.reports_list_btn:
                 sendToMyReports();
                 break;
-            case R.id.test_btn_keepit:
-                Intent intent = new Intent(getActivity(), ProcessingRequestCMC.class);
-                startActivity(intent);
-                break;
             case R.id.aboutusBtn:
                 Intent intentAboutUs = new Intent(getActivity(), AboutUs.class);
                 startActivity(intentAboutUs);
@@ -140,10 +135,39 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                 startActivity(intentContactUs);
                 break;
             case R.id.requestsBtn:
-
+                goToRequests();
                 break;
 
         }
+    }
+
+    private void goToRequests() {
+        String[] Requests = {"طلبات الونش", "طلبات مراكز الخدمة", "طلبات قطع الغيار"};
+        final String[] selectedRequestType = {""};
+        new AlertDialog.Builder(getContext())
+                .setTitle("طلباتك")
+                .setSingleChoiceItems(Requests, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        selectedRequestType[0] = Requests[i];
+                    }
+                })
+                .setPositiveButton("عرض", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(selectedRequestType[0].equals("طلبات الونش")){
+                            Intent goToWinchRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
+                            startActivity(goToWinchRequests);
+                        }else if(selectedRequestType[0].equals("طلبات مراكز الخدمة")){
+                            Intent goToCMCRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
+                            startActivity(goToCMCRequests);
+                        }else if(selectedRequestType[0].equals("طلبات قطع الغيار")){
+                            Intent goToSpareRequests = new Intent(getActivity(), ProcessingRequestWinch.class);
+                            startActivity(goToSpareRequests);
+                        }
+                    }
+                })
+                .setNegativeButton("إلغاء", null)
+                .show();
     }
 
     private void sendReport() {
