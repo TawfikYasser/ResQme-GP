@@ -2,16 +2,17 @@ package com.example.resqme.model;
 
 public class Winch {
 
-    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLocation, driverLicence, winchLicence, winchOwnerID, winchOwnerRate;
+    String winchID, winchName, winchCostPerKM, winchStatus, winchAvailability, winchAddress, winchCurrentLat, winchCurrentLong, driverLicence, winchLicence, winchOwnerID, winchOwnerRate;
 
-    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLocation, String driverLicence, String winchLicence, String winchOwnerID, String winchOwnerRate) {
+    public Winch(String winchID, String winchName, String winchCostPerKM, String winchStatus, String winchAvailability, String winchAddress, String winchCurrentLat, String winchCurrentLong, String driverLicence, String winchLicence, String winchOwnerID, String winchOwnerRate) {
         this.winchID = winchID;
         this.winchName = winchName;
         this.winchCostPerKM = winchCostPerKM;
         this.winchStatus = winchStatus;
         this.winchAvailability = winchAvailability;
         this.winchAddress = winchAddress;
-        this.winchCurrentLocation = winchCurrentLocation;
+        this.winchCurrentLat = winchCurrentLat;
+        this.winchCurrentLong = winchCurrentLong;
         this.driverLicence = driverLicence;
         this.winchLicence = winchLicence;
         this.winchOwnerID = winchOwnerID;
@@ -19,6 +20,22 @@ public class Winch {
     }
 
     public Winch(){}
+
+    public String getWinchCurrentLat() {
+        return winchCurrentLat;
+    }
+
+    public void setWinchCurrentLat(String winchCurrentLat) {
+        this.winchCurrentLat = winchCurrentLat;
+    }
+
+    public String getWinchCurrentLong() {
+        return winchCurrentLong;
+    }
+
+    public void setWinchCurrentLong(String winchCurrentLong) {
+        this.winchCurrentLong = winchCurrentLong;
+    }
 
     public String getWinchID() {
         return winchID;
@@ -66,14 +83,6 @@ public class Winch {
 
     public void setWinchAddress(String winchAddress) {
         this.winchAddress = winchAddress;
-    }
-
-    public String getWinchCurrentLocation() {
-        return winchCurrentLocation;
-    }
-
-    public void setWinchCurrentLocation(String winchCurrentLocation) {
-        this.winchCurrentLocation = winchCurrentLocation;
     }
 
     public String getDriverLicence() {

@@ -2,6 +2,7 @@ package com.example.resqme.customer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -121,6 +122,17 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.tvWinchRequestOwnerPhone.setTextColor(Color.RED);
         }
 
+        holder.TrackWinchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToTracking = new Intent(context, TrackingWinchRequest.class);
+                goToTracking.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                goToTracking.putExtra("CUSTOMER_LAT",winchRequests.get(position).getCustomerLat());
+                goToTracking.putExtra("CUSTOMER_LONG",winchRequests.get(position).getCustomerLong());
+                goToTracking.putExtra("WINCH_ID",winchRequests.get(position).getWinchID());
+                context.startActivity(goToTracking);
+            }
+        });
     }
 
     class MyWinchAdapterViewHolder extends RecyclerView.ViewHolder{

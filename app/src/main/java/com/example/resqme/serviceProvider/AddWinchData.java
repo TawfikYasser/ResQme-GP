@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +34,10 @@ import com.example.resqme.model.Car;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.Winch;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -48,6 +54,9 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.io.IOException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -183,9 +192,23 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                         SharedPreferences serviceProviderLocale = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE); //Pointer on local data
                                         String sp_userid = serviceProviderLocale.getString("SP_USERID","SP_DEFAULT");
                                         String sp_rate = serviceProviderLocale.getString("SP_USERRATE","SP_DEFAULT");
+
+                                        //Converting winch current location to lat and long
+
+                                        Geocoder coder = new Geocoder(getApplicationContext());
+                                        List<Address> address;
+                                        LatLng p1 = null;
+                                        try {
+                                            address = coder.getFromLocationName(winchAddressTV.getText().toString().trim(), 5);
+                                            Address location = address.get(0);
+                                            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                                        } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }
+
                                         Winch winch = new Winch(winchID, winchNameET.getText().toString().trim(),
                                                 winchCostPerKMET.getText().toString().trim(), "Pending", "Available", winchAddressTV.getText().toString().trim()
-                                        , winchAddressTV.getText().toString().trim(),  uri.toString(), uri2.toString(), sp_userid, sp_rate);
+                                        , String.valueOf(p1.latitude), String.valueOf(p1.longitude),  uri.toString(), uri2.toString(), sp_userid, sp_rate);
                                         winchesDB.child(winchID).setValue(winch);
 
                                         // Related to service provider service type handling.

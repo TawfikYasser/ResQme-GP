@@ -336,7 +336,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                                     progressDialog.dismiss();
                                     startActivity(i);
                                     finish();

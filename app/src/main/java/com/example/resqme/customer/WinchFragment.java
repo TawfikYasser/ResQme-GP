@@ -42,6 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.AddressMap;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
 import com.google.android.gms.common.ConnectionResult;
@@ -95,6 +96,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -237,44 +239,55 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                     winchesList.add(winch);
                                 }
                             }
-                            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                                @Override
-                                public void onMapReady(@NonNull GoogleMap googleMap) {
-                                    googleMap.clear();
-                                    googleMapObj = googleMap;
-                                    LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
-                                    googleMap.addMarker(new MarkerOptions()
-                                            .position(me)
-                                            .title("موقعك الحالي")).showInfoWindow();
-                                    //Toast.makeText(context, myLat + " - " + myLong, Toast.LENGTH_SHORT).show();
-                                    for (int i = 0; i < winchesList.size(); i++) {
-                                        //Get each winch and pin on the map
-                                        Winch winch = winchesList.get(i);
-                                        Geocoder coder = new Geocoder(getActivity());
-                                        List<Address> address;
-                                        LatLng p1 = null;
-                                        try {
-                                            address = coder.getFromLocationName(winch.getWinchCurrentLocation(), 5);
-                                            Address location = address.get(0);
-                                            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                            if(winchesList.size() == 0){
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(context, "لا توجد اوناش متاحة الآن.", Toast.LENGTH_SHORT).show();
+                            }else{
+                                mapFragment.getMapAsync(new OnMapReadyCallback() {
+                                    @Override
+                                    public void onMapReady(@NonNull GoogleMap googleMap) {
+                                        googleMap.clear();
+                                        googleMapObj = googleMap;
+                                        LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
+                                        googleMap.addMarker(new MarkerOptions()
+                                                .position(me)
+                                                .title("موقعك الحالي")).showInfoWindow();
+                                        //Toast.makeText(context, myLat + " - " + myLong, Toast.LENGTH_SHORT).show();
+                                        for (int i = 0; i < winchesList.size(); i++) {
+                                            //Get each winch and pin on the map
+                                            Winch winch = winchesList.get(i);
+
+                                            //Converting current lat and long to address for snippet showing
+                                            Geocoder geocoder;
+                                            List<Address> addresses = null;
+                                            Locale locale = new Locale("ar");
+                                            geocoder = new Geocoder(context, locale);
+                                            String address = "";
+                                            try {
+                                                addresses = geocoder.getFromLocation(Double.valueOf(winch.getWinchCurrentLat()),
+                                                        Double.valueOf(winch.getWinchCurrentLong()), 1);
+                                                if(addresses.size() > 0){
+                                                    address = addresses.get(0).getAddressLine(0);
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+
                                             // Put the winch on the map
-                                            LatLng latLng = new LatLng(p1.latitude, p1.longitude);
+                                            LatLng latLng = new LatLng(Double.valueOf(winch.getWinchCurrentLat()), Double.valueOf(winch.getWinchCurrentLong()));
                                             Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
                                                     .title(winch.getWinchName())
-                                                    .snippet(winch.getWinchCurrentLocation())
+                                                    .snippet(address)
                                                     .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
                                             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                             float zoomLevel = 12.0f; //This goes up to 21
                                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
                                             progressBar.setVisibility(View.GONE);
-                                        } catch (IOException ex) {
-                                            ex.printStackTrace();
                                         }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
@@ -382,20 +395,14 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 HashMap<String, Float> winchCustomerDistance = new HashMap<String, Float>();
                 float[] resultDistances = new float[1];
                 for(int i = 0 ; i < winchesList.size() ; i++){
-                    Geocoder coder = new Geocoder(getActivity());
-                    List<Address> address;
-                    try {
-                        // May throw an IOException
-                        address = coder.getFromLocationName(winchesList.get(i).getWinchCurrentLocation(), 5);
-                        Address location = address.get(0);
-                        p1 = new LatLng(location.getLatitude(), location.getLongitude());
-                        woLat = String.valueOf(p1.latitude);
-                        woLong = String.valueOf(p1.longitude);
-                        Location.distanceBetween(Double.valueOf(myLat), Double.valueOf(myLong), p1.latitude, p1.longitude, resultDistances);
-                        winchCustomerDistance.put(winchesList.get(i).getWinchID(), resultDistances[0]);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+
+                    p1 = new LatLng(Double.valueOf(winchesList.get(i).getWinchCurrentLat()),
+                            Double.valueOf(winchesList.get(i).getWinchCurrentLong()));
+                    woLat = String.valueOf(p1.latitude);
+                    woLong = String.valueOf(p1.longitude);
+                    Location.distanceBetween(Double.valueOf(myLat), Double.valueOf(myLong), p1.latitude, p1.longitude, resultDistances);
+                    winchCustomerDistance.put(winchesList.get(i).getWinchID(), resultDistances[0]);
+
                 }
                 List<Map.Entry<String, Float> > list =
                         new LinkedList<Map.Entry<String, Float> >(winchCustomerDistance.entrySet());
