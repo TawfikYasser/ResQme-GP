@@ -36,6 +36,9 @@
             android:name=".customer.WinchDetails"
             android:exported="false" />
         <activity
+            android:name=".customer.SparePartsDetails"
+            android:exported="false" />
+        <activity
             android:name=".common.ContactUs"
             android:exported="false" />
         <activity
