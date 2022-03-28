@@ -82,7 +82,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
+        app:cornerRadius="48dp"
+        android:layout_width="match_parent"
         android:layout_gravity="center"
         android:textSize="20sp"
         android:id="@+id/btnSheet"
