@@ -17,7 +17,6 @@
             android:id="@+id/customer_home_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal">
 
             <TextView
@@ -53,6 +52,8 @@
                 android:id="@+id/customer_home_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
                 android:src="@drawable/chooseimage"

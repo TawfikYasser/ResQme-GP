@@ -24,85 +24,110 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.CartForCustomer"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.TrackingWinchRequest"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.WinchRequests"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.ProcessingRequestWinch"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.WinchDetails"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.SparePartsDetails"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".common.ContactUs"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".common.AboutUs"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.ProcessingRequestCMC"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.ProcessingRequestSpareParts"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".common.MyReports"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.CustomerUpdateProfile"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.SendReport"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.AddCarData"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".common.AddressMap"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".customer.CustomerProfile"
             android:exported="false"
             android:parentActivityName=".customer.CustomerHome" />
         <activity
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ResQme.Customized"
             android:name=".common.Login"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".serviceProvider.AddWinchData"
             android:exported="false"
             android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".serviceProvider.ServiceProviderHome"
             android:exported="false" />
         <activity
             android:theme="@style/Theme.ResQme.Customized"
             android:name=".customer.CustomerHome"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ResQme.Customized"
             android:name=".common.Registeration"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".serviceProvider.ServiceProviderAddService"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".serviceProvider.AddSpareParts"
             android:exported="false"
             android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".serviceProvider.AddCmc"
             android:exported="false"
             android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ResQme.Customized"
             android:name=".common.Splash"
             android:exported="true">

@@ -23,6 +23,8 @@ import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
@@ -35,7 +37,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_customer_home);
         customerCart = new CustomerCart();
         initViews();
-
+        Locale.setDefault(new Locale("ar"));
         forceRTLIfSupported();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
