@@ -1,7 +1,9 @@
 package com.example.resqme.customer;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,19 +13,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.model.SparePart;
+import com.example.resqme.model.SparePartInCart;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SparePartsDetails extends AppCompatActivity {
     ImageView itemImageView;
     TextView itemName, itemPrice, itemNewOrUsed, itemAvailability, itemCarType;
     MaterialButton BtnAddToCartFromDetailsPage;
-
+    DatabaseReference shoppingCart;
 
     //Item Data
     String itemIdSTR, itemNameSTR, itemAvailabilitySTR, itemPriceSTR,
@@ -32,10 +44,12 @@ public class SparePartsDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spareparts_details);
+        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
         initViews();
         forceRTLIfSupported();
         initToolbar();
-
+        shoppingCart = FirebaseDatabase.getInstance().getReference().child("ShoppingCart");
         Intent intent = getIntent();
         itemIdSTR = intent.getStringExtra("ITEM_ID");
         itemNameSTR = intent.getStringExtra("ITEM_NAME");
@@ -60,14 +74,28 @@ public class SparePartsDetails extends AppCompatActivity {
             itemAvailability.setText("غير متاح");
             itemAvailability.setTextColor(Color.rgb(255, 166, 53));
         }
-
+//        BtnRemoveFromCartDetailsPage.setEnabled(false);
         BtnAddToCartFromDetailsPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Need to handle duplicates, and save data to firebase.
-                CustomerHome.customerCart.setSparePartArrayList(new SparePart(
-                        itemIdSTR, itemNameSTR, itemImageSTR, itemPriceSTR, itemNewOrUsedSTR, itemStatusSTR, itemOwnerIDSTR, itemCarTypeSTR, itemAvailabilitySTR
-                ));
+                shoppingCart.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (!snapshot.child(itemIdSTR+"-CCC-"+c_userid).exists()) {
+                            SparePartInCart sparePart = new SparePartInCart(itemIdSTR+"-CCC-"+c_userid, itemIdSTR, c_userid, itemNameSTR, itemImageSTR, itemPriceSTR, itemNewOrUsedSTR,
+                                    itemStatusSTR, itemOwnerIDSTR, itemCarTypeSTR, itemAvailabilitySTR);
+                            shoppingCart.child(itemIdSTR+"-CCC-"+c_userid).setValue(sparePart);
+                            Toast.makeText(SparePartsDetails.this,"تم إضافة: "+ itemNameSTR, Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(SparePartsDetails.this, "موجود بالفعل", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }

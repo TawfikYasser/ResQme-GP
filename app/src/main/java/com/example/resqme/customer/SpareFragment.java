@@ -67,9 +67,11 @@ public class SpareFragment extends Fragment {
                 spareParts.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     SparePart sparePart = dataSnapshot.getValue(SparePart.class);
-                    spareParts.add(sparePart);
-                    sparepartsAdapter = new SparePartsAdapter(context, spareParts);
-                    sparepartsRV.setAdapter(sparepartsAdapter);
+                    if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available")){
+                        spareParts.add(sparePart);
+                        sparepartsAdapter = new SparePartsAdapter(context, spareParts);
+                        sparepartsRV.setAdapter(sparepartsAdapter);
+                    }
                 }
             }
             @Override

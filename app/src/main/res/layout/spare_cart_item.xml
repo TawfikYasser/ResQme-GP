@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:layout_marginRight="12dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginTop="12dp"
+    app:cardCornerRadius="8dp"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="@color/purple_200"
+    app:cardElevation="0dp"
+    android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:clickable="true"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/purple_200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="قطعة غيار"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/spare_cart_item_image"
+                android:layout_width="match_parent"
+                android:src="@drawable/driverlisenceimage"
+                android:layout_height="200dp"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
+                android:text="اسم قطعة الغيار"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/spare_cart_item_name_txt"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/black"
+                android:text="اسم قطعة الغيار"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:background="@color/color_gray_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
+                android:text="نوع العربية المتوافق معها"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/spare_cart_item_cartype_txt"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/black"
+                android:text="نوع العربية المتوافق معها"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:background="@color/color_gray_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
+                android:text="السعر بالجنيه"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/spare_cart_item_price_txt"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/black"
+                android:text="السعر بالجنيه"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:background="@color/color_gray_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
+                android:text="جديد / مستعمل"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/spare_cart_item_newused_txt"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/black"
+                android:text="جديد / مستعمل"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:background="@color/color_gray_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
+                android:text="متاح الآن؟"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/spare_cart_item_availability_txt"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/black"
+                android:text="متاح الآن؟"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:background="@color/color_gray_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/remove_from_cart_item_btn"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/red_color"
+                android:layout_margin="12dp"
+                android:text="إزالة من السلة"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</com.google.android.material.card.MaterialCardView>

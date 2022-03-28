@@ -2,6 +2,7 @@ package com.example.resqme.customer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.model.SparePart;
+import com.example.resqme.model.SparePartInCart;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,10 +31,13 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
 
     Context context;
     ArrayList<SparePart> spareParts;
+    String c_userid = "";
 
     public SparePartsAdapter(Context context, ArrayList<SparePart> spareParts) {
         this.context = context;
         this.spareParts = spareParts;
+        SharedPreferences userData = this.context.getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        c_userid = userData.getString("C_USERID", "C_DEFAULT");
     }
 
     @NonNull
@@ -42,7 +52,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         SparePart sparePart = spareParts.get(position);
         Glide.with(context).load(sparePart.getItemImage()).into(holder.itemImage);
         holder.itemName.setText(sparePart.getItemName());
-        holder.itemPrice.setText(sparePart.getItemPrice());
+        holder.itemPrice.setText(sparePart.getItemPrice() + " جنيه");
         holder.itemNewOrUsed.setText(sparePart.getItemNewOrUsed());
         holder.itemCarType.setText(sparePart.getItemCarType());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -62,19 +72,35 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                 context.startActivity(goToDetailsOfSparePart);
             }
         });
+
         holder.addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Need to handle duplicates, and save data to shared.
-//                Toast.makeText(context, CustomerHome.customerCart.getSparePartArrayList().size() + "", Toast.LENGTH_SHORT).show();
-                CustomerHome.customerCart.setSparePartArrayList(new SparePart(
-                        sparePart.getItemID(), sparePart.getItemName(), sparePart.getItemImage(), sparePart.getItemImage(),
-                        sparePart.getItemNewOrUsed(), sparePart.getItemStatus(), sparePart.getItemServiceProviderId(),
-                        sparePart.getItemCarType(), sparePart.getItemAvailability()
-                ));
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("ShoppingCart");
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.child(sparePart.getItemID()+"-CCC-"+c_userid).exists()) {
+                            Toast.makeText(context, "موجود بالفعل", Toast.LENGTH_SHORT).show();
+                        }else{
+                            SparePartInCart sparePartObj = new SparePartInCart(sparePart.getItemID()+"-CCC-"+c_userid, sparePart.getItemID(), c_userid, sparePart.getItemName(), sparePart.getItemImage(), sparePart.getItemPrice(),
+                                    sparePart.getItemNewOrUsed(), sparePart.getItemStatus(), sparePart.getItemServiceProviderId(),
+                                    sparePart.getItemCarType(), sparePart.getItemAvailability());
+                            reference.child(sparePart.getItemID()+"-CCC-"+c_userid).setValue(sparePartObj);
+                            Toast.makeText(context,"تم إضافة: "+ sparePart.getItemName(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
             }
         });
+
     }
 
     @Override
