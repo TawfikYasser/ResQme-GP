@@ -30,7 +30,7 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/sparepart_image"
+                android:id="@+id/sparepart_image_detailspage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
@@ -62,7 +62,7 @@
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartname"
+                    android:id="@+id/sparepartname_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -84,7 +84,7 @@
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartspecialization"
+                    android:id="@+id/sparepartspecialization_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -104,7 +104,7 @@
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartprice"
+                    android:id="@+id/sparepartprice_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -126,7 +126,7 @@
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartownername"
+                    android:id="@+id/sparepartownername_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -149,7 +149,7 @@
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartownermobilenumber"
+                    android:id="@+id/sparepartownermobilenumber_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -179,7 +179,7 @@
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartweight"
+                    android:id="@+id/sparepartweight_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -192,7 +192,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/sparepartRate"
+                    android:id="@+id/sparepartRate_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"

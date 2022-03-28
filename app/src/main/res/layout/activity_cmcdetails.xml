@@ -30,7 +30,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_margin="24dp"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/cmc_image"
+                android:id="@+id/cmc_image_detailspag"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/chooseimage"/>
