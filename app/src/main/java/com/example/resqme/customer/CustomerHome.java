@@ -1,13 +1,18 @@
 package com.example.resqme.customer;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +35,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_customer_home);
         customerCart = new CustomerCart();
         initViews();
+
         forceRTLIfSupported();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -41,7 +47,10 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         SharedPreferences userData = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
         Glide.with(this).load(c_userimage).into(customerProfile);
+
+
     }
+
 
     void initViews(){
         customerProfile = findViewById(R.id.customer_home_image);

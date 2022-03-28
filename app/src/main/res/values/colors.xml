@@ -16,4 +16,5 @@
     <color name="color_gray_2">#535353</color>
     <color name="color_gray_3">#C8C8C8</color>
     <color name="green_color">#0F8913</color>
+    <color name="my_trans_color">#00000000</color>
 </resources>

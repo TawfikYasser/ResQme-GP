@@ -73,6 +73,7 @@
             android:exported="false"
             android:parentActivityName=".customer.CustomerHome" />
         <activity
+            android:theme="@style/Theme.ResQme.Customized"
             android:name=".common.Login"
             android:exported="false" />
         <activity
@@ -83,9 +84,11 @@
             android:name=".serviceProvider.ServiceProviderHome"
             android:exported="false" />
         <activity
+            android:theme="@style/Theme.ResQme.Customized"
             android:name=".customer.CustomerHome"
             android:exported="false" />
         <activity
+            android:theme="@style/Theme.ResQme.Customized"
             android:name=".common.Registeration"
             android:exported="true" />
         <activity
@@ -100,6 +103,7 @@
             android:exported="false"
             android:parentActivityName=".serviceProvider.ServiceProviderAddService" />
         <activity
+            android:theme="@style/Theme.ResQme.Customized"
             android:name=".common.Splash"
             android:exported="true">
             <intent-filter>
