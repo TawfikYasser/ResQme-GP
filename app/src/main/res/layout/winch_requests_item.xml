@@ -212,6 +212,27 @@
                 app:icon="@drawable/ic_baseline_map_24"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/winch_request_complete_btn"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:text="تم بنجاح"
+                android:backgroundTint="@color/green_color"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/winch_request_cancel_btn"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:text="إلغاء"
+                android:backgroundTint="@color/red_color"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_height="wrap_content"/>
+
             <TextView
                 android:drawableRight="@drawable/ic_baseline_info_24"
                 android:drawablePadding="8dp"

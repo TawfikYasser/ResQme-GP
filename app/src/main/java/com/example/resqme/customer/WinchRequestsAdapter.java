@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,6 +84,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.tvWinchRequestStatus.setText("قيد المراجعة");
             holder.tvWinchRequestStatus.setTextColor(Color.rgb(255, 166, 53));
             holder.TrackWinchBtn.setEnabled(false);
+            holder.CompleteBtn.setEnabled(false);
+            holder.CancelBtn.setEnabled(false);
             holder.tvWinchRequestOwnerName.setText("غير متاح حتى قبول الطلب");
             holder.tvWinchRequestOwnerName.setTextColor(Color.rgb(255, 166, 53));
             holder.tvWinchRequestOwnerPhone.setText("غير متاح حتى قبول الطلب");
@@ -91,7 +94,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.tvWinchRequestStatus.setText("تم قبول الطلب.");
             holder.tvWinchRequestStatus.setTextColor(Color.GREEN);
             holder.TrackWinchBtn.setEnabled(true);
-
+            holder.CompleteBtn.setEnabled(true);
+            holder.CancelBtn.setEnabled(true);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             serviceProviders.addValueEventListener(new ValueEventListener() {
@@ -116,6 +120,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.tvWinchRequestStatus.setText("تم رفض الطلب");
             holder.tvWinchRequestStatus.setTextColor(Color.RED);
             holder.TrackWinchBtn.setEnabled(false);
+            holder.CompleteBtn.setEnabled(false);
+            holder.CancelBtn.setEnabled(false);
             holder.tvWinchRequestOwnerName.setText("غير متاح");
             holder.tvWinchRequestOwnerName.setTextColor(Color.RED);
             holder.tvWinchRequestOwnerPhone.setText("غير متاح");
@@ -133,12 +139,26 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
                 context.startActivity(goToTracking);
             }
         });
+
+        holder.CompleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "تم بنجاح", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.CancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "لم يتم إكمال الطلب", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     class MyWinchAdapterViewHolder extends RecyclerView.ViewHolder{
         TextView tvWinchRequestStatus, tvWinchRequestName, tvWinchRequestOwnerName, tvWinchRequestOwnerPhone,
         tvWinchRequestCost, tvWinchRequestDescription, tvWinchRequestTimestamp;
-        MaterialButton TrackWinchBtn;
+        MaterialButton TrackWinchBtn, CompleteBtn, CancelBtn;
         public MyWinchAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             tvWinchRequestStatus = itemView.findViewById(R.id.winch_request_item_status_txt);
@@ -149,6 +169,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             tvWinchRequestDescription = itemView.findViewById(R.id.winch_request_item_description_txt);
             tvWinchRequestTimestamp = itemView.findViewById(R.id.winch_request_item_timestamp_txt);
             TrackWinchBtn = itemView.findViewById(R.id.winch_request_tracking_btn);
+            CompleteBtn = itemView.findViewById(R.id.winch_request_complete_btn);
+            CancelBtn = itemView.findViewById(R.id.winch_request_cancel_btn);
         }
     }
 }
