@@ -23,10 +23,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
     CircleImageView customerProfile;
     TextView headerTV;
+    public static CustomerCart customerCart ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
+        customerCart = new CustomerCart();
         initViews();
         forceRTLIfSupported();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);

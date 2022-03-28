@@ -75,7 +75,7 @@
 
         </RelativeLayout>
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_item_to_cart_spare_parts_item"
+            android:id="@+id/add_item_to_cart_spare_parts_item_adapter"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"

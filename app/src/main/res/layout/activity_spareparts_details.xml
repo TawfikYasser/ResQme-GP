@@ -10,11 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_customer_profile"
+            android:id="@+id/toolbar_spareparts_details"
             android:layout_width="match_parent"
             android:tooltipText="رجوع"
             android:layout_height="?attr/actionBarSize"
-            app:title="الصفحة الشخصية"
             app:titleTextAppearance="@font/fontlight"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -29,13 +28,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/sparepart_image_detailspage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="24dp"
-                android:src="@drawable/chooseimage" />
+                android:src="@drawable/driverlisenceimage" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -80,7 +79,7 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="24dp"
                     android:layout_marginRight="24dp"
-                    android:text="تخصص سيارات"
+                    android:text="نوع العربية المتوافق معها"
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
@@ -91,7 +90,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="24dp"
                     android:fontFamily="@font/resqmefont"
-                    android:text="تخصص سيارات"
+                    android:text="نوع العربية المتوافق معها"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
                 <TextView
@@ -100,7 +99,7 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="24dp"
                     android:layout_marginRight="24dp"
-                    android:text="السعر"
+                    android:text="السعر بالجنيه"
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
@@ -122,18 +121,18 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="24dp"
                     android:layout_marginRight="24dp"
-                    android:text="اسم المالك"
+                    android:text="جديد / مستعمل"
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartownername_detailspag"
+                    android:id="@+id/sparepartneworused_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="24dp"
                     android:fontFamily="@font/resqmefont"
-                    android:text="اسم المالك"
+                    android:text="جديد / مستعمل"
 
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -145,74 +144,30 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="24dp"
                     android:layout_marginRight="24dp"
-                    android:text="رقم التواصل"
+                    android:text="متاح الآن؟"
                     android:textColor="@color/color_gray_2" />
 
                 <TextView
-                    android:id="@+id/sparepartownermobilenumber_detailspag"
+                    android:id="@+id/sparepartavailablenow_detailspag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="24dp"
                     android:fontFamily="@font/resqmefont"
-                    android:text="رقم التواصل"
+                    android:text="متاح الآن؟"
+                    android:layout_marginBottom="12dp"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginRight="24dp"
-                    android:text="التقييم  / 5"
-                    android:textColor="@color/color_gray_2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginRight="24dp"
-                    android:text="الوزن"
-                    android:textColor="@color/color_gray_2" />
-
-                <TextView
-                    android:id="@+id/sparepartweight_detailspag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginRight="24dp"
-                    android:fontFamily="@font/resqmefont"
-                    android:text="الوزن"
-
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/sparepartRate_detailspag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginBottom="24dp"
-                    android:fontFamily="@font/resqmefont"
-                    android:text="التقييم"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
+            <com.google.android.material.button.MaterialButton
+                android:layout_margin="24dp"
+                android:id="@+id/add_to_car_btn_in_details_page"
+                android:text="أضف الى عربة التسوق"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="24dp"
-                android:background="@color/color_gray_3" />
-
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>
