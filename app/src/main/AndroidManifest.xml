@@ -24,6 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme">
         <activity
+            android:name=".customer.SparePartsRequests"
+            android:exported="false" />
+        <activity
+            android:name=".customer.CMCRequests"
+            android:exported="false" />
+        <activity
             android:name=".serviceProvider.SparePartsProviderHome"
             android:exported="false" />
         <activity
