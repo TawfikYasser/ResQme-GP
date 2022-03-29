@@ -61,7 +61,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
 
     Uri cmcImageURI;
     Context context;
-    DatabaseReference ServicesTable;
+    DatabaseReference ServicesTable,ServiceProvidersTable;
     AutoCompleteTextView cartype;
     String  CarMfgCountry = "";
 
@@ -71,6 +71,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_add_cmc);
         context = this.getApplicationContext();
         ServicesTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
+        ServiceProvidersTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         initToolbar();
         initViews();
         forceRTLIfSupported();
@@ -176,15 +177,17 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
                         CMC cmc = new CMC(ServiceID, cmcname.getText().toString().trim(), uri.toString(),
                                 cmcAddressTV.getText().toString().trim(),
                                 CarMfgCountry, sp_userid, "Pending", "Available");
-                        ServicesTable.child(ServiceID).setValue(cmc); //Entering Service in database
+                        ServicesTable.child(ServiceID).setValue(cmc); //Set Service data in database
+                        ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("cmc");// Set the value of serviceType attribute in the service provider table
 
                         // Related to service provider service type handling.
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
                         editor.putString("SP_ServiceType", "CMC");
                         editor.apply();
-
                         progressDialog.dismiss();
+                        Intent i = new Intent(AddCmc.this, ServiceProviderHome.class);
+                        startActivity(i);
                         finish();
 
                     }

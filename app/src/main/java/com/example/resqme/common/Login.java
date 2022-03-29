@@ -316,7 +316,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             userId = serviceProvider.getUserId();
                             rate = serviceProvider.getRate();
                             gender = serviceProvider.getGender();
-
+                            String serviceType = serviceProvider.getServiceType();
                             SharedPreferences spld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = spld.edit();
                             editor.putString("SP_USERNAME", username);
@@ -330,16 +330,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("SP_USERGENDER", gender);
                             editor.putString("SP_USERRATE", String.valueOf(rate));
                             editor.putString("SP_USERID", userId);
+                            editor.putString("SP_ServiceType", serviceType);
                             editor.apply();
-
-
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
-                                    progressDialog.dismiss();
-                                    startActivity(i);
-                                    finish();
+                                    if(serviceType.isEmpty()){
+                                        Intent i = new Intent(Login.this, ServiceProviderAddService.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                    else{
+                                        Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+
                                 }
                             }, 1000);
 

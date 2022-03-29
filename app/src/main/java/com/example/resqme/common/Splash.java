@@ -80,21 +80,12 @@ public class Splash extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         }
-                        else if(serviceType.equalsIgnoreCase("CMC")){
+                        else{
                             Intent i = new Intent(Splash.this, ServiceProviderHome.class);
                             startActivity(i);
                             finish();
                         }
-                        else if(serviceType.equalsIgnoreCase("SpareParts")){
-                            Intent i = new Intent(Splash.this, SparePartsProviderHome.class);
-                            startActivity(i);
-                            finish();
-                        }
-                        else if(serviceType.equalsIgnoreCase("Winch")){
-                            Intent i = new Intent(Splash.this, ServiceProviderHome.class);
-                            startActivity(i);
-                            finish();
-                        }
+
                     }
                 }, 1000);
             }

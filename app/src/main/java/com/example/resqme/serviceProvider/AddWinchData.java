@@ -30,6 +30,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.resqme.R;
 import com.example.resqme.common.AddressMap;
 import com.example.resqme.common.Registeration;
+import com.example.resqme.common.Splash;
 import com.example.resqme.model.Car;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.Winch;
@@ -66,7 +67,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     TextInputEditText winchNameET, winchCostPerKMET;
     ImageView driverLicenceImage, winchLicenceImage;
     Context context;
-    DatabaseReference winchesDB;
+    DatabaseReference winchesDB,ServiceProvidersTable;
     ProgressDialog progressDialog;
     TextView winchAddressTV;
     StorageReference storageWinchImages;
@@ -77,6 +78,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_winch_data);
         winchesDB = FirebaseDatabase.getInstance().getReference().child("Winches");
+        ServiceProvidersTable =  FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         storageWinchImages= FirebaseStorage.getInstance().getReference().child("ServiceImages");
         context = this.getApplicationContext();
         initViews();
@@ -210,6 +212,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                                 winchCostPerKMET.getText().toString().trim(), "Pending", "Available", winchAddressTV.getText().toString().trim()
                                         , String.valueOf(p1.latitude), String.valueOf(p1.longitude),  uri.toString(), uri2.toString(), sp_userid, sp_rate);
                                         winchesDB.child(winchID).setValue(winch);
+                                        ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("winch");// Set the value of serviceType attribute in the service provider table
 
                                         // Related to service provider service type handling.
                                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
@@ -218,6 +221,8 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                         editor.apply();
 
                                         progressDialog.dismiss();
+                                        Intent i = new Intent(AddWinchData.this, ServiceProviderHome.class);
+                                        startActivity(i);
                                         finish();
                                     }
                                 });

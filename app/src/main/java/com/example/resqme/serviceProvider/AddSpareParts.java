@@ -51,7 +51,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
     AutoCompleteTextView cartype;
     String Cartype="";
     Context context;
-    DatabaseReference ServicesTable;
+    DatabaseReference ServicesTable,ServiceProvidersTable;
     StorageReference sparePartsImages;
     Uri sparePartsUri = null;
     ProgressDialog progressDialog;
@@ -62,6 +62,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.acitivity_add_spareparts_data);
         context = this.getApplicationContext();
         ServicesTable = FirebaseDatabase.getInstance().getReference().child("SpareParts");
+        ServiceProvidersTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         sparePartsImages = FirebaseStorage.getInstance().getReference().child("ServiceImages");
         initToolbar();
         initViews();
@@ -169,7 +170,9 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
                         SparePart sparePart = new SparePart(sparePartID, sparepartname.getText().toString(), uri.toString(),
                                 Pricesparepart.getText().toString(), rbtnUsedItem.getText().toString(), "Pending",
                                 sp_userid, Cartype, "Available");
-                        ServicesTable.child(sparePartID).setValue(sparePart);
+                        ServicesTable.child(sparePartID).setValue(sparePart); //Set Service data in database
+
+                        ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("spare parts");// Set the value of serviceType attribute in the service provider table
 
                         // Related to service provider service type handling.
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
@@ -180,7 +183,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
                         progressDialog.dismiss();
                         Intent toAddcmcintent = new Intent(AddSpareParts.this,SparePartsProviderHome.class);
                         startActivity(toAddcmcintent);
-
+                        finish();
 
                     }
                 });

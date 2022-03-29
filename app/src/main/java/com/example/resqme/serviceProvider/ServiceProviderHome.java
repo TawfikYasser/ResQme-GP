@@ -35,6 +35,7 @@ public class ServiceProviderHome extends AppCompatActivity {
         String sp_userrate = userData.getString("SP_USERRATE","SP_DEFAULT");
         String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
 
+
     }
 
 }
