@@ -27,6 +27,10 @@
             android:name=".serviceProvider.SparePartsProviderHome"
             android:exported="false" />
         <activity
+            android:name=".customer.CMCDetails"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".customer.CartForCustomer"
             android:exported="false"
             android:screenOrientation="portrait" />

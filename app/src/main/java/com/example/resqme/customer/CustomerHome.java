@@ -50,7 +50,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
         Glide.with(this).load(c_userimage).into(customerProfile);
 
-
     }
 
 

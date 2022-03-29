@@ -71,11 +71,14 @@ public class CMCFragment extends Fragment {
                 cmcs.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     CMC cmc = dataSnapshot.getValue(CMC.class);
-                    cmcs.add(cmc);
-                    cmcAdapter = new CMCAdapter(context, cmcs);
-                    cmcRV.setAdapter(cmcAdapter);
+                    if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available")){
+                        cmcs.add(cmc);
+                        cmcAdapter = new CMCAdapter(context, cmcs);
+                        cmcRV.setAdapter(cmcAdapter);
                     }
+
                 }
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

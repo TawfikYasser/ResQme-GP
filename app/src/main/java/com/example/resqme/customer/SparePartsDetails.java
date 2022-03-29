@@ -74,7 +74,6 @@ public class SparePartsDetails extends AppCompatActivity {
             itemAvailability.setText("غير متاح");
             itemAvailability.setTextColor(Color.rgb(255, 166, 53));
         }
-//        BtnRemoveFromCartDetailsPage.setEnabled(false);
         BtnAddToCartFromDetailsPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
