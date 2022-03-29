@@ -44,9 +44,9 @@ public class SparePartsProviderHome extends AppCompatActivity implements View.On
                     new WinchFragment()).commit();
             headerTV.setText("مزود قطع غيار");
         }
-        SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-        String c_userimage = userData.getString("SP_USERIMAGE","SP_DEFAULT");
-        Glide.with(this).load(c_userimage).into(sparePartsProfile);
+        SharedPreferences sparePartsData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        String sp_userimage = sparePartsData.getString("SP_USERIMAGE","SP_DEFAULT");
+        Glide.with(this).load(sp_userimage).into(sparePartsProfile);
 
 
     }
@@ -108,8 +108,8 @@ public class SparePartsProviderHome extends AppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-        String c_userimage = userData.getString("SP_USERIMAGE","SP_DEFAULT");
-        Glide.with(this).load(c_userimage).into(sparePartsProfile);
+        SharedPreferences sparePartsData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        String sp_userimage = sparePartsData.getString("SP_USERIMAGE","SP_DEFAULT");
+        Glide.with(this).load(sp_userimage).into(sparePartsProfile);
     }
 }

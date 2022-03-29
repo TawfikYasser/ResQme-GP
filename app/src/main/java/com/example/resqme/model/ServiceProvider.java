@@ -13,11 +13,11 @@ public class ServiceProvider {
     String gender = "";
     String userType = "";
     String serviceType = "";
-    String isCMC = "";
-    String isWinch = "";
-    String isSpareParts = "";
+    boolean isCMC ;
+    boolean isWinch  ;
+    boolean isSpareParts ;
 
-    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType, String serviceType, String isCMC, String isWinch, String isSpareParts) {
+    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType, String serviceType) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -30,9 +30,9 @@ public class ServiceProvider {
         this.gender = gender;
         this.userType = userType;
         this.serviceType = serviceType;
-        this.isCMC = isCMC;
-        this.isWinch = isWinch;
-        this.isSpareParts = isSpareParts;
+        this.isCMC = false;
+        this.isWinch = false;
+        this.isSpareParts = false;
     }
 
     ServiceProvider(){}
@@ -51,6 +51,30 @@ public class ServiceProvider {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isCMC() {
+        return isCMC;
+    }
+
+    public void setCMC(boolean CMC) {
+        isCMC = CMC;
+    }
+
+    public boolean isWinch() {
+        return isWinch;
+    }
+
+    public void setWinch(boolean winch) {
+        isWinch = winch;
+    }
+
+    public boolean isSpareParts() {
+        return isSpareParts;
+    }
+
+    public void setSpareParts(boolean spareParts) {
+        isSpareParts = spareParts;
     }
 
     public String getPassword() {
@@ -133,27 +157,5 @@ public class ServiceProvider {
         this.serviceType = serviceType;
     }
 
-    public String getIsCMC() {
-        return isCMC;
-    }
 
-    public void setIsCMC(String isCMC) {
-        this.isCMC = isCMC;
-    }
-
-    public String getIsWinch() {
-        return isWinch;
-    }
-
-    public void setIsWinch(String isWinch) {
-        this.isWinch = isWinch;
-    }
-
-    public String getIsSpareParts() {
-        return isSpareParts;
-    }
-
-    public void setIsSpareParts(String isSpareParts) {
-        this.isSpareParts = isSpareParts;
-    }
 }

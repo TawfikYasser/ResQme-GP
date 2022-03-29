@@ -14,7 +14,6 @@ public class SparePart {
         this.itemCarType = itemCarType;
         this.itemAvailability = itemAvailability;
     }
-
     public SparePart() {
     }
 

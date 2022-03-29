@@ -277,7 +277,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                             databaseReference_customer.setValue(customer);
                         }else{
                             DatabaseReference databaseReference_sp =databaseTableSP.child(generatedID);
-                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType, "","","","");
+                            ServiceProvider serviceProvider = new ServiceProvider(username, userEmail, etPassword.getText().toString(), uri.toString(), tvAddress.getText().toString().trim(), etWhatsApp.getText().toString(), bod, generatedID, 5, rbtnMale.getText().toString(), selectedUserType, "");
                             databaseReference_sp.setValue(serviceProvider);
                         }
 
