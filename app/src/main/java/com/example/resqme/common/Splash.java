@@ -16,6 +16,7 @@ import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
+import com.example.resqme.serviceProvider.SparePartsProviderHome;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -79,8 +80,18 @@ public class Splash extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         }
-                        else{
-                            Intent i = new Intent(Splash.this, ServiceProviderAddService.class);
+                        else if(serviceType.equalsIgnoreCase("CMC")){
+                            Intent i = new Intent(Splash.this, ServiceProviderHome.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else if(serviceType.equalsIgnoreCase("SpareParts")){
+                            Intent i = new Intent(Splash.this, SparePartsProviderHome.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else if(serviceType.equalsIgnoreCase("Winch")){
+                            Intent i = new Intent(Splash.this, ServiceProviderHome.class);
                             startActivity(i);
                             finish();
                         }

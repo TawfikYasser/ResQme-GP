@@ -178,7 +178,9 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
                         editor.apply();
 
                         progressDialog.dismiss();
-                        finish();
+                        Intent toAddcmcintent = new Intent(AddSpareParts.this,SparePartsProviderHome.class);
+                        startActivity(toAddcmcintent);
+
 
                     }
                 });
