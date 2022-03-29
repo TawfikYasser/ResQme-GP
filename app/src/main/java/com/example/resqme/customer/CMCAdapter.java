@@ -40,7 +40,6 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
         Glide.with(context).load(cmc.getCmcImage()).into(holder.cmcImage);
         holder.cmcName.setText(cmc.getCmcName());
         holder.cmcLocation.setText(cmc.getCmcLocation());
-        holder.cmcBrand.setText(cmc.getCmcBrand());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,13 +66,12 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
 
     public class CMCViewHolder extends RecyclerView.ViewHolder{
         ImageView cmcImage;
-        TextView cmcName, cmcLocation, cmcBrand;
+        TextView cmcName, cmcLocation;
         public CMCViewHolder(@NonNull View itemView) {
             super(itemView);
             cmcImage = itemView.findViewById(R.id.cmc_item_image);
             cmcName = itemView.findViewById(R.id.cmc_name_item);
             cmcLocation = itemView.findViewById(R.id.cmc_location_item);
-            cmcBrand = itemView.findViewById(R.id.cmc_brand_item);
         }
     }
 }
