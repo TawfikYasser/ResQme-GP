@@ -15,16 +15,12 @@ import com.example.resqme.common.Login;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ServiceProviderHome extends AppCompatActivity {
-    Button button;
-    private FirebaseAuth mAuth;
-    TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_home);
-        textView = findViewById(R.id.spdata_home);
-
 
         SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
         String sp_email = userData.getString("SP_EMAIL","SP_DEFAULT");
@@ -39,24 +35,6 @@ public class ServiceProviderHome extends AppCompatActivity {
         String sp_userrate = userData.getString("SP_USERRATE","SP_DEFAULT");
         String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
 
-        textView.setText(sp_email + " - "+ sp_usertype + " - "+ sp_userid);
-
-
-        mAuth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logouthomesp);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                sendToLogin();
-                finish();
-            }
-        });
     }
 
-    void sendToLogin() {
-        Intent loginIntent = new Intent(this, Login.class);
-        startActivity(loginIntent);
-        finish();
-    }
 }

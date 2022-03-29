@@ -12,8 +12,12 @@ public class ServiceProvider {
     float rate = 0;
     String gender = "";
     String userType = "";
+    String serviceType = "";
+    String isCMC = "";
+    String isWinch = "";
+    String isSpareParts = "";
 
-    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType) {
+    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType, String serviceType, String isCMC, String isWinch, String isSpareParts) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -25,6 +29,10 @@ public class ServiceProvider {
         this.rate = rate;
         this.gender = gender;
         this.userType = userType;
+        this.serviceType = serviceType;
+        this.isCMC = isCMC;
+        this.isWinch = isWinch;
+        this.isSpareParts = isSpareParts;
     }
 
     ServiceProvider(){}
@@ -115,5 +123,37 @@ public class ServiceProvider {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getIsCMC() {
+        return isCMC;
+    }
+
+    public void setIsCMC(String isCMC) {
+        this.isCMC = isCMC;
+    }
+
+    public String getIsWinch() {
+        return isWinch;
+    }
+
+    public void setIsWinch(String isWinch) {
+        this.isWinch = isWinch;
+    }
+
+    public String getIsSpareParts() {
+        return isSpareParts;
+    }
+
+    public void setIsSpareParts(String isSpareParts) {
+        this.isSpareParts = isSpareParts;
     }
 }

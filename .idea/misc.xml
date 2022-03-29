@@ -16,10 +16,11 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_add_cmc.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_add_winch_data.xml" value="0.136" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_address_map.xml" value="0.152" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_cart_for_customer.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_cmcdetails.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_contact_us.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_custome_update_profile.xml" value="0.20521590423257802" />
-        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_home.xml" value="0.176" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_home.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_profile.xml" value="0.176" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_reports.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_update_profile.xml" value="0.20521590423257802" />
@@ -32,7 +33,11 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_registeration.xml" value="0.136" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_send_report.xml" value="0.20261713803292528" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_add_service.xml" value="0.136" />
-        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home.xml" value="0.20521590423257802" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home.xml" value="0.144" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_spare_parts_provider_home.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_spareparts_details.xml" value="0.13402777777777777" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_tracking_winch_request.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_winch_details.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_winch_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_item_customer_home.xml" value="0.10747663551401869" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_c_m_c.xml" value="0.152" />
@@ -41,22 +46,13 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_winch.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/item_add_car_data_dropdownlist.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/my_reports_item.xml" value="0.152" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/spare_cart_item.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/spare_parts_item_customer_home.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/splash.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/winch_bottom_layout.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/winch_requests_item.xml" value="0.136" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/menu/customer_home_menu.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/acitivity_add_spareparts_data.xml" value="0.1" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_add_cmc.xml" value="0.1" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_add_winch_data.xml" value="0.1" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_customer_home.xml" value="0.18" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_registeration.xml" value="0.1" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_spare_parts_provider_home.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/fragment_settings.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/menu/customer_home_menu.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/menu/serviceprovider_home_menu.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/menu/spareparts_home_menu.xml" value="0.20092592592592592" />
         <entry key="..\:/Users/Pc/ResQme-GP/app/src/main/res/layout/activity_add_car_data.xml" value="0.2078125" />
         <entry key="..\:/Users/Pc/ResQme-GP/app/src/main/res/layout/activity_address_map.xml" value="0.2078125" />
         <entry key="..\:/Users/Pc/ResQme-GP/app/src/main/res/layout/activity_customer_home.xml" value="0.2078125" />
