@@ -1,6 +1,7 @@
 package com.example.resqme.customer;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,13 @@ public class SpareCartAdapter extends RecyclerView.Adapter<SpareCartAdapter.Spar
             holder.itemPrice.setText(sparePartInCart.getItemPrice());
             holder.itemNewOrUsed.setText(sparePartInCart.getItemNewOrUsed());
             holder.itemCarType.setText(sparePartInCart.getItemCarType());
-            holder.itemAvailability.setText(sparePartInCart.getItemAvailability());
+            if(sparePartInCart.getItemAvailability().equals("Available")){
+                holder.itemAvailability.setText("متاح");
+                holder.itemAvailability.setTextColor(Color.GREEN);
+            }else{
+                holder.itemAvailability.setText("غير متاح");
+                holder.itemAvailability.setTextColor(Color.rgb(255, 166, 53));
+            }
             holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
