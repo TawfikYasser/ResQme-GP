@@ -86,7 +86,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
         sendDescriptionOfCMCRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(etCMCRequestDescription.getText())){
+                if(!TextUtils.isEmpty(etCMCRequestDescription.getText().toString().trim())){
                     new AlertDialog.Builder(ProcessingRequestCMC.this)
                             .setTitle("طلب مركز خدمة سيارات")
                             .setMessage("هل أنت متأكد من المتابعة؟")
@@ -97,7 +97,6 @@ public class ProcessingRequestCMC extends AppCompatActivity {
                             })
                             .setNegativeButton("لا", null)
                             .show();
-
                 }else{
                     Snackbar.make(findViewById(android.R.id.content),"يجب إدخال وصف للطلب قبل الضغط على إرسال.",Snackbar.LENGTH_LONG)
                             .setBackgroundTint(getResources().getColor(R.color.red_color))
