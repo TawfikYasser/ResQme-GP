@@ -31,7 +31,7 @@ public class ProcessingRequestWinch extends AppCompatActivity {
         sendDescriptionOfWinchRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(etWinchRequestDescription.getText())){
+                if(!TextUtils.isEmpty(etWinchRequestDescription.getText().toString().trim())){
                     Intent getDescriptionBack = new Intent();
                     getDescriptionBack.putExtra("DESC_WINCH_VALUE", etWinchRequestDescription.getText().toString().trim());
                     setResult(25, getDescriptionBack);
