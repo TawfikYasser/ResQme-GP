@@ -53,8 +53,6 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         Glide.with(context).load(sparePart.getItemImage()).into(holder.itemImage);
         holder.itemName.setText(sparePart.getItemName());
         holder.itemPrice.setText(sparePart.getItemPrice() + " جنيه");
-        holder.itemNewOrUsed.setText(sparePart.getItemNewOrUsed());
-        holder.itemCarType.setText(sparePart.getItemCarType());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,15 +109,13 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
     public class SparePartsViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemImage;
-        TextView itemName, itemPrice, itemNewOrUsed, itemCarType;
+        TextView itemName, itemPrice;
         MaterialButton addToCart;
         public SparePartsViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.spare_parts_item_image);
             itemName = itemView.findViewById(R.id.spare_parts_item_name);
             itemPrice = itemView.findViewById(R.id.spare_parts_item_price);
-            itemNewOrUsed = itemView.findViewById(R.id.spare_parts_item_usednew);
-            itemCarType = itemView.findViewById(R.id.spare_parts_item_cartype);
             addToCart = itemView.findViewById(R.id.add_item_to_cart_spare_parts_item_adapter);
         }
     }
