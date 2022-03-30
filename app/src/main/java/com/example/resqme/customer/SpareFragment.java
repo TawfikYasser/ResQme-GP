@@ -50,7 +50,6 @@ public class SpareFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_spare, container, false);
-
         sparepartsRV = view.findViewById(R.id.spare_parts_recycler);
         context = getActivity().getApplicationContext();
         sparepartsDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
