@@ -13,9 +13,9 @@ public class ServiceProvider {
     String gender = "";
     String userType = "";
     String serviceType = "";
-    boolean isCMC ;
-    boolean isWinch  ;
-    boolean isSpareParts ;
+    String isCMC ;
+    String isWinch  ;
+    String isSpareParts ;
 
     public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType, String serviceType) {
         this.username = username;
@@ -30,9 +30,9 @@ public class ServiceProvider {
         this.gender = gender;
         this.userType = userType;
         this.serviceType = serviceType;
-        this.isCMC = false;
-        this.isWinch = false;
-        this.isSpareParts = false;
+        this.isCMC = "false";
+        this.isWinch = "false";
+        this.isSpareParts = "false";
     }
 
     ServiceProvider(){}
@@ -53,28 +53,28 @@ public class ServiceProvider {
         this.email = email;
     }
 
-    public boolean isCMC() {
+    public String getIsCMC() {
         return isCMC;
     }
 
-    public void setCMC(boolean CMC) {
-        isCMC = CMC;
+    public void setIsCMC(String isCMC) {
+        this.isCMC = isCMC;
     }
 
-    public boolean isWinch() {
+    public String getIsWinch() {
         return isWinch;
     }
 
-    public void setWinch(boolean winch) {
-        isWinch = winch;
+    public void setIsWinch(String isWinch) {
+        this.isWinch = isWinch;
     }
 
-    public boolean isSpareParts() {
+    public String getIsSpareParts() {
         return isSpareParts;
     }
 
-    public void setSpareParts(boolean spareParts) {
-        isSpareParts = spareParts;
+    public void setIsSpareParts(String isSpareParts) {
+        this.isSpareParts = isSpareParts;
     }
 
     public String getPassword() {

@@ -213,11 +213,13 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                         , String.valueOf(p1.latitude), String.valueOf(p1.longitude),  uri.toString(), uri2.toString(), sp_userid, sp_rate);
                                         winchesDB.child(winchID).setValue(winch);
                                         ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("winch");// Set the value of serviceType attribute in the service provider table
+                                        ServiceProvidersTable.child(sp_userid).child("winch").setValue("true");// Set the value of serviceType attribute in the service provider table
 
                                         // Related to service provider service type handling.
                                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = cld.edit();
                                         editor.putString("SP_ServiceType", "Winch");
+                                        editor.putString("SP_WINCH", "TRUE");
                                         editor.apply();
 
                                         progressDialog.dismiss();
