@@ -179,11 +179,12 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
                                 CarMfgCountry, sp_userid, "Pending", "Available");
                         ServicesTable.child(ServiceID).setValue(cmc); //Set Service data in database
                         ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("cmc");// Set the value of serviceType attribute in the service provider table
-
+                        ServiceProvidersTable.child(sp_userid).child("cmc").setValue("true");// Set the value of CMC attribute in the service provider table
                         // Related to service provider service type handling.
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
                         editor.putString("SP_ServiceType", "CMC");
+                        editor.putString("SP_CMC", "TRUE");
                         editor.apply();
                         progressDialog.dismiss();
                         Intent i = new Intent(AddCmc.this, ServiceProviderHome.class);

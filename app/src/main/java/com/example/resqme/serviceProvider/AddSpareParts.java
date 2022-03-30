@@ -173,11 +173,13 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
                         ServicesTable.child(sparePartID).setValue(sparePart); //Set Service data in database
 
                         ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("spare parts");// Set the value of serviceType attribute in the service provider table
+                        ServiceProvidersTable.child(sp_userid).child("spareParts").setValue("true");// Set the value of serviceType attribute in the service provider table
 
                         // Related to service provider service type handling.
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
                         editor.putString("SP_ServiceType", "SpareParts");
+                        editor.putString("SP_SPARE_PARTS", "TRUE");
                         editor.apply();
 
                         progressDialog.dismiss();
