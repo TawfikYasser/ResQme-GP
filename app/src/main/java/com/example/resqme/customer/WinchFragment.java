@@ -256,6 +256,8 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                         googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                                             @Override
                                             public void onMyLocationChange(@NonNull Location location) {
+                                                myLat = String.valueOf(location.getLatitude());
+                                                myLong = String.valueOf(location.getLongitude());
                                                 showingDataOnTheMap(winchesList, String.valueOf(location.getLatitude()),
                                                         String.valueOf(location.getLongitude()), 1);
                                             }
