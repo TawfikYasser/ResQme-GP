@@ -9,7 +9,7 @@ public class ServiceProvider {
     String whatsApp = "";
     String bod = "";
     String userId = "";
-    float rate = 0;
+    String rate = "";
     String gender = "";
     String userType = "";
     String serviceType = "";
@@ -17,7 +17,7 @@ public class ServiceProvider {
     String isWinch  ;
     String isSpareParts ;
 
-    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType, String serviceType) {
+    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, String rate, String gender, String userType, String serviceType) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -125,11 +125,11 @@ public class ServiceProvider {
         this.userId = userId;
     }
 
-    public float getRate() {
+    public String getRate() {
         return rate;
     }
 
-    public void setRate(float rate) {
+    public void setRate(String rate) {
         this.rate = rate;
     }
 
