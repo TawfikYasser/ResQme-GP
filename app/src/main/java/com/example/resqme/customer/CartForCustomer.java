@@ -94,25 +94,25 @@ public class CartForCustomer extends AppCompatActivity {
         });
 
         sendSparePartsRequestFromCart = findViewById(R.id.send_spare_parts_requests_from_cart);
-        if(sparePartInCarts.size() == 0){
-            sendSparePartsRequestFromCart.setEnabled(false);
-        }
+
         sendSparePartsRequestFromCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                new AlertDialog.Builder(CartForCustomer.this)
-                        .setTitle("طلب قطع غيار")
-                        .setMessage("هل أنت متأكد من المتابعة؟ سيتم إرسال طلب بقطع الغيار التي اخترتها ويمكنك متابعة الطلبات في صفحة طلبات قطع الغيار.")
-                        .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Initiation of Spare Parts Request
-                                initiationOfSparePartsRequest();
-                            }
-                        })
-                        .setNegativeButton("لا", null)
-                        .show();
-
+                if(sparePartInCarts.size() != 0){
+                    new AlertDialog.Builder(CartForCustomer.this)
+                            .setTitle("طلب قطع غيار")
+                            .setMessage("هل أنت متأكد من المتابعة؟ سيتم إرسال طلب بقطع الغيار التي اخترتها ويمكنك متابعة الطلبات في صفحة طلبات قطع الغيار.")
+                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Initiation of Spare Parts Request
+                                    initiationOfSparePartsRequest();
+                                }
+                            })
+                            .setNegativeButton("لا", null)
+                            .show();
+                }else{
+                    Toast.makeText(context, "لا توجد طلبات لإرسالها.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
