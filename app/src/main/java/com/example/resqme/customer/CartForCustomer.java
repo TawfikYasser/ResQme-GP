@@ -68,7 +68,7 @@ public class CartForCustomer extends AppCompatActivity {
         spareCartRV.setHasFixedSize(true);
         spareCartRV.setLayoutManager(new LinearLayoutManager(this));
         sparePartInCarts = new ArrayList<>();
-        spareCartAdapter = new SpareCartAdapter(this, sparePartInCarts);
+        spareCartAdapter = new SpareCartAdapter(this, sparePartInCarts, shoppingDB);
         spareCartRV.setAdapter(spareCartAdapter);
         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
@@ -81,7 +81,7 @@ public class CartForCustomer extends AppCompatActivity {
                     SparePartInCart sparePartInCart = dataSnapshot.getValue(SparePartInCart.class);
                     if (sparePartInCart.getCustomerID().equals(c_userid)) {
                         sparePartInCarts.add(sparePartInCart);
-                        spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts);
+                        spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts, shoppingDB);
                         spareCartRV.setAdapter(spareCartAdapter);
                     }
                 }

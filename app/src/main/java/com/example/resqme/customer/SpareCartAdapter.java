@@ -32,10 +32,12 @@ public class SpareCartAdapter extends RecyclerView.Adapter<SpareCartAdapter.Spar
 
     Context context;
     ArrayList<SparePartInCart> sparePartInCarts;
+    DatabaseReference reference;
 
-    public SpareCartAdapter(Context context, ArrayList<SparePartInCart> sparePartInCarts) {
+    public SpareCartAdapter(Context context, ArrayList<SparePartInCart> sparePartInCarts, DatabaseReference reference) {
         this.context = context;
         this.sparePartInCarts = sparePartInCarts;
+        this.reference = reference;
     }
 
     @NonNull
@@ -63,9 +65,7 @@ public class SpareCartAdapter extends RecyclerView.Adapter<SpareCartAdapter.Spar
             holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                            .child("ShoppingCart").child(sparePartInCart.getItemInCartID());
-                    reference.removeValue();
+                    reference.child(sparePartInCart.getItemInCartID()).removeValue();
                 }
             });
     }
