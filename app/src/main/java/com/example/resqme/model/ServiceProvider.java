@@ -17,7 +17,8 @@ public class ServiceProvider {
     String isWinch  ;
     String isSpareParts ;
 
-    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, String rate, String gender, String userType, String serviceType) {
+    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, String rate, String gender, String userType, String serviceType,
+                           String isCMC, String isWinch, String isSpareParts) {
         this.username = username;
         this.email = email;
         this.password = password;
