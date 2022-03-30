@@ -60,7 +60,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     String whatsApp = "";
     String bod = "";
     String userId = "";
-    float rate = 0;
+    String rate = "";
     String gender = "";
 
 

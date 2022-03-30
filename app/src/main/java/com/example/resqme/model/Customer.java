@@ -10,7 +10,7 @@ public class Customer{
     String whatsApp = "";
     String bod = "";
     String userId = "";
-    float rate = 0;
+    String rate = "0";
     String gender = "";
     String userType = "";
 
@@ -19,7 +19,7 @@ public class Customer{
     }
 
 
-    public Customer(String carID, String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType) {
+    public Customer(String carID, String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, String rate, String gender, String userType) {
         this.carID = carID;
         this.username = username;
         this.email = email;
@@ -106,11 +106,11 @@ public class Customer{
         this.userId = userId;
     }
 
-    public float getRate() {
+    public String getRate() {
         return rate;
     }
 
-    public void setRate(float rate) {
+    public void setRate(String rate) {
         this.rate = rate;
     }
 

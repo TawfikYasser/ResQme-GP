@@ -392,7 +392,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.requestWinchBTN:
                 if(winchesList.size() > 0){
-                    progressBar.setVisibility(View.VISIBLE);
                     requestingWinch(view);
                 }else{
                     Toast.makeText(context, "عذراً، الخدمة غير متاحة حالياً.", Toast.LENGTH_SHORT).show();
@@ -417,6 +416,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         }else{
             // Car added, but may be approved or not.
             if(c_userid.equals(car_user_id) && car_status.equals("Approved")){
+                progressBar.setVisibility(View.VISIBLE);
                 // Defining the bottom sheet view and it's components
                 View winchSheetView = LayoutInflater.from(getContext()).inflate(R.layout.winch_bottom_layout,
                         (LinearLayout) view.findViewById(R.id.bottom_sheet_winch_linear_layout));

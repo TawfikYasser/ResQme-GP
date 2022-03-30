@@ -9,15 +9,15 @@ public class ServiceProvider {
     String whatsApp = "";
     String bod = "";
     String userId = "";
-    float rate = 0;
+    String rate = "0";
     String gender = "";
     String userType = "";
     String serviceType = "";
-    boolean isCMC ;
-    boolean isWinch  ;
-    boolean isSpareParts ;
+    String isCMC ;
+    String isWinch  ;
+    String isSpareParts ;
 
-    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, float rate, String gender, String userType, String serviceType) {
+    public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, String rate, String gender, String userType, String serviceType, String isCMC, String isWinch, String isSpareParts) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -30,9 +30,41 @@ public class ServiceProvider {
         this.gender = gender;
         this.userType = userType;
         this.serviceType = serviceType;
-        this.isCMC = false;
-        this.isWinch = false;
-        this.isSpareParts = false;
+        this.isCMC = isCMC;
+        this.isWinch = isWinch;
+        this.isSpareParts = isSpareParts;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
+
+    public String getIsCMC() {
+        return isCMC;
+    }
+
+    public void setIsCMC(String isCMC) {
+        this.isCMC = isCMC;
+    }
+
+    public String getIsWinch() {
+        return isWinch;
+    }
+
+    public void setIsWinch(String isWinch) {
+        this.isWinch = isWinch;
+    }
+
+    public String getIsSpareParts() {
+        return isSpareParts;
+    }
+
+    public void setIsSpareParts(String isSpareParts) {
+        this.isSpareParts = isSpareParts;
     }
 
     ServiceProvider(){}
@@ -51,30 +83,6 @@ public class ServiceProvider {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isCMC() {
-        return isCMC;
-    }
-
-    public void setCMC(boolean CMC) {
-        isCMC = CMC;
-    }
-
-    public boolean isWinch() {
-        return isWinch;
-    }
-
-    public void setWinch(boolean winch) {
-        isWinch = winch;
-    }
-
-    public boolean isSpareParts() {
-        return isSpareParts;
-    }
-
-    public void setSpareParts(boolean spareParts) {
-        isSpareParts = spareParts;
     }
 
     public String getPassword() {
@@ -123,14 +131,6 @@ public class ServiceProvider {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public float getRate() {
-        return rate;
-    }
-
-    public void setRate(float rate) {
-        this.rate = rate;
     }
 
     public String getGender() {
