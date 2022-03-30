@@ -93,8 +93,10 @@ public class CartForCustomer extends AppCompatActivity {
             }
         });
 
-
         sendSparePartsRequestFromCart = findViewById(R.id.send_spare_parts_requests_from_cart);
+        if(sparePartInCarts.size() == 0){
+            sendSparePartsRequestFromCart.setEnabled(false);
+        }
         sendSparePartsRequestFromCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
