@@ -28,12 +28,8 @@
 
             android:screenOrientation="portrait"
             android:name=".common.RatingScreen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:screenOrientation="portrait"
@@ -159,7 +155,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.ResQme.Customized">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data
