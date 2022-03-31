@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.InternetConnection;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
@@ -31,6 +35,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     CircleImageView customerProfile;
     TextView headerTV;
     public static CustomerCart customerCart ;
+    InternetConnection ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,10 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
         Glide.with(this).load(c_userimage).into(customerProfile);
 
+        ic = new InternetConnection(this);
+        if(!ic.checkInternetConnection()){
+            Toast.makeText(this, "لا يوجد اتصال بالإنترنت، قد لا تعمل بعض الخدمات بشكل صحيح.", Toast.LENGTH_LONG).show();
+        }
     }
 
 

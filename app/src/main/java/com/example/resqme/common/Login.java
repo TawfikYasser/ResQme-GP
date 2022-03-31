@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     String rate = "";
     String gender = "";
 
-
+    InternetConnection ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +72,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         /// System Data START ************************************************************///
         mAuth = FirebaseAuth.getInstance();
         /// System Data END ************************************************************///
+        ic = new InternetConnection(this);
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
         databaseServiceProviders = FirebaseDatabase.getInstance().getReference("ServiceProviders");
         carDB = FirebaseDatabase.getInstance().getReference().child("Cars");
@@ -94,37 +95,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login_btn:
-                progressDialog.setMessage("من فضلك انتظر قليلاً...");
-                progressDialog.show();
-                String LoginEmail = mEmailLogin.getText().toString().trim();
-                String LoginPass = mPasswordLogin.getText().toString().trim();
-                if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
-                    mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
-                                SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
-                                if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
-                                    if(!checkUserData(LoginEmail)){
-                                        getUserData(LoginEmail);
-                                    }
-                                }else{
-                                    getUserData(LoginEmail);
-                                }
-                            }else{
-                                progressDialog.dismiss();
-                                String errorMessage = task.getException().getMessage();
-                                Toast.makeText(Login.this, "خطأ: "+errorMessage, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                if(!ic.checkInternetConnection()){
+                    Toast.makeText(this, "لا يوجد إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
                 }else{
-                    progressDialog.dismiss();
-                    Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
-                            .setBackgroundTint(getResources().getColor(R.color.red_color))
-                            .setTextColor(getResources().getColor(R.color.white))
-                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                    loginProcess();
                 }
                 break;
             case R.id.register_text_from_login:
@@ -132,6 +106,41 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 startActivity(toSignIntent);
                 finish();
                 break;
+        }
+    }
+
+    void loginProcess(){
+        progressDialog.setMessage("من فضلك انتظر قليلاً...");
+        progressDialog.show();
+        String LoginEmail = mEmailLogin.getText().toString().trim();
+        String LoginPass = mPasswordLogin.getText().toString().trim();
+        if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
+            mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
+                        SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
+                        if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
+                            if(!checkUserData(LoginEmail)){
+                                getUserData(LoginEmail);
+                            }
+                        }else{
+                            getUserData(LoginEmail);
+                        }
+                    }else{
+                        progressDialog.dismiss();
+                        String errorMessage = task.getException().getMessage();
+                        Toast.makeText(Login.this, "خطأ: "+errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }else{
+            progressDialog.dismiss();
+            Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
     }
 

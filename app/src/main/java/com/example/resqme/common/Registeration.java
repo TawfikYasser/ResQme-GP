@@ -80,7 +80,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
     //More views
     ProgressDialog progressDialog;
-
+    InternetConnection ic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         initViews();
         firebaseData();
 
-
+        ic = new InternetConnection(this);
         MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("اختار تاريخ الميلاد");
         final MaterialDatePicker<Long> materialDatePicker = materialDateBuilder.build();
@@ -159,7 +159,11 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.register_btn:
-                createAccountClick();
+                if(!ic.checkInternetConnection()){
+                    Toast.makeText(Registeration.this, "لا يوجد اتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                }else{
+                    createAccountClick();
+                }
                 break;
             case R.id.choose_address_button:
                 checkLocationPermission();
@@ -177,7 +181,11 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                if(!ic.checkInternetConnection()){
+                    Toast.makeText(Registeration.this, "لا يوجد اتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                }else{
                     getAddress();
+                }
             }
 
             @Override
