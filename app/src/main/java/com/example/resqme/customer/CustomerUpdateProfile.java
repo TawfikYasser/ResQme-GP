@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.AddressMap;
+import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.Splash;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -62,6 +63,7 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
     DatabaseReference databaseCustomers;
     SharedPreferences c_data;
     FirebaseUser user;
+    InternetConnection ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         etPassword.setText(c_data.getString("C_PASSWORD","C_DEFAULT"));
         etWhatsApp.setText(c_data.getString("C_WHATSAPP","C_DEFAULT"));
         Glide.with(this).load(c_data.getString("C_USERIMAGE","C_DEFAULT")).into(iUserImage);
+        ic = new InternetConnection(this);
 
     }
     void initViews(){
@@ -95,7 +98,11 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.customer_profile_update_btn:
-                updateProfileClick();
+                if(!ic.checkInternetConnection()){
+                    Toast.makeText(this, "لا يوجد إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                }else{
+                    updateProfileClick();
+                }
                 break;
             case R.id.choose_image_button_update_customer_profile:
                 gettingImageFromGallery();
@@ -258,7 +265,11 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                getAddress();
+                if(!ic.checkInternetConnection()){
+                    Toast.makeText(CustomerUpdateProfile.this, "لا يوجد إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                }else{
+                    getAddress();
+                }
             }
 
             @Override
