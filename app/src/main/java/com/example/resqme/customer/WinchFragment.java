@@ -247,6 +247,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                 Toast.makeText(context, "لا توجد اوناش متاحة الآن.", Toast.LENGTH_SHORT).show();
                             } else {
                                 showingDataOnTheMap(winchesList, myLat, myLong, 0);
+                                requestWinchBtn.setEnabled(true);
                                 mapFragment.getMapAsync(new OnMapReadyCallback() {
                                     @Override
                                     public void onMapReady(@NonNull GoogleMap googleMap) {
