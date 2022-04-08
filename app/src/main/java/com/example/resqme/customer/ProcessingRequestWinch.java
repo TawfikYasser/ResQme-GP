@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,10 +34,19 @@ public class ProcessingRequestWinch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(etWinchRequestDescription.getText().toString().trim())){
-                    Intent getDescriptionBack = new Intent();
-                    getDescriptionBack.putExtra("DESC_WINCH_VALUE", etWinchRequestDescription.getText().toString().trim());
-                    setResult(25, getDescriptionBack);
-                    finish();
+                    new AlertDialog.Builder(ProcessingRequestWinch.this)
+                            .setTitle("طلب ونش")
+                            .setMessage("سيتم إرسال طلبك الآن...")
+                            .setPositiveButton("متابعة", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent getDescriptionBack = new Intent();
+                                    getDescriptionBack.putExtra("DESC_WINCH_VALUE", etWinchRequestDescription.getText().toString().trim());
+                                    setResult(25, getDescriptionBack);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("إلغاء", null)
+                            .show();
                 }else{
                     Snackbar.make(findViewById(android.R.id.content),"يجب إدخال وصف للطلب قبل الضغط على إرسال.",Snackbar.LENGTH_LONG)
                             .setBackgroundTint(getResources().getColor(R.color.red_color))

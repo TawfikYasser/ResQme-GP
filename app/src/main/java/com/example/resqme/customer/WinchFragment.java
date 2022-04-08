@@ -464,12 +464,11 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                         break;
                     }
                 }
-
                 String serviceCost = String.valueOf(
                         (int)(
                                 (Double.parseDouble(bestDistance) / 1000)
                                         *
-                                        Integer.parseInt(bestWinch.getWinchCostPerKM())
+                                Integer.parseInt(bestWinch.getWinchCostPerKM())
                         )
                                 + 50
                 );
@@ -481,18 +480,8 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(View view) {
                         // Going to processing winch request page to get the description
-
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("طلب ونش")
-                                .setMessage("هل أنت متأكد من المتابعة؟")
-                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
-                                        startActivityForResult(wpr, 25);
-                                    }
-                                })
-                                .setNegativeButton("لا", null)
-                                .show();
+                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
+                        startActivityForResult(wpr, 25);
                     }
                 });
                 winchBottomDialog.setContentView(winchSheetView);
@@ -535,5 +524,4 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             winchBottomDialog.cancel();
         }
     }
-
 }
