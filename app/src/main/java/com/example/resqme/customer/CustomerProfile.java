@@ -39,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
 public class CustomerProfile extends AppCompatActivity implements View.OnClickListener {
     CircleImageView customerImage;
     TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, userTypeTV, rateTV, carDataHeaderTV,
@@ -96,19 +97,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             tvCarStatus.setTextColor(Color.RED);
                             carDataHeaderTV.setVisibility(View.GONE);
                             carLayout.setVisibility(View.GONE);
-                            // Sending a Notification to the customer to inform him/his that car is refused.
-//                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-//                                NotificationChannel channelCarNotification = new NotificationChannel("CHANNEL_ID_CAR_NOTI","CAR_NOTIFICATION", NotificationManager.IMPORTANCE_HIGH);
-//                                NotificationManager carNotiManager = getSystemService(NotificationManager.class);
-//                                carNotiManager.createNotificationChannel(channelCarNotification);
-//                            }
-//                            NotificationCompat.Builder noticompatbuilder = new NotificationCompat.Builder(context, "CHANNEL_ID_CAR_NOTI")
-//                                    .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
-//                                    .setContentTitle("إشعار عن العربية")
-//                                    .setContentText("للأسف تم رفض العربية، يمكنك التواصل معانا لمعرفة تفاصيل اكتر.");
-//                            notificationcar = noticompatbuilder.build();
-//                            notificationManagerCompat = NotificationManagerCompat.from(context);
-//                            notificationManagerCompat.notify(1, notificationcar);
+
                         } else if (carObj.getCarStatus().equals("Approved")) {
                             SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
@@ -127,19 +116,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
                             Glide.with(context).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
                             Glide.with(context).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
-                            // Sending a Notification to the customer to inform him/his that car accepted.
-//                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-//                                NotificationChannel channelCarNotification = new NotificationChannel("CHANNEL_ID_CAR_NOTI","CAR_NOTIFICATION", NotificationManager.IMPORTANCE_HIGH);
-//                                NotificationManager carNotiManager = getSystemService(NotificationManager.class);
-//                                carNotiManager.createNotificationChannel(channelCarNotification);
-//                            }
-//                            NotificationCompat.Builder noticompatbuilder = new NotificationCompat.Builder(context, "CHANNEL_ID_CAR_NOTI")
-//                                    .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
-//                                    .setContentTitle("إشعار عن العربية")
-//                                    .setContentText("تم قبول العربية، شكراً لك.");
-//                            notificationcar = noticompatbuilder.build();
-//                            notificationManagerCompat = NotificationManagerCompat.from(context);
-//                            notificationManagerCompat.notify(1, notificationcar);
+
                         }
                     }
                 }

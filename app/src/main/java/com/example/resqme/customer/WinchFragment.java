@@ -1,8 +1,8 @@
 package com.example.resqme.customer;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,27 +11,19 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,16 +35,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
-import com.example.resqme.common.AddressMap;
+import com.example.resqme.common.MyReports;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -60,18 +47,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.CancellationToken;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
@@ -99,6 +79,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 
 
 public class WinchFragment extends Fragment implements View.OnClickListener {
@@ -152,6 +133,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         requestWinchBtn.setOnClickListener((View.OnClickListener) this);
         winchBottomDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
         progressBar = (ProgressBar) view.findViewById(R.id.winchprogressmain);
+
 
         mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
@@ -315,8 +297,8 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     // Put the winch on the map
                     LatLng latLng = new LatLng(Double.valueOf(winch.getWinchCurrentLat()), Double.valueOf(winch.getWinchCurrentLong()));
                     Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
-                            .title(winch.getWinchName())
-                            .snippet(address)
+
+
                             .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
                     progressBar.setVisibility(View.GONE);
                 }
