@@ -407,6 +407,8 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                         (LinearLayout) view.findViewById(R.id.bottom_sheet_winch_linear_layout));
                 TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
                 TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
+                TextView winchServiceDistanceInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_distance_txt);
+                TextView winchServiceTimeInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_time_txt);
 
                 // Recommending the best winch based on the current location of both winch and customer
                 // The nearest winch to the customer is the best
@@ -454,6 +456,15 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                         )
                                 + 50
                 );
+
+                winchServiceDistanceInBottomSheet.setText("• المسافة التقريبية "+ (int)Math.round(Double.valueOf(bestDistance)) + " متر.");
+                int time = (((int)Math.round(Double.valueOf(bestDistance)) / 17) / 60);
+                if(time < 5){
+                    time = 5;
+                }
+                winchServiceTimeInBottomSheet.
+                        setText("• الزمن المتوقع لوصول الونش "+ time + " دقيقة.");
+
                 winchRequestServiceCost = serviceCost;
                 winchNameInBottomSheet.setText(bestWinch.getWinchName());
                 winchServiceCostInBottomSheet.setText("تكلفة الخدمة " + serviceCost  + " جنيه.");
