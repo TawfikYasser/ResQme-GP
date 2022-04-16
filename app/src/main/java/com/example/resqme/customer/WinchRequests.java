@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -35,7 +36,6 @@ public class WinchRequests extends AppCompatActivity {
     ArrayList<WinchRequest> winchRequests;
     Context context;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,6 @@ public class WinchRequests extends AppCompatActivity {
         winchRequests = new ArrayList<>();
         winchRequestsAdapter = new WinchRequestsAdapter(this, winchRequests, serviceProvidersDB);
         winchRequestRV.setAdapter(winchRequestsAdapter);
-
         winchRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

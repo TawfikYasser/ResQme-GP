@@ -6,6 +6,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/card_stroke.xml" value="0.1195" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.1195" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/ic_baseline_add_photo_alternate_24.xml" value="0.1265" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.1195" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1195" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/linear_layout_breaker.xml" value="0.1195" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/drawable/progressbarbackground.xml" value="0.1195" />
@@ -16,7 +17,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_add_cmc.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_add_winch_data.xml" value="0.136" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_address_map.xml" value="0.152" />
-        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_cart_for_customer.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_cart_for_customer.xml" value="0.144" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_cmcdetails.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_cmcrequests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_contact_us.xml" value="0.15789473684210525" />

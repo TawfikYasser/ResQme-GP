@@ -36,7 +36,6 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Report report = reports.get(position);
         holder.tvReportDescription.setText(report.getReportDescription());
-        holder.tvReportID.setText(report.getReportID());
         if(report.getReportStatus().equals("Pending")){
             holder.tvReportStatus.setText("جاري المراجعة");
             holder.tvReportStatus.setTextColor(Color.rgb(255, 166, 53));
@@ -54,12 +53,11 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvReportDescription, tvReportID, tvReportStatus;
+        TextView tvReportDescription, tvReportStatus;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvReportDescription = itemView.findViewById(R.id.report_description_item_text);
-            tvReportID = itemView.findViewById(R.id.report_id_item_text);
             tvReportStatus = itemView.findViewById(R.id.report_status_item_text);
         }
     }

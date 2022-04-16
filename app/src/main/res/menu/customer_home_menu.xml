@@ -16,7 +16,7 @@
     <item
         app:showAsAction="ifRoom"
         android:id="@+id/cmc"
-        android:title="مركز خدمة سيارات"
+        android:title="مراكز الخدمة"
         android:icon="@drawable/car_maintenance_center_icon_bottom_bar"
         />
     <item

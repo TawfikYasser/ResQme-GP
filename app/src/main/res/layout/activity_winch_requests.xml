@@ -22,14 +22,15 @@
                 app:titleTextAppearance="@font/fontlight"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
         </com.google.android.material.appbar.AppBarLayout>
-        <ScrollView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/winch_requests_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </ScrollView>
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

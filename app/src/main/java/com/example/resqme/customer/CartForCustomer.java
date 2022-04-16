@@ -1,6 +1,7 @@
 package com.example.resqme.customer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -35,6 +36,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +56,7 @@ public class CartForCustomer extends AppCompatActivity {
     ArrayList<SparePartInCart> sparePartInCarts;
     Context context;
     ProgressDialog progressDialog;
-    MaterialButton sendSparePartsRequestFromCart;
+    FloatingActionButton sendSparePartsRequestFromCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,49 @@ public class CartForCustomer extends AppCompatActivity {
                         spareCartRV.setAdapter(spareCartAdapter);
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        shoppingDB.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+
+                sparePartInCarts.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    if(!(dataSnapshot.getValue() instanceof String)){
+                        SparePartInCart sparePartInCart = dataSnapshot.getValue(SparePartInCart.class);
+                        if (sparePartInCart.getCustomerID().equals(c_userid)) {
+                            sparePartInCarts.add(sparePartInCart);
+                            spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts, shoppingDB);
+                            spareCartRV.setAdapter(spareCartAdapter);
+                        }
+                    }
+                }
+                if(sparePartInCarts.size() == 0){
+                    sparePartInCarts.clear();
+                    spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts, shoppingDB);
+                    spareCartRV.setAdapter(spareCartAdapter);
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
