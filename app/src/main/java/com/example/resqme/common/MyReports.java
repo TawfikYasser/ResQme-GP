@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -62,6 +66,9 @@ public class MyReports extends AppCompatActivity {
                         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                         if(report.getUserID().equals(c_userid)){
+                            if(report.getReportStatus().equals("Approved")){
+                                callTheNotification();
+                            }
                             reports.add(report);
                             if(reports.size() !=0){
                                 myReportAdapter = new MyReportAdapter(context, reports);
@@ -122,6 +129,10 @@ public class MyReports extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void callTheNotification() {
+
     }
 
     private void initToolbar() {

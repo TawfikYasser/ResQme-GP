@@ -2,7 +2,6 @@ package com.example.resqme.customer;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
-import com.example.resqme.common.MyReports;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
