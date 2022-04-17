@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.resqme"
-    tools:ignore="CoarseFineLocation">
+    tools:ignore="CoarseFineLocation" >
     <!-- App Permissions -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
@@ -23,14 +23,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ResQme">
+        android:theme="@style/Theme.ResQme" >
+        <activity
+            android:name=".common.Questions"
+            android:exported="false" />
         <activity
             android:name=".customer.AskQuestion"
             android:exported="false" />
         <activity
             android:name=".common.RatingScreen"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".customer.SparePartsRequests"
             android:exported="false"
@@ -154,7 +157,7 @@
             android:name=".common.Splash"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ResQme.Customized">
+            android:theme="@style/Theme.ResQme.Customized" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

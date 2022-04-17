@@ -4,25 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.resqme.R;
-import com.example.resqme.customer.CustomerProfile;
+import com.example.resqme.model.Question;
 import com.example.resqme.model.Report;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,43 +27,45 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyReports extends AppCompatActivity {
+public class Questions extends AppCompatActivity {
 
-    RecyclerView myReportsRV;
-    DatabaseReference myReportsDB;
-    MyReportAdapter myReportAdapter;
-    ArrayList<Report> reports;
+
+    RecyclerView questionRV;
+    DatabaseReference questionDB;
+    QuestionsAdapter questionsAdapter;
+    ArrayList<Question> questions;
     Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_reports);
-        initToolbar();
+        setContentView(R.layout.activity_questions);
         forceRTLIfSupported();
-        myReportsRV = findViewById(R.id.myreports_recycler);
+        initToolbar();
+        questionRV = findViewById(R.id.questions_recycler);
         context = this.getApplicationContext();
-        myReportsDB = FirebaseDatabase.getInstance().getReference().child("Reports");
-        myReportsRV.setHasFixedSize(true);
-        myReportsRV.setLayoutManager(new LinearLayoutManager(this));
-        reports = new ArrayList<>();
-        myReportAdapter = new MyReportAdapter(this, reports);
-        myReportsRV.setAdapter(myReportAdapter);
+        questionDB = FirebaseDatabase.getInstance().getReference().child("Questions");
+        questionRV.setHasFixedSize(true);
+        questionRV.setLayoutManager(new LinearLayoutManager(this));
+        questions = new ArrayList<>();
+        questionsAdapter = new QuestionsAdapter(questions, this);
+        questionRV.setAdapter(questionsAdapter);
 
-        myReportsDB.addValueEventListener(new ValueEventListener() {
+        questionDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                reports.clear();
+                questions.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
-                        Report report = dataSnapshot.getValue(Report.class);
+                        Question question = dataSnapshot.getValue(Question.class);
                         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-                        if(report.getUserID().equals(c_userid)){
-                            reports.add(report);
-                            if(reports.size() !=0){
-                                myReportAdapter = new MyReportAdapter(context, reports);
-                                myReportsRV.setAdapter(myReportAdapter);
+                        if(question.getQuestionCustomerID().equals(c_userid)){
+                            questions.add(question);
+                            if(questions.size() !=0){
+                                questionsAdapter = new QuestionsAdapter(questions, context);
+                                questionRV.setAdapter(questionsAdapter);
                             }
                         }
                     }
@@ -81,7 +77,8 @@ public class MyReports extends AppCompatActivity {
             }
         });
 
-        myReportsDB.addChildEventListener(new ChildEventListener() {
+
+        questionDB.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -94,25 +91,25 @@ public class MyReports extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                reports.clear();
+                questions.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
-                        Report report = dataSnapshot.getValue(Report.class);
+                        Question question = dataSnapshot.getValue(Question.class);
                         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-                        if(report.getUserID().equals(c_userid)){
-                            reports.add(report);
-                            if(reports.size() !=0){
-                                myReportAdapter = new MyReportAdapter(context, reports);
-                                myReportsRV.setAdapter(myReportAdapter);
+                        if(question.getQuestionCustomerID().equals(c_userid)){
+                            questions.add(question);
+                            if(questions.size() !=0){
+                                questionsAdapter = new QuestionsAdapter(questions, context);
+                                questionRV.setAdapter(questionsAdapter);
                             }
                         }
                     }
                 }
-                if(reports.size() == 0){
-                    reports.clear();
-                    myReportAdapter = new MyReportAdapter(context, reports);
-                    myReportsRV.setAdapter(myReportAdapter);
+                if(questions.size() == 0){
+                    questions.clear();
+                    questionsAdapter = new QuestionsAdapter(questions, context);
+                    questionRV.setAdapter(questionsAdapter);
                 }
             }
 
@@ -128,13 +125,12 @@ public class MyReports extends AppCompatActivity {
         });
     }
 
-
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_myreports);
+        Toolbar toolbar = findViewById(R.id.toolbar_questions);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("تقاريري");
+        getSupportActionBar().setTitle("الأسئلة");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitleTextAppearance(MyReports.this, R.style.Theme_ResQme);
+        toolbar.setTitleTextAppearance(Questions.this, R.style.Theme_ResQme);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -149,5 +145,4 @@ public class MyReports extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

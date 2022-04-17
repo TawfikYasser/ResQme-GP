@@ -22,6 +22,7 @@ import com.example.resqme.common.AboutUs;
 import com.example.resqme.common.ContactUs;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
+import com.example.resqme.common.Questions;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -37,7 +38,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     private static final String ARG_PARAM2 = "param2";
     FirebaseAuth mAuth;
     Button logoutBtn, reportsBtn, aboutusBtn, contactusBtn, viewReportsBtn, requestsBTN, cartBTN,
-    askQuestionSettingsBtn;
+    askQuestionSettingsBtn, showQuestionsSettingsCustomer;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -108,6 +109,10 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
         askQuestionSettingsBtn.setOnClickListener((View.OnClickListener)this);
 
 
+        showQuestionsSettingsCustomer = v.findViewById(R.id.questionsBtnCustomerSettings);
+        showQuestionsSettingsCustomer.setOnClickListener((View.OnClickListener)this);
+
+
         return v;
     }
 
@@ -152,6 +157,10 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
             case R.id.askQuestionSettings:
                 Intent goToAskQuestionPage = new Intent(getActivity(), AskQuestion.class);
                 startActivity(goToAskQuestionPage);
+                break;
+            case R.id.questionsBtnCustomerSettings:
+                Intent goToQuestionsPage = new Intent(getActivity(), Questions.class);
+                startActivity(goToQuestionsPage);
                 break;
 
         }
