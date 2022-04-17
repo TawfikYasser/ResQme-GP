@@ -50,6 +50,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
@@ -403,6 +404,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 // Defining the bottom sheet view and it's components
                 View winchSheetView = LayoutInflater.from(getContext()).inflate(R.layout.winch_bottom_layout,
                         (LinearLayout) view.findViewById(R.id.bottom_sheet_winch_linear_layout));
+
                 TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
                 TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
                 TextView winchServiceDistanceInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_distance_txt);
@@ -513,6 +515,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(context, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
             winchBottomDialog.cancel();
+
         }
     }
 }

@@ -5,7 +5,7 @@
     android:id="@+id/bottom_sheet_winch_linear_layout"
     android:background="@drawable/winch_bottom_sheet_backgroun"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <LinearLayout
         android:background="@drawable/linear_layout_breaker"
         android:layout_width="70dp"

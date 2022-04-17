@@ -29,6 +29,19 @@
             android:layout_marginTop="20dp"/>
 
         <Button
+            android:id="@+id/askQuestionSettings"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="اسال سؤال"
+            android:textStyle="bold"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp"/>
+
+
+        <Button
             android:id="@+id/questionsBtn"
             android:layout_width="match_parent"
             android:layout_height="70dp"
