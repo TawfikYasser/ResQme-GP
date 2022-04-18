@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.InternetConnection;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,6 +54,8 @@ import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -375,10 +378,16 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.requestWinchBTN:
-                if(winchesList.size() > 0){
-                    requestingWinch(view);
+                InternetConnection ic;
+                ic = new InternetConnection(context);
+                if(!ic.checkInternetConnection()){
+                    Toast.makeText(context, "عفواً، لطلب ونش يجب توافر إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(context, "عذراً، الخدمة غير متاحة حالياً.", Toast.LENGTH_SHORT).show();
+                    if(winchesList.size() > 0){
+                        requestingWinch(view);
+                    }else{
+                        Toast.makeText(context, "عذراً، الخدمة غير متاحة حالياً.", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }

@@ -3,6 +3,7 @@ package com.example.resqme.customer;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
@@ -11,11 +12,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +31,9 @@ import android.widget.Toast;
 import com.example.resqme.R;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,6 +43,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -145,48 +153,102 @@ public class TrackingWinchRequest extends AppCompatActivity {
         }
 
         if (GrantedToWork != 0) {
-            winchesDB.addValueEventListener(new ValueEventListener() {
+
+            FusedLocationProviderClient locationProviderClient = LocationServices.
+                    getFusedLocationProviderClient(this);
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            }
+
+            locationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new CancellationToken() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Winch winch = dataSnapshot.getValue(Winch.class);
-                        if(winch.getWinchID().equals(winchIDSTR)){
-                            winchArrayList.add(winch);
-                        }
-                    }
+                public boolean isCancellationRequested() {
+                    return false;
+                }
 
-                    mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @NonNull
+                @Override
+                public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
+                    return null;
+                }
+            }).addOnCompleteListener(location -> {
+                if(location.isSuccessful()){
+                    myLat = String.valueOf(location.getResult().getLatitude());
+                    myLong = String.valueOf(location.getResult().getLongitude());
+                    winchesDB.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onMapReady(@NonNull GoogleMap googleMap) {
-                            googleMap.clear();
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Winch winch = dataSnapshot.getValue(Winch.class);
+                                if(winch.getWinchID().equals(winchIDSTR)){
+                                    winchArrayList.add(winch);
+                                }
+                            }
+                            showTracking(winchArrayList, String.valueOf(myLat),
+                                    String.valueOf(myLong), 0);
+                            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                                @Override
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+                                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                    }
+                                    googleMap.setMyLocationEnabled(true);
+                                    googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                                        @Override
+                                        public void onMyLocationChange(@NonNull Location location) {
+                                            myLat = String.valueOf(location.getLatitude());
+                                            myLong = String.valueOf(location.getLongitude());
+                                            showTracking(winchArrayList, String.valueOf(location.getLatitude()),
+                                                    String.valueOf(location.getLongitude()), 1);
+                                        }
+                                    });
+                                }
+                            });
 
-                            googleMapObj = googleMap;
-                            LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
-                            googleMap.addMarker(new MarkerOptions()
-                                    .position(me)
-                                    .title("موقعك الحالي")).showInfoWindow();
+                        }
 
-                                // Put the winch on the map
-                                LatLng latLng = new LatLng(Double.valueOf(winchArrayList.get(0).getWinchCurrentLat()),
-                                        Double.valueOf(winchArrayList.get(0).getWinchCurrentLong()));
-                                Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
-                                        .title(winchArrayList.get(0).getWinchName())
-                                        .snippet("في الطريق إليك")
-                                        .icon(BitmapFromVector(context, R.drawable.winch_marker)));
-                                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                                float zoomLevel = 12.0f; //This goes up to 21
-                                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
             });
         }
-
     }
+
+    void showTracking(ArrayList<Winch> winchesList, String myLat, String myLong, int changed){
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                googleMap.clear();
+                float zoomLevel = 12.0f; //This goes up to 21
+                googleMapObj = googleMap;
+                LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
+                googleMap.addMarker(new MarkerOptions()
+                        .position(me)
+                        .title("موقعك الحالي")).showInfoWindow();
+
+                // Put the winch on the map
+                LatLng latLng = new LatLng(Double.valueOf(winchesList.get(0).getWinchCurrentLat()),
+                        Double.valueOf(winchesList.get(0).getWinchCurrentLong()));
+                Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
+                        .icon(BitmapFromVector(context, R.drawable.winch_marker)));
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                }
+                googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 18.0f));
+                        return true;
+                    }
+                });
+                if(changed == 0){
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
+                }
+            }
+        });
+    }
+
 
 
 
