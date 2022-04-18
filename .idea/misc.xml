@@ -27,6 +27,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_profile.xml" value="0.176" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_reports.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_customer_update_profile.xml" value="0.20521590423257802" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_details_question.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_main.xml" value="0.21822916666666667" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_my_reports.xml" value="0.152" />
@@ -55,6 +56,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/item_add_car_data_dropdownlist.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/my_reports_item.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/question_item_design.xml" value="0.14802631578947367" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/question_reply_item_design.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/spare_cart_item.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/spare_parts_item_customer_home.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/spare_parts_requests_item.xml" value="0.15789473684210525" />

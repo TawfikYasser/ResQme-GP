@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".common.DetailsQuestion">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_question_details"
+            android:layout_width="match_parent"
+            android:tooltipText="رجوع"
+            android:layout_height="?attr/actionBarSize"
+            app:title="تفاصيل السؤال"
+            app:titleTextAppearance="@font/fontlight"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:background="@color/color_gray"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:textStyle="bold"
+            android:textDirection="rtl"
+            android:textAlignment="gravity"
+            android:gravity="right"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="12dp"
+            android:id="@+id/question_text_details_page"
+            android:text="نص السؤال"
+            android:fontFamily="@font/fontbold"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/question_details_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
