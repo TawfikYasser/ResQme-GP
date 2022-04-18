@@ -126,7 +126,9 @@
         android:layout_marginBottom="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:text="• بالضغط على (أطلب الآن) سيتم تحويلك الى صفحة اخرى لكتابة وصف ليتم إرساله مع طلبك، ثم صفحة الدفع."
+        android:drawableRight="@drawable/ic_baseline_info_24"
+        android:drawablePadding="12dp"
+        android:text="بالضغط على ( أطلب الآن ) سيتم توحيلك الى صفحة الدفع، وبعد إتمام عملية الدفع بنجاح سيتم توحيلك الى صفحة لكتابة وصف ليتم إرساله مع الطلب."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

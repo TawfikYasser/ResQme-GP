@@ -68,6 +68,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,10 +111,12 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     String myLat = "", myLong = "";
     String woLat = "", woLong = "";
     String requestAttachedDescription = "";
+    String PaymentStatusArg = "";
     Winch finalBestWinch = null;
     ProgressDialog progressDialog;
     String winchRequestServiceCost = "";
     ProgressBar progressBar;
+
     /*
      * This fragment works as the follows:
      * Check if Location & GPS are enabled
@@ -199,7 +202,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     getFusedLocationProviderClient(getActivity());
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             }
-
             locationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new CancellationToken() {
                 @Override
                 public boolean isCancellationRequested() {
@@ -345,6 +347,18 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     }
                 }
             }
+        }else if(requestCode == 30){
+            // If payment done, we can send the request
+            if(data!=null){
+                if(!TextUtils.isEmpty(data.getStringExtra("PAYMENT_STATUS"))){
+                    PaymentStatusArg = data.getStringExtra("PAYMENT_STATUS");
+                    if(!TextUtils.isEmpty(PaymentStatusArg) && PaymentStatusArg.equals("SUCCESS_P_RESQME")){
+                        // Going to processing winch request page to get the description
+                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
+                        startActivityForResult(wpr, 25);
+                    }
+                }
+            }
         }
     }
 
@@ -481,9 +495,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Going to processing winch request page to get the description
-                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
-                        startActivityForResult(wpr, 25);
+                        // Get Payment, then init the request
+                        Intent paymentIntent = new Intent(getActivity(), CustomerWinchPayment.class);
+                        paymentIntent.putExtra("SERVICE_COST", serviceCost);
+                        startActivityForResult(paymentIntent, 30);
                     }
                 });
                 winchBottomDialog.setContentView(winchSheetView);
@@ -495,6 +510,11 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(context, "تم رفض بيانات العربية، تواصل معنا لمعرفة المزيد.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+    private void processingPayment(){
+
     }
 
     private void processingWinchRequest(Winch finalBestWinch) {
@@ -524,7 +544,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(context, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
             winchBottomDialog.cancel();
-
         }
     }
 }
