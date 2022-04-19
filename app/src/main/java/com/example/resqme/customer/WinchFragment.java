@@ -116,7 +116,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     ProgressDialog progressDialog;
     String winchRequestServiceCost = "";
     ProgressBar progressBar;
-
+    ProgressDialog progressDialogPayment;
     /*
      * This fragment works as the follows:
      * Check if Location & GPS are enabled
@@ -138,7 +138,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         requestWinchBtn.setOnClickListener((View.OnClickListener) this);
         winchBottomDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
         progressBar = (ProgressBar) view.findViewById(R.id.winchprogressmain);
-
+        progressDialogPayment = new ProgressDialog(context);
 
         mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
@@ -338,28 +338,28 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             }else{
                 Toast.makeText(context, "لم يتم تفعيل بيانات الموقع.", Toast.LENGTH_SHORT).show();
             }
-        }else if(requestCode == 25){
-            if(data!=null){
-                if(!TextUtils.isEmpty(data.getStringExtra("DESC_WINCH_VALUE"))){
+        }else if(requestCode == 25) {
+            if (data != null) {
+                if (!TextUtils.isEmpty(data.getStringExtra("DESC_WINCH_VALUE"))) {
                     requestAttachedDescription = data.getStringExtra("DESC_WINCH_VALUE");
-                    if(!TextUtils.isEmpty(requestAttachedDescription)){
+                    if (!TextUtils.isEmpty(requestAttachedDescription)) {
                         processingWinchRequest(finalBestWinch);
                     }
                 }
             }
-        }else if(requestCode == 30){
-            // If payment done, we can send the request
-            if(data!=null){
-                if(!TextUtils.isEmpty(data.getStringExtra("PAYMENT_STATUS"))){
-                    PaymentStatusArg = data.getStringExtra("PAYMENT_STATUS");
-                    if(!TextUtils.isEmpty(PaymentStatusArg) && PaymentStatusArg.equals("SUCCESS_P_RESQME")){
-                        // Going to processing winch request page to get the description
-                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
-                        startActivityForResult(wpr, 25);
-                    }
-                }
-            }
         }
+//        }else if(requestCode == 30){
+//            progressDialogPayment.dismiss();
+//            // If payment done, we can send the request
+//            if(data!=null){
+//                if(!TextUtils.isEmpty(data.getStringExtra("PAYMENT_STATUS"))){
+//                    PaymentStatusArg = data.getStringExtra("PAYMENT_STATUS");
+//                    if(!TextUtils.isEmpty(PaymentStatusArg) && PaymentStatusArg.equals("SUCCESS_P_RESQME")){
+//
+//                    }
+//                }
+//            }
+//        }
     }
 
     // Marker Shape
@@ -495,10 +495,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Get Payment, then init the request
-                        Intent paymentIntent = new Intent(getActivity(), CustomerWinchPayment.class);
-                        paymentIntent.putExtra("SERVICE_COST", serviceCost);
-                        startActivityForResult(paymentIntent, 30);
+                        // Going to processing winch request page to get the description
+                        Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
+                        wpr.putExtra("PAYMENT_COST",serviceCost);
+                        startActivityForResult(wpr, 25);
                     }
                 });
                 winchBottomDialog.setContentView(winchSheetView);
@@ -512,10 +512,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
-    private void processingPayment(){
-
-    }
 
     private void processingWinchRequest(Winch finalBestWinch) {
         // If customer added description, initiate the request.

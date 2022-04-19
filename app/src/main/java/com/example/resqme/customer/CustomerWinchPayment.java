@@ -98,7 +98,7 @@ public class CustomerWinchPayment extends AppCompatActivity {
                         approval.getOrderActions().capture(new OnCaptureComplete() {
                             @Override
                             public void onCaptureComplete(@NotNull CaptureOrderResult result) {
-                                Toast.makeText(CustomerWinchPayment.this, "تم بنجاح!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CustomerWinchPayment.this, "تمت العملية بنجاح وتم إرسال الطلب يمكنك متابعته الآن في صفحة الطلبات.", Toast.LENGTH_SHORT).show();
                                 Intent goBackAfterPayment = new Intent();
                                 goBackAfterPayment.putExtra("PAYMENT_STATUS", "SUCCESS_P_RESQME");
                                 setResult(30, goBackAfterPayment);

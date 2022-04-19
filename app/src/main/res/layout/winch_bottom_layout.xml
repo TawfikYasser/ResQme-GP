@@ -128,7 +128,7 @@
         android:layout_marginRight="24dp"
         android:drawableRight="@drawable/ic_baseline_info_24"
         android:drawablePadding="12dp"
-        android:text="بالضغط على ( أطلب الآن ) سيتم توحيلك الى صفحة الدفع، وبعد إتمام عملية الدفع بنجاح سيتم توحيلك الى صفحة لكتابة وصف ليتم إرساله مع الطلب."
+        android:text="بالضغط على ( أطلب الآن ) سيتم تحويلك الى صفحة لإضافة وصف سيتم إرساله مع الطلب حتى يتمكن صاحب الونش من تقديم أفضل مساعدة، وبعد ذلك سيتم تحويلك الى صفحة الدفع وإذا تمت العملية بنجاح سيتم إرسال الطلب."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
