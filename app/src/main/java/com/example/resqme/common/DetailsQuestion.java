@@ -52,7 +52,7 @@ public class DetailsQuestion extends AppCompatActivity {
         questionTextTV = findViewById(R.id.question_text_details_page);
         questionTextTV.setText(questionText);
         questionDetailsRV = findViewById(R.id.question_details_recycler);
-        context = this.getApplicationContext();
+        context = this;
         repliesDB = FirebaseDatabase.getInstance().getReference().child("Replies");
         questionDetailsRV.setHasFixedSize(true);
         questionDetailsRV.setLayoutManager(new LinearLayoutManager(this));
