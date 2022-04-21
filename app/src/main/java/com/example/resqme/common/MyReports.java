@@ -65,7 +65,7 @@ public class MyReports extends AppCompatActivity {
                         Report report = dataSnapshot.getValue(Report.class);
                         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-                        if(report.getUserID().equals(c_userid)){
+                        if(report.getUserID().equals(c_userid) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
                             reports.add(report);
                             if(reports.size() !=0){
                                 myReportAdapter = new MyReportAdapter(context, reports);
@@ -100,7 +100,7 @@ public class MyReports extends AppCompatActivity {
                         Report report = dataSnapshot.getValue(Report.class);
                         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-                        if(report.getUserID().equals(c_userid)){
+                        if(report.getUserID().equals(c_userid) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
                             reports.add(report);
                             if(reports.size() !=0){
                                 myReportAdapter = new MyReportAdapter(context, reports);
