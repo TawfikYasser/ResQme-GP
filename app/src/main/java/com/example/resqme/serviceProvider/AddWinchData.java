@@ -23,6 +23,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,7 +37,6 @@ import com.example.resqme.common.Splash;
 import com.example.resqme.model.Car;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.Winch;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -84,6 +86,35 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         initViews();
         initToolbar();
         forceRTLIfSupported();
+
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                driverLicenceUri = result;
+                driverLicenceImage.setImageURI(result);
+            }
+        });
+        chooseDriverLicenceImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
+
+        ActivityResultLauncher<String> launcher2 = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                winchLicenceUri = result;
+                winchLicenceImage.setImageURI(result);
+            }
+        });
+        chooseWinchLicenceImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher2.launch("image/*");
+            }
+        });
+
     }
 
     private void initToolbar() {
@@ -129,12 +160,6 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.choose_winch_address_btn:
                 checkLocationPermission();
-                break;
-            case R.id.choose_driver_licence_image_for_winch_btn:
-                getDriverLicenceImage();
-                break;
-            case R.id.choose_winch_licence_image_for_winch_btn:
-                getWinchLicenceImage();
                 break;
             case R.id.submit_winch_data_btn:
                 submitWinchData();
@@ -239,41 +264,18 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     }
 
 
-    void getDriverLicenceImage(){
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start(1);
-    }
 
-    void getWinchLicenceImage(){
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start(2);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            Uri uri = data.getData();
-            driverLicenceUri = uri;
-            driverLicenceImage.setImageURI(uri);
-        }else if(requestCode == 2){
-            Uri uri = data.getData();
-            winchLicenceUri = uri;
-            winchLicenceImage.setImageURI(uri);
-        }else if(requestCode == 3){
+        if(requestCode == 3){
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("ADDRESS_VALUE");
                 winchAddressTV.setVisibility(View.VISIBLE);
                 winchAddressTV.setText(result);
             }
         }
-
     }
 
     void getAddress() {

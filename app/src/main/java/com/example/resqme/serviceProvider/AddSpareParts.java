@@ -21,6 +21,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,7 +32,6 @@ import com.example.resqme.R;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.SparePart;
 import com.example.resqme.model.Winch;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -67,6 +69,22 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         initToolbar();
         initViews();
         forceRTLIfSupported();
+
+
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                sparePartsUri = result;
+                sparepartimage.setImageURI(result);
+            }
+        });
+        choosesparepartimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
+
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -114,9 +132,6 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.chooseimagespareparts_button:
-                gettingImageFromGallery();
-                break;
             case R.id.submit_spare_part_data:
                 AddSparePart();
                 break;
@@ -193,17 +208,4 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void gettingImageFromGallery() {
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start();
-    }
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-            Uri uri = data.getData();
-            sparePartsUri = uri;
-        sparepartimage.setImageURI(uri);
-    }
 }

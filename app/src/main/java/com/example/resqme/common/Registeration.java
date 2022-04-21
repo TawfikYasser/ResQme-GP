@@ -1,5 +1,8 @@
 package com.example.resqme.common;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +31,6 @@ import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.serviceProvider.ServiceProviderAddService;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -105,6 +107,21 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 (MaterialPickerOnPositiveButtonClickListener) selection -> bod = materialDatePicker.getHeaderText());
 
 
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                mainImageUri = result;
+                iUserImage.setImageURI(result);
+            }
+        });
+        btnChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
+
+
     }
 
     void initViews(){
@@ -150,9 +167,6 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.choose_image_button:
-                gettingImageFromGallery();
-                break;
             case R.id.login_text_from_register:
                 Intent toLoginIntent = new Intent(Registeration.this,Login.class);
                 startActivity(toLoginIntent);
@@ -330,14 +344,6 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
     }
 
-    void gettingImageFromGallery(){
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -348,10 +354,6 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 tvAddress.setVisibility(View.VISIBLE);
                 tvAddress.setText(result);
             }
-        }else{
-            Uri uri = data.getData();
-            mainImageUri = uri;
-            iUserImage.setImageURI(uri);
         }
 
     }

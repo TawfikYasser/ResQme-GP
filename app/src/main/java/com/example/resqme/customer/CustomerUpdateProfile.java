@@ -1,5 +1,8 @@
 package com.example.resqme.customer;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -31,7 +35,6 @@ import com.example.resqme.common.AddressMap;
 import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.Splash;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -79,6 +82,19 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         Glide.with(this).load(c_data.getString("C_USERIMAGE","C_DEFAULT")).into(iUserImage);
         ic = new InternetConnection(this);
 
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                mainImageUri = result;
+                iUserImage.setImageURI(result);
+            }
+        });
+        btnChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
     }
     void initViews(){
         iUserImage = findViewById(R.id.customer_update_profile_image);
@@ -103,9 +119,6 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                 }else{
                     updateProfileClick();
                 }
-                break;
-            case R.id.choose_image_button_update_customer_profile:
-                gettingImageFromGallery();
                 break;
             case R.id.choose_address_button_update_profile_customer:
                 checkLocationPermission();
@@ -233,6 +246,11 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                 })
                 .setNegativeButton("لا", null)
                 .show();
+
+
+
+
+
     }
 
     void getAddress() {
@@ -242,24 +260,13 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 11){
+        if(requestCode == 11) {
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("ADDRESS_VALUE");
                 tvAddress.setVisibility(View.VISIBLE);
                 tvAddress.setText(result);
             }
-        }else{
-            Uri uri = data.getData();
-            mainImageUri = uri;
-            iUserImage.setImageURI(uri);
         }
-    }
-    void gettingImageFromGallery(){
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start();
     }
     private void checkLocationPermission() {
         Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {

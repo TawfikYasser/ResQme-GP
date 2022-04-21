@@ -22,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
@@ -32,7 +35,6 @@ import com.example.resqme.common.AddressMap;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Splash;
 import com.example.resqme.model.CMC;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -75,6 +77,21 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
         initToolbar();
         initViews();
         forceRTLIfSupported();
+
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                cmcImageURI = result;
+                cmcimage.setImageURI(result);
+            }
+        });
+        choosecmcimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
+
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -125,9 +142,6 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.chooseimagecmcbutton:
-                gettingImageFromGallery();
-                break;
             case R.id.choose_address_button_for_cmc:
                 checkLocationPermission();
                 break;
@@ -198,27 +212,17 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    private void gettingImageFromGallery() {
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start(1);
-    }
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1) {
-            Uri uri = data.getData();
-            cmcImageURI = uri;
-            cmcimage.setImageURI(uri);
-        }
-        else{
+        if(requestCode == 3) {
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("ADDRESS_VALUE");
                 cmcAddressTV.setVisibility(View.VISIBLE);
                 cmcAddressTV.setText(result);
             }
         }
+
     }
     void getAddress() {
         Intent addressMapIntent = new Intent(AddCmc.this, AddressMap.class);

@@ -1,5 +1,8 @@
 package com.example.resqme.customer;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +30,6 @@ import android.widget.RadioGroup;
 
 import com.example.resqme.R;
 import com.example.resqme.model.Car;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -66,11 +68,39 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
         initToolbar();
         initViews();
 
+
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                driverLicence = result;
+                ivDriverLicence.setImageURI(result);
+            }
+        });
+
+        ActivityResultLauncher<String> launcher2 = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                carLicence = result;
+                ivCarLicence.setImageURI(result);
+            }
+        });
+        btnChooseDriverLicence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
+
+        btnChooseCarLicence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher2.launch("image/*");
+            }
+        });
+
     }
 
     private void initViews() {
-
-
 
         aCarType = findViewById(R.id.car_types_dropdown_list);
         String[] arrayCarTypes = getResources().getStringArray(R.array.cartypes);
@@ -161,12 +191,6 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.choose_driver_licence_image_button:
-                getDriverLicenceImage();
-                break;
-            case R.id.choose_car_licence_image_button:
-                getCarLicenceImage();
-                break;
             case R.id.save_car_data_btn:
                 saveSendData();
                 break;
@@ -279,34 +303,7 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
     }
 
 
-    void getDriverLicenceImage(){
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start(12);
-    }
-    void getCarLicenceImage(){
-        ImagePicker.with(this)
-                .crop()	 //Crop image(Optional), Check Customization for more option
-                .compress(1024)	//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start(13);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 12){
-            Uri uri = data.getData();
-            driverLicence = uri;
-            ivDriverLicence.setImageURI(uri);
-        }else if(requestCode == 13){
-            Uri uri = data.getData();
-            carLicence = uri;
-            ivCarLicence.setImageURI(uri);
-        }
 
-    }
 
 }
