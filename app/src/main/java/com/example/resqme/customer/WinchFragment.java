@@ -348,18 +348,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }
-//        }else if(requestCode == 30){
-//            progressDialogPayment.dismiss();
-//            // If payment done, we can send the request
-//            if(data!=null){
-//                if(!TextUtils.isEmpty(data.getStringExtra("PAYMENT_STATUS"))){
-//                    PaymentStatusArg = data.getStringExtra("PAYMENT_STATUS");
-//                    if(!TextUtils.isEmpty(PaymentStatusArg) && PaymentStatusArg.equals("SUCCESS_P_RESQME")){
-//
-//                    }
-//                }
-//            }
-//        }
     }
 
     // Marker Shape

@@ -75,6 +75,8 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
     StorageReference storageWinchImages;
     Uri driverLicenceUri = null;
     Uri winchLicenceUri = null;
+
+    String fromSTR = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,9 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         initViews();
         initToolbar();
         forceRTLIfSupported();
+
+        Intent fromWhere = getIntent();
+        fromSTR = fromWhere.getStringExtra("FROM");
 
         ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
@@ -237,14 +242,22 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                                 winchCostPerKMET.getText().toString().trim(), "Pending", "Available", winchAddressTV.getText().toString().trim()
                                         , String.valueOf(p1.latitude), String.valueOf(p1.longitude),  uri.toString(), uri2.toString(), sp_userid, sp_rate);
                                         winchesDB.child(winchID).setValue(winch);
-                                        ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("winch");// Set the value of serviceType attribute in the service provider table
-                                        ServiceProvidersTable.child(sp_userid).child("winch").setValue("true");// Set the value of serviceType attribute in the service provider table
+                                        if(fromSTR.equals("SPHOME")){
+                                            ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("CMC");// Set the value of serviceType attribute in the service provider table
+                                        }else{
+                                            ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("Winch");// Set the value of serviceType attribute in the service provider table
+                                        }
+                                        ServiceProvidersTable.child(sp_userid).child("isWinch").setValue("True");// Set the value of serviceType attribute in the service provider table
 
                                         // Related to service provider service type handling.
                                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = cld.edit();
-                                        editor.putString("SP_ServiceType", "Winch");
-                                        editor.putString("SP_WINCH", "TRUE");
+                                        if(fromSTR.equals("SPHOME")){
+                                            editor.putString("SP_ServiceType", "CMC");
+                                        }else{
+                                            editor.putString("SP_ServiceType", "Winch");
+                                        }
+                                        editor.putString("SP_WINCH", "True");
                                         editor.apply();
 
                                         progressDialog.dismiss();
@@ -255,8 +268,6 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                                 });
                             }
                         });
-
-
                     }
                 }) ;
             }

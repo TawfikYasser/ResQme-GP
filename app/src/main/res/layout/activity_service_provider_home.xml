@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".serviceProvider.ServiceProviderHome">
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
@@ -15,198 +15,237 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:clickable="true"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:focusable="true"
             android:layout_gravity="right"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="12dp"
             android:src="@drawable/chooseimage"
             app:civ_border_color="@color/color_gray_3"
             app:civ_border_width="2dp"/>
-
-
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:id="@+id/cmc_linear_layout"
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_margin="12dp"
+            app:cornerRadius="12dp"
+            android:id="@+id/sp_home_settings_btn"
+            android:text="الإعدادات"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_margin="12dp"
-                app:cardCornerRadius="8dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/color_gray_3"
-                app:cardElevation="0dp"
                 android:layout_height="wrap_content">
+
+                <!-- CMC Layout -->
                 <LinearLayout
                     android:orientation="vertical"
+                    android:visibility="gone"
+                    android:id="@+id/cmc_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/cmc_item_image"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"/>
-                    <RelativeLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_margin="12dp"
+                        app:cardCornerRadius="8dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/color_gray_3"
+                        app:cardElevation="0dp"
                         android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/cmc_item_image_sp_hme"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"/>
+                            <RelativeLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/cmc_name_item"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:text="اسم مركز خدمة السيارات"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                                <TextView
+                                    android:id="@+id/cmc_name_item_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="اسم مركز خدمة السيارات"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
 
 
-                    </RelativeLayout>
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            </RelativeLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_gravity="right"
-                            android:id="@+id/cmc_location_item"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:text="عنوان مركز خدمة السيارات"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_gravity="right"
-                            android:id="@+id/cmc_brand_item"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginBottom="12dp"
-                            android:text="البراند"
-                            android:textStyle="bold" />
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/cmc_location_item_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="عنوان مركز خدمة السيارات"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/cmc_brand_item_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="البراند"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/cmc_item_status_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="حالة مركز الخدمة"
+                                    android:textStyle="bold" />
 
-                    </LinearLayout>
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/cmc_item_availability_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:layout_marginBottom="12dp"
+                                    android:text="متاح؟"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="match_parent"
+                                android:layout_margin="12dp"
+                                android:id="@+id/change_cmc_availability_btn_sp_home"
+                                android:text="تغيير حالة مركز الخدمة"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:id="@+id/winch_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_margin="12dp"
-                app:cardCornerRadius="8dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/color_gray_3"
-                app:cardElevation="0dp"
-                android:layout_height="wrap_content">
+                <!-- Winch Layout -->
                 <LinearLayout
+                    android:visibility="gone"
                     android:orientation="vertical"
+                    android:id="@+id/winch_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/winch_item_image_sp"
+                    <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"/>
-                    <RelativeLayout
-                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:id="@+id/add_winch_cmc_case_only_BTN"
+                        android:text="أضف ونش"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/winch_sp_home_card_view"
                         android:layout_width="match_parent"
+                        android:layout_margin="12dp"
+                        app:cardCornerRadius="8dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/color_gray_3"
+                        app:cardElevation="0dp"
                         android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:id="@+id/winch_licence_image_sp_home"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"/>
+                                <TextView
+                                    android:id="@+id/winch_name_item_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="اسم الونش"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="right"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/winch_availability_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="متاح؟"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/winch_costperkm_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:text="تكلفة الخدمة لكل كيلومتر"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_gravity="right"
+                                    android:id="@+id/winch_status_sp_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:layout_marginRight="12dp"
+                                    android:layout_marginBottom="12dp"
+                                    android:text="حالة الونش"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="match_parent"
+                                android:id="@+id/change_winch_availability_sp_home_btn"
+                                android:text="تغيير حالة الونش"
+                                android:layout_margin="5dp"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                        <TextView
-                            android:id="@+id/winch_name_item_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:text="اسم الونش"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                    </RelativeLayout>
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_gravity="right"
-                            android:id="@+id/winch_location_item_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:text="عنوان مركز خدمة السيارات"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_gravity="right"
-                            android:id="@+id/winch_brand_item_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginBottom="12dp"
-                            android:text="البراند"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+                <!-- Spare Layout -->
+                <LinearLayout
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:id="@+id/spare_parts_linear_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:id="@+id/add_spare_parts_sp_home_btn"
+                        android:text="إضافة قطع غيار"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/spare_parts_recycler_sp_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
 
 
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:id="@+id/spare_parts_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/spare_parts_recycler_sp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.button.MaterialButton
-                android:visibility="gone"
-                android:id="@+id/go_to_add_spare_parts_btn_from_sp_home"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="12dp"
-                android:text="أضف قطع غيار"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_height="wrap_content"/>
-            <com.google.android.material.button.MaterialButton
-                android:visibility="gone"
-                android:id="@+id/go_to_add_winch_btn_from_sp_home"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="12dp"
-                android:text="أضف ونش"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

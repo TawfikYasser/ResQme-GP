@@ -58,6 +58,8 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
     Uri sparePartsUri = null;
     ProgressDialog progressDialog;
 
+
+    String fromSTR = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,10 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         initToolbar();
         initViews();
         forceRTLIfSupported();
+
+
+        Intent fromWhere = getIntent();
+        fromSTR = fromWhere.getStringExtra("FROM");
 
 
         ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
@@ -187,21 +193,29 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
                                 sp_userid, Cartype, "Available");
                         ServicesTable.child(sparePartID).setValue(sparePart); //Set Service data in database
 
-                        ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("spare parts");// Set the value of serviceType attribute in the service provider table
-                        ServiceProvidersTable.child(sp_userid).child("spareParts").setValue("true");// Set the value of serviceType attribute in the service provider table
+                        if(fromSTR.equals("SPHOME")){
+                            ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("CMC");// Set the value of serviceType attribute in the service provider table
+                        }else {
+                            ServiceProvidersTable.child(sp_userid).child("serviceType").setValue("SpareParts");// Set the value of serviceType attribute in the service provider table
+                        }
+                        ServiceProvidersTable.child(sp_userid).child("isSpareParts").setValue("True");// Set the value of serviceType attribute in the service provider table
 
                         // Related to service provider service type handling.
                         SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
-                        editor.putString("SP_ServiceType", "SpareParts");
-                        editor.putString("SP_SPARE_PARTS", "TRUE");
+                        if(fromSTR.equals("SPHOME")){
+                            editor.putString("SP_ServiceType", "CMC");
+                        }else{
+                            editor.putString("SP_ServiceType", "SpareParts");
+                        }
+
+                        editor.putString("SP_SPARE_PARTS", "True");
                         editor.apply();
 
                         progressDialog.dismiss();
-                        Intent toAddcmcintent = new Intent(AddSpareParts.this,SparePartsProviderHome.class);
+                        Intent toAddcmcintent = new Intent(AddSpareParts.this,ServiceProviderHome.class);
                         startActivity(toAddcmcintent);
                         finish();
-
                     }
                 });
             }

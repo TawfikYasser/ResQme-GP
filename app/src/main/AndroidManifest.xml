@@ -52,10 +52,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".serviceProvider.SparePartsProviderHome"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".customer.CMCDetails"
             android:exported="false"
             android:screenOrientation="portrait" />

@@ -1,6 +1,5 @@
 package com.example.resqme.common;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -8,24 +7,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
-import com.example.resqme.model.Customer;
-import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
-import com.example.resqme.serviceProvider.SparePartsProviderHome;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class Splash extends AppCompatActivity {
 
@@ -65,7 +54,7 @@ public class Splash extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     }
-                }, 1000);
+                }, 500);
             }
         }
         if(userDataSP.contains("SP_EMAIL")){
@@ -88,7 +77,7 @@ public class Splash extends AppCompatActivity {
                         }
 
                     }
-                }, 1000);
+                }, 500);
             }
         }
     }

@@ -13,9 +13,9 @@ public class ServiceProvider {
     String gender = "";
     String userType = "";
     String serviceType = "";
-    String isCMC ;
-    String isWinch  ;
-    String isSpareParts ;
+    String isCMC = "" ;
+    String isWinch = ""  ;
+    String isSpareParts = "" ;
 
     public ServiceProvider(String username, String email, String password, String image, String address, String whatsApp, String bod, String userId, String rate, String gender, String userType, String serviceType,
                            String isCMC, String isWinch, String isSpareParts) {
