@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_status_txt"
+                android:id="@+id/sp_winch_request_item_status_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_winch_name_txt"
+                android:id="@+id/sp_winch_request_item_winch_name_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
@@ -83,20 +83,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <TextView
-                android:id="@+id/winch_request_item_winchownername_1_txt"
+                android:id="@+id/winch_request_item_customer_name_1_txt"
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
-                android:text="اسم مالك الونش"
+                android:text="اسم العميل"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_winch_owner_name_txt"
+                android:id="@+id/winch_request_item_customer_name_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/black"
-                android:text="اسم مالك الونش"
+                android:text="اسم العميل"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -107,20 +107,20 @@
                 android:layout_height="1dp"/>
 
             <TextView
-                android:id="@+id/winch_request_item_winchownerphone_1_txt"
+                android:id="@+id/winch_request_item_customer_phone_1_txt"
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
-                android:text="رقم مالك الونش"
+                android:text="رقم العميل"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_winch_owner_phone_txt"
+                android:id="@+id/winch_request_item_customer_phone_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/black"
-                android:text="رقم مالك الونش"
+                android:text="رقم العميل"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_service_cost_txt"
+                android:id="@+id/sp_winch_request_item_service_cost_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
@@ -159,11 +159,11 @@
                 android:id="@+id/winch_request_item_description_1_txt"
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
-                android:text="الوصف المرفق بطلبك"
+                android:text="الوصف المرفق من قبل العميل"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_description_txt"
+                android:id="@+id/sp_winch_request_item_description_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
@@ -180,14 +180,14 @@
                 android:layout_height="1dp"/>
 
             <TextView
-                android:id="@+id/winch_request_item_time_1_txt"
+                android:id="@+id/sp_winch_request_item_time_1_txt"
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
                 android:text="وقت إنشاء الطلب"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/winch_request_item_timestamp_txt"
+                android:id="@+id/sp_winch_request_item_timestamp_txt"
                 android:layout_gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
@@ -204,42 +204,32 @@
                 android:layout_height="1dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/winch_request_tracking_btn"
+                android:id="@+id/sp_winch_request_item_accept_btn"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="12dp"
-                android:text="تتبع طلبك"
-                app:icon="@drawable/ic_baseline_map_24"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_height="wrap_content"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/winch_request_complete_btn"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="12dp"
-                android:text="تم بنجاح"
+                android:text="أقبل الطلب"
                 android:backgroundTint="@color/green_color"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/winch_request_cancel_btn"
+                android:id="@+id/sp_winch_request_item_refuse_btn"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="12dp"
-                android:text="إلغاء"
+                android:text="رفض الطلب"
                 android:backgroundTint="@color/red_color"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/winch_request_rate_btn"
                 android:enabled="false"
+                android:id="@+id/sp_winch_request_item_rate_btn"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="12dp"
-                android:text="تقييم الخدمة"
+                android:text="تقييم العميل"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
 
@@ -249,7 +239,7 @@
                 android:padding="8dp"
                 android:gravity="right"
                 android:layout_margin="8dp"
-                android:text="عند قبول طلبك من طرف مالك الونش يمكنك تتبع حركة الونش إليك عن طريق الضغط على زر تتبع طلبك."
+                android:text="بمجرد إرسال هذا الطلب من قبل العميل تم تحويل حالة حالة الونش الى غير متاح حتى قبول او رفض الطلب وانتهاء الخدمة، عند قبول الطلب ستتمكن من رؤية بيانات العميل ويمكن التواصل معه، سيصل العميل إشعار بأنك قمت بقبول الطلب، بعد اتمامك للخدمة سيقوم العميل بإنهاء الطلب بنجاح او بالإلغاء، كل منكم يمكنه تقييم الاخر بعد انتهاء الخدمة بنجاح، وإذا قمت برفض الطلب من البداية سيقوم العميل بإعطائك تقييم."
                 android:layout_gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

@@ -44,6 +44,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home.xml" value="0.144" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_settings.xml" value="0.14802631578947367" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_show_questions_customer.xml" value="0.14802631578947367" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_sp_winch_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_spare_parts_provider_home.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_spare_parts_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_spareparts_details.xml" value="0.13402777777777777" />
@@ -69,6 +70,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/splash.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/winch_bottom_layout.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/winch_requests_item.xml" value="0.136" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/winch_requests_sp_item.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/menu/customer_home_menu.xml" value="0.20521590423257802" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/Pc/ResQme-GP/app/src/main/res/layout/activity_add_car_data.xml" value="0.2078125" />

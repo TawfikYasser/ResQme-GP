@@ -117,6 +117,14 @@ public class ServiceProviderSettings extends AppCompatActivity {
             }
         });
 
+        winchRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent to = new Intent(context, SP_Winch_Requests.class);
+                startActivity(to);
+            }
+        });
+
     }
 
     private void initViews() {

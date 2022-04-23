@@ -25,6 +25,9 @@
         android:theme="@style/Theme.ResQme"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".serviceProvider.SP_Winch_Requests"
+            android:exported="false" />
+        <activity
             android:name=".serviceProvider.SPQuestions"
             android:exported="false" />
         <activity

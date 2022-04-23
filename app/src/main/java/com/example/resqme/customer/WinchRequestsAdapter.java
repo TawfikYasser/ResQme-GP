@@ -86,6 +86,7 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.TrackWinchBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+            holder.rateBtn.setEnabled(false);
             holder.tvWinchRequestOwnerName.setText("غير متاح حتى قبول الطلب");
             holder.tvWinchRequestOwnerName.setTextColor(Color.rgb(255, 166, 53));
             holder.tvWinchRequestOwnerPhone.setText("غير متاح حتى قبول الطلب");
@@ -122,10 +123,25 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.TrackWinchBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+            holder.rateBtn.setEnabled(true);
             holder.tvWinchRequestOwnerName.setText("غير متاح");
             holder.tvWinchRequestOwnerName.setTextColor(Color.RED);
             holder.tvWinchRequestOwnerPhone.setText("غير متاح");
             holder.tvWinchRequestOwnerPhone.setTextColor(Color.RED);
+        }
+
+        if(winchRequests.get(position).getWinchRequestStatus().equals("Success")){
+            holder.rateBtn.setEnabled(true);
+            holder.TrackWinchBtn.setEnabled(false);
+            holder.CompleteBtn.setEnabled(false);
+            holder.CancelBtn.setEnabled(false);
+        }
+
+        if(winchRequests.get(position).getWinchRequestStatus().equals("Failed")){
+            holder.rateBtn.setEnabled(false);
+            holder.TrackWinchBtn.setEnabled(false);
+            holder.CompleteBtn.setEnabled(false);
+            holder.CancelBtn.setEnabled(false);
         }
 
         holder.TrackWinchBtn.setOnClickListener(new View.OnClickListener() {
@@ -143,14 +159,31 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
         holder.CompleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "تم بنجاح", Toast.LENGTH_SHORT).show();
+                //Done
+                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Success");
+                Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
             }
         });
 
         holder.CancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "لم يتم إكمال الطلب", Toast.LENGTH_SHORT).show();
+                // Failed
+                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Failed");
+                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                holder.rateBtn.setEnabled(false);
+                holder.TrackWinchBtn.setEnabled(false);
+                holder.CompleteBtn.setEnabled(false);
+                holder.CancelBtn.setEnabled(false);
+            }
+        });
+        holder.rateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Rate in case of Done or Failed
+
             }
         });
     }
@@ -158,7 +191,7 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
     class MyWinchAdapterViewHolder extends RecyclerView.ViewHolder{
         TextView tvWinchRequestStatus, tvWinchRequestName, tvWinchRequestOwnerName, tvWinchRequestOwnerPhone,
         tvWinchRequestCost, tvWinchRequestDescription, tvWinchRequestTimestamp;
-        MaterialButton TrackWinchBtn, CompleteBtn, CancelBtn;
+        MaterialButton TrackWinchBtn, CompleteBtn, CancelBtn, rateBtn;
         public MyWinchAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             tvWinchRequestStatus = itemView.findViewById(R.id.winch_request_item_status_txt);
@@ -171,6 +204,7 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             TrackWinchBtn = itemView.findViewById(R.id.winch_request_tracking_btn);
             CompleteBtn = itemView.findViewById(R.id.winch_request_complete_btn);
             CancelBtn = itemView.findViewById(R.id.winch_request_cancel_btn);
+            rateBtn = itemView.findViewById(R.id.winch_request_rate_btn);
         }
     }
 }

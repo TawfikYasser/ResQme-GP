@@ -115,7 +115,10 @@ public class ServiceProviderHome extends AppCompatActivity  {
 
         DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
 
-        // Location Work
+
+
+        // Location Work for Winch and CMC only
+        // Condition to be added here
         // GPS
         try {
             GPS = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
@@ -173,7 +176,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
             locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
             locationRequest = LocationRequest.create();
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(10000);
+            locationRequest.setInterval(20000);
             locationCallback = new LocationCallback(){
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
