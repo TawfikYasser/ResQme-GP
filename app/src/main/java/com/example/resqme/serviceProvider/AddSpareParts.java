@@ -76,6 +76,9 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
         Intent fromWhere = getIntent();
         fromSTR = fromWhere.getStringExtra("FROM");
 
+        if(TextUtils.isEmpty(fromSTR)){
+            fromSTR = "";
+        }
 
         ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override

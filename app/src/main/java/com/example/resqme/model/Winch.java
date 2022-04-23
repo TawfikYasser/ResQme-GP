@@ -19,6 +19,7 @@ public class Winch {
         this.winchOwnerRate = winchOwnerRate;
     }
 
+
     public Winch(){}
 
     public String getWinchCurrentLat() {

@@ -1,11 +1,19 @@
 package com.example.resqme.serviceProvider;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +37,16 @@ import com.example.resqme.model.Report;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.model.SparePart;
 import com.example.resqme.model.Winch;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +54,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.ArrayList;
 
@@ -49,6 +75,14 @@ public class ServiceProviderHome extends AppCompatActivity  {
     String Type;
     CircleImageView spHomeImage;
     MaterialButton goToSettingsBtnFromSPHome;
+    int GPS = 0;
+    int GrantedToWork = 0;
+    final boolean[] LocationPermission = {false};
+    String myLat = "", myLong = "";
+    FusedLocationProviderClient locationProviderClient;
+    LocationRequest locationRequest = null;
+    LocationCallback locationCallback = null;
+
 
     // Winch Data
     ImageView winchLicenceImageSPHome;
@@ -79,8 +113,123 @@ public class ServiceProviderHome extends AppCompatActivity  {
         initviews();
         pageDataLoading();
 
-        // Location Work
+        DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
 
+        // Location Work
+        // GPS
+        try {
+            GPS = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (GPS == 0) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            alertDialog.setTitle("إعدادات الموقع");
+            alertDialog.setMessage("الـ GPS غير مُفعل، لإستخدام التطبيق يجب تفعيله هل انت موافق؟");
+            alertDialog.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent onGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(onGPS, 150);
+                }
+            });
+            alertDialog.setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alertDialog.show();
+        }
+
+        // Location
+        Dexter.withContext(context).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                LocationPermission[0] = true;
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", context.getPackageName(), "");
+                intent.setData(uri);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                permissionToken.continuePermissionRequest();
+            }
+        }).check();
+
+        if (GPS != 0 && LocationPermission[0]) {
+            GrantedToWork = 1;
+        }
+        if (GrantedToWork != 0) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            }
+            locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setInterval(1000);
+            locationCallback = new LocationCallback(){
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    if (locationResult == null) {
+                        return;
+                    }
+                    for (Location location : locationResult.getLocations()) {
+                         if (location != null) {
+
+                             myLat = String.valueOf(location.getLatitude());
+                             myLong = String.valueOf(location.getLongitude());
+                             // Change winch dimensions of this service provider
+                             SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                             String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
+                             winchesData.addValueEventListener(new ValueEventListener() {
+                                 @Override
+                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                         Winch winch = dataSnapshot.getValue(Winch.class);
+                                         if(winch.getWinchOwnerID().equals(sp_userid)){
+                                             winchesData.child(winch.getWinchID()).child("winchCurrentLat").setValue(myLat);
+                                             winchesData.child(winch.getWinchID()).child("winchCurrentLong").setValue(myLong);
+                                         }
+                                     }
+                                 }
+                                 @Override
+                                 public void onCancelled(@NonNull DatabaseError error) {
+
+                                 }
+                             });
+
+                         }
+                    }
+                }
+            };
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    Activity#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+        locationProviderClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                Looper.getMainLooper());
     }
 
     private void pageDataLoading() {
