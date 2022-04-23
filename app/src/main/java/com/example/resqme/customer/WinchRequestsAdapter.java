@@ -16,10 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.resqme.R;
 import com.example.resqme.common.MyReportAdapter;
+import com.example.resqme.common.RatingScreen;
+import com.example.resqme.common.Registeration;
+import com.example.resqme.model.Rate;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
+import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,11 +38,13 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
     Context context;
     ArrayList<WinchRequest> winchRequests;
     DatabaseReference serviceProviders;
+    FirebaseAuth firebaseAuth;
 
     public WinchRequestsAdapter(Context context, ArrayList<WinchRequest> winchRequests, DatabaseReference spDB) {
         this.context = context;
         this.winchRequests = winchRequests;
         this.serviceProviders = spDB;
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @NonNull
@@ -131,17 +138,43 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
         }
 
         if(winchRequests.get(position).getWinchRequestStatus().equals("Success")){
+            holder.tvWinchRequestStatus.setText("تم الطلب بنجاح");
+            holder.tvWinchRequestStatus.setTextColor(Color.BLUE);
             holder.rateBtn.setEnabled(true);
             holder.TrackWinchBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+
+            serviceProviders.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                        ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                        if(serviceProvider.getUserId().equals(winchRequests.get(position).getWinchOwnerID())){
+                            holder.tvWinchRequestOwnerName.setText(serviceProvider.getUsername());
+                            holder.tvWinchRequestOwnerPhone.setText(serviceProvider.getWhatsApp());
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
         if(winchRequests.get(position).getWinchRequestStatus().equals("Failed")){
+            holder.tvWinchRequestStatus.setText("تم إلغاء الطلب");
+            holder.tvWinchRequestStatus.setTextColor(Color.RED);
             holder.rateBtn.setEnabled(false);
             holder.TrackWinchBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+            holder.tvWinchRequestOwnerName.setText("غير متاح");
+            holder.tvWinchRequestOwnerName.setTextColor(Color.RED);
+            holder.tvWinchRequestOwnerPhone.setText("غير متاح");
+            holder.tvWinchRequestOwnerPhone.setTextColor(Color.RED);
         }
 
         holder.TrackWinchBtn.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +193,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             @Override
             public void onClick(View view) {
                 //Done
+                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
+                winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
                 DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
                 requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Success");
                 Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
@@ -170,6 +205,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             @Override
             public void onClick(View view) {
                 // Failed
+                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
+                winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
                 DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
                 requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Failed");
                 Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
@@ -183,6 +220,31 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             @Override
             public void onClick(View view) {
                 // Rate in case of Done or Failed
+                Intent mainIntent = new Intent(context, RatingScreen.class);
+                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mainIntent.putExtra("FROM_REQUEST","CUSTOMER");
+                mainIntent.putExtra("WINCH_REQUEST_ID", winchRequests.get(position).getWinchRequestID());
+                mainIntent.putExtra("WINCH_REQUEST_SP_ID", winchRequests.get(position).getWinchOwnerID());
+                mainIntent.putExtra("WINCH_REQUEST_CUSTOMER_ID", winchRequests.get(position).getCustomerID());
+                context.startActivity(mainIntent);
+            }
+        });
+
+        DatabaseReference rateTable = FirebaseDatabase.getInstance().getReference().child("Rate");
+        rateTable.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Rate rate = dataSnapshot.getValue(Rate.class);
+                    if(rate.getRequestID().equals(winchRequests.get(position).getWinchRequestID())
+                    && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())){
+                        holder.rateBtn.setEnabled(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

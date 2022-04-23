@@ -34,7 +34,7 @@
                 android:padding="8dp"
                 android:gravity="right"
                 android:layout_margin="8dp"
-                android:text="من فضلك قم بكتابة رأيك في الخدمة ومقدم الخدمة وقم بإعطاه تقييم من 5 نجوم. (شكراً)"
+                android:text="قم بإعطاء تقييم من 5 نجوم من فضلك وأكتب رأيك..."
                 android:layout_gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
