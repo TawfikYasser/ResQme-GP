@@ -173,7 +173,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
             locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
             locationRequest = LocationRequest.create();
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(1000);
+            locationRequest.setInterval(10000);
             locationCallback = new LocationCallback(){
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
@@ -210,6 +210,14 @@ public class ServiceProviderHome extends AppCompatActivity  {
                 }
             };
         }
+
+        goToSettingsBtnFromSPHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToSettings = new Intent(context, ServiceProviderSettings.class);
+                startActivity(goToSettings);
+            }
+        });
     }
 
     @Override
@@ -419,7 +427,20 @@ public class ServiceProviderHome extends AppCompatActivity  {
                             && serviceProvider.getIsWinch().equals("True")){
                                 winch_HOME.setVisibility(View.VISIBLE);
                                 cmcAddWinch.setVisibility(View.GONE);
+
+                                SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = cld.edit();
+                                editor.putString("SP_WINCH", "True");
+                                editor.apply();
                             }
+                            if(serviceProvider.getServiceType().equals("CMC")
+                                    && serviceProvider.getIsSpareParts().equals("True")){
+                                SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = cld.edit();
+                                editor.putString("SP_SPARE_PARTS", "True");
+                                editor.apply();
+                            }
+
                             if(serviceProvider.getServiceType().equals("CMC")
                             && !serviceProvider.getIsWinch().equals("True")){
                                 // Show winch data and allow to add one winch

@@ -1,45 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="wrap_content"
-    tools:context=".customer.SettingsFragment">
+    tools:context=".serviceProvider.ServiceProviderSettings">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_sp_settings"
+            android:layout_width="match_parent"
+            android:tooltipText="رجوع"
+            android:layout_height="?attr/actionBarSize"
+            app:title="الإعدادات"
+            app:titleTextAppearance="@font/fontlight"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/requestsBtn"
+            android:id="@+id/sp_settings_winch_requests"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="طلباتي"
+            android:text="طلبات الونش"
             android:textStyle="bold"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
             android:layout_marginTop="20dp"/>
         <Button
-            android:id="@+id/askQuestionSettings"
+            android:id="@+id/sp_settings_cmc_requests"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="اسال سؤال"
+            android:text="طلبات مركز خدمة السيارات"
             android:textStyle="bold"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/resqmefont"
             android:layout_marginTop="20dp"/>
         <Button
-            android:id="@+id/questionsBtnCustomerSettings"
+            android:id="@+id/sp_settings_spareparts_requests"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="طلبات قطع الغيار"
+            android:textStyle="bold"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/resqmefont"
+            android:layout_marginTop="20dp"/>
+        <Button
+            android:id="@+id/sp_settings_questions"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -50,18 +72,7 @@
             android:fontFamily="@font/resqmefont"
             android:layout_marginTop="20dp"/>
         <Button
-            android:id="@+id/cartBtn"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_weight="1"
-            android:text="عربة تسوق قطع الغيار"
-            android:textStyle="bold"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:fontFamily="@font/resqmefont"
-            android:layout_marginTop="20dp"/>
-        <Button
-            android:id="@+id/reportsBtn"
+            android:id="@+id/sp_settings_sendReport"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -73,7 +84,7 @@
             android:layout_marginTop="20dp">
         </Button>
         <Button
-            android:id="@+id/reports_list_btn"
+            android:id="@+id/sp_settings_reports"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -85,7 +96,7 @@
             android:layout_marginTop="20dp">
         </Button>
         <Button
-            android:id="@+id/aboutusBtn"
+            android:id="@+id/sp_settings_aboutUs"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -98,7 +109,7 @@
             >
         </Button>
         <Button
-            android:id="@+id/contactusBtn"
+            android:id="@+id/sp_settings_contactUs"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -109,7 +120,7 @@
             android:fontFamily="@font/resqmefont"
             android:layout_marginTop="20dp"/>
         <Button
-            android:id="@+id/logout_customer_profile"
+            android:id="@+id/sp_settings_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -117,5 +128,8 @@
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/red_color"
             android:text="تسجيل الخروج" />
+
     </LinearLayout>
-</ScrollView>
+
+    </ScrollView>
+</LinearLayout>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.resqme.R;
 import com.example.resqme.customer.CustomerProfile;
 import com.example.resqme.model.Report;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,12 +42,15 @@ public class MyReports extends AppCompatActivity {
     ArrayList<Report> reports;
     Context context;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_reports);
         initToolbar();
         forceRTLIfSupported();
+        mAuth = FirebaseAuth.getInstance();
         myReportsRV = findViewById(R.id.myreports_recycler);
         context = this.getApplicationContext();
         myReportsDB = FirebaseDatabase.getInstance().getReference().child("Reports");
@@ -63,9 +67,9 @@ public class MyReports extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
                         Report report = dataSnapshot.getValue(Report.class);
-                        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-                        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-                        if(report.getUserID().equals(c_userid) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
+//                        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+//                        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
+                        if(report.getUserID().equals(mAuth.getCurrentUser().getUid()) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
                             reports.add(report);
                             if(reports.size() !=0){
                                 myReportAdapter = new MyReportAdapter(context, reports);

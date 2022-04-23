@@ -34,12 +34,14 @@ public class SendReport extends AppCompatActivity {
     DatabaseReference reportsTable;
     ProgressDialog progressDialog;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_report);
         progressDialog = new ProgressDialog(this);
-
+        mAuth = FirebaseAuth.getInstance();
         initToolbar();
         forceRTLIfSupported();
         reportsTable = FirebaseDatabase.getInstance().getReference().child("Reports");
@@ -88,10 +90,10 @@ public class SendReport extends AppCompatActivity {
     private void sendReport(String reportDesc) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String reportID = database.getReference("Reports").push().getKey();// create new id
-        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
-        String c_userid = userData.getString("C_USERID","C_DEFAULT");
-        String c_email = userData.getString("C_EMAIL", "C_DEFAULT");
-        Report report = new Report(reportDesc, reportID, c_userid,"Pending", c_email);
+//        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
+//        String c_userid = userData.getString("C_USERID","C_DEFAULT");
+//        String c_email = userData.getString("C_EMAIL", "C_DEFAULT");
+        Report report = new Report(reportDesc, reportID, mAuth.getCurrentUser().getUid(),"Pending", mAuth.getCurrentUser().getEmail());
         reportsTable.child(reportID).setValue(report);//Entering report in database
         progressDialog.dismiss();
         Toast.makeText(this, "تم إرسال التقرير وهو في مرحلة المراجعة، سيتم التواصل معك عن طريق البريد الإلكتروني", Toast.LENGTH_LONG).show();
