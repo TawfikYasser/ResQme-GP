@@ -112,7 +112,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
         questions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToQuestionsPage = new Intent(context, Questions.class);
+                Intent goToQuestionsPage = new Intent(context, SPQuestions.class);
                 startActivity(goToQuestionsPage);
             }
         });
