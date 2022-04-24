@@ -10,14 +10,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven {
-            url  "https://cardinalcommerceprod.jfrog.io/artifactory/android"
-            credentials{
-                username usernameP
-                password passwordP
-            }
-        }
         maven { url 'https://jitpack.io' }
     }
 }

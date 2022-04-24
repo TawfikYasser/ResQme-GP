@@ -16,14 +16,16 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:allowBackup="false"
+        android:usesCleartextTraffic="true"
+        android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme"
-        tools:replace="android:allowBackup">
+        tools:replace="android:supportsRtl"
+        >
         <activity
             android:name=".serviceProvider.SP_Winch_Requests"
             android:exported="false" />
@@ -32,10 +34,6 @@
             android:exported="false" />
         <activity
             android:name=".serviceProvider.ServiceProviderSettings"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".customer.CustomerWinchPayment"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -197,6 +195,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAt5mPiOyNthLhk1aAaDOgVYsIHVxCsz_U" />
+
+
     </application>
 
 </manifest>

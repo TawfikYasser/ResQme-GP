@@ -529,7 +529,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
 
             //Marking the winch as un available
             DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
-            Toast.makeText(context, finalBestWinch.getWinchID(), Toast.LENGTH_SHORT).show();
             winches.child(finalBestWinch.getWinchID()).child("winchAvailability").setValue("Not Available");
 
             Toast.makeText(context, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
