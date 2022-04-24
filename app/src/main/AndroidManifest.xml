@@ -162,6 +162,7 @@
         <activity
             android:name=".serviceProvider.ServiceProviderAddService"
             android:exported="false"
+            android:theme="@style/Theme.ResQme.Customized"
             android:screenOrientation="portrait" />
         <activity
             android:name=".serviceProvider.AddSpareParts"
