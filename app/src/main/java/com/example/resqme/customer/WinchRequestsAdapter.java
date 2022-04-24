@@ -209,7 +209,7 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
                 winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
                 DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
                 requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Failed");
-                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ.", Toast.LENGTH_SHORT).show();
                 holder.rateBtn.setEnabled(false);
                 holder.TrackWinchBtn.setEnabled(false);
                 holder.CompleteBtn.setEnabled(false);

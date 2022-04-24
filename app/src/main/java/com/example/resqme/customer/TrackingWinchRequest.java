@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,6 +23,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -32,7 +34,9 @@ import com.example.resqme.R;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -74,6 +78,11 @@ public class TrackingWinchRequest extends AppCompatActivity {
     ArrayList<Winch> winchArrayList;
     String winchIDSTR = "";
 
+
+    FusedLocationProviderClient locationProviderClient;
+    LocationRequest locationRequest = null;
+    LocationCallback locationCallback = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,18 +97,6 @@ public class TrackingWinchRequest extends AppCompatActivity {
         winchArrayList = new ArrayList<>();
         winchesDB = FirebaseDatabase.getInstance().getReference().child("Winches");
         mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.tracking_map_fragment);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(@NonNull GoogleMap googleMap) {
-                LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
-                googleMap.addMarker(new MarkerOptions()
-                        .position(me)
-                        .title("موقعك الحالي")).showInfoWindow();
-                googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
-                float zoomLevel = 12.0f; //This goes up to 21
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, zoomLevel));
-            }
-        });
 
         // Location & GPS
         // GPS
@@ -153,66 +150,82 @@ public class TrackingWinchRequest extends AppCompatActivity {
         }
 
         if (GrantedToWork != 0) {
-
-            FusedLocationProviderClient locationProviderClient = LocationServices.
-                    getFusedLocationProviderClient(this);
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            }
-
-            locationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new CancellationToken() {
+            locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setInterval(20000);
+            locationCallback = new LocationCallback(){
                 @Override
-                public boolean isCancellationRequested() {
-                    return false;
-                }
-
-                @NonNull
-                @Override
-                public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
-                    return null;
-                }
-            }).addOnCompleteListener(location -> {
-                if(location.isSuccessful()){
-                    myLat = String.valueOf(location.getResult().getLatitude());
-                    myLong = String.valueOf(location.getResult().getLongitude());
-                    winchesDB.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                Winch winch = dataSnapshot.getValue(Winch.class);
-                                if(winch.getWinchID().equals(winchIDSTR)){
-                                    winchArrayList.add(winch);
-                                }
-                            }
-                            showTracking(winchArrayList, String.valueOf(myLat),
-                                    String.valueOf(myLong), 0);
-                            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                public void onLocationResult(LocationResult locationResult) {
+                    if (locationResult == null) {
+                        return;
+                    }
+                    for (Location location : locationResult.getLocations()) {
+                        if (location != null) {
+                            myLat = String.valueOf(location.getLatitude());
+                            myLong = String.valueOf(location.getLongitude());
+                            winchesDB.addValueEventListener(new ValueEventListener() {
                                 @Override
-                                public void onMapReady(@NonNull GoogleMap googleMap) {
-                                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        Winch winch = dataSnapshot.getValue(Winch.class);
+                                        if(winch.getWinchID().equals(winchIDSTR)){
+                                            winchArrayList.add(winch);
+                                        }
                                     }
-                                    googleMap.setMyLocationEnabled(true);
-                                    googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                                    showTracking(winchArrayList, String.valueOf(myLat),
+                                            String.valueOf(myLong), 1);
+                                    mapFragment.getMapAsync(new OnMapReadyCallback() {
                                         @Override
-                                        public void onMyLocationChange(@NonNull Location location) {
-                                            myLat = String.valueOf(location.getLatitude());
-                                            myLong = String.valueOf(location.getLongitude());
-                                            showTracking(winchArrayList, String.valueOf(location.getLatitude()),
-                                                    String.valueOf(location.getLongitude()), 1);
+                                        public void onMapReady(@NonNull GoogleMap googleMap) {
+                                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                            }
+                                            googleMap.setMyLocationEnabled(true);
+                                            googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                                                @Override
+                                                public void onMyLocationChange(@NonNull Location location) {
+                                                    myLat = String.valueOf(location.getLatitude());
+                                                    myLong = String.valueOf(location.getLongitude());
+                                                    showTracking(winchArrayList, String.valueOf(location.getLatitude()),
+                                                            String.valueOf(location.getLongitude()), 1);
+                                                }
+                                            });
                                         }
                                     });
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
-
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
+                    }
                 }
-            });
+            };
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    Activity#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+        locationProviderClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                Looper.getMainLooper());
+    }
+
 
     void showTracking(ArrayList<Winch> winchesList, String myLat, String myLong, int changed){
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -241,10 +254,8 @@ public class TrackingWinchRequest extends AppCompatActivity {
                         return true;
                     }
                 });
-                if(changed == 0){
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
-                }
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
             }
         });
     }
