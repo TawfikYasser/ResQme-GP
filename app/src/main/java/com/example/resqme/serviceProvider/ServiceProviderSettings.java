@@ -125,6 +125,13 @@ public class ServiceProviderSettings extends AppCompatActivity {
             }
         });
 
+        sparePartsRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     private void initViews() {

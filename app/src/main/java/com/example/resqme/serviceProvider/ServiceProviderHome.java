@@ -517,7 +517,9 @@ public class ServiceProviderHome extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent toAddsparepartintent = new Intent(context, AddSpareParts.class);
-                toAddsparepartintent.putExtra("FROM", "SPHOME");
+                if(sp_serviceType.equals("CMC")){
+                    toAddsparepartintent.putExtra("FROM", "SPHOME");
+                }
                 startActivity(toAddsparepartintent);
             }
         });
