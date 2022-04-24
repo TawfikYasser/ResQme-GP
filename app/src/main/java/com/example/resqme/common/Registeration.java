@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -90,7 +92,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_registeration);
         initViews();
         firebaseData();
-
+        forceRTLIfSupported();
         ic = new InternetConnection(this);
         MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("اختار تاريخ الميلاد");
@@ -122,6 +124,11 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         });
 
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void forceRTLIfSupported() {
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
     void initViews(){

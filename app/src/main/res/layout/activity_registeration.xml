@@ -41,14 +41,15 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="80dp"
                         android:id="@+id/choose_image_register"
                         android:layout_width="70dp"
                         android:src="@drawable/chooseimage"
                         android:layout_height="70dp"/>
-
                     <Button
-                        android:layout_marginLeft="100dp"
                         android:id="@+id/choose_image_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,6 +104,7 @@
                     android:layout_marginRight="24dp"
                     android:layout_marginTop="12dp"
                     android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -188,22 +190,11 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <RadioButton
-                        android:id="@+id/radio_sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="مقدم خدمة"/>
-
-                    <RadioButton
-                        android:id="@+id/radio_customer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="عميل"/>
                     <TextView
                         android:text="اختار نوع الحساب"
                         android:textSize="12dp"
                         android:gravity="center_horizontal|center_vertical"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="20dp"
                         android:textStyle="bold"
                         android:textColor="@color/logo_color_3"
                         android:fontFamily="@font/fontlight"
@@ -211,6 +202,18 @@
                         android:layout_height="wrap_content">
 
                     </TextView>
+
+                    <RadioButton
+                        android:id="@+id/radio_customer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="عميل"/>
+                    <RadioButton
+                        android:id="@+id/radio_sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="مقدم خدمة"/>
+
 
                 </RadioGroup>
 
@@ -221,29 +224,27 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <RadioButton
-                        android:id="@+id/radio_female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="انثى"/>
-                    <RadioButton
-                        android:id="@+id/radio_male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ذكر"/>
 
                     <TextView
                         android:text="اخنار النوع"
                         android:textSize="12dp"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="20dp"
                         android:textStyle="bold"
                         android:textColor="@color/logo_color_3"
                         android:fontFamily="@font/fontlight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-
                     </TextView>
-
+                    <RadioButton
+                        android:id="@+id/radio_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ذكر"/>
+                    <RadioButton
+                        android:id="@+id/radio_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="انثى"/>
                 </RadioGroup>
                 <LinearLayout
                     android:layout_marginLeft="24dp"
@@ -269,17 +270,6 @@
                     android:layout_marginBottom="15dp"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:text="تسجيل الدخول"
-                        android:textSize="12dp"
-                        android:id="@+id/login_text_from_register"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_blue"
-                        android:fontFamily="@font/fontlight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                    </TextView>
 
                     <TextView
                         android:text="هل لديك حساب بالفعل؟"
@@ -287,6 +277,19 @@
                         android:layout_marginLeft="10dp"
                         android:textStyle="bold"
                         android:textColor="@color/logo_color_3"
+                        android:fontFamily="@font/fontlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+
+                    <TextView
+                        android:text="تسجيل الدخول"
+                        android:textSize="12dp"
+                        android:id="@+id/login_text_from_register"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_blue"
                         android:fontFamily="@font/fontlight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">

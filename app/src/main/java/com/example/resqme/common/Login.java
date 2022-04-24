@@ -3,10 +3,12 @@ package com.example.resqme.common;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -77,9 +79,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         databaseServiceProviders = FirebaseDatabase.getInstance().getReference("ServiceProviders");
         carDB = FirebaseDatabase.getInstance().getReference().child("Cars");
         initViews();
+        forceRTLIfSupported();
 
 
+    }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void forceRTLIfSupported() {
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
     void initViews() {
@@ -92,6 +99,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         mDontHave.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
     }
+
+
+
 
     @Override
     public void onClick(View v) {
