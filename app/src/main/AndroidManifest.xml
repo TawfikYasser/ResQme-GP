@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -24,8 +23,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResQme"
-        tools:replace="android:supportsRtl"
-        >
+        android:usesCleartextTraffic="true"
+        tools:replace="android:supportsRtl">
+        <activity
+            android:name=".serviceProvider.ServicProviderUpdateProfile"
+            android:exported="false" />
+        <activity
+            android:name=".serviceProvider.ServiceProviderProfile"
+            android:exported="false" />
         <activity
             android:name=".serviceProvider.SP_Winch_Requests"
             android:exported="false" />
@@ -160,8 +165,8 @@
         <activity
             android:name=".serviceProvider.ServiceProviderAddService"
             android:exported="false"
-            android:theme="@style/Theme.ResQme.Customized"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ResQme.Customized" />
         <activity
             android:name=".serviceProvider.AddSpareParts"
             android:exported="false"
@@ -195,8 +200,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAt5mPiOyNthLhk1aAaDOgVYsIHVxCsz_U" />
-
-
     </application>
 
 </manifest>

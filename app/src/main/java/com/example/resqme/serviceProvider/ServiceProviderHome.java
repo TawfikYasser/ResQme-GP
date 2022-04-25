@@ -31,6 +31,8 @@ import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReportAdapter;
+import com.example.resqme.customer.CustomerHome;
+import com.example.resqme.customer.CustomerProfile;
 import com.example.resqme.customer.SparePartsAdapter;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.Report;
@@ -471,7 +473,16 @@ public class ServiceProviderHome extends AppCompatActivity  {
 
         // Button Clicks
 
+        // View profile page
+        spHomeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(ServiceProviderHome.this, ServiceProviderProfile.class);
+                startActivity(intent);
+
+            }
+        });
         // Changing winch availability
         changeWinchAvailabilityBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -534,7 +545,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
         sp_HOME = findViewById(R.id.spare_parts_linear_layout);
         winch_HOME = findViewById(R.id.winch_linear_layout);
         spHomeImage = findViewById(R.id.service_provider_home_image);
-
+        //spHomeImage.setOnClickListener(this);
         winchLicenceImageSPHome = findViewById(R.id.winch_licence_image_sp_home);
         winchNameSPHome = findViewById(R.id.winch_name_item_sp_home);
         winchCostPerKMSPHome = findViewById(R.id.winch_costperkm_sp_home);
