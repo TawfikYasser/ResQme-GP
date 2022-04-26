@@ -23,6 +23,17 @@
     </string-array>
 
 
+    <string-array name="fixTypes">
+        <item>إضاءات العربية</item>
+        <item>البطارية</item>
+        <item>الزيت</item>
+        <item>الفلاتر</item>
+        <item>العجلات</item>
+        <item>المحرك</item>
+        <item>أخرى</item>
+    </string-array>
+
+
     <string-array name="carmanufacturingcountry">
         <item>كوري</item>
         <item>ياباني</item>

@@ -1,6 +1,7 @@
 package com.example.resqme.customer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -34,7 +37,8 @@ public class WinchRequests extends AppCompatActivity {
     DatabaseReference winchRequestsDB, serviceProvidersDB;
     WinchRequestsAdapter winchRequestsAdapter;
     ArrayList<WinchRequest> winchRequests;
-    Context context;
+    Context context, context_2;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +48,14 @@ public class WinchRequests extends AppCompatActivity {
         forceRTLIfSupported();
         winchRequestRV = findViewById(R.id.winch_requests_recycler);
         context = this.getApplicationContext();
+        context_2 = WinchRequests.this;
+        view = this.getWindow().getDecorView().getRootView();
         winchRequestsDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
         serviceProvidersDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         winchRequestRV.setHasFixedSize(true);
         winchRequestRV.setLayoutManager(new LinearLayoutManager(this));
         winchRequests = new ArrayList<>();
-        winchRequestsAdapter = new WinchRequestsAdapter(this, winchRequests, serviceProvidersDB);
+        winchRequestsAdapter = new WinchRequestsAdapter(this, winchRequests, serviceProvidersDB, view, context_2);
         winchRequestRV.setAdapter(winchRequestsAdapter);
         winchRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,7 +67,7 @@ public class WinchRequests extends AppCompatActivity {
                     String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                     if(winchRequest.getCustomerID().equals(c_userid)){
                         winchRequests.add(winchRequest);
-                        winchRequestsAdapter = new WinchRequestsAdapter(context, winchRequests, serviceProvidersDB);
+                        winchRequestsAdapter = new WinchRequestsAdapter(context, winchRequests, serviceProvidersDB, view, context_2);
                         winchRequestRV.setAdapter(winchRequestsAdapter);
                     }
                 }
@@ -96,4 +102,13 @@ public class WinchRequests extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 35){
+
+
+
+        }
+    }
 }

@@ -500,7 +500,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
+    
     private void processingWinchRequest(Winch finalBestWinch) {
         // If customer added description, initiate the request.
         if(!TextUtils.isEmpty(requestAttachedDescription)){
