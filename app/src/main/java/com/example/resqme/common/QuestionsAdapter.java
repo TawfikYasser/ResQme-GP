@@ -57,18 +57,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.MyQu
                 context.startActivity(toToDetailsQuestionPage);
             }
         });
-        holder.materialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                String questionReplyID = database.getReference("Replies").push().getKey();// create new id
-                QuestionReply questionReplyObj = new QuestionReply(questionReplyID, question.getQuestionID(),
-                        "SV0FS3tcd7QLt9K7b9jHd25yuh93", "رد على السؤال " + questionReplyID);
-                DatabaseReference repliesDB = FirebaseDatabase.getInstance().getReference().child("Replies");
-                repliesDB.child(questionReplyID).setValue(questionReplyObj);//Entering question in database
-                Toast.makeText(context, "تم إرسال الرد", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -78,11 +66,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.MyQu
 
     public class MyQuestionsAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvQuestionText;
-        MaterialButton materialButton;
         public MyQuestionsAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             tvQuestionText = itemView.findViewById(R.id.question_text_item_text);
-            materialButton = itemView.findViewById(R.id.send_demo_reply);
         }
     }
 }
