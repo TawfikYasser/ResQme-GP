@@ -42,10 +42,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".customer.RequestDetails"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".common.DetailsQuestion"
             android:exported="false"
             android:screenOrientation="portrait" />

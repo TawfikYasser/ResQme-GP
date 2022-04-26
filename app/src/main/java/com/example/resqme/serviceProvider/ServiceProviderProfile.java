@@ -62,7 +62,7 @@ public class ServiceProviderProfile extends AppCompatActivity implements View.On
         String sp_usertype = userData.getString("SP_USERTYPE", "SP_DEFAULT");
         String sp_usergender = userData.getString("SP_USERGENDER", "SP_DEFAULT");
         String sp_userrate = userData.getString("SP_USERRATE", "SP_DEFAULT");
-        String c_userid = userData.getString("SP_USERID", "SP_DEFAULT");
+        String sp_userid = userData.getString("SP_USERID", "SP_DEFAULT");
         Glide.with(this).load(sp_userimage).into(spImage);
         usernameTV.setText(sp_username);
         emailTV.setText(sp_email);
@@ -70,7 +70,7 @@ public class ServiceProviderProfile extends AppCompatActivity implements View.On
         DOBTV.setText(sp_dob);
         whatsAppTV.setText(sp_whatsapp);
         genderTV.setText(sp_usergender);
-        //userTypeTV.setText(c_usertype);
+        spTypeTV.setText(sp_usertype);
         rateTV.setText(sp_userrate);
 
     }

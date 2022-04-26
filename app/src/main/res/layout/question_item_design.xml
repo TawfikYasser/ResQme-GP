@@ -43,13 +43,6 @@
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_margin="8dp"
-            android:id="@+id/send_demo_reply"
-            android:text="ارسال رد تجريبي"
-            android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
