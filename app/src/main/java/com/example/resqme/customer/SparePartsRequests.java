@@ -30,8 +30,8 @@ public class SparePartsRequests extends AppCompatActivity {
     DatabaseReference sparePartsRequestsDB, serviceProvidersDB, sparePartsItemDB;
     SparePartsRequestAdapter sparePartsRequestsAdapter;
     ArrayList<SparePartsRequest> sparePartsRequests;
-    Context context;
-
+    Context context, context_2;
+    View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +41,15 @@ public class SparePartsRequests extends AppCompatActivity {
 
         sparePartsRequestRV = findViewById(R.id.spareparts_requests_recycler);
         context = this.getApplicationContext();
+        context_2 = SparePartsRequests.this;
+        view = this.getWindow().getDecorView().getRootView();
         sparePartsRequestsDB = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
         serviceProvidersDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         sparePartsItemDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
         sparePartsRequestRV.setHasFixedSize(true);
         sparePartsRequestRV.setLayoutManager(new LinearLayoutManager(this));
         sparePartsRequests = new ArrayList<>();
-        sparePartsRequestsAdapter = new SparePartsRequestAdapter(this, sparePartsRequests, serviceProvidersDB, sparePartsItemDB);
+        sparePartsRequestsAdapter = new SparePartsRequestAdapter(this, sparePartsRequests, serviceProvidersDB, sparePartsItemDB, context_2, view);
         sparePartsRequestRV.setAdapter(sparePartsRequestsAdapter);
 
 
@@ -61,7 +63,7 @@ public class SparePartsRequests extends AppCompatActivity {
                     String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                     if(sparePartsRequest.getCustomerID().equals(c_userid)){
                         sparePartsRequests.add(sparePartsRequest);
-                        sparePartsRequestsAdapter = new SparePartsRequestAdapter(context, sparePartsRequests, serviceProvidersDB, sparePartsItemDB);
+                        sparePartsRequestsAdapter = new SparePartsRequestAdapter(context, sparePartsRequests, serviceProvidersDB, sparePartsItemDB, context_2, view);
                         sparePartsRequestRV.setAdapter(sparePartsRequestsAdapter);
                     }
                 }

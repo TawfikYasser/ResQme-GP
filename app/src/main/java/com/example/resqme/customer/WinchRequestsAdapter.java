@@ -1,9 +1,9 @@
 package com.example.resqme.customer;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,25 +22,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.resqme.R;
-import com.example.resqme.common.MyReportAdapter;
-import com.example.resqme.common.RatingScreen;
-import com.example.resqme.common.Registeration;
 import com.example.resqme.model.Rate;
 import com.example.resqme.model.RequestDetailsModel;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
-import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -231,14 +227,9 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
         holder.rateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Rate in case of Done or Failed
-                Intent mainIntent = new Intent(context, RatingScreen.class);
-                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mainIntent.putExtra("FROM_REQUEST","CUSTOMER");
-                mainIntent.putExtra("WINCH_REQUEST_ID", winchRequests.get(position).getWinchRequestID());
-                mainIntent.putExtra("WINCH_REQUEST_SP_ID", winchRequests.get(position).getWinchOwnerID());
-                mainIntent.putExtra("WINCH_REQUEST_CUSTOMER_ID", winchRequests.get(position).getCustomerID());
-                context.startActivity(mainIntent);
+                openRateDialog(winchRequests.get(position).getWinchRequestID(),
+                        winchRequests.get(position).getWinchOwnerID(),
+                        winchRequests.get(position).getCustomerID());
             }
         });
 
@@ -260,6 +251,72 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
 
             }
         });
+    }
+
+    private void openRateDialog(String winchRequestID, String winchOwnerID, String customerID) {
+        BottomSheetDialog rateDialog;
+        rateDialog = new BottomSheetDialog(context_2, R.style.BottomSheetDialogTheme);
+
+        View rateBottomView = LayoutInflater.from(context_2).inflate(R.layout.rate_bottom_layout,
+                (LinearLayout) view_2.findViewById(R.id.bottom_sheet_rate_linear_layout));
+
+        RatingBar ratingBar = rateBottomView.findViewById(R.id.rating_bar_page);
+        TextInputEditText rateText = rateBottomView.findViewById(R.id.rating_description_et);
+        MaterialButton saveRateBtn = rateBottomView.findViewById(R.id.save_rating_btn);
+
+
+        rateDialog.setContentView(rateBottomView);
+        rateDialog.show();
+
+
+        saveRateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!TextUtils.isEmpty(rateText.getText().toString().trim())){
+                    if(String.valueOf(ratingBar.getRating()).equals("0.0")){
+                        Toast.makeText(context_2, "من فضلك اختر تقييم من 1 الى 5", Toast.LENGTH_SHORT).show();
+                    }else{
+                        // We are service provider
+                        ProgressDialog progressDialog = new ProgressDialog(context_2);
+                        progressDialog.setMessage("انتظر قليلاً...");
+                        progressDialog.show();
+
+                        Query query = FirebaseDatabase.getInstance().getReference("ServiceProviders").
+                                orderByChild("userId").equalTo(winchOwnerID);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                                    double totalNewRate = (Double.parseDouble(serviceProvider.getRate()) + Double.parseDouble(String.valueOf(ratingBar.getRating()))) / 2;
+                                    DatabaseReference spTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
+                                    spTable.child(winchOwnerID).child("rate").setValue(String.valueOf(totalNewRate));
+                                    // Save the rate in the rate table
+                                    DatabaseReference rateTable = FirebaseDatabase.getInstance().getReference().child("Rate");
+                                    String rateID = rateTable.push().getKey();
+                                    Rate rate = new Rate(rateID, customerID, winchOwnerID, String.valueOf(ratingBar.getRating()), rateText.getText().toString().trim(), winchRequestID, "Customer");
+                                    rateTable.child(rateID).setValue(rate);
+
+                                    progressDialog.dismiss();
+                                    Toast.makeText(context_2, "تمت عملية التقييم بنجاح!", Toast.LENGTH_SHORT).show();
+                                    rateDialog.cancel();
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                }else{
+                    Toast.makeText(context, "من فضلك قم بكتابة تقييم...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     private void openRequestDetailsBottomSheet(String winchID, String winchRequestID) {

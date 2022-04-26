@@ -113,9 +113,10 @@ public class ServiceProviderHome extends AppCompatActivity  {
         setContentView(R.layout.activity_service_provider_home);
         context = getApplicationContext();
         initviews();
+        DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
         pageDataLoading();
 
-        DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
+
 
 
 

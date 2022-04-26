@@ -64,6 +64,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     String userId = "";
     String rate = "";
     String gender = "";
+    String isCMC ="", isWinch = "", isSpareParts = "";
 
     InternetConnection ic;
     @Override
@@ -338,6 +339,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             rate = serviceProvider.getRate();
                             gender = serviceProvider.getGender();
                             String serviceType = serviceProvider.getServiceType();
+                            isCMC = serviceProvider.getIsCMC();
+                            isWinch = serviceProvider.getIsWinch();
+                            isSpareParts = serviceProvider.getIsSpareParts();
                             SharedPreferences spld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = spld.edit();
                             editor.putString("SP_USERNAME", username);
@@ -352,6 +356,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("SP_USERRATE", String.valueOf(rate));
                             editor.putString("SP_USERID", userId);
                             editor.putString("SP_ServiceType", serviceType);
+                            editor.putString("SP_CMC", isCMC);
+                            editor.putString("SP_WINCH", isWinch);
+                            editor.putString("SP_SPARE_PARTS", isSpareParts);
                             editor.apply();
                             new Handler().postDelayed(new Runnable() {
                                 @Override

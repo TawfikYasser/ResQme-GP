@@ -175,6 +175,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 LocationPermission[0] = true;
+
             }
 
             @Override

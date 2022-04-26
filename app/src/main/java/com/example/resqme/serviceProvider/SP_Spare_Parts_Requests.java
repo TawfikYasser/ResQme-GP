@@ -16,7 +16,7 @@ import android.view.View;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.WinchRequests;
-import com.example.resqme.customer.WinchRequestsAdapter;
+import com.example.resqme.model.SparePartsRequest;
 import com.example.resqme.model.WinchRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,44 +26,42 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SP_Winch_Requests extends AppCompatActivity {
-    RecyclerView winchRequestRV;
-    DatabaseReference winchRequestsDB, CustomerDB;
-    SPWinchRequestsAdapter winchRequestsAdapter;
-    ArrayList<WinchRequest> winchRequests;
+public class SP_Spare_Parts_Requests extends AppCompatActivity {
+    RecyclerView spareRequestRV;
+    DatabaseReference spareRequestsDB, CustomerDB;
+    SPSparePartsRequestsAdapter spareRequestsAdapter;
+    ArrayList<SparePartsRequest> sparePartsRequests;
     Context context, context_2;
     View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sp_winch_requests);
-
+        setContentView(R.layout.activity_sp_spare_parts_requests);
         initToolbar();
         forceRTLIfSupported();
-
-        winchRequestRV = findViewById(R.id.sp_winch_requests_recycler);
+        spareRequestRV = findViewById(R.id.sp_spare_parts_requests_recycler);
         context = this.getApplicationContext();
-        context_2 = SP_Winch_Requests.this;
+        context_2 = SP_Spare_Parts_Requests.this;
         view = this.getWindow().getDecorView().getRootView();
-        winchRequestsDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+        spareRequestsDB = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
         CustomerDB = FirebaseDatabase.getInstance().getReference().child("Customer");
-        winchRequestRV.setHasFixedSize(true);
-        winchRequestRV.setLayoutManager(new LinearLayoutManager(this));
-        winchRequests = new ArrayList<>();
-        winchRequestsAdapter = new SPWinchRequestsAdapter(winchRequests, this, CustomerDB, context_2, view);
-        winchRequestRV.setAdapter(winchRequestsAdapter);
-        winchRequestsDB.addValueEventListener(new ValueEventListener() {
+        spareRequestRV.setHasFixedSize(true);
+        spareRequestRV.setLayoutManager(new LinearLayoutManager(this));
+        sparePartsRequests = new ArrayList<>();
+        spareRequestsAdapter = new SPSparePartsRequestsAdapter(sparePartsRequests, context, CustomerDB, context_2, view);
+        spareRequestRV.setAdapter(spareRequestsAdapter);
+        spareRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                winchRequests.clear();
+                sparePartsRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
+                    SparePartsRequest sparePartsRequest = dataSnapshot.getValue(SparePartsRequest.class);
                     SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                     String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
-                    if(winchRequest.getWinchOwnerID().equals(sp_userid)){
-                        winchRequests.add(winchRequest);
-                        winchRequestsAdapter = new SPWinchRequestsAdapter(winchRequests, context, CustomerDB, context_2, view);
-                        winchRequestRV.setAdapter(winchRequestsAdapter);
+                    if(sparePartsRequest.getSparePartOwnerID().equals(sp_userid)){
+                        sparePartsRequests.add(sparePartsRequest);
+                        spareRequestsAdapter = new SPSparePartsRequestsAdapter(sparePartsRequests, context, CustomerDB, context_2, view);
+                        spareRequestRV.setAdapter(spareRequestsAdapter);
                     }
                 }
             }
@@ -74,12 +72,13 @@ public class SP_Winch_Requests extends AppCompatActivity {
         });
 
     }
+
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_sp_winch_requests);
+        Toolbar toolbar = findViewById(R.id.toolbar_sp_spare_parts_requests);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("طلبات الونش");
+        getSupportActionBar().setTitle("طلبات قطع الغيار");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitleTextAppearance(SP_Winch_Requests.this, R.style.Theme_ResQme);
+        toolbar.setTitleTextAppearance(SP_Spare_Parts_Requests.this, R.style.Theme_ResQme);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -94,5 +93,4 @@ public class SP_Winch_Requests extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

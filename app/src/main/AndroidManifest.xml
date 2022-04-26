@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:supportsRtl">
         <activity
+            android:name=".serviceProvider.SP_Spare_Parts_Requests"
+            android:exported="false" />
+        <activity
             android:name=".serviceProvider.ServicProviderUpdateProfile"
             android:exported="false" />
         <activity
@@ -51,10 +54,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".customer.AskQuestion"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".common.RatingScreen"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
