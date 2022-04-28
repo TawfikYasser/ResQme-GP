@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:supportsRtl">
         <activity
+            android:name=".serviceProvider.SP_CMC_Requests"
+            android:exported="false" />
+        <activity
             android:name=".serviceProvider.SP_Spare_Parts_Requests"
             android:exported="false" />
         <activity

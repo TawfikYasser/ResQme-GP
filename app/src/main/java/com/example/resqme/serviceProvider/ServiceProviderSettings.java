@@ -136,8 +136,8 @@ public class ServiceProviderSettings extends AppCompatActivity {
         cmcRequests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent to = new Intent(context, SP_Spare_Parts_Requests.class);
-//                startActivity(to);
+                Intent to = new Intent(context, SP_CMC_Requests.class);
+                startActivity(to);
             }
         });
 

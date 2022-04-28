@@ -1,4 +1,4 @@
-package com.example.resqme.customer;
+package com.example.resqme.serviceProvider;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +13,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
-import com.example.resqme.model.WinchRequest;
+import com.example.resqme.model.SparePartsRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,45 +26,41 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CMCRequests extends AppCompatActivity {
-
+public class SP_CMC_Requests extends AppCompatActivity {
     RecyclerView cmcRequestRV;
-    DatabaseReference cmcRequestsDB, serviceProvidersDB;
-    CMCRequestsAdapter cmcRequestsAdapter;
+    DatabaseReference cmcRequestsDB, CustomerDB;
+    SPCMCRequestsAdapter cmcRequestsAdapter;
     ArrayList<CMCRequest> cmcRequests;
     Context context, context_2;
     View view;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cmcrequests);
+        setContentView(R.layout.activity_sp_cmc_requests);
         initToolbar();
         forceRTLIfSupported();
-
-        cmcRequestRV = findViewById(R.id.cmc_requests_recycler);
+        cmcRequestRV = findViewById(R.id.sp_cmc_requests_recycler);
         context = this.getApplicationContext();
-        context_2 = CMCRequests.this;
+        context_2 = SP_CMC_Requests.this;
         view = this.getWindow().getDecorView().getRootView();
         cmcRequestsDB = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
-        serviceProvidersDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
+        CustomerDB = FirebaseDatabase.getInstance().getReference().child("Customer");
         cmcRequestRV.setHasFixedSize(true);
         cmcRequestRV.setLayoutManager(new LinearLayoutManager(this));
         cmcRequests = new ArrayList<>();
-        cmcRequestsAdapter = new CMCRequestsAdapter(this, cmcRequests, serviceProvidersDB, context_2, view);
+        cmcRequestsAdapter = new SPCMCRequestsAdapter(cmcRequests, context, context_2, CustomerDB, view);
         cmcRequestRV.setAdapter(cmcRequestsAdapter);
-
         cmcRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cmcRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     CMCRequest cmcRequest = dataSnapshot.getValue(CMCRequest.class);
-                    SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-                    String c_userid = userData.getString("C_USERID", "C_DEFAULT");
-                    if(cmcRequest.getCustomerID().equals(c_userid)){
+                    SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                    String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
+                    if(cmcRequest.getCmcOwnerID().equals(sp_userid)){
                         cmcRequests.add(cmcRequest);
-                        cmcRequestsAdapter = new CMCRequestsAdapter(context, cmcRequests, serviceProvidersDB, context_2, view);
+                        cmcRequestsAdapter = new SPCMCRequestsAdapter(cmcRequests, context, context_2, CustomerDB, view);
                         cmcRequestRV.setAdapter(cmcRequestsAdapter);
                     }
                 }
@@ -73,14 +70,14 @@ public class CMCRequests extends AppCompatActivity {
 
             }
         });
-    }
 
+    }
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_cmcrequests);
+        Toolbar toolbar = findViewById(R.id.toolbar_sp_cmc_requests);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("طلبات مركز الصيانة");
+        getSupportActionBar().setTitle("طلبات مراكز الصيانة");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitleTextAppearance(CMCRequests.this, R.style.Theme_ResQme);
+        toolbar.setTitleTextAppearance(SP_CMC_Requests.this, R.style.Theme_ResQme);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -95,5 +92,4 @@ public class CMCRequests extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -46,6 +46,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_profile.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_settings.xml" value="0.14802631578947367" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_show_questions_customer.xml" value="0.14802631578947367" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_sp_cmc_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_sp_spare_parts_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_sp_winch_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_spare_parts_provider_home.xml" value="0.15789473684210525" />
@@ -57,6 +58,7 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_winch_requests.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_item_customer_home.xml" value="0.10747663551401869" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_requests_item.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_sp_requests_item.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_c_m_c.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_settings.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_spare.xml" value="0.152" />
