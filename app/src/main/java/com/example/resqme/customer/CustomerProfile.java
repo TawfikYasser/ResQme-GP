@@ -30,6 +30,7 @@ import com.example.resqme.R;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.Registeration;
 import com.example.resqme.model.Car;
+import com.example.resqme.model.Customer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,18 +49,36 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     LinearLayout carLayout;
     FirebaseAuth mAuth;
     TextView tvCarStatus;
-    DatabaseReference customerTable;
+    DatabaseReference customerTable, customers;
     ImageView ivDriverLicence, ivCarLicence;
     Context context;
-
-    NotificationManagerCompat notificationManagerCompat;
-    Notification notificationcar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
         customerTable = FirebaseDatabase.getInstance().getReference().child("Cars");
+        customers = FirebaseDatabase.getInstance().getReference().child("Customer");
+        customers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Customer customer = dataSnapshot.getValue(Customer.class);
+                    if (customer.getUserId().equals(mAuth.getCurrentUser().getUid())) {
+                        rateTV.setText(customer.getRate());
+                        SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = cld.edit();
+                        editor.putString("C_USERRATE", String.valueOf(customer.getRate()));
+                        editor.apply();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         customerTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -116,7 +135,6 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             carTransTV.setText(carDataInLocal.getString("CAR_TRANSMISSION","CAR_DEFAULT"));
                             Glide.with(context).load(carDataInLocal.getString("CAR_DRIVER_LICENCE","CAR_DEFAULT")).into(ivDriverLicence);
                             Glide.with(context).load(carDataInLocal.getString("CAR_LICENCE","CAR_DEFAULT")).into(ivCarLicence);
-
                         }
                     }
                 }

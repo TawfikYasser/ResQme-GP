@@ -1,5 +1,6 @@
 package com.example.resqme.serviceProvider;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationManagerCompat;
@@ -24,8 +25,14 @@ import com.example.resqme.R;
 import com.example.resqme.customer.AddCarData;
 import com.example.resqme.customer.CustomerProfile;
 import com.example.resqme.customer.CustomerUpdateProfile;
+import com.example.resqme.model.Customer;
+import com.example.resqme.model.ServiceProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,17 +40,35 @@ public class ServiceProviderProfile extends AppCompatActivity implements View.On
     CircleImageView spImage;
     TextView usernameTV, emailTV, addressTV, DOBTV, whatsAppTV, genderTV, spTypeTV, rateTV;
     Button updateProfileBtn;
-    //FirebaseAuth mAuth;
-    //DatabaseReference servicProviderTable;
-    //Context context;
-
-    NotificationManagerCompat notificationManagerCompat;
-    Notification notificationcar;
+    DatabaseReference serviceProviderTable;
+    FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_profile);
-        //mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        serviceProviderTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
+        serviceProviderTable.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                    if (serviceProvider.getUserId().equals(firebaseAuth.getCurrentUser().getUid())) {
+                        rateTV.setText(serviceProvider.getRate());
+                        SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = cld.edit();
+                        editor.putString("SP_USERRATE", String.valueOf(serviceProvider.getRate()));
+                        editor.apply();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         initViews();
         initToolbar();
         forceRTLIfSupported();

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.model.SparePart;
 import com.example.resqme.model.SparePartInCart;
 import com.google.android.material.button.MaterialButton;
@@ -32,12 +33,13 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
     Context context;
     ArrayList<SparePart> spareParts;
     String c_userid = "";
-
+    DatabaseReference spDB;
     public SparePartsAdapter(Context context, ArrayList<SparePart> spareParts) {
         this.context = context;
         this.spareParts = spareParts;
         SharedPreferences userData = this.context.getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         c_userid = userData.getString("C_USERID", "C_DEFAULT");
+        spDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
     }
 
     @NonNull
@@ -53,6 +55,26 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         Glide.with(context).load(sparePart.getItemImage()).into(holder.itemImage);
         holder.itemName.setText(sparePart.getItemName());
         holder.itemPrice.setText(sparePart.getItemPrice() + " جنيه");
+
+        spDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                    if(serviceProvider.getUserId().equals(sparePart.getItemServiceProviderId())){
+                        holder.itemOwnerRate.setText(serviceProvider.getRate() + " / 5");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +131,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
     public class SparePartsViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemImage;
-        TextView itemName, itemPrice;
+        TextView itemName, itemPrice, itemOwnerRate;
         MaterialButton addToCart;
         public SparePartsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,6 +139,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
             itemName = itemView.findViewById(R.id.spare_parts_item_name);
             itemPrice = itemView.findViewById(R.id.spare_parts_item_price);
             addToCart = itemView.findViewById(R.id.add_item_to_cart_spare_parts_item_adapter);
+            itemOwnerRate = itemView.findViewById(R.id.spare_parts_item_sp_rate);
         }
     }
 }

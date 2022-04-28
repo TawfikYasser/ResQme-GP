@@ -14,6 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.model.CMC;
+import com.example.resqme.model.ServiceProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -21,10 +27,11 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
 
     Context context;
     ArrayList<CMC> cmcs;
-
+    DatabaseReference spDB;
     public CMCAdapter(Context context, ArrayList<CMC> cmcs) {
         this.context = context;
         this.cmcs = cmcs;
+        spDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
     }
 
     @NonNull
@@ -40,6 +47,24 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
         Glide.with(context).load(cmc.getCmcImage()).into(holder.cmcImage);
         holder.cmcName.setText(cmc.getCmcName());
         holder.cmcLocation.setText(cmc.getCmcLocation());
+
+        spDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                    if(serviceProvider.getUserId().equals(cmc.getCmcServiceProviderId())){
+                        holder.cmcOwnerRate.setText(serviceProvider.getRate() + " / 5");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +91,13 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
 
     public class CMCViewHolder extends RecyclerView.ViewHolder{
         ImageView cmcImage;
-        TextView cmcName, cmcLocation;
+        TextView cmcName, cmcLocation, cmcOwnerRate;
         public CMCViewHolder(@NonNull View itemView) {
             super(itemView);
             cmcImage = itemView.findViewById(R.id.cmc_item_image);
             cmcName = itemView.findViewById(R.id.cmc_name_item);
             cmcLocation = itemView.findViewById(R.id.cmc_location_item);
+            cmcOwnerRate = itemView.findViewById(R.id.cmc_rate_owner_item);
         }
     }
 }
