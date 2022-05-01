@@ -35,7 +35,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
         initViews();
         initToolbar();
         forceRTLIfSupported();
-        context = getApplicationContext();
+        context = getApplication();
         mAuth = FirebaseAuth.getInstance();
         SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
         String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
@@ -190,9 +190,9 @@ public class ServiceProviderSettings extends AppCompatActivity {
         settings.edit().clear().commit();
         SharedPreferences sp = context.getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
         sp.edit().clear().commit();
-        Intent intent = new Intent(context, Login.class);
+        Intent intent = new Intent(ServiceProviderSettings.this, Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
-
 }
