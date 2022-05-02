@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
+import com.example.resqme.model.NotificationResQme;
 import com.example.resqme.model.Rate;
 import com.example.resqme.model.RequestDetailsModel;
 import com.example.resqme.model.ServiceProvider;
@@ -83,6 +84,12 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.tvCMCRequestStatus.setTextColor(Color.GREEN);
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
+
+            //Sending notification
+            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+            NotificationResQme notification = new NotificationResQme(cmcRequests.get(position).getCmcRequestID(), "إشعار بخصوص طلب مركز صيانة", "تم قبول طلبك من صاحب مركز الصيانة، لمعرفة المزيد من فضلك اذهب الى صفحة طلبات مراكز الصيانة.", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            notificationRef.child(cmcRequests.get(position).getCmcRequestID()).setValue(notification);
+
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             referenceSP.addValueEventListener(new ValueEventListener() {
@@ -112,6 +119,12 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.tvCMCRequestOwnerName.setTextColor(Color.RED);
             holder.tvCMCRequestOwnerPhone.setText("غير متاح");
             holder.tvCMCRequestOwnerPhone.setTextColor(Color.RED);
+
+            //Sending notification
+            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+            NotificationResQme notification = new NotificationResQme(cmcRequests.get(position).getCmcRequestID(), "إشعار بخصوص طلب مركز صيانة", "للأسف تم رفض طلبك من صاحب مركز الصيانة، يمكنك الآن تقييم الخدمة.", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            notificationRef.child(cmcRequests.get(position).getCmcRequestID()).setValue(notification);
+
         }
 
         if(cmcRequests.get(position).getCmcRequestStatus().equals("Success")){

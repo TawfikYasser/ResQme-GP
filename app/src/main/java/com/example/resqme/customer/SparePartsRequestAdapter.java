@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.resqme.R;
+import com.example.resqme.model.NotificationResQme;
 import com.example.resqme.model.Rate;
 import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.model.SparePart;
@@ -100,6 +101,13 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
             holder.tvSpareRequestStatus.setTextColor(Color.GREEN);
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
+
+            //Sending notification
+            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+            NotificationResQme notification = new NotificationResQme(sparePartsRequests.get(position).getSparePartsRequestID(), "إشعار بخصوص طلب قطع غيار", "تم قبول طلبك من صاحب قطعة الغيار، لمعرفة المزيد من فضلك اذهب لصفحة طلبات قطع الغيار.", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            notificationRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).setValue(notification);
+
+
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             referenceSP.addValueEventListener(new ValueEventListener() {
@@ -129,6 +137,12 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
             holder.tvSpareRequestOwnerName.setTextColor(Color.RED);
             holder.tvSpareRequestOwnerPhone.setText("غير متاح");
             holder.tvSpareRequestOwnerPhone.setTextColor(Color.RED);
+
+            //Sending notification
+            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+            NotificationResQme notification = new NotificationResQme(sparePartsRequests.get(position).getSparePartsRequestID(), "إشعار بخصوص طلب قطع غيار", "للأسف تم رفض طلبك من صاحب قطعة الغيار، يمكنك تقييم الخدمة الآن.", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            notificationRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).setValue(notification);
+
         }
 
 
