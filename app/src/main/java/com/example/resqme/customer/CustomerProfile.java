@@ -31,11 +31,13 @@ import com.example.resqme.common.Login;
 import com.example.resqme.common.Registeration;
 import com.example.resqme.model.Car;
 import com.example.resqme.model.Customer;
+import com.example.resqme.model.NotificationResQme;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -117,6 +119,10 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             carDataHeaderTV.setVisibility(View.GONE);
                             carLayout.setVisibility(View.GONE);
 
+                            //Sending notification
+                            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+                            NotificationResQme notification = new NotificationResQme(carObj.getCarID(), "إشعار بخصوص العربية", "للأسف تم رفض العربية، يمكنك معرفة المزيد بالتواصل معنا.", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notificationRef.child(carObj.getCarID()).setValue(notification);
                         } else if (carObj.getCarStatus().equals("Approved")) {
                             SharedPreferences changeCarStatus = getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor_carStatus = changeCarStatus.edit();
@@ -125,6 +131,12 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                             tvCarStatus.setVisibility(View.VISIBLE);
                             tvCarStatus.setText("تم قبول العربية");
                             tvCarStatus.setTextColor(Color.GREEN);
+
+                            //Sending notification
+                            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+                            NotificationResQme notification = new NotificationResQme(carObj.getCarID(), "إشعار بخصوص العربية", "مبروك! تم قبول العربية، يمكنك البدء في إستخدام التطبيق.", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notificationRef.child(carObj.getCarID()).setValue(notification);
+
                             // Showing Car Data
                             carDataHeaderTV.setVisibility(View.VISIBLE);
                             carLayout.setVisibility(View.VISIBLE);
