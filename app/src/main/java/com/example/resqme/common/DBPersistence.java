@@ -38,411 +38,413 @@ public class DBPersistence extends android.app.Application{
         /* Enable disk persistence  */
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
 
-        // Needed for notification history
+                // Needed for notification history
 
-        DatabaseReference nhref = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-        nhref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                }else{
-                    NotificationHistory notificationHistory = new NotificationHistory("c-00000");
-                    nhref.child("c-00000").setValue(notificationHistory);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-        /* Notification Work */
-
-        // Reports
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Reports");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Report report = dataSnapshot.getValue(Report.class);
-                    if(report.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    && report.getReportStatus().equals("Approved")){
-
-                        // Checking if the notification already sent
-                        // if yes, don't send, else, send it
-
-                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                        rootRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (!snapshot.hasChild(report.getReportID())) {
-                                    //Mark the notification as sent
-                                    NotificationHistory notificationHistory = new NotificationHistory(report.getReportID());
-                                    DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                                    nh.child(report.getReportID()).setValue(notificationHistory);
-
-                                    //Send it
-                                    int num = (int) System.currentTimeMillis();
-                                    Intent intent = new Intent(DBPersistence.this, MyReports.class);
-                                    @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                                    String CHANNEL_ID = "reports_channel"+report.getReportID();
-                                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
-                                            .setSmallIcon(R.mipmap.ic_launcher_round)
-                                            .setContentTitle("إشعار بخصوص احد التقارير التي ارسلتها")
-                                            .setContentText("لقد تم الرد على التقرير الخاص بك، برجاء مراجعة البريد الإلكتروني...")
-                                            .setAutoCancel(true)
-                                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                            .setContentIntent(pendingIntent);
-
-                                    NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        CharSequence name = "ResQme Notification";// The user-visible name of the channel.
-                                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                                        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-                                        notificationManager.createNotificationChannel(mChannel);
-                                    }
-
-                                    notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique i
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-        // Winch requests
-        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-        reference1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
-                    if(winchRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    && winchRequest.getWinchRequestStatus().equals("Approved")){
-
-
-                        // Checking if the notification already sent
-                        // if yes, don't send, else, send it
-
-                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                        rootRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (!snapshot.hasChild(winchRequest.getWinchRequestID())) {
-                                    //Mark the notification as sent
-                                    NotificationHistory notificationHistory = new NotificationHistory(winchRequest.getWinchRequestID());
-                                    DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                                    nh.child(winchRequest.getWinchRequestID()).setValue(notificationHistory);
-
-                                    //Send it
-
-                                    int num = (int) System.currentTimeMillis();
-                                    Intent intent = new Intent(DBPersistence.this, WinchRequests.class);
-                                    @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                                    String CHANNEL_ID = "winchrequests_channel"+winchRequest.getWinchRequestID();
-                                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
-                                            .setSmallIcon(R.mipmap.ic_launcher_round)
-                                            .setContentTitle("إشعار بخصوص طلبك لونش")
-                                            .setContentText("لقد قام صاحب الونش بقبول طلبك، يمكنك تتبع حركة الونش بالذهاب الى صفحة طلبات الونش او بالضغط على هذا الاشعار.")
-                                            .setAutoCancel(true)
-                                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                            .setContentIntent(pendingIntent);
-
-                                    NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        CharSequence name = "ResQme Notification";// The user-visible name of the channel.
-                                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                                        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-                                        notificationManager.createNotificationChannel(mChannel);
-                                    }
-
-                                    notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-        // CMC Requests
-        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
-        reference2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    CMCRequest cmcRequest = dataSnapshot.getValue(CMCRequest.class);
-                    if(cmcRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            && cmcRequest.getCmcRequestStatus().equals("Approved")){
-
-
-                        // Checking if the notification already sent
-                        // if yes, don't send, else, send it
-
-                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                        rootRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (!snapshot.hasChild(cmcRequest.getCmcRequestID())) {
-                                    //Mark the notification as sent
-                                    NotificationHistory notificationHistory = new NotificationHistory(cmcRequest.getCmcRequestID());
-                                    DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                                    nh.child(cmcRequest.getCmcRequestID()).setValue(notificationHistory);
-
-                                    //Send it
-
-                                    int num = (int) System.currentTimeMillis();
-                                    Intent intent = new Intent(DBPersistence.this, CMCRequests.class);
-                                    @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                                    String CHANNEL_ID = "cmcrequests_channel"+cmcRequest.getCmcRequestID();
-                                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
-                                            .setSmallIcon(R.mipmap.ic_launcher_round)
-                                            .setContentTitle("إشعار بخصوص طلبك لمركز الصيانة")
-                                            .setContentText("لقد قام صاحب مركز الصيانة بقبول طلبك، يمكنك الآن التواصل معه.")
-                                            .setAutoCancel(true)
-                                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                            .setContentIntent(pendingIntent);
-
-                                    NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        CharSequence name = "ResQme Notification";// The user-visible name of the channel.
-                                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                                        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-                                        notificationManager.createNotificationChannel(mChannel);
-                                    }
-
-                                    notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-        //Spare Parts Requests
-        DatabaseReference reference3 = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
-        reference3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    SparePartsRequest sparePartsRequest = dataSnapshot.getValue(SparePartsRequest.class);
-                    if(sparePartsRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            && sparePartsRequest.getSparePartsRequestStatus().equals("Approved")){
-
-                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                        rootRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (!snapshot.hasChild(sparePartsRequest.getSparePartsRequestID())) {
-                                    //Mark the notification as sent
-                                    NotificationHistory notificationHistory = new NotificationHistory(sparePartsRequest.getSparePartsRequestID());
-                                    DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                                    nh.child(sparePartsRequest.getSparePartsRequestID()).setValue(notificationHistory);
-
-                                    //Send it
-
-                                    int num = (int) System.currentTimeMillis();
-                                    Intent intent = new Intent(DBPersistence.this, SparePartsRequests.class);
-                                    @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                                    String CHANNEL_ID = "sparepartsrequests_channel"+sparePartsRequest.getSparePartsRequestID();
-                                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
-                                            .setSmallIcon(R.mipmap.ic_launcher_round)
-                                            .setContentTitle("إشعار بخصوص طلبك لقطع غيار")
-                                            .setContentText("أحد طلباتك تم قبولها، برجاء التوجه الى صفحة طلبات قطع الغيار أو اضغط على الاشعار.")
-                                            .setAutoCancel(true)
-                                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                            .setContentIntent(pendingIntent);
-
-                                    NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        CharSequence name = "ResQme Notification";// The user-visible name of the channel.
-                                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                                        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-                                        notificationManager.createNotificationChannel(mChannel);
-                                    }
-
-                                    notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                DatabaseReference nhref = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                nhref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                        } else {
+                            NotificationHistory notificationHistory = new NotificationHistory("c-00000");
+                            nhref.child("c-00000").setValue(notificationHistory);
                         }
                     }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
-
-        // CAR Status notification
-
-        DatabaseReference carsDB = FirebaseDatabase.getInstance().getReference().child("Cars");
-        carsDB.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Car car = dataSnapshot.getValue(Car.class);
-                    if(car.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                        if(car.getCarStatus().equals("Approved")){
+                    }
+                });
 
 
-                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                            rootRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (!snapshot.hasChild(car.getCarID()+"STATUS:Approved")) {
-                                        //Mark the notification as sent
-                                        NotificationHistory notificationHistory = new NotificationHistory(car.getCarID()+"STATUS:Approved");
-                                        DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                                        nh.child(car.getCarID()+"STATUS:Approved").setValue(notificationHistory);
+                /* Notification Work */
 
-                                        //Send it
+                // Reports
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Reports");
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Report report = dataSnapshot.getValue(Report.class);
+                            if (report.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    && report.getReportStatus().equals("Approved")) {
 
-                                        int num = (int) System.currentTimeMillis();
-                                        Intent intent = new Intent(DBPersistence.this, CustomerProfile.class);
-                                        @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                // Checking if the notification already sent
+                                // if yes, don't send, else, send it
 
-                                        String CHANNEL_ID = "car_channel"+car.getCarID();
-                                        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
-                                                .setSmallIcon(R.mipmap.ic_launcher_round)
-                                                .setContentTitle("إشعار بخصوص عربيتك")
-                                                .setContentText("مبروك! تم قبول العربية يمكنك الآن استخدام خدمات التطبيق.")
-                                                .setAutoCancel(true)
-                                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                                .setContentIntent(pendingIntent);
+                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                rootRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (!snapshot.hasChild(report.getReportID())) {
+                                            //Mark the notification as sent
+                                            NotificationHistory notificationHistory = new NotificationHistory(report.getReportID());
+                                            DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                            nh.child(report.getReportID()).setValue(notificationHistory);
 
-                                        NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            CharSequence name = "ResQme Notification";// The user-visible name of the channel.
-                                            int importance = NotificationManager.IMPORTANCE_HIGH;
-                                            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-                                            notificationManager.createNotificationChannel(mChannel);
+                                            //Send it
+                                            int num = (int) System.currentTimeMillis();
+                                            Intent intent = new Intent(DBPersistence.this, MyReports.class);
+                                            @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                                            String CHANNEL_ID = "reports_channel" + report.getReportID();
+                                            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
+                                                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                                                    .setContentTitle("إشعار بخصوص احد التقارير التي ارسلتها")
+                                                    .setContentText("لقد تم الرد على التقرير الخاص بك، برجاء مراجعة البريد الإلكتروني...")
+                                                    .setAutoCancel(true)
+                                                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                                    .setContentIntent(pendingIntent);
+
+                                            NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                CharSequence name = "ResQme Notification";// The user-visible name of the channel.
+                                                int importance = NotificationManager.IMPORTANCE_HIGH;
+                                                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                                notificationManager.createNotificationChannel(mChannel);
+                                            }
+
+                                            notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique i
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                // Winch requests
+                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                reference1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
+                            if (winchRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    && winchRequest.getWinchRequestStatus().equals("Approved")) {
+
+
+                                // Checking if the notification already sent
+                                // if yes, don't send, else, send it
+
+                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                rootRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (!snapshot.hasChild(winchRequest.getWinchRequestID())) {
+                                            //Mark the notification as sent
+                                            NotificationHistory notificationHistory = new NotificationHistory(winchRequest.getWinchRequestID());
+                                            DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                            nh.child(winchRequest.getWinchRequestID()).setValue(notificationHistory);
+
+                                            //Send it
+
+                                            int num = (int) System.currentTimeMillis();
+                                            Intent intent = new Intent(DBPersistence.this, WinchRequests.class);
+                                            @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                                            String CHANNEL_ID = "winchrequests_channel" + winchRequest.getWinchRequestID();
+                                            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
+                                                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                                                    .setContentTitle("إشعار بخصوص طلبك لونش")
+                                                    .setContentText("لقد قام صاحب الونش بقبول طلبك، يمكنك تتبع حركة الونش بالذهاب الى صفحة طلبات الونش او بالضغط على هذا الاشعار.")
+                                                    .setAutoCancel(true)
+                                                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                                    .setContentIntent(pendingIntent);
+
+                                            NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                CharSequence name = "ResQme Notification";// The user-visible name of the channel.
+                                                int importance = NotificationManager.IMPORTANCE_HIGH;
+                                                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                                notificationManager.createNotificationChannel(mChannel);
+                                            }
+
+                                            notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                // CMC Requests
+                DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
+                reference2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            CMCRequest cmcRequest = dataSnapshot.getValue(CMCRequest.class);
+                            if (cmcRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    && cmcRequest.getCmcRequestStatus().equals("Approved")) {
+
+
+                                // Checking if the notification already sent
+                                // if yes, don't send, else, send it
+
+                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                rootRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (!snapshot.hasChild(cmcRequest.getCmcRequestID())) {
+                                            //Mark the notification as sent
+                                            NotificationHistory notificationHistory = new NotificationHistory(cmcRequest.getCmcRequestID());
+                                            DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                            nh.child(cmcRequest.getCmcRequestID()).setValue(notificationHistory);
+
+                                            //Send it
+
+                                            int num = (int) System.currentTimeMillis();
+                                            Intent intent = new Intent(DBPersistence.this, CMCRequests.class);
+                                            @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                                            String CHANNEL_ID = "cmcrequests_channel" + cmcRequest.getCmcRequestID();
+                                            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
+                                                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                                                    .setContentTitle("إشعار بخصوص طلبك لمركز الصيانة")
+                                                    .setContentText("لقد قام صاحب مركز الصيانة بقبول طلبك، يمكنك الآن التواصل معه.")
+                                                    .setAutoCancel(true)
+                                                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                                    .setContentIntent(pendingIntent);
+
+                                            NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                CharSequence name = "ResQme Notification";// The user-visible name of the channel.
+                                                int importance = NotificationManager.IMPORTANCE_HIGH;
+                                                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                                notificationManager.createNotificationChannel(mChannel);
+                                            }
+
+                                            notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                //Spare Parts Requests
+                DatabaseReference reference3 = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
+                reference3.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            SparePartsRequest sparePartsRequest = dataSnapshot.getValue(SparePartsRequest.class);
+                            if (sparePartsRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    && sparePartsRequest.getSparePartsRequestStatus().equals("Approved")) {
+
+                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                rootRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (!snapshot.hasChild(sparePartsRequest.getSparePartsRequestID())) {
+                                            //Mark the notification as sent
+                                            NotificationHistory notificationHistory = new NotificationHistory(sparePartsRequest.getSparePartsRequestID());
+                                            DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                            nh.child(sparePartsRequest.getSparePartsRequestID()).setValue(notificationHistory);
+
+                                            //Send it
+
+                                            int num = (int) System.currentTimeMillis();
+                                            Intent intent = new Intent(DBPersistence.this, SparePartsRequests.class);
+                                            @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                                            String CHANNEL_ID = "sparepartsrequests_channel" + sparePartsRequest.getSparePartsRequestID();
+                                            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
+                                                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                                                    .setContentTitle("إشعار بخصوص طلبك لقطع غيار")
+                                                    .setContentText("أحد طلباتك تم قبولها، برجاء التوجه الى صفحة طلبات قطع الغيار أو اضغط على الاشعار.")
+                                                    .setAutoCancel(true)
+                                                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                                    .setContentIntent(pendingIntent);
+
+                                            NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                CharSequence name = "ResQme Notification";// The user-visible name of the channel.
+                                                int importance = NotificationManager.IMPORTANCE_HIGH;
+                                                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                                notificationManager.createNotificationChannel(mChannel);
+                                            }
+
+                                            notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                // CAR Status notification
+
+                DatabaseReference carsDB = FirebaseDatabase.getInstance().getReference().child("Cars");
+                carsDB.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Car car = dataSnapshot.getValue(Car.class);
+                            if (car.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                if (car.getCarStatus().equals("Approved")) {
+
+
+                                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                    rootRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (!snapshot.hasChild(car.getCarID() + "STATUS:Approved")) {
+                                                //Mark the notification as sent
+                                                NotificationHistory notificationHistory = new NotificationHistory(car.getCarID() + "STATUS:Approved");
+                                                DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                                nh.child(car.getCarID() + "STATUS:Approved").setValue(notificationHistory);
+
+                                                //Send it
+
+                                                int num = (int) System.currentTimeMillis();
+                                                Intent intent = new Intent(DBPersistence.this, CustomerProfile.class);
+                                                @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                                                String CHANNEL_ID = "car_channel" + car.getCarID();
+                                                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
+                                                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                                                        .setContentTitle("إشعار بخصوص عربيتك")
+                                                        .setContentText("مبروك! تم قبول العربية يمكنك الآن استخدام خدمات التطبيق.")
+                                                        .setAutoCancel(true)
+                                                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                                        .setContentIntent(pendingIntent);
+
+                                                NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    CharSequence name = "ResQme Notification";// The user-visible name of the channel.
+                                                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                                                    NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                                    notificationManager.createNotificationChannel(mChannel);
+                                                }
+
+                                                notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
+                                            }
                                         }
 
-                                        notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
-                                    }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+
                                 }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                                if (car.getCarStatus().equals("Refused")) {
 
 
-                        }
-                        if(car.getCarStatus().equals("Refused")){
+                                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                    rootRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (!snapshot.hasChild(car.getCarID() + "STATUS:Refused")) {
+                                                //Mark the notification as sent
+                                                NotificationHistory notificationHistory = new NotificationHistory(car.getCarID() + "STATUS:Refused");
+                                                DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
+                                                nh.child(car.getCarID() + "STATUS:Refused").setValue(notificationHistory);
 
+                                                //Send it
 
-                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                            rootRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (!snapshot.hasChild(car.getCarID()+"STATUS:Refused")) {
-                                        //Mark the notification as sent
-                                        NotificationHistory notificationHistory = new NotificationHistory(car.getCarID()+"STATUS:Refused");
-                                        DatabaseReference nh = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
-                                        nh.child(car.getCarID()+"STATUS:Refused").setValue(notificationHistory);
+                                                int num = (int) System.currentTimeMillis();
+                                                Intent intent = new Intent(DBPersistence.this, CustomerProfile.class);
+                                                @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-                                        //Send it
+                                                String CHANNEL_ID = "car_channel" + car.getCarID();
+                                                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
+                                                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                                                        .setContentTitle("إشعار بخصوص عربيتك")
+                                                        .setContentText("للأسف تم رفض العربية، تواصل معنا للمزيد.")
+                                                        .setAutoCancel(true)
+                                                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                                        .setContentIntent(pendingIntent);
 
-                                        int num = (int) System.currentTimeMillis();
-                                        Intent intent = new Intent(DBPersistence.this, CustomerProfile.class);
-                                        @SuppressLint("WrongConstant") PendingIntent pendingIntent = PendingIntent.getActivity(DBPersistence.this, num, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                                NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    CharSequence name = "ResQme Notification";// The user-visible name of the channel.
+                                                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                                                    NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                                    notificationManager.createNotificationChannel(mChannel);
+                                                }
 
-                                        String CHANNEL_ID = "car_channel"+car.getCarID();
-                                        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(DBPersistence.this, CHANNEL_ID)
-                                                .setSmallIcon(R.mipmap.ic_launcher_round)
-                                                .setContentTitle("إشعار بخصوص عربيتك")
-                                                .setContentText("للأسف تم رفض العربية، تواصل معنا للمزيد.")
-                                                .setAutoCancel(true)
-                                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                                .setContentIntent(pendingIntent);
-
-                                        NotificationManager notificationManager = (NotificationManager) DBPersistence.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            CharSequence name = "ResQme Notification";// The user-visible name of the channel.
-                                            int importance = NotificationManager.IMPORTANCE_HIGH;
-                                            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-                                            notificationManager.createNotificationChannel(mChannel);
+                                                notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
+                                            }
                                         }
 
-                                        notificationManager.notify(num, notificationBuilder.build()); // 0 is the request code, it should be unique id
-                                    }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+
                                 }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-
+                            }
                         }
                     }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
+                    }
+                });
+        }
 
     }
 }
