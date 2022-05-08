@@ -679,11 +679,9 @@ public class OnAppStartLogic extends android.app.Application{
                                                         e.printStackTrace();
                                                     }
                                                     long diffInMillies = Math.abs(System.currentTimeMillis() - date.getTime());
-                                                    // testing the oil greater than 2 days [for testing only]
-                                                    // will be changed to more than 8 months
-                                                    long diffInMonths = TimeUnit.MILLISECONDS.toDays(diffInMillies);
+                                                    Double diffInMonths = TimeUnit.MILLISECONDS.toDays(diffInMillies) * 0.0328767;
 
-                                                    if(diffInMonths > 2){
+                                                    if(diffInMonths > 8){
                                                         Toast.makeText(OnAppStartLogic.this, String.valueOf(diffInMonths), Toast.LENGTH_SHORT).show();
 
 
