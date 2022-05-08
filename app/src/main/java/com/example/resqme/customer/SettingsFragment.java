@@ -126,8 +126,8 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                         .setMessage("هل أنت متأكد انك تريد تسجيل الخروج؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mAuth.signOut();
                                 LogData.saveLog("","FALSE","USER CLICKED ON LOGOUT BUTTON","TRUE");
+                                mAuth.signOut();
                                 sendToLogin();
                             }
                         })

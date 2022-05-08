@@ -470,10 +470,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 );
 
                 winchServiceDistanceInBottomSheet.setText("• المسافة التقريبية "+ (int)Math.round(Double.valueOf(bestDistance)) + " متر.");
-                int time = (((int)Math.round(Double.valueOf(bestDistance)) / 17) / 60);
-                if(time < 5){
-                    time = 5;
-                }
 
                 winchRequestServiceCost = serviceCost;
                 winchNameInBottomSheet.setText(bestWinch.getWinchName());

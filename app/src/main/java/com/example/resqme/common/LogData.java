@@ -1,7 +1,5 @@
 package com.example.resqme.common;
 
-import android.content.Context;
-
 import com.example.resqme.model.LogDataModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
