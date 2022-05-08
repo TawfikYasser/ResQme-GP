@@ -16,6 +16,9 @@ public class RequestDetailsModel {
         this.other = other;
     }
 
+    public RequestDetailsModel() {
+    }
+
     public String getRequestDetailsId() {
         return requestDetailsId;
     }
