@@ -244,18 +244,60 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
             // Check if number is not less than 11 digit
             if(whatsApp.length() == 11){
                 if(whatsApp.startsWith("01")){
-                    new AlertDialog.Builder(this)
-                            .setTitle("تأكيد إنشاء الحساب")
-                            .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
-                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
-                                    progressDialog.show();
-                                    createNewAccount(email.trim(),password.trim(),username.trim());
+                    // Convert bod to date
+                    SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy");
+                    Date date = null;
+                    try {
+                        date = sdf.parse(bod);
+                    }   catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    //check if date is not today or in the future
+                    if(date.after(new Date())){
+                        Toast.makeText(this, "لا يمكن أن يكون التاريخ في المستقبل.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        // Validate if the date is today
+                        //get current date in the same format of date
+                        Date currentDate = new Date();
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("d MMMM yyyy");
+                        String currentDateString = sdf2.format(currentDate);
+                        Date currentDate2 = null;
+                        try {
+                            currentDate2 = sdf.parse(currentDateString);
+                        }   catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if(date.equals(currentDate2)){
+                            Toast.makeText(this, "لا يمكن أن يكون التاريخ هو تاريخ اليوم", Toast.LENGTH_SHORT).show();
+                        }else{
+                            // based on date and currentDate2, check if age is less than 18
+                            if(date.before(currentDate2)){
+                                //check if age is less than 18
+                                int age = currentDate2.getYear() - date.getYear();
+                                if(age < 18){
+                                    Toast.makeText(this, "لا يمكن أن يكون السن أقل من 18 سنة.", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    //Everything is ok
+
+                                    new AlertDialog.Builder(this)
+                                    .setTitle("تأكيد إنشاء الحساب")
+                                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
+                                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
+                                            progressDialog.show();
+                                            createNewAccount(email.trim(),password.trim(),username.trim());
+                                        }
+                                    })
+                                    .setNegativeButton("لا", null)
+                                    .show();
+
                                 }
-                            })
-                            .setNegativeButton("لا", null)
-                            .show();
+                            }
+                        }
+
+                    }
+
                 }else{
                     Snackbar.make(findViewById(android.R.id.content),"يجب أن يبدء رقم الواتساب بـ 01",Snackbar.LENGTH_LONG)
                             .setBackgroundTint(getResources().getColor(R.color.red_color))
