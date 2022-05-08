@@ -125,7 +125,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:inputType="phone"
+                        android:inputType="number"
                         android:drawableEnd="@drawable/ic_baseline_local_phone_24"
                         android:drawablePadding="15dp"
                         android:layout_height="wrap_content"

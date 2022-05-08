@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -56,6 +57,12 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -234,18 +241,33 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)
         && !TextUtils.isEmpty(whatsApp) && !TextUtils.isEmpty(bod) && mainImageUri != null && !TextUtils.isEmpty(tvAddress.getText())){
-            new AlertDialog.Builder(this)
-                    .setTitle("تأكيد إنشاء الحساب")
-                    .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
-                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                                progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
-                                progressDialog.show();
-                                createNewAccount(email.trim(),password.trim(),username.trim());
-                        }
-                    })
-                    .setNegativeButton("لا", null)
-                    .show();
+            // Check if number is not less than 11 digit
+            if(whatsApp.length() == 11){
+                if(whatsApp.startsWith("01")){
+                    new AlertDialog.Builder(this)
+                            .setTitle("تأكيد إنشاء الحساب")
+                            .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
+                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
+                                    progressDialog.show();
+                                    createNewAccount(email.trim(),password.trim(),username.trim());
+                                }
+                            })
+                            .setNegativeButton("لا", null)
+                            .show();
+                }else{
+                    Snackbar.make(findViewById(android.R.id.content),"يجب أن يبدء رقم الواتساب بـ 01",Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                }
+            }else{
+                Snackbar.make(findViewById(android.R.id.content),"يجب ألا يقل أو يزيد رقم الواتساب عن 11 رقم.",Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                        .setTextColor(getResources().getColor(R.color.white))
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+            }
         }else{
             progressDialog.dismiss();
             Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)

@@ -21,12 +21,12 @@
         android:layout_width="250dp"
         android:id="@+id/requestWinchBTN"
         android:text="اطلب ونش"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:fontFamily="@font/resqmefont"
         app:cornerRadius="48dp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/purple_500"
         android:layout_height="60dp"/>
     <ProgressBar
         android:indeterminate="true"
