@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.customer.SparePartsAdapter;
 import com.example.resqme.customer.SparePartsDetails;
 import com.example.resqme.model.SparePart;
@@ -95,10 +96,12 @@ public class SparePartsSPHomeAdapter extends RecyclerView.Adapter<SparePartsSPHo
                     // Make it not available
                     DatabaseReference sparePartsTable = FirebaseDatabase.getInstance().getReference().child("SpareParts");
                     sparePartsTable.child(sparePart.getItemID()).child("itemAvailability").setValue("Not Available");
+                    LogData.saveLog("","FALSE","USER CHANGED SPARE PARTS TO NOT AVAILABLE","TRUE");
                 }else{
                     // Make it available
                     DatabaseReference sparePartsTable = FirebaseDatabase.getInstance().getReference().child("SpareParts");
                     sparePartsTable.child(sparePart.getItemID()).child("itemAvailability").setValue("Available");
+                    LogData.saveLog("","FALSE","USER CHANGED SPARE PARTS TO AVAILABLE","TRUE");
                 }
             }
         });

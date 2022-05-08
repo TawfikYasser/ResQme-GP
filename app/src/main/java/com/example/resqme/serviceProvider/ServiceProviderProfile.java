@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.customer.AddCarData;
 import com.example.resqme.customer.CustomerProfile;
 import com.example.resqme.customer.CustomerUpdateProfile;
@@ -118,6 +119,7 @@ public class ServiceProviderProfile extends AppCompatActivity implements View.On
             case R.id.update_sp_profile_button:
                 Intent i = new Intent(ServiceProviderProfile.this, ServicProviderUpdateProfile.class);
                 startActivity(i);
+                LogData.saveLog("","FALSE","USER CLICKED ON UPDATE PROFILE BUTTON","TRUE");
                 break;
         }
     }

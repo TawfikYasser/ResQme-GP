@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReportAdapter;
 import com.example.resqme.customer.CustomerHome;
@@ -222,6 +223,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
             public void onClick(View view) {
                 Intent goToSettings = new Intent(context, ServiceProviderSettings.class);
                 startActivity(goToSettings);
+                LogData.saveLog("","FALSE","USER CLICKED ON SETTINGS PAGE","TRUE");
             }
         });
     }
@@ -481,6 +483,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
 
                 Intent intent = new Intent(ServiceProviderHome.this, ServiceProviderProfile.class);
                 startActivity(intent);
+                LogData.saveLog("","FALSE","USER CLICKED ON PROFILE IMAGE","TRUE");
 
             }
         });
@@ -492,10 +495,12 @@ public class ServiceProviderHome extends AppCompatActivity  {
                     // Make it not available
                     DatabaseReference winchTable = FirebaseDatabase.getInstance().getReference().child("Winches");
                     winchTable.child(winchID).child("winchAvailability").setValue("Not Available");
+                    LogData.saveLog("","FALSE","USER CHANGED WINCH TO NOT AVAILABLE","TRUE");
                 }else{
                     // Make it available
                     DatabaseReference winchTable = FirebaseDatabase.getInstance().getReference().child("Winches");
                     winchTable.child(winchID).child("winchAvailability").setValue("Available");
+                    LogData.saveLog("","FALSE","USER CHANGED WINCH TO AVAILABLE","TRUE");
                 }
             }
         });
@@ -506,6 +511,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
                 Intent toAddWinchintent = new Intent(context, AddWinchData.class);
                 toAddWinchintent.putExtra("FROM", "SPHOME");
                 startActivity(toAddWinchintent);
+                LogData.saveLog("","FALSE","USER CLICKED ON ADD WINCH BUTTON","TRUE");
             }
         });
 
@@ -517,10 +523,12 @@ public class ServiceProviderHome extends AppCompatActivity  {
                     // Make it not available
                     DatabaseReference cmcTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
                     cmcTable.child(cmcID).child("cmcAvailability").setValue("Not Available");
+                    LogData.saveLog("","FALSE","USER CHANGED CMC TO NOT AVAILABLE","TRUE");
                 }else{
                     // Make it available
                     DatabaseReference cmcTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
                     cmcTable.child(cmcID).child("cmcAvailability").setValue("Available");
+                    LogData.saveLog("","FALSE","USER CHANGED CMC TO AVAILABLE","TRUE");
                 }
             }
         });
@@ -533,11 +541,10 @@ public class ServiceProviderHome extends AppCompatActivity  {
                     toAddsparepartintent.putExtra("FROM", "SPHOME");
                 }
                 startActivity(toAddsparepartintent);
+                LogData.saveLog("","FALSE","USER CLICKED ON ADD SPARE PARTS BUTTON","TRUE");
             }
         });
 
-
-        // Location work
 
     }
 

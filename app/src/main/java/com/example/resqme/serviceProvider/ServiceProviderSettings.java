@@ -18,6 +18,7 @@ import android.widget.Button;
 import com.example.resqme.R;
 import com.example.resqme.common.AboutUs;
 import com.example.resqme.common.ContactUs;
+import com.example.resqme.common.LogData;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Questions;
@@ -65,6 +66,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentAboutUs = new Intent(context, AboutUs.class);
                 startActivity(intentAboutUs);
+                LogData.saveLog("","FALSE","USER CLICKED ON ABOUT US BUTTON","TRUE");
             }
         });
 
@@ -73,6 +75,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentContactUs = new Intent(context, ContactUs.class);
                 startActivity(intentContactUs);
+                LogData.saveLog("","FALSE","USER CLICKED ON CONTACT US BUTTON","TRUE");
             }
         });
 
@@ -84,6 +87,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
                         .setMessage("هل أنت متأكد انك تريد تسجيل الخروج؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                LogData.saveLog("","FALSE","USER CLICKED ON LOGOUT BUTTON","TRUE");
                                 mAuth.signOut();
                                 sendToLogin();
                             }
@@ -114,6 +118,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent goToQuestionsPage = new Intent(context, SPQuestions.class);
                 startActivity(goToQuestionsPage);
+                LogData.saveLog("","FALSE","USER CLICKED ON SHOW QUESTIONS BUTTON","TRUE");
             }
         });
 
@@ -122,6 +127,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent to = new Intent(context, SP_Winch_Requests.class);
                 startActivity(to);
+                LogData.saveLog("","FALSE","USER CLICKED ON SHOW WINCH REQUESTS BUTTON","TRUE");
             }
         });
 
@@ -130,6 +136,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent to = new Intent(context, SP_Spare_Parts_Requests.class);
                 startActivity(to);
+                LogData.saveLog("","FALSE","USER CLICKED ON SHOW SPARE PARTS REQUESTS BUTTON","TRUE");
             }
         });
 
@@ -138,6 +145,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent to = new Intent(context, SP_CMC_Requests.class);
                 startActivity(to);
+                LogData.saveLog("","FALSE","USER CLICKED ON SHOW CMC REQUESTS BUTTON","TRUE");
             }
         });
 
@@ -178,11 +186,13 @@ public class ServiceProviderSettings extends AppCompatActivity {
     private void sendReport() {
         Intent intent = new Intent(context, SendReport.class);
         startActivity(intent);
+        LogData.saveLog("","FALSE","USER CLICKED ON ADD REPORT BUTTON","TRUE");
     }
 
     private void sendToMyReports() {
         Intent intent = new Intent(context, MyReports.class);
         startActivity(intent);
+        LogData.saveLog("","FALSE","USER CLICKED ON SHOW REPORTS BUTTON","TRUE");
     }
 
     void sendToLogin() {

@@ -18,6 +18,7 @@ import android.view.View;
 import com.example.resqme.R;
 import com.example.resqme.common.Questions;
 import com.example.resqme.common.QuestionsAdapter;
+import com.example.resqme.customer.WinchRequests;
 import com.example.resqme.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -35,8 +36,8 @@ public class SPQuestions extends AppCompatActivity {
     DatabaseReference questionDB;
     SPQuestionsAdapter questionsAdapter;
     ArrayList<Question> questions;
-    Context context;
-
+    Context context, context_2;;
+    View view;
     FirebaseAuth mAuth;
 
 
@@ -49,11 +50,13 @@ public class SPQuestions extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         questionRV = findViewById(R.id.sp_questions_recycler);
         context = SPQuestions.this;
+        context_2 = SPQuestions.this;
+        view = this.getWindow().getDecorView().getRootView();
         questionDB = FirebaseDatabase.getInstance().getReference().child("Questions");
         questionRV.setHasFixedSize(true);
         questionRV.setLayoutManager(new LinearLayoutManager(this));
         questions = new ArrayList<>();
-        questionsAdapter = new SPQuestionsAdapter(questions, this);
+        questionsAdapter = new SPQuestionsAdapter(questions, this, context_2, view);
         questionRV.setAdapter(questionsAdapter);
 
         questionDB.addValueEventListener(new ValueEventListener() {
@@ -65,7 +68,7 @@ public class SPQuestions extends AppCompatActivity {
                         Question question = dataSnapshot.getValue(Question.class);
                         questions.add(question);
                         if(questions.size() !=0){
-                            questionsAdapter = new SPQuestionsAdapter(questions, context);
+                            questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
                             questionRV.setAdapter(questionsAdapter);
                         }
                     }
@@ -97,14 +100,14 @@ public class SPQuestions extends AppCompatActivity {
                         Question question = dataSnapshot.getValue(Question.class);
                         questions.add(question);
                         if(questions.size() !=0){
-                            questionsAdapter = new SPQuestionsAdapter(questions, context);
+                            questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
                             questionRV.setAdapter(questionsAdapter);
                         }
                     }
                 }
                 if(questions.size() == 0){
                     questions.clear();
-                    questionsAdapter = new SPQuestionsAdapter(questions, context);
+                    questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
                     questionRV.setAdapter(questionsAdapter);
                 }
             }
