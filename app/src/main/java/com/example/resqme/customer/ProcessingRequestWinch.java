@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -93,6 +94,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                                     progressDialogPayment.show();
 
                                     //Check internet connection
+                                    LogData.saveLog("USER CLICKED ON PROCESSING WINCH REQUEST BUTTON","TRUE","","FALSE");
                                     goToPay();
                                 }
                             })

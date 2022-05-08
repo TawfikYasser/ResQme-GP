@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.ServiceProvider;
 import com.google.firebase.database.DataSnapshot;
@@ -80,6 +81,8 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
                 goToDetailsOfCMC.putExtra("CMC_STATUS",cmc.getCmcStatus());
                 goToDetailsOfCMC.putExtra("CMC_ADDRESS",cmc.getCmcLocation());
                 context.startActivity(goToDetailsOfCMC);
+                LogData.saveLog(cmc.getCmcID(),"TRUE","","FALSE");
+
             }
         });
     }

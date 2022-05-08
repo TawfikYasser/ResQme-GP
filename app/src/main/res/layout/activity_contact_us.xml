@@ -64,7 +64,7 @@
                     android:clickable="true"
                     android:layout_marginLeft="12dp"
                     android:id="@+id/contactus_facebook"
-                    android:src="@drawable/facebook_icon"
+                    android:src="@drawable/email_icon_contact_us"
                     android:layout_height="40dp"/>
             </LinearLayout>
 

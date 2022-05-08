@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.Registeration;
 import com.example.resqme.model.Car;
@@ -291,10 +292,12 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
             case R.id.add_car_data_button:
                 Intent mainIntent = new Intent(CustomerProfile.this, AddCarData.class);
                 startActivity(mainIntent);
+                LogData.saveLog("","FALSE","USER CLICKED ON ADD CAR BUTTON","TRUE");
                 break;
             case R.id.update_profile_button:
                 Intent i = new Intent(CustomerProfile.this, CustomerUpdateProfile.class);
                 startActivity(i);
+                LogData.saveLog("","FALSE","USER CLICKED ON UPDATE PROFILE BUTTON","TRUE");
                 break;
         }
     }

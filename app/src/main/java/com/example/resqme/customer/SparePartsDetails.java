@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.SparePart;
 import com.example.resqme.model.SparePartInCart;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -85,6 +86,7 @@ public class SparePartsDetails extends AppCompatActivity {
                                     itemStatusSTR, itemOwnerIDSTR, itemCarTypeSTR, itemAvailabilitySTR);
                             shoppingCart.child(itemIdSTR+"-CCC-"+c_userid).setValue(sparePart);
                             Toast.makeText(SparePartsDetails.this,"تم إضافة: "+ itemNameSTR, Toast.LENGTH_SHORT).show();
+                            LogData.saveLog(itemIdSTR,"TRUE","","FALSE");
                         }else{
                             Toast.makeText(SparePartsDetails.this, "موجود بالفعل", Toast.LENGTH_SHORT).show();
                         }

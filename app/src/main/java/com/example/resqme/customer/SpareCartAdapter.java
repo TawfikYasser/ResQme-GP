@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.SparePartInCart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -66,6 +67,7 @@ public class SpareCartAdapter extends RecyclerView.Adapter<SpareCartAdapter.Spar
                 @Override
                 public void onClick(View view) {
                     reference.child(sparePartInCart.getItemInCartID()).removeValue();
+                    LogData.saveLog(sparePartInCart.getItemInCartID(),"TRUE","","FALSE");
                 }
             });
     }

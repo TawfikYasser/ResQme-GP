@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DatabaseReference;
@@ -73,6 +74,7 @@ public class CMCDetails extends AppCompatActivity {
                 goToCMCProcessingRequest.putExtra("CMC_STATUS",cmcStatusSTR);
                 goToCMCProcessingRequest.putExtra("CMC_ADDRESS",cmcAddressSTR);
                 startActivity(goToCMCProcessingRequest);
+                LogData.saveLog(cmcID_STR,"TRUE","","FALSE");
             }
         });
 

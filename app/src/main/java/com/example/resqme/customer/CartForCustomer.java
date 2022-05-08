@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.SparePartInCart;
 import com.example.resqme.model.SparePartsRequest;
@@ -151,6 +152,7 @@ public class CartForCustomer extends AppCompatActivity {
                             .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Initiation of Spare Parts Request
+                                    LogData.saveLog("","FALSE","USER CLICKED ON SEND SPARE PARTS REQUESTS BUTTON","TRUE");
                                     initiationOfSparePartsRequest();
                                 }
                             })

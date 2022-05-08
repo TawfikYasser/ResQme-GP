@@ -29,20 +29,23 @@ public class ContactUs extends AppCompatActivity {
         contactUsWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://api.whatsapp.com/send?phone=+201129348206"; // Test Link
+                String url = "https://api.whatsapp.com/send?phone=201129348206"; // Test Link
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
+                LogData.saveLog("","FALSE","USER CLICKED ON WHATSAPP ICON CONTACT US","TRUE");
             }
         });
 
         contactUsFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://www.facebook.com/dtetwk/"; // Test Link
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:resqmeservices@gmail.com")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, "ايميل من عميل في تطبيق ResQme");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "نص الايميل...");
+                startActivity(intent);
+                LogData.saveLog("","FALSE","USER CLICKED ON EMAIL ICON CONTACT US","TRUE");
             }
         });
 

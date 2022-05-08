@@ -255,7 +255,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Rate rate = dataSnapshot.getValue(Rate.class);
                     if(rate.getRequestID().equals(winchRequests.get(position).getWinchRequestID())
-                    && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())){
+                    && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())
+                    && rate.getRateFrom().equals("Customer")){
                         holder.rateBtn.setEnabled(false);
                     }
                 }

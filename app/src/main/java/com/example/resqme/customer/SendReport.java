@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.common.Registeration;
 import com.example.resqme.model.Report;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -97,6 +98,7 @@ public class SendReport extends AppCompatActivity {
         reportsTable.child(reportID).setValue(report);//Entering report in database
         progressDialog.dismiss();
         Toast.makeText(this, "تم إرسال التقرير وهو في مرحلة المراجعة، سيتم التواصل معك عن طريق البريد الإلكتروني", Toast.LENGTH_LONG).show();
+        LogData.saveLog("","FALSE","USER CLICKED ON SEND REPORT BUTTON","TRUE");
         finish();
     }
 }

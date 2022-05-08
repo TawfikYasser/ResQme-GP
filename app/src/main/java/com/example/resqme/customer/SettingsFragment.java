@@ -20,6 +20,7 @@ import android.widget.Button;
 import com.example.resqme.R;
 import com.example.resqme.common.AboutUs;
 import com.example.resqme.common.ContactUs;
+import com.example.resqme.common.LogData;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Questions;
@@ -126,8 +127,8 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mAuth.signOut();
+                                LogData.saveLog("","FALSE","USER CLICKED ON LOGOUT BUTTON","TRUE");
                                 sendToLogin();
-
                             }
                         })
                         .setNegativeButton("لا", null)
@@ -135,17 +136,21 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                 break;
             case R.id.reportsBtn:
                 sendReport();
+                LogData.saveLog("","FALSE","USER CLICKED ON ADD REPORT BUTTON","TRUE");
                 break;
             case R.id.reports_list_btn:
                 sendToMyReports();
+                LogData.saveLog("","FALSE","USER CLICKED ON SHOW REPORTS BUTTON","TRUE");
                 break;
             case R.id.aboutusBtn:
                 Intent intentAboutUs = new Intent(getActivity(), AboutUs.class);
                 startActivity(intentAboutUs);
+                LogData.saveLog("","FALSE","USER CLICKED ON ABOUT US BUTTON","TRUE");
                 break;
             case R.id.contactusBtn:
                 Intent intentContactUs = new Intent(getActivity(), ContactUs.class);
                 startActivity(intentContactUs);
+                LogData.saveLog("","FALSE","USER CLICKED ON CONTACT US BUTTON","TRUE");
                 break;
             case R.id.requestsBtn:
                 goToRequests();
@@ -153,14 +158,17 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
             case R.id.cartBtn:
                 Intent intentToCart = new Intent(getActivity(), CartForCustomer.class);
                 startActivity(intentToCart);
+                LogData.saveLog("","FALSE","USER CLICKED ON CART BUTTON","TRUE");
                 break;
             case R.id.askQuestionSettings:
                 Intent goToAskQuestionPage = new Intent(getActivity(), AskQuestion.class);
                 startActivity(goToAskQuestionPage);
+                LogData.saveLog("","FALSE","USER CLICKED ON ASK QUESTION BUTTON","TRUE");
                 break;
             case R.id.questionsBtnCustomerSettings:
                 Intent goToQuestionsPage = new Intent(getActivity(), Questions.class);
                 startActivity(goToQuestionsPage);
+                LogData.saveLog("","FALSE","USER CLICKED ON SHOW QUESTIONS BUTTON","TRUE");
                 break;
 
         }
@@ -182,12 +190,15 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                         if(selectedRequestType[0].equals("طلبات الونش")){
                             Intent goToWinchRequests = new Intent(getActivity(), WinchRequests.class);
                             startActivity(goToWinchRequests);
+                            LogData.saveLog("","FALSE","USER CLICKED ON SHOW WINCH REQUESTS BUTTON","TRUE");
                         }else if(selectedRequestType[0].equals("طلبات مراكز الخدمة")){
                             Intent goToCMCRequests = new Intent(getActivity(), CMCRequests.class);
                             startActivity(goToCMCRequests);
+                            LogData.saveLog("","FALSE","USER CLICKED ON SHOW SPARE PARTS REQUESTS BUTTON","TRUE");
                         }else if(selectedRequestType[0].equals("طلبات قطع الغيار")){
                             Intent goToSpareRequests = new Intent(getActivity(), SparePartsRequests.class);
                             startActivity(goToSpareRequests);
+                            LogData.saveLog("","FALSE","USER CLICKED ON SHOW CMC REQUESTS BUTTON","TRUE");
                         }
                     }
                 })

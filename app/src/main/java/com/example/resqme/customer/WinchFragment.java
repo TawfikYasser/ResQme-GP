@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.common.InternetConnection;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -399,7 +400,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     // The following function is to handle getting the best winch for the current customer.
     // The rest of the process is in another function.
     private void requestingWinch(View view) {
-
+        LogData.saveLog("USER CLICKED ON ORDER WINCH BUTTON","TRUE","","FALSE");
         // Customer must have an approved car
         SharedPreferences userData = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         SharedPreferences carLocalData = getActivity().getSharedPreferences("CAR_LOCAL_DATA", Context.MODE_PRIVATE);
@@ -420,7 +421,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
                 TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
                 TextView winchServiceDistanceInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_distance_txt);
-                TextView winchServiceTimeInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_time_txt);
 
                 // Recommending the best winch based on the current location of both winch and customer
                 // The nearest winch to the customer is the best
@@ -474,8 +474,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 if(time < 5){
                     time = 5;
                 }
-                winchServiceTimeInBottomSheet.
-                        setText("• الزمن المتوقع لوصول الونش "+ time + " دقيقة.");
 
                 winchRequestServiceCost = serviceCost;
                 winchNameInBottomSheet.setText(bestWinch.getWinchName());
@@ -484,6 +482,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        LogData.saveLog("USER CLICKED ON ORDER NOW WINCH BUTTON","TRUE","","FALSE");
                         // Going to processing winch request page to get the description
                         Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
                         wpr.putExtra("PAYMENT_COST",serviceCost);

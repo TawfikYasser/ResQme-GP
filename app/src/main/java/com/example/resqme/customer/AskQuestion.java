@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.Question;
 import com.example.resqme.model.Report;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -90,6 +91,7 @@ public class AskQuestion extends AppCompatActivity {
         questionDB.child(questionID).setValue(questionObj);//Entering question in database
         progressDialog.dismiss();
         Toast.makeText(this, "تم إرسال السؤال وهو الآن في صفحة الاسئلة.", Toast.LENGTH_LONG).show();
+        LogData.saveLog("","FALSE","USER CLICKED ON SEND QUESTION BUTTON","TRUE");
         finish();
     }
 }

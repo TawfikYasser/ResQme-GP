@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
@@ -112,6 +113,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
     private void sendTheCMCRequest() {
         progressDialog.setMessage("جاري إرسال البيانات");
         progressDialog.show();
+        LogData.saveLog(cmcID_STR,"TRUE","","FALSE");
 
 
         //Getting current customer location
