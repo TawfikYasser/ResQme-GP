@@ -656,7 +656,6 @@ public class OnAppStartLogic extends android.app.Application{
                             }
 
                             if(requestDetails.getOil().equals("1")){
-                                Toast.makeText(OnAppStartLogic.this, "oil", Toast.LENGTH_SHORT).show();
                                 DatabaseReference winchRequestDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
                                 winchRequestDB.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -665,9 +664,6 @@ public class OnAppStartLogic extends android.app.Application{
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
                                                 if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
-                                                    Toast.makeText(OnAppStartLogic.this, winchRequest.getWinchRequestInitiationDate(), Toast.LENGTH_SHORT).show();
-
-
                                                     // Get the difference between the current time and the time of the request in months
                                                     // convert the date from string to date
                                                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -757,7 +753,6 @@ public class OnAppStartLogic extends android.app.Application{
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
                                                 if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
-                                                    Toast.makeText(OnAppStartLogic.this, winchRequest.getWinchRequestInitiationDate(), Toast.LENGTH_SHORT).show();
 
                                                     // After 4 year
 
