@@ -23,402 +23,436 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_margin="24dp"
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/customer_profile_profile_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/chooseimage"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="24dp"
+                android:src="@drawable/chooseimage" />
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="12dp"
-                android:text="البيانات الشخصية"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:text="البيانات الشخصية" />
+
             <LinearLayout
-                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:background="@color/color_gray"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
+
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="اسم المستخدم"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="اسم المستخدم"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/username_profile_text"
-                    android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:fontFamily="@font/resqmefont"
-                    android:textStyle="bold"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:text="اسم المستخدم"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="اسم المستخدم"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="البريد الإلكتروني"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="البريد الإلكتروني"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/email_profile_text"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
                     android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
                     android:text="البريد الإلكتروني"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="العنوان"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:gravity="right"
-                    android:layout_marginLeft="12dp"
-                    android:id="@+id/address_profile_text"
                     android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
-                    android:layout_marginTop="12dp"
-                    android:text="العنوان"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="العنوان"
+                    android:textColor="@color/color_gray_2" />
+
+                <TextView
+                    android:id="@+id/address_profile_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:gravity="right"
+                    android:text="العنوان"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="تاريخ الميلاد"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="تاريخ الميلاد"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/dob_profile_text"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
                     android:layout_marginTop="12dp"
-                    android:text="تاريخ الميلاد"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
                     android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="رقم الواتساب"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="تاريخ الميلاد"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="رقم الواتساب"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/whatsapp_profile_text"
-                    android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
-                    android:layout_marginTop="12dp"
-                    android:text="رقم الواتساب"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="رقم الواتساب"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="الجنس"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="الجنس"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/gender_profile_text"
-                    android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
-                    android:layout_marginTop="12dp"
-                    android:text="الجنس"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="الجنس"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="نوع الحساب"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="نوع الحساب"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/userType_profile_text"
-                    android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
-                    android:layout_marginTop="12dp"
-                    android:text="نوع الحساب"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="نوع الحساب"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="التقييم العام / 5"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="التقييم العام / 5"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/userRate_profile_text"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
                     android:layout_marginRight="24dp"
                     android:layout_marginBottom="24dp"
-                    android:textStyle="bold"
                     android:fontFamily="@font/resqmefont"
-                    android:layout_marginTop="12dp"
                     android:text="التقييم"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginLeft="24dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginRight="24dp"
-                android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/color_gray_3" />
 
             <Button
+                android:id="@+id/add_car_data_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="24dp"
-                android:id="@+id/add_car_data_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:fontFamily="@font/fontlight"
                 android:text="إضافة بيانات العربية"
-                style="?attr/materialButtonOutlinedStyle"
-                app:icon="@drawable/ic_baseline_add_box_24"/>
+                app:icon="@drawable/ic_baseline_add_box_24" />
 
             <TextView
                 android:id="@+id/car_status_tv"
-                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="12dp"
-                android:text="حالة العربية"
                 android:fontFamily="@font/fontbold"
+                android:text="حالة العربية"
                 android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:visibility="gone" />
 
 
             <!-- CAR DATA -->
 
             <TextView
+                android:id="@+id/car_data_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="24dp"
-                android:id="@+id/car_data_header"
-                android:visibility="gone"
                 android:layout_marginBottom="12dp"
                 android:text="بيانات العربية"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:visibility="gone" />
 
 
             <LinearLayout
                 android:id="@+id/car_data_layout"
-                android:visibility="gone"
-                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:background="@color/color_gray"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="نوع العربية"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="نوع العربية"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/car_type_text"
-                    android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:fontFamily="@font/resqmefont"
-                    android:textStyle="bold"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="12dp"
-                    android:text="نوع العربية"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="نوع العربية"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="موديل سنة..."
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="موديل سنة..."
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/car_model_text"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
                     android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
                     android:text="موديل سنة..."
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="موعد الصيانة"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:gravity="right"
-                    android:layout_marginLeft="12dp"
-                    android:id="@+id/car_maintenance_text"
                     android:textColor="@color/black"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
-                    android:layout_marginTop="12dp"
-                    android:text="موعد الصيانة"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="موعد الصيانة"
+                    android:textColor="@color/color_gray_2" />
+
+                <TextView
+                    android:id="@+id/car_maintenance_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="24dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:gravity="right"
+                    android:text="موعد الصيانة"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
 
                 <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="ناقل الحركة"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="ناقل الحركة"
+                    android:textColor="@color/color_gray_2" />
+
                 <TextView
                     android:id="@+id/car_trnasmission_text"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/resqmefont"
                     android:layout_marginTop="12dp"
-                    android:text="ناقل الحركة"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
                     android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="رخصة السائق"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="ناقل الحركة"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="رخصة السائق"
+                    android:textColor="@color/color_gray_2" />
+
                 <ImageView
-                    android:layout_margin="24dp"
                     android:id="@+id/driver_licence_image_after_approval"
                     android:layout_width="match_parent"
-                    android:src="@drawable/driverlisenceimage"
-                    android:layout_height="200dp"/>
-                <TextView
-                    android:textColor="@color/color_gray_2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="24dp"
-                    android:text="رخصة العربية"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <ImageView
+                    android:layout_height="200dp"
                     android:layout_margin="24dp"
+                    android:src="@drawable/driverlisenceimage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="رخصة العربية"
+                    android:textColor="@color/color_gray_2" />
+
+                <ImageView
                     android:id="@+id/car_licence_image__after_approval"
                     android:layout_width="match_parent"
-                    android:src="@drawable/driverlisenceimage"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    android:layout_margin="24dp"
+                    android:src="@drawable/driverlisenceimage" />
             </LinearLayout>
 
 
-
-<!--      END OF CAR      -->
-
-
+            <!--      END OF CAR      -->
 
 
             <LinearLayout
-                android:layout_marginLeft="24dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginRight="24dp"
-                android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/color_gray_3" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="12dp"
-                android:text="سجل الطلبات"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:text="سجل الطلبات" />
+
+
             <LinearLayout
-                android:layout_marginLeft="24dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginRight="24dp"
-                android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/color_gray_3" />
 
             <Button
+                android:id="@+id/update_profile_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="24dp"
-                android:id="@+id/update_profile_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:fontFamily="@font/fontlight"
                 android:text="تحديث بيانات الصفحة الشخصية"
-                app:icon="@drawable/ic_baseline_update_24"
+                app:icon="@drawable/ic_baseline_update_24" />
+            <Button
+                android:id="@+id/car_history_button"
                 style="?attr/materialButtonOutlinedStyle"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/fontlight"
+                android:text="تاريخ عربيتك"
+                app:icon="@drawable/ic_car_history" />
 
         </LinearLayout>
     </ScrollView>

@@ -22,7 +22,6 @@ import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.Car;
 import com.example.resqme.model.NotificationHistory;
 import com.example.resqme.model.Report;
-import com.example.resqme.model.RequestDetails;
 import com.example.resqme.model.RequestDetailsModel;
 import com.example.resqme.model.SparePartsRequest;
 import com.example.resqme.model.WinchRequest;

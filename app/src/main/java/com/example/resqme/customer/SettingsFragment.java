@@ -114,6 +114,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
         showQuestionsSettingsCustomer.setOnClickListener((View.OnClickListener)this);
 
 
+
         return v;
     }
 

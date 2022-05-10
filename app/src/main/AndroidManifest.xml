@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:supportsRtl">
         <activity
+            android:name=".customer.CarHistory"
+            android:exported="false" />
+        <activity
             android:name=".serviceProvider.SP_CMC_Requests"
             android:exported="false" />
         <activity
@@ -46,8 +49,8 @@
             android:exported="false" />
         <activity
             android:name=".serviceProvider.ServiceProviderSettings"
-            android:exported="false"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
