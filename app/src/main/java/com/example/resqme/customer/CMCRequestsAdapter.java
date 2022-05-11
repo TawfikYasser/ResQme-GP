@@ -8,10 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,9 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
-import com.example.resqme.model.NotificationResQme;
 import com.example.resqme.model.Rate;
-import com.example.resqme.model.RequestDetailsModel;
 import com.example.resqme.model.ServiceProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
@@ -85,10 +79,7 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
 
-            //Sending notification
-            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-            NotificationResQme notification = new NotificationResQme(cmcRequests.get(position).getCmcRequestID(), "إشعار بخصوص طلب مركز صيانة", "تم قبول طلبك من صاحب مركز الصيانة، لمعرفة المزيد من فضلك اذهب الى صفحة طلبات مراكز الصيانة.", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            notificationRef.child(cmcRequests.get(position).getCmcRequestID()).setValue(notification);
+
 
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
@@ -119,11 +110,6 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.tvCMCRequestOwnerName.setTextColor(Color.RED);
             holder.tvCMCRequestOwnerPhone.setText("غير متاح");
             holder.tvCMCRequestOwnerPhone.setTextColor(Color.RED);
-
-            //Sending notification
-            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-            NotificationResQme notification = new NotificationResQme(cmcRequests.get(position).getCmcRequestID(), "إشعار بخصوص طلب مركز صيانة", "للأسف تم رفض طلبك من صاحب مركز الصيانة، يمكنك الآن تقييم الخدمة.", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            notificationRef.child(cmcRequests.get(position).getCmcRequestID()).setValue(notification);
 
         }
 

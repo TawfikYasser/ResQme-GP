@@ -16,8 +16,6 @@ public class LogDataModel {
     public LogDataModel() {
     }
 
-
-
     public String getId() {
         return id;
     }

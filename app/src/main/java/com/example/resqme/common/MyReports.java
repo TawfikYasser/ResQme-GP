@@ -4,26 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.resqme.R;
-import com.example.resqme.customer.CustomerProfile;
-import com.example.resqme.model.NotificationResQme;
 import com.example.resqme.model.Report;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -31,7 +23,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -78,16 +69,7 @@ public class MyReports extends AppCompatActivity {
                                 myReportsRV.setAdapter(myReportAdapter);
                             }
                         }
-                        if (report.getUserID().equals(mAuth.getCurrentUser().getUid()) &&
-                        report.getReportStatus().equals("Approved")) {
 
-                            //Sending notification
-                            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-                            NotificationResQme notification = new NotificationResQme(report.getReportID(), "إشعار بخصوص الريبورت", "لقد تم الرد على الريبورت الخاص بك، من فضلك قم بفحص البريد الإلكتروني.", mAuth.getCurrentUser().getUid());
-                            notificationRef.child(report.getReportID()).setValue(notification);
-
-
-                        }
                     }
                 }
             }

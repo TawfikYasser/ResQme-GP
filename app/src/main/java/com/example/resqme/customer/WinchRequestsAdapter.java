@@ -22,7 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.resqme.R;
-import com.example.resqme.model.NotificationResQme;
 import com.example.resqme.model.Rate;
 import com.example.resqme.model.RequestDetailsModel;
 import com.example.resqme.model.ServiceProvider;
@@ -117,10 +116,7 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
 
-            //Sending notification
-            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-            NotificationResQme notification = new NotificationResQme(winchRequests.get(position).getWinchRequestID(), "إشعار بخصوص طلبك للونش", "تم قبول طلبك من صاحب الونش، يمكنك الآن تتبع حركة الونش في صفحة طلبات الونش.", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            notificationRef.child(winchRequests.get(position).getWinchRequestID()).setValue(notification);
+
 
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
@@ -153,13 +149,6 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.tvWinchRequestOwnerName.setTextColor(Color.RED);
             holder.tvWinchRequestOwnerPhone.setText("غير متاح");
             holder.tvWinchRequestOwnerPhone.setTextColor(Color.RED);
-
-            //Sending notification
-            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-            NotificationResQme notification = new NotificationResQme(winchRequests.get(position).getWinchRequestID(), "إشعار بخصوص طلبك للونش", "للأسف تم رفض طلبك من صاحب الونش، يمكنك تقييم الآن تقييم الخدمة.", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            notificationRef.child(winchRequests.get(position).getWinchRequestID()).setValue(notification);
-
-
 
         }
 
