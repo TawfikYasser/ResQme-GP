@@ -14,11 +14,11 @@ tools:context=".customer.CarHistory">
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_requestdetails"
+            android:id="@+id/toolbar_car_history"
             android:layout_width="match_parent"
             android:tooltipText="رجوع"
             android:layout_height="?attr/actionBarSize"
-            app:title="طلبات الونش"
+            app:title="تاريخ الطلبات"
             app:titleTextAppearance="@font/fontlight"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -27,7 +27,7 @@ tools:context=".customer.CarHistory">
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/request_details_recycler"
+            android:id="@+id/car_history_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

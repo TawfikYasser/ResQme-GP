@@ -40,7 +40,7 @@ public class CarHistory extends AppCompatActivity {
         setContentView(R.layout.activity_car_history);
         initToolbar();
         forceRTLIfSupported();
-        requestDetailsRV = findViewById(R.id.request_details_recycler);
+        requestDetailsRV = findViewById(R.id.car_history_recycler);
         context = this.getApplicationContext();
         context_2 = CarHistory.this;
         view = this.getWindow().getDecorView().getRootView();
@@ -76,9 +76,9 @@ public class CarHistory extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_requestdetails);
+        Toolbar toolbar = findViewById(R.id.toolbar_car_history);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("طلبات الونش");
+        getSupportActionBar().setTitle("تاريخ الطلبات");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextAppearance(CarHistory.this, R.style.Theme_ResQme);
     }
@@ -96,14 +96,4 @@ public class CarHistory extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 35){
-
-
-
-        }
-
-    }
 }

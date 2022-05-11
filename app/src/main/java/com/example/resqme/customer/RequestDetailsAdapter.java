@@ -129,10 +129,10 @@ public class RequestDetailsAdapter extends RecyclerView.Adapter<RequestDetailsAd
 
         public RequestDetailsAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvRequestItemDescription = itemView.findViewById(R.id.winch_request_item_description_txt);
-            tvRequestDetailsFixedItem = itemView.findViewById(R.id.request_details_fixed_item_txt);
-            tvWinchRequestServiceCost = itemView.findViewById(R.id.winch_request_service_cost_txt);
-            tvWinchRequestTimestamp = itemView.findViewById(R.id.winch_request_timestamp_txt);
+            tvRequestItemDescription = itemView.findViewById(R.id.winch_request_item_description_txt_car_history);
+            tvRequestDetailsFixedItem = itemView.findViewById(R.id.request_details_fixed_item_txt_car_history);
+            tvWinchRequestServiceCost = itemView.findViewById(R.id.winch_request_service_cost_txt_car_history);
+            tvWinchRequestTimestamp = itemView.findViewById(R.id.winch_request_timestamp_txt_car_history);
 
 
         }

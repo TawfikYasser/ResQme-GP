@@ -474,7 +474,6 @@ public class OnAppStartLogic extends android.app.Application{
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
                                                 if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
-                                                    Toast.makeText(OnAppStartLogic.this, winchRequest.getWinchRequestInitiationDate(), Toast.LENGTH_SHORT).show();
 
                                                     // After 2 year we have to send a notification
 
@@ -492,7 +491,6 @@ public class OnAppStartLogic extends android.app.Application{
                                                     double diffInYears = TimeUnit.MILLISECONDS.toDays(diffInMillies) * 0.002738;
 
                                                     if(diffInYears > 2){
-                                                        Toast.makeText(OnAppStartLogic.this, String.valueOf(diffInYears), Toast.LENGTH_SHORT).show();
 
 
                                                         // Send the notification
@@ -568,7 +566,6 @@ public class OnAppStartLogic extends android.app.Application{
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
                                                 if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
-                                                    Toast.makeText(OnAppStartLogic.this, winchRequest.getWinchRequestInitiationDate(), Toast.LENGTH_SHORT).show();
 
 
                                                     // Filter after 8 months
@@ -587,7 +584,6 @@ public class OnAppStartLogic extends android.app.Application{
                                                     Double diffInMonths = TimeUnit.MILLISECONDS.toDays(diffInMillies) * 0.0328767;
 
                                                     if(diffInMonths > 8){
-                                                        Toast.makeText(OnAppStartLogic.this, String.valueOf(diffInMonths), Toast.LENGTH_SHORT).show();
 
 
                                                         // Send the notification
@@ -677,7 +673,6 @@ public class OnAppStartLogic extends android.app.Application{
                                                     Double diffInMonths = TimeUnit.MILLISECONDS.toDays(diffInMillies) * 0.0328767;
 
                                                     if(diffInMonths > 8){
-                                                        Toast.makeText(OnAppStartLogic.this, String.valueOf(diffInMonths), Toast.LENGTH_SHORT).show();
 
 
                                                         // Send the notification
@@ -769,7 +764,6 @@ public class OnAppStartLogic extends android.app.Application{
                                                     Double diffInYears = TimeUnit.MILLISECONDS.toDays(diffInMillies) * 0.002738;
 
                                                     if(diffInYears > 4){
-                                                        Toast.makeText(OnAppStartLogic.this, String.valueOf(diffInYears), Toast.LENGTH_SHORT).show();
 
 
                                                         // Send the notification
