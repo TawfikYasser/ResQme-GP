@@ -5,7 +5,24 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".customer.SpareFragment">
+
+       <com.facebook.shimmer.ShimmerFrameLayout
+           android:id="@+id/spare_customer_shimmer"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+               <LinearLayout
+                   android:orientation="vertical"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+                       <include layout="@layout/spare_parts_item_customer_shimmer" />
+                       <include layout="@layout/spare_parts_item_customer_shimmer" />
+                       <include layout="@layout/spare_parts_item_customer_shimmer" />
+
+               </LinearLayout>
+       </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/spare_parts_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

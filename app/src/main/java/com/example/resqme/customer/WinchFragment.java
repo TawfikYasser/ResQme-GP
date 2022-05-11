@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -118,6 +120,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     String winchRequestServiceCost = "";
     ProgressBar progressBar;
     ProgressDialog progressDialogPayment;
+
     /*
      * This fragment works as the follows:
      * Check if Location & GPS are enabled
@@ -143,7 +146,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
 
         mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
-
+        mapFragment.setMenuVisibility(false);
         // GPS
         try {
             GPS = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
@@ -265,6 +268,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         } else {
             Toast.makeText(getContext(), "بيانات الموقع غير متاحة.", Toast.LENGTH_SHORT).show();
         }
+
         return view;
     }
 
@@ -308,6 +312,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                             .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
                     progressBar.setVisibility(View.GONE);
                 }
+
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 }
                 googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
