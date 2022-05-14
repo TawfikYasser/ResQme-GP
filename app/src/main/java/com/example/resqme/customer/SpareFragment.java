@@ -78,73 +78,77 @@ public class SpareFragment extends Fragment {
         sparepartsAdapter = new SparePartsAdapter(getActivity(), spareParts);
         sparepartsRV.setAdapter(sparepartsAdapter);
 
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                logDB.addValueEventListener(new ValueEventListener() {
+                shimmerFrameLayoutSpareCustomer.stopShimmer();
+                shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
+                sparepartsRV.setVisibility(View.VISIBLE);
+            }  //end of run
+        }, 2000);
+
+        logDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //All logic will be here
+                sparePartsIDs.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
+                    if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
+                        sparePartsIDs.add(logData.getClickedServiceID());
+                    }
+                }
+                // Count the occurrences of each clicked service ID and get the most frequent one
+                HashMap<String, Integer> map = new HashMap<>();
+                for (String s : sparePartsIDs) {
+                    Integer count = map.get(s);
+                    map.put(s, count == null ? 1 : count + 1);
+                }
+                String mostFrequent = "";
+                int max = 0;
+                for (String s : map.keySet()) {
+                    if (map.get(s) > max) {
+                        max = map.get(s);
+                        mostFrequent = s;
+
+                    }
+                }
+
+                String finalMostFrequent = mostFrequent;
+                sparepartsDB.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //All logic will be here
-                        sparePartsIDs.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
-                            if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
-                                sparePartsIDs.add(logData.getClickedServiceID());
-                            }
-                        }
-                        // Count the occurrences of each clicked service ID and get the most frequent one
-                        HashMap<String, Integer> map = new HashMap<>();
-                        for (String s : sparePartsIDs) {
-                            Integer count = map.get(s);
-                            map.put(s, count == null ? 1 : count + 1);
-                        }
-                        String mostFrequent = "";
-                        int max = 0;
-                        for (String s : map.keySet()) {
-                            if (map.get(s) > max) {
-                                max = map.get(s);
-                                mostFrequent = s;
-
-                            }
-                        }
-
-                        String finalMostFrequent = mostFrequent;
-                        sparepartsDB.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                spareParts.clear();
-                                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                                    SparePart sparePart = dataSnapshot.getValue(SparePart.class);
-                                    if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available")){
-                                        // Put the spare part with the most frequent ID in the first position
-                                        if(sparePart.getItemID().equals(finalMostFrequent)){
-                                            spareParts.add(0, sparePart);
-                                        } else {
-                                            spareParts.add(sparePart);
-                                        }
-                                        sparepartsAdapter = new SparePartsAdapter(context, spareParts);
-                                        sparepartsRV.setAdapter(sparepartsAdapter);
-                                    }
+                        spareParts.clear();
+                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                            SparePart sparePart = dataSnapshot.getValue(SparePart.class);
+                            if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available")){
+                                // Put the spare part with the most frequent ID in the first position
+                                if(sparePart.getItemID().equals(finalMostFrequent)){
+                                    spareParts.add(0, sparePart);
+                                } else {
+                                    spareParts.add(sparePart);
                                 }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
 
+                                sparepartsAdapter = new SparePartsAdapter(context, spareParts);
+                                sparepartsRV.setAdapter(sparepartsAdapter);
                             }
-                        });
+                        }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
-                shimmerFrameLayoutSpareCustomer.stopShimmer();
-                shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
-                sparepartsRV.setVisibility(View.VISIBLE);
-            }  //end of run
-        }, 2500);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         return view;
     }
