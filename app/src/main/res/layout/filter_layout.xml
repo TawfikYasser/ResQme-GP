@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/Filter_Linear_Layout"
+    android:background="@drawable/winch_bottom_sheet_backgroun"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/black"
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:gravity="right"
+            android:layout_margin="8dp"
+            android:text="ابحث عن نوع سيارتك "
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Toyota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toyota"
+                    />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Mercedes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mercedes"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/BMW"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BMW"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Speranza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speranza"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/BYD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BYD"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Mitsubishi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mitsubishi"/>
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Hyundai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hyundai"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Chevrolet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chevrolet"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/KIA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KIA"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Geely"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Geely"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/MG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MG"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Renault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Renault"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Nissan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nissan"/>
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Volkswagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volkswagen"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Honda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Honda"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Skoda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skoda"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Fiat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fiat"/>
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_rating_btn"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="24dp"
+            android:text="بحث"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>
