@@ -21,6 +21,7 @@ import com.example.resqme.R;
 import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
 
@@ -28,6 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
     CircleImageView customerProfile;
+    FloatingActionButton Filter;
     TextView headerTV;
     public static CustomerCart customerCart ;
     InternetConnection ic;
@@ -62,6 +64,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         customerProfile = findViewById(R.id.customer_home_image);
         customerProfile.setOnClickListener(this);
         headerTV = findViewById(R.id.customer_home_header_text);
+        Filter = findViewById(R.id.FilterButton);
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -73,21 +76,25 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                         case R.id.winch:
                             selectedFragment = new WinchFragment();
                             headerTV.setText("ونش");
+                            Filter.setVisibility(View.GONE);
                             LogData.saveLog("","FALSE","USER CLICKED ON WINCH PAGE","TRUE");
                             break;
                         case R.id.spare_parts:
                             selectedFragment = new SpareFragment();
                             headerTV.setText("قطع غيار");
+                            Filter.setVisibility(View.VISIBLE);
                             LogData.saveLog("","FALSE","USER CLICKED ON SPARE PARTS PAGE","TRUE");
                             break;
                         case R.id.cmc:
                             selectedFragment = new CMCFragment();
                             headerTV.setText("مركز خدمة سيارات");
+                            Filter.setVisibility(View.VISIBLE);
                             LogData.saveLog("","FALSE","USER CLICKED ON CMC PAGE","TRUE");
                             break;
                         case R.id.settings:
                             selectedFragment = new SettingsFragment();
                             headerTV.setText("الإعدادات");
+                            Filter.setVisibility(View.GONE);
                             LogData.saveLog("","FALSE","USER CLICKED ON SETTINGS PAGE","TRUE");
                             break;
                     }
@@ -107,6 +114,9 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 LogData.saveLog("","FALSE","USER CLICKED ON PROFILE IMAGE","TRUE");
                 break;
+            case R.id.FilterButton:
+
+
         }
     }
 
