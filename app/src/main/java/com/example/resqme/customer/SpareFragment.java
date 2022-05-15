@@ -131,7 +131,6 @@ public class SpareFragment extends Fragment {
                                 } else {
                                     spareParts.add(sparePart);
                                 }
-
                                 sparepartsAdapter = new SparePartsAdapter(context, spareParts);
                                 sparepartsRV.setAdapter(sparepartsAdapter);
                             }
@@ -143,7 +142,6 @@ public class SpareFragment extends Fragment {
                     }
                 });
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
