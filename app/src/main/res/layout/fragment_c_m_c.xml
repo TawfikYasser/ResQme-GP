@@ -7,7 +7,19 @@
     android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     tools:context=".customer.CMCFragment">
-
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/cmc_customer_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/cmc_item_customer_shimmer" />
+            <include layout="@layout/cmc_item_customer_shimmer" />
+            <include layout="@layout/cmc_item_customer_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,6 +39,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/cmc_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
