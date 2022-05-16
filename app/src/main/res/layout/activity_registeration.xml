@@ -121,6 +121,7 @@
                     android:layout_marginRight="24dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
+                    app:helperText="يجب إدخال رقم واتساب حقيقي حتى لا يتم إيقاف الحساب"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText

@@ -20,6 +20,8 @@ import com.example.resqme.model.ServiceProvider;
 import com.example.resqme.model.SparePart;
 import com.example.resqme.model.SparePartInCart;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

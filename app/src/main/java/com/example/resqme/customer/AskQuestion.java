@@ -52,6 +52,7 @@ public class AskQuestion extends AppCompatActivity {
                 else{
                     progressDialog.setMessage("جاري إرسال البيانات...");
                     progressDialog.show();
+                    progressDialog.setCancelable(false);
                     sendQuestion(questionET.getText().toString().trim());
                 }
             }

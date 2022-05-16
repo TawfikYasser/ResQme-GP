@@ -200,8 +200,6 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
     private void saveSendData() {
         int selectedType = rgTransmissionType.getCheckedRadioButtonId();
         rbtnAuto=(RadioButton)findViewById(selectedType);
-        //rbtnAuto.getText().toString()
-
         if(!TextUtils.isEmpty(carType) && !TextUtils.isEmpty(carModel) && !TextUtils.isEmpty(carMaintenance)
         && driverLicence != null && carLicence != null
         && !TextUtils.isEmpty(rbtnAuto.getText().toString())){
@@ -213,7 +211,7 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
                         public void onClick(DialogInterface dialog, int which) {
                             progressDialog.setMessage("يرجى الإنتظار قليلاً جاري إرسال البيانات!");
                             progressDialog.show();
-
+                            progressDialog.setCancelable(false);
                             uploadData();
 
                         }
@@ -301,9 +299,4 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
             }
         });
     }
-
-
-
-
-
 }

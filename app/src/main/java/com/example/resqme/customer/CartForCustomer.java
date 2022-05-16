@@ -38,6 +38,8 @@ import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -179,6 +181,7 @@ public class CartForCustomer extends AppCompatActivity {
         * */
         progressDialog.setMessage("جاري إرسال الطلبات، شكراً لإنتظارك :)...");
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
 
         FusedLocationProviderClient locationProviderClient = LocationServices.
@@ -231,9 +234,11 @@ public class CartForCustomer extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(CartForCustomer.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(CartForCustomer.this.findViewById(android.R.id.content),task.getException().getMessage().toString(),Snackbar.LENGTH_LONG)
+                                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                        .setTextColor(getResources().getColor(R.color.white))
+                                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                 progressDialog.dismiss();
-                                finish();
                             }
                         }
                     });
@@ -246,19 +251,27 @@ public class CartForCustomer extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(CartForCustomer.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(CartForCustomer.this.findViewById(android.R.id.content),task.getException().getMessage().toString(),Snackbar.LENGTH_LONG)
+                                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                        .setTextColor(getResources().getColor(R.color.white))
+                                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                 progressDialog.dismiss();
-                                finish();
                             }
                         }
                     });
                 }
-                Toast.makeText(CartForCustomer.this, "تم إرسال جميع الطلبات.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(CartForCustomer.this.findViewById(android.R.id.content),"تم إرسال جميع الطلبات",Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(getResources().getColor(R.color.blue_back))
+                        .setTextColor(getResources().getColor(R.color.white))
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 progressDialog.dismiss();
                 finish();
             }else{
                 progressDialog.dismiss();
-                Toast.makeText(context, "حدث مشكلة اثناء الحصول على عنوانك الحالي، برجاء المحاولة لاحقاً", Toast.LENGTH_SHORT).show();
+                Snackbar.make(CartForCustomer.this.findViewById(android.R.id.content),"حدث مشكلة اثناء الحصول على عنوانك الحالي، برجاء المحاولة لاحقاً",Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                        .setTextColor(getResources().getColor(R.color.white))
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });
 

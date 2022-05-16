@@ -266,9 +266,11 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             });
 
         } else {
-            Toast.makeText(getContext(), "بيانات الموقع غير متاحة.", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(android.R.id.content),"بيانات الموقع غير متاحة.",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
-
         return view;
     }
 
@@ -343,7 +345,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             if (GPS != 0) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(WinchFragment.this.getId(), new WinchFragment()).commit();
             }else{
-                Toast.makeText(context, "لم يتم تفعيل بيانات الموقع.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(android.R.id.content),"لم يتم تفعيل بيانات الموقع.",Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                        .setTextColor(getResources().getColor(R.color.white))
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         }else if(requestCode == 25) {
             if (data != null) {
@@ -390,12 +395,18 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 InternetConnection ic;
                 ic = new InternetConnection(context);
                 if(!ic.checkInternetConnection()){
-                    Toast.makeText(context, "عفواً، لطلب ونش يجب توافر إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"عفواً، لطلب ونش يجب توافر إتصال بالإنترنت.",Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }else{
                     if(winchesList.size() > 0){
                         requestingWinch(view);
                     }else{
-                        Toast.makeText(context, "عذراً، الخدمة غير متاحة حالياً.", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),"عذراً، الخدمة غير متاحة حالياً.",Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                .setTextColor(getResources().getColor(R.color.white))
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                     }
                 }
                 break;
@@ -414,7 +425,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         String car_status = carLocalData.getString("CAR_STATUS", "CAR_DEFAULT");
         if(!carLocalData.contains("CAR_ID")){
             // Car not added yet.
-            Toast.makeText(context, "لم تقم بإضافة عربية حتى الآن.", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(android.R.id.content),"لم تقم بإضافة عربية حتى الآن.",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }else{
             // Car added, but may be approved or not.
             if(c_userid.equals(car_user_id) && car_status.equals("Approved")){
@@ -494,9 +508,15 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 winchBottomDialog.show();
                 progressBar.setVisibility(View.GONE);
             }else if(c_userid.equals(car_user_id) && car_status.equals("Pending")){
-                Toast.makeText(context, "العربية لم يتم قبولها حتى الآن، برجاء المحاولة في وقت لاحق أو تواصل معنا.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(android.R.id.content),"العربية لم يتم قبولها حتى الآن، برجاء المحاولة في وقت لاحق أو تواصل معنا.",Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                        .setTextColor(getResources().getColor(R.color.white))
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }else if(c_userid.equals(car_user_id) && car_status.equals("Refused")){
-                Toast.makeText(context, "تم رفض بيانات العربية، تواصل معنا لمعرفة المزيد.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(android.R.id.content),"تم رفض بيانات العربية، تواصل معنا لمعرفة المزيد.",Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(getResources().getColor(R.color.red_color))
+                        .setTextColor(getResources().getColor(R.color.white))
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         }
     }
@@ -509,6 +529,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("جاري إرسال البيانات..");
             progressDialog.show();
+            progressDialog.setCancelable(false);
             DatabaseReference winchRequestDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
             FirebaseDatabase databaseRef = FirebaseDatabase.getInstance();
             String winchRequestID = databaseRef.getReference("WinchRequests").push().getKey();
@@ -532,7 +553,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
             winches.child(finalBestWinch.getWinchID()).child("winchAvailability").setValue("Not Available");
 
-            Toast.makeText(context, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(android.R.id.content),"تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.blue_back))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             progressDialog.dismiss();
             winchBottomDialog.cancel();
         }

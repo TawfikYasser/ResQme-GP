@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.resqme.R;
+import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -60,6 +61,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
     String customerID;
     String EphericalKey;
     String ClientSecret;
+    InternetConnection ic;
 
 
     @Override
@@ -69,6 +71,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
         initToolbar();
         forceRTLIfSupported();
         context = this;
+        ic = new InternetConnection(context);
         Intent intent = getIntent();
         serviceCost = intent.getStringExtra("PAYMENT_COST");
         progressDialogPayment = new ProgressDialog(this);
@@ -84,22 +87,28 @@ public class ProcessingRequestWinch extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(etWinchRequestDescription.getText().toString().trim())){
-                    new AlertDialog.Builder(ProcessingRequestWinch.this)
-                            .setTitle("طلب ونش")
-                            .setMessage("سيتم تحويلك الآن الى صفحة الدفع...")
-                            .setPositiveButton("متابعة", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //Send desc to payment page
-                                    progressDialogPayment.setMessage("تفعيل خدمات الدفع...");
-                                    progressDialogPayment.show();
-
-                                    //Check internet connection
-                                    LogData.saveLog("USER CLICKED ON PROCESSING WINCH REQUEST BUTTON","TRUE","","FALSE");
-                                    goToPay();
-                                }
-                            })
-                            .setNegativeButton("إلغاء", null)
-                            .show();
+                    if(ic.checkInternetConnection()){
+                        new AlertDialog.Builder(ProcessingRequestWinch.this)
+                                .setTitle("طلب ونش")
+                                .setMessage("هل تريد المتابعة الى عملية الدفع؟")
+                                .setPositiveButton("متابعة", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Send desc to payment page
+                                        progressDialogPayment.setMessage("تفعيل خدمات الدفع...");
+                                        progressDialogPayment.show();
+                                        progressDialogPayment.setCancelable(false);
+                                        LogData.saveLog("USER CLICKED ON PROCESSING WINCH REQUEST BUTTON","TRUE","","FALSE");
+                                        goToPay();
+                                    }
+                                })
+                                .setNegativeButton("إلغاء", null)
+                                .show();
+                    }else{
+                        Snackbar.make(ProcessingRequestWinch.this.findViewById(android.R.id.content),"لا يوجد إتصال بالإنترنت.",Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                .setTextColor(getResources().getColor(R.color.white))
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                    }
                 }else{
                     Snackbar.make(findViewById(android.R.id.content),"يجب إدخال وصف للطلب قبل الضغط على إرسال.",Snackbar.LENGTH_LONG)
                             .setBackgroundTint(getResources().getColor(R.color.red_color))
@@ -112,13 +121,19 @@ public class ProcessingRequestWinch extends AppCompatActivity{
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         if(paymentSheetResult instanceof PaymentSheetResult.Completed){
-            Toast.makeText(context, "تمت العملية بنجاح!", Toast.LENGTH_SHORT).show();
+            Snackbar.make(ProcessingRequestWinch.this.findViewById(android.R.id.content),"تمت عملية الدفع بنجاح",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.blue_back))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             Intent getDescriptionBack = new Intent();
             getDescriptionBack.putExtra("DESC_WINCH_VALUE", etWinchRequestDescription.getText().toString().trim());
             setResult(25, getDescriptionBack);
             finish();
         }else{
-            Toast.makeText(context, "لم تمم عملية الدفع.", Toast.LENGTH_SHORT).show();
+            Snackbar.make(ProcessingRequestWinch.this.findViewById(android.R.id.content),"لم تتم عملية الدفع",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
     }
 
@@ -169,7 +184,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                         try {
                             JSONObject object = new JSONObject(response);
                             EphericalKey = object.getString("id");
-                            Toast.makeText(context, "الحصول على معلومات الإتصال", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "الحصول على معلومات الإتصال...", Toast.LENGTH_SHORT).show();
                             getClientSecret(customerID, EphericalKey);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -216,7 +231,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                         try {
                             JSONObject object = new JSONObject(response);
                             ClientSecret = object.getString("client_secret");
-                            Toast.makeText(context, "نجح الإتصال", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "نجح الإتصال...", Toast.LENGTH_SHORT).show();
                             progressDialogPayment.dismiss();
                             paymentFlowStarting();
                         } catch (JSONException e) {
@@ -276,25 +291,6 @@ public class ProcessingRequestWinch extends AppCompatActivity{
         );
 
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == 30){
-//            // If payment done, we can send the request
-//            if(data!=null){
-//                if(!TextUtils.isEmpty(data.getStringExtra("PAYMENT_STATUS"))){
-//                    PaymentStatusArg = data.getStringExtra("PAYMENT_STATUS");
-//                    if(!TextUtils.isEmpty(PaymentStatusArg) && PaymentStatusArg.equals("SUCCESS_P_RESQME")){
-//                        progressDialogPayment.dismiss();
-//                        // Here, description added, payment done
-//                        // go back and send the request
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     @Override
     protected void onResume() {

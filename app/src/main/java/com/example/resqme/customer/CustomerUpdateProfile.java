@@ -38,6 +38,8 @@ import com.example.resqme.serviceProvider.ServiceProviderHome;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -115,7 +117,10 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         switch (v.getId()){
             case R.id.customer_profile_update_btn:
                 if(!ic.checkInternetConnection()){
-                    Toast.makeText(this, "لا يوجد إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(CustomerUpdateProfile.this.findViewById(android.R.id.content),"لا يوجد إتصال بالإنترنت." ,Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }else{
                     updateProfileClick();
                 }
@@ -136,7 +141,7 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.setMessage(" يرجى الانتظار قليلاً، جاري تغيير البيانات... ");
                         progressDialog.show();
-
+                        progressDialog.dismiss();
                         // Check if username changed, change it in firebase and local data
                         if(!TextUtils.isEmpty(etUsername.getText())){
                             if(!etUsername.getText().equals(c_data.getString("C_USERNAME","C_DEFAULT"))){
@@ -246,11 +251,6 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
                 })
                 .setNegativeButton("لا", null)
                 .show();
-
-
-
-
-
     }
 
     void getAddress() {
@@ -273,7 +273,10 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 if(!ic.checkInternetConnection()){
-                    Toast.makeText(CustomerUpdateProfile.this, "لا يوجد إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(CustomerUpdateProfile.this.findViewById(android.R.id.content),"لا يوجد إتصال بالإنترنت." ,Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }else{
                     getAddress();
                 }

@@ -96,9 +96,11 @@ public class SpareFragment extends Fragment {
                 sparePartsIDs.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
-                    if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
-                        sparePartsIDs.add(logData.getClickedServiceID());
+                    if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                        if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
+                            sparePartsIDs.add(logData.getClickedServiceID());
+                        }
                     }
                 }
                 // Count the occurrences of each clicked service ID and get the most frequent one

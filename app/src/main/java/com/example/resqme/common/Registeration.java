@@ -109,6 +109,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(View v) {
                         materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+
                     }
                 });
 
@@ -188,7 +189,10 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.register_btn:
                 if(!ic.checkInternetConnection()){
-                    Toast.makeText(Registeration.this, "لا يوجد اتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content),"لا يوجد اتصال بالإنترنت.",Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }else{
                     createAccountClick();
                 }
@@ -210,7 +214,10 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 if(!ic.checkInternetConnection()){
-                    Toast.makeText(Registeration.this, "لا يوجد اتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content),"لا يوجد اتصال بالإنترنت.",Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }else{
                     getAddress();
                 }
@@ -243,7 +250,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         && !TextUtils.isEmpty(whatsApp) && !TextUtils.isEmpty(bod) && mainImageUri != null && !TextUtils.isEmpty(tvAddress.getText())){
             // Check if number is not less than 11 digit
             if(whatsApp.length() == 11){
-                if(whatsApp.startsWith("01")){
+                if(whatsApp.startsWith("012")||whatsApp.startsWith("011")||whatsApp.startsWith("010")|| whatsApp.startsWith("015")){
                     // Convert bod to date
                     SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy");
                     Date date = null;
@@ -254,7 +261,10 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                     }
                     //check if date is not today or in the future
                     if(date.after(new Date())){
-                        Toast.makeText(this, "لا يمكن أن يكون التاريخ في المستقبل.", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(android.R.id.content),"لا يمكن أن يكون تاريخ الميلاد في المستقبل",Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                .setTextColor(getResources().getColor(R.color.white))
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                     }else{
                         // Validate if the date is today
                         //get current date in the same format of date
@@ -268,17 +278,22 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                             e.printStackTrace();
                         }
                         if(date.equals(currentDate2)){
-                            Toast.makeText(this, "لا يمكن أن يكون التاريخ هو تاريخ اليوم", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(android.R.id.content),"لا يمكن أن يكون تاريخ الميلاد هو تاريخ اليوم",Snackbar.LENGTH_LONG)
+                                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                    .setTextColor(getResources().getColor(R.color.white))
+                                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                         }else{
                             // based on date and currentDate2, check if age is less than 18
                             if(date.before(currentDate2)){
                                 //check if age is less than 18
                                 int age = currentDate2.getYear() - date.getYear();
                                 if(age < 18){
-                                    Toast.makeText(this, "لا يمكن أن يكون السن أقل من 18 سنة.", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(findViewById(android.R.id.content),"لا يمكن أن يكون السن أقل من 18 سنة",Snackbar.LENGTH_LONG)
+                                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                            .setTextColor(getResources().getColor(R.color.white))
+                                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                 }else{
                                     //Everything is ok
-
                                     new AlertDialog.Builder(this)
                                     .setTitle("تأكيد إنشاء الحساب")
                                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
@@ -286,6 +301,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                         public void onClick(DialogInterface dialog, int which) {
                                             progressDialog.setMessage("مرحباً "+username+" يرجى الانتظار قليلاً، جاري إنشاء الحساب... ");
                                             progressDialog.show();
+                                            progressDialog.setCancelable(false);
                                             createNewAccount(email.trim(),password.trim(),username.trim());
                                         }
                                     })
@@ -299,13 +315,13 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                     }
 
                 }else{
-                    Snackbar.make(findViewById(android.R.id.content),"يجب أن يبدء رقم الواتساب بـ 01",Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content),"يجب أن يبدء رقم الواتساب بـ 012/011/010/015",Snackbar.LENGTH_LONG)
                             .setBackgroundTint(getResources().getColor(R.color.red_color))
                             .setTextColor(getResources().getColor(R.color.white))
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
             }else{
-                Snackbar.make(findViewById(android.R.id.content),"يجب ألا يقل أو يزيد رقم الواتساب عن 11 رقم.",Snackbar.LENGTH_LONG)
+                Snackbar.make(findViewById(android.R.id.content),"يجب ألا يقل أو يزيد رقم الواتساب عن 11 رقم",Snackbar.LENGTH_LONG)
                         .setBackgroundTint(getResources().getColor(R.color.red_color))
                         .setTextColor(getResources().getColor(R.color.white))
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
@@ -332,7 +348,10 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 }else{
                     progressDialog.dismiss();
                     String errorMsg = task.getException().getMessage();
-                    Toast.makeText(Registeration.this, "خطأ: "+errorMsg, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content),errorMsg,Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
             }
         });
@@ -344,17 +363,14 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
 
         final String userEmail= user.getEmail();
         final String generatedID = user.getUid();
-
         final StorageReference filepath = mStorageReference.child("UserImages").child(mainImageUri.getLastPathSegment());
-
-
         filepath.putFile(mainImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        UserProfileChangeRequest userProfileChangeRequest =new UserProfileChangeRequest.Builder()
+                        UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(username).setPhotoUri(uri).build();
 
                         int selectedType = rgUserType.getCheckedRadioButtonId();

@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -109,7 +111,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.login_btn:
                 if(!ic.checkInternetConnection()){
-                    Toast.makeText(this, "لا يوجد إتصال بالإنترنت.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content),"لا يوجد اتصال بالإنترنت",Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.red_color))
+                            .setTextColor(getResources().getColor(R.color.white))
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }else{
                     loginProcess();
                 }
@@ -123,31 +128,44 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
     void loginProcess(){
-        progressDialog.setMessage("من فضلك انتظر قليلاً...");
-        progressDialog.show();
         String LoginEmail = mEmailLogin.getText().toString().trim();
         String LoginPass = mPasswordLogin.getText().toString().trim();
         if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
-            mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
-                        SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
-                        if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
-                            if(!checkUserData(LoginEmail)){
-                                getUserData(LoginEmail);
-                            }
-                        }else{
-                            getUserData(LoginEmail);
+            new AlertDialog.Builder(this)
+                    .setTitle("تأكيد تسجيل الدخول")
+                    .setMessage("متابعة؟")
+                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            progressDialog.setMessage("من فضلك انتظر قليلاً...");
+                            progressDialog.show();
+                            progressDialog.setCancelable(false);
+                            mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
+                                        SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
+                                        if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
+                                            if(!checkUserData(LoginEmail)){
+                                                getUserData(LoginEmail);
+                                            }
+                                        }else{
+                                            getUserData(LoginEmail);
+                                        }
+                                    }else{
+                                        progressDialog.dismiss();
+                                        String errorMessage = task.getException().getMessage();
+                                        Snackbar.make(findViewById(android.R.id.content),errorMessage,Snackbar.LENGTH_LONG)
+                                                .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                                .setTextColor(getResources().getColor(R.color.white))
+                                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                                    }
+                                }
+                            });
                         }
-                    }else{
-                        progressDialog.dismiss();
-                        String errorMessage = task.getException().getMessage();
-                        Toast.makeText(Login.this, "خطأ: "+errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+                    })
+                    .setNegativeButton("لا", null)
+                    .show();
         }else{
             progressDialog.dismiss();
             Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)
@@ -193,32 +211,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 found =  false;
             }
         }
-
-//        String c_username = userData.getString("C_USERNAME","C_DEFAULT");
-//        String c_password = userData.getString("C_PASSWORD","C_DEFAULT");
-//        String c_address = userData.getString("C_ADDRESS","C_DEFAULT");
-//        String c_whatsapp = userData.getString("C_WHATSAPP","C_DEFAULT");
-//        String c_dob = userData.getString("C_DOB","C_DEFAULT");
-//        String c_userimage = userData.getString("C_USERIMAGE","C_DEFAULT");
-//        String c_usertype = userData.getString("C_USERTYPE","C_DEFAULT");
-//        String c_usergender = userData.getString("C_USERGENDER","C_DEFAULT");
-//        String c_carid = userData.getString("C_CARID","C_DEFAULT");
-//        String c_userrate = userData.getString("C_USERRATE","C_DEFAULT");
-//        String c_userid = userData.getString("C_USERID","C_DEFAULT");
-
-
-//CHANGE C_DEFAULT to SP_DEFAULT
-//        String sp_username = userData.getString("SP_USERNAME","C_DEFAULT");
-//        String sp_password = userData.getString("SP_PASSWORD","C_DEFAULT");
-//        String sp_address = userData.getString("SP_ADDRESS","C_DEFAULT");
-//        String sp_whatsapp = userData.getString("SP_WHATSAPP","C_DEFAULT");
-//        String sp_dob = userData.getString("SP_DOB","C_DEFAULT");
-//        String sp_userimage = userData.getString("SP_USERIMAGE","C_DEFAULT");
-//        String sp_usertype = userData.getString("SP_USERTYPE","C_DEFAULT");
-//        String sp_usergender = userData.getString("SP_USERGENDER","C_DEFAULT");
-//        String sp_userrate = userData.getString("SP_USERRATE","C_DEFAULT");
-//        String sp_userid = userData.getString("SP_USERID","C_DEFAULT");
-
         return found;
     }
 
@@ -260,8 +252,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("C_USERRATE", String.valueOf(rate));
                             editor.putString("C_USERID", userId);
                             editor.apply();
-
-
 
                             carDB.addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -328,7 +318,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     if (serviceProvider != null) {
                         if (serviceProvider.getEmail().equals(email)) {
                             userType.append(serviceProvider.getUserType());
-
                             username = serviceProvider.getUsername();
                             password = serviceProvider.getPassword();
                             image = serviceProvider.getImage();

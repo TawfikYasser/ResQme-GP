@@ -22,6 +22,8 @@ import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 
@@ -30,14 +32,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CustomerHome extends AppCompatActivity implements View.OnClickListener{
     CircleImageView customerProfile;
     TextView headerTV;
-    public static CustomerCart customerCart ;
     InternetConnection ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
-
-        customerCart = new CustomerCart();
         initViews();
         forceRTLIfSupported();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -53,7 +52,10 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
 
         ic = new InternetConnection(this);
         if(!ic.checkInternetConnection()){
-            Toast.makeText(this, "لا يوجد اتصال بالإنترنت، قد لا تعمل بعض الخدمات بشكل صحيح.", Toast.LENGTH_LONG).show();
+            Snackbar.make(CustomerHome.this.findViewById(android.R.id.content),"لا يوجد اتصال بالإنترنت، قد لا تعمل بعض الخدمات بشكل صحيح.",Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(getResources().getColor(R.color.red_color))
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
     }
 

@@ -59,6 +59,7 @@ public class SendReport extends AppCompatActivity {
                 else{
                     progressDialog.setMessage("جاري إرسال البيانات...");
                     progressDialog.show();
+                    progressDialog.setCancelable(false);
                     sendReport(reportDescriptionBtn.getText().toString().trim());
                 }
             }
@@ -90,10 +91,7 @@ public class SendReport extends AppCompatActivity {
 
     private void sendReport(String reportDesc) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String reportID = database.getReference("Reports").push().getKey();// create new id
-//        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
-//        String c_userid = userData.getString("C_USERID","C_DEFAULT");
-//        String c_email = userData.getString("C_EMAIL", "C_DEFAULT");
+        String reportID = database.getReference("Reports").push().getKey(); // create new id
         Report report = new Report(reportDesc, reportID, mAuth.getCurrentUser().getUid(),"Pending", mAuth.getCurrentUser().getEmail());
         reportsTable.child(reportID).setValue(report);//Entering report in database
         progressDialog.dismiss();
