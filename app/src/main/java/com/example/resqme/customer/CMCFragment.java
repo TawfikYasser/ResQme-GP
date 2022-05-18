@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import com.example.resqme.R;
 import com.example.resqme.common.MyReportAdapter;
 import com.example.resqme.model.CMC;
+import com.example.resqme.model.LogDataModel;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.SparePart;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CMCFragment extends Fragment {
 
@@ -52,6 +55,8 @@ public class CMCFragment extends Fragment {
     Context context;
 
     ShimmerFrameLayout shimmerFrameLayoutCMCCustomer;
+    ArrayList<String> cmcIDs;
+    DatabaseReference logDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +68,8 @@ public class CMCFragment extends Fragment {
         cmcRV = view.findViewById(R.id.cmc_recycler);
         context = getActivity().getApplicationContext();
         cmcDB = FirebaseDatabase.getInstance().getReference().child("CMCs");
+        logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
+        cmcIDs = new ArrayList<>();
         cmcRV.setHasFixedSize(true);
         cmcRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         cmcs = new ArrayList<>();
@@ -81,25 +88,89 @@ public class CMCFragment extends Fragment {
         }, 2000);
 
 
-        cmcDB.addValueEventListener(new ValueEventListener() {
+        logDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                cmcs.clear();
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    CMC cmc = dataSnapshot.getValue(CMC.class);
-                    if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available")){
-                        cmcs.add(cmc);
-                        cmcAdapter = new CMCAdapter(context, cmcs);
-                        cmcRV.setAdapter(cmcAdapter);
-                    }
+                //All logic will be here
+                cmcIDs.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
+                    if(FirebaseAuth.getInstance().getCurrentUser() != null){
 
+                        if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
+                            cmcIDs.add(logData.getClickedServiceID());
+                        }
+
+                    }
                 }
+                // Count the occurrences of each clicked service ID and get the most frequent one
+                HashMap<String, Integer> map = new HashMap<>();
+                for (String s : cmcIDs) {
+                    Integer count = map.get(s);
+                    map.put(s, count == null ? 1 : count + 1);
+                }
+                String mostFrequent = "";
+                int max = 0;
+                for (String s : map.keySet()) {
+                    if (map.get(s) > max) {
+                        max = map.get(s);
+                        mostFrequent = s;
+
+                    }
+                }
+                String finalMostFrequent = mostFrequent;
+                cmcDB.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        cmcs.clear();
+                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                            CMC cmc = dataSnapshot.getValue(CMC.class);
+                            if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available")){
+                                // Put the spare part with the most frequent ID in the first position
+                                if(cmc.getCmcID().equals(finalMostFrequent)){
+                                    cmcs.add(0, cmc);
+                                } else {
+                                    cmcs.add(cmc);
+                                }
+                                cmcAdapter = new CMCAdapter(context, cmcs);
+                                cmcRV.setAdapter(cmcAdapter);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+
+//        cmcDB.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                cmcs.clear();
+//                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+//                    CMC cmc = dataSnapshot.getValue(CMC.class);
+//                    if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available")){
+//                        cmcs.add(cmc);
+//                        cmcAdapter = new CMCAdapter(context, cmcs);
+//                        cmcRV.setAdapter(cmcAdapter);
+//                    }
+//
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         return view;
     }

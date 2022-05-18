@@ -187,7 +187,7 @@ public class TrackingWinchRequest extends AppCompatActivity {
                                                     myLat = String.valueOf(location.getLatitude());
                                                     myLong = String.valueOf(location.getLongitude());
                                                     showTracking(winchArrayList, String.valueOf(location.getLatitude()),
-                                                            String.valueOf(location.getLongitude()), 1);
+                                                            String.valueOf(location.getLongitude()), 0);
                                                 }
                                             });
                                         }
@@ -254,8 +254,10 @@ public class TrackingWinchRequest extends AppCompatActivity {
                         return true;
                     }
                 });
-                googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
+                if(changed == 1){
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
+                }
             }
         });
     }
