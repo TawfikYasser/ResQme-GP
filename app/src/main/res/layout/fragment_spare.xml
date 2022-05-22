@@ -28,14 +28,16 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/FilterButtonSpareParts"
             android:layout_width="60dp"
+            android:backgroundTint="@color/purple_700"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_height="60dp"
             android:clickable="true"
+            app:tint="@color/white"
             android:focusable="true"
             android:layout_gravity="center"
             android:layout_margin="12dp"
-            android:src="@drawable/ic_baseline_filter_alt_24"/>
+            android:src="@drawable/ic_baseline_filter_24"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:visibility="gone"

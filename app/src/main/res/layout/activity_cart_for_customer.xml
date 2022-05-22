@@ -26,25 +26,6 @@
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-
-<!--        <TextView-->
-<!--            android:drawableRight="@drawable/ic_baseline_info_24"-->
-<!--            android:drawablePadding="8dp"-->
-<!--            android:padding="8dp"-->
-<!--            android:gravity="right"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:text="يمكنك إزالة أي من القطع من السلة أو المتابعة بالضغط على إرسال."-->
-<!--            android:layout_gravity="right"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/send_spare_parts_requests_from_cart"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_margin="12dp"-->
-<!--            android:text="إرسال الطلب"-->
-<!--            style="@style/Widget.MaterialComponents.Button"-->
-<!--            android:layout_height="wrap_content"/>-->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
