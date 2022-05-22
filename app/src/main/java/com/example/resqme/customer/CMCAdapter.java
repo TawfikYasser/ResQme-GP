@@ -53,6 +53,8 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
 
         if(position == 0){
             holder.masked.setVisibility(View.VISIBLE);
+        }else{
+            holder.masked.setVisibility(View.GONE);
         }
 
         spDB.addValueEventListener(new ValueEventListener() {

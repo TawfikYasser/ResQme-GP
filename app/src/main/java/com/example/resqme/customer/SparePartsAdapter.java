@@ -62,6 +62,8 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         holder.itemPrice.setText(sparePart.getItemPrice() + " جنيه");
         if(position == 0){
             holder.masked.setVisibility(View.VISIBLE);
+        }else{
+            holder.masked.setVisibility(View.GONE);
         }
 
         spDB.addValueEventListener(new ValueEventListener() {
