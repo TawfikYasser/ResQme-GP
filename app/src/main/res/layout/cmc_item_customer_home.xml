@@ -11,64 +11,92 @@
     app:cardElevation="0dp"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/cmc_item_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"/>
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/most_asked_layout_cmc"
+            android:visibility="gone"
+            android:background="@color/orange_banner"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
-                android:id="@+id/cmc_name_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
-                android:gravity="right"
-                android:text="اسم مركز خدمة السيارات"
-                android:textAlignment="gravity"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 android:textSize="18sp"
-                android:textStyle="bold" />
-
-
-        </RelativeLayout>
+                android:gravity="right"
+                android:textAlignment="gravity"
+                android:text="الأكثر طلباً"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/cmc_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:gravity="right"
-                android:textAlignment="gravity"
-                android:layout_gravity="right"
-                android:id="@+id/cmc_location_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
-                android:text="عنوان مركز خدمة السيارات"
-                android:textStyle="bold" />
-            <TextView
-                android:gravity="right"
-                android:textAlignment="gravity"
-                android:layout_gravity="right"
-                android:id="@+id/cmc_rate_owner_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
-                android:textColor="@color/green_color"
-                android:text="تقييم مالك مركز الخدمة"
-                android:layout_marginBottom="12dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/cmc_name_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right"
+                    android:text="اسم مركز خدمة السيارات"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
+
+            </RelativeLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="right"
+                    android:textAlignment="gravity"
+                    android:layout_gravity="right"
+                    android:id="@+id/cmc_location_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:text="عنوان مركز خدمة السيارات"
+                    android:textStyle="bold" />
+                <TextView
+                    android:gravity="right"
+                    android:textAlignment="gravity"
+                    android:layout_gravity="right"
+                    android:id="@+id/cmc_rate_owner_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/green_color"
+                    android:text="تقييم مالك مركز الخدمة"
+                    android:layout_marginBottom="12dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

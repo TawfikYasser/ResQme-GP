@@ -11,60 +11,89 @@
     app:cardElevation="0dp"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/spare_parts_item_image"
+        <LinearLayout
+            android:id="@+id/most_asked_layout_spare_parts"
+            android:visibility="gone"
+            android:background="@color/orange_banner"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="6dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="right"
+                android:textAlignment="gravity"
+                android:text="الأكثر طلباً"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/spare_parts_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
 
-        <TextView
-            android:textAlignment="gravity"
-            android:layout_gravity="right"
-            android:id="@+id/spare_parts_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="12dp"
-            android:text="اسم قطعة الغيار"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                android:textAlignment="gravity"
+                android:layout_gravity="right"
+                android:id="@+id/spare_parts_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                android:text="اسم قطعة الغيار"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:gravity="right"
-            android:textAlignment="gravity"
-            android:layout_gravity="right"
-            android:id="@+id/spare_parts_item_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp"
-            android:text="سعر قطعة الغيار"
-            android:textColor="@color/logo_color"
-            android:textStyle="bold" />
+            <TextView
+                android:gravity="right"
+                android:textAlignment="gravity"
+                android:layout_gravity="right"
+                android:id="@+id/spare_parts_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:text="سعر قطعة الغيار"
+                android:textColor="@color/logo_color"
+                android:textStyle="bold" />
 
-        <TextView
-            android:gravity="right"
-            android:textAlignment="gravity"
-            android:layout_gravity="right"
-            android:id="@+id/spare_parts_item_sp_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp"
-            android:text="تقييم مقدم الخدمة"
-            android:textColor="@color/green_color"
-            android:textStyle="bold" />
+            <TextView
+                android:gravity="right"
+                android:textAlignment="gravity"
+                android:layout_gravity="right"
+                android:id="@+id/spare_parts_item_sp_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:text="تقييم مقدم الخدمة"
+                android:textColor="@color/green_color"
+                android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_item_to_cart_spare_parts_item_adapter"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:text="أضف الى عربة التسوق"
-            android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_item_to_cart_spare_parts_item_adapter"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:text="أضف الى عربة التسوق"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

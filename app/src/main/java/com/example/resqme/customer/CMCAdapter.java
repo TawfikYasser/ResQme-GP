@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,10 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
         Glide.with(context).load(cmc.getCmcImage()).into(holder.cmcImage);
         holder.cmcName.setText(cmc.getCmcName());
         holder.cmcLocation.setText(cmc.getCmcLocation());
+
+        if(position == 0){
+            holder.masked.setVisibility(View.VISIBLE);
+        }
 
         spDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -95,12 +100,14 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
     public class CMCViewHolder extends RecyclerView.ViewHolder{
         ImageView cmcImage;
         TextView cmcName, cmcLocation, cmcOwnerRate;
+        LinearLayout masked;
         public CMCViewHolder(@NonNull View itemView) {
             super(itemView);
             cmcImage = itemView.findViewById(R.id.cmc_item_image);
             cmcName = itemView.findViewById(R.id.cmc_name_item);
             cmcLocation = itemView.findViewById(R.id.cmc_location_item);
             cmcOwnerRate = itemView.findViewById(R.id.cmc_rate_owner_item);
+            masked = itemView.findViewById(R.id.most_asked_layout_cmc);
         }
     }
 }

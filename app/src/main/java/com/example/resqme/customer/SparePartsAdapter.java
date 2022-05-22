@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,9 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         Glide.with(context).load(sparePart.getItemImage()).into(holder.itemImage);
         holder.itemName.setText(sparePart.getItemName());
         holder.itemPrice.setText(sparePart.getItemPrice() + " جنيه");
+        if(position == 0){
+            holder.masked.setVisibility(View.VISIBLE);
+        }
 
         spDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,6 +143,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         ImageView itemImage;
         TextView itemName, itemPrice, itemOwnerRate;
         MaterialButton addToCart;
+        LinearLayout masked;
         public SparePartsViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.spare_parts_item_image);
@@ -146,6 +151,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
             itemPrice = itemView.findViewById(R.id.spare_parts_item_price);
             addToCart = itemView.findViewById(R.id.add_item_to_cart_spare_parts_item_adapter);
             itemOwnerRate = itemView.findViewById(R.id.spare_parts_item_sp_rate);
+            masked = itemView.findViewById(R.id.most_asked_layout_spare_parts);
         }
     }
 }
