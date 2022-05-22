@@ -55,7 +55,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.MyQu
                 toToDetailsQuestionPage.putExtra("CUSTOMER_ID",question.getQuestionCustomerID());
                 toToDetailsQuestionPage.putExtra("QUESTION_TEXT",question.getQuestionText());
                 context.startActivity(toToDetailsQuestionPage);
-                LogData.saveLog("","FALSE","USER CLICKED ON A QUESTION","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON QUESTION", "QUESTIONS");
             }
         });
     }

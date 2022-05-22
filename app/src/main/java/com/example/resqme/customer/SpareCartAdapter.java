@@ -67,7 +67,7 @@ public class SpareCartAdapter extends RecyclerView.Adapter<SpareCartAdapter.Spar
                 @Override
                 public void onClick(View view) {
                     reference.child(sparePartInCart.getItemInCartID()).removeValue();
-                    LogData.saveLog(sparePartInCart.getItemInCartID(),"TRUE","","FALSE");
+                    LogData.saveLog("SERVICE_CLICK",sparePartInCart.getItemInCartID(),"SPARE_PARTS","", "CART");
                 }
             });
     }

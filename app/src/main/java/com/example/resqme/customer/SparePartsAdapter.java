@@ -93,7 +93,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                 goToDetailsOfSparePart.putExtra("ITEM_STATUS",sparePart.getItemStatus());
                 goToDetailsOfSparePart.putExtra("ITEM_NEWORUSED",sparePart.getItemNewOrUsed());
                 context.startActivity(goToDetailsOfSparePart);
-                LogData.saveLog(sparePart.getItemID(),"TRUE","","FALSE");
+                LogData.saveLog("SERVICE_CLICK",sparePart.getItemID(),"SPARE_PARTS","", "SPARE_PARTS");
             }
         });
 
@@ -113,7 +113,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                                     sparePart.getItemCarType(), sparePart.getItemAvailability());
                             reference.child(sparePart.getItemID()+"-CCC-"+c_userid).setValue(sparePartObj);
                             Toast.makeText(context,"تم إضافة: "+ sparePart.getItemName(), Toast.LENGTH_SHORT).show();
-                            LogData.saveLog(sparePart.getItemID(),"TRUE","","FALSE");
+                            LogData.saveLog("SERVICE_CLICK",sparePart.getItemID(),"SPARE_PARTS","", "SPARE_PARTS");
                         }
                     }
 

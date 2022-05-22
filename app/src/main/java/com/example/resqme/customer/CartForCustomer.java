@@ -154,7 +154,7 @@ public class CartForCustomer extends AppCompatActivity {
                             .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Initiation of Spare Parts Request
-                                    LogData.saveLog("","FALSE","USER CLICKED ON SEND SPARE PARTS REQUESTS BUTTON","TRUE");
+                                    LogData.saveLog("APP_CLICK","","","CLICK ON SEND SPARE PARTS REQUESTS BUTTON", "CART");
                                     initiationOfSparePartsRequest();
                                 }
                             })

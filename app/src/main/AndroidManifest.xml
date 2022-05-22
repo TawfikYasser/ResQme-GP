@@ -94,10 +94,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".customer.WinchDetails"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".customer.SparePartsDetails"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -111,10 +107,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".customer.ProcessingRequestCMC"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".customer.ProcessingRequestSpareParts"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

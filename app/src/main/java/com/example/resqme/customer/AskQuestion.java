@@ -92,7 +92,7 @@ public class AskQuestion extends AppCompatActivity {
         questionDB.child(questionID).setValue(questionObj);//Entering question in database
         progressDialog.dismiss();
         Toast.makeText(this, "تم إرسال السؤال وهو الآن في صفحة الاسئلة.", Toast.LENGTH_LONG).show();
-        LogData.saveLog("","FALSE","USER CLICKED ON SEND QUESTION BUTTON","TRUE");
+        LogData.saveLog("APP_CLICK","","","CLICK ON SEND QUESTION BUTTON", "ASK_QUESTION");
         finish();
     }
 }

@@ -278,12 +278,12 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
             case R.id.add_car_data_button:
                 Intent mainIntent = new Intent(CustomerProfile.this, AddCarData.class);
                 startActivity(mainIntent);
-                LogData.saveLog("","FALSE","USER CLICKED ON ADD CAR BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON ADD CAR BUTTON", "CUSTOMER_PROFILE");
                 break;
             case R.id.update_profile_button:
                 Intent i = new Intent(CustomerProfile.this, CustomerUpdateProfile.class);
                 startActivity(i);
-                LogData.saveLog("","FALSE","USER CLICKED ON UPDATE PROFILE BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON UPDATE PROFILE BUTTON", "CUSTOMER_PROFILE");
                 break;
             case R.id.car_history_button:
                 Intent carHistoryIntent = new Intent(CustomerProfile.this,CarHistory.class);

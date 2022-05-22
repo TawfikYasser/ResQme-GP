@@ -96,7 +96,7 @@ public class SendReport extends AppCompatActivity {
         reportsTable.child(reportID).setValue(report);//Entering report in database
         progressDialog.dismiss();
         Toast.makeText(this, "تم إرسال التقرير وهو في مرحلة المراجعة، سيتم التواصل معك عن طريق البريد الإلكتروني", Toast.LENGTH_LONG).show();
-        LogData.saveLog("","FALSE","USER CLICKED ON SEND REPORT BUTTON","TRUE");
+        LogData.saveLog("APP_CLICK","","","CLICK ON SEND REPORT BUTTON", "SEND_REPORT");
         finish();
     }
 }

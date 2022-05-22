@@ -57,6 +57,8 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                     .setTextColor(getResources().getColor(R.color.white))
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
+
+
     }
 
 
@@ -75,22 +77,22 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                         case R.id.winch:
                             selectedFragment = new WinchFragment();
                             headerTV.setText("ونش");
-                            LogData.saveLog("","FALSE","USER CLICKED ON WINCH PAGE","TRUE");
+                            LogData.saveLog("APP_CLICK","","","CLICK ON WINCHS PAGE", "CUSTOMER_HOME");
                             break;
                         case R.id.spare_parts:
                             selectedFragment = new SpareFragment();
                             headerTV.setText("قطع غيار");
-                            LogData.saveLog("","FALSE","USER CLICKED ON SPARE PARTS PAGE","TRUE");
+                            LogData.saveLog("APP_CLICK","","","CLICK ON SPARE PARTS PAGE", "CUSTOMER_HOME");
                             break;
                         case R.id.cmc:
                             selectedFragment = new CMCFragment();
                             headerTV.setText("مركز خدمة سيارات");
-                            LogData.saveLog("","FALSE","USER CLICKED ON CMC PAGE","TRUE");
+                            LogData.saveLog("APP_CLICK","","","CLICK ON CMC PAGE", "CUSTOMER_HOME");
                             break;
                         case R.id.settings:
                             selectedFragment = new SettingsFragment();
                             headerTV.setText("الإعدادات");
-                            LogData.saveLog("","FALSE","USER CLICKED ON SETTINGS PAGE","TRUE");
+                            LogData.saveLog("APP_CLICK","","","CLICK ON SETTINGS PAGE", "CUSTOMER_HOME");
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -107,7 +109,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             case R.id.customer_home_image:
                 Intent intent = new Intent(CustomerHome.this, CustomerProfile.class);
                 startActivity(intent);
-                LogData.saveLog("","FALSE","USER CLICKED ON PROFILE IMAGE","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON PROFILE PAGE", "CUSTOMER_HOME");
                 break;
         }
     }

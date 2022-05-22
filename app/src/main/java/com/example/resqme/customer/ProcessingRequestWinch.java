@@ -97,7 +97,6 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                                         progressDialogPayment.setMessage("تفعيل خدمات الدفع...");
                                         progressDialogPayment.show();
                                         progressDialogPayment.setCancelable(false);
-                                        LogData.saveLog("USER CLICKED ON PROCESSING WINCH REQUEST BUTTON","TRUE","","FALSE");
                                         goToPay();
                                     }
                                 })

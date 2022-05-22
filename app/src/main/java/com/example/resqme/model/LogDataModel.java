@@ -1,35 +1,39 @@
 package com.example.resqme.model;
 
 public class LogDataModel {
-    String id, timestamp, userID, isService, clickedServiceID, appClick, eventName;
 
-    public LogDataModel(String id, String timestamp, String userID, String isService, String clickedServiceID, String appClick, String eventName) {
-        this.id = id;
-        this.timestamp = timestamp;
+    String logID, logTimestamp, userID, eventType, serviceID, serviceName, appClickName, pageName, deviceSDK, deviceName, deviceModel;
+
+    public LogDataModel(String logID, String logTimestamp, String userID, String eventType, String serviceID, String serviceName, String appClickName, String pageName, String deviceSDK, String deviceName, String deviceModel) {
+        this.logID = logID;
+        this.logTimestamp = logTimestamp;
         this.userID = userID;
-        this.isService = isService;
-        this.clickedServiceID = clickedServiceID;
-        this.appClick = appClick;
-        this.eventName = eventName;
+        this.eventType = eventType;
+        this.serviceID = serviceID;
+        this.serviceName = serviceName;
+        this.appClickName = appClickName;
+        this.pageName = pageName;
+        this.deviceSDK = deviceSDK;
+        this.deviceName = deviceName;
+        this.deviceModel = deviceModel;
     }
 
-    public LogDataModel() {
+    public LogDataModel(){}
+
+    public String getLogID() {
+        return logID;
     }
 
-    public String getId() {
-        return id;
+    public void setLogID(String logID) {
+        this.logID = logID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getLogTimestamp() {
+        return logTimestamp;
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setLogTimestamp(String logTimestamp) {
+        this.logTimestamp = logTimestamp;
     }
 
     public String getUserID() {
@@ -40,35 +44,67 @@ public class LogDataModel {
         this.userID = userID;
     }
 
-    public String getIsService() {
-        return isService;
+    public String getEventType() {
+        return eventType;
     }
 
-    public void setIsService(String isService) {
-        this.isService = isService;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
-    public String getClickedServiceID() {
-        return clickedServiceID;
+    public String getServiceID() {
+        return serviceID;
     }
 
-    public void setClickedServiceID(String clickedServiceID) {
-        this.clickedServiceID = clickedServiceID;
+    public void setServiceID(String serviceID) {
+        this.serviceID = serviceID;
     }
 
-    public String getAppClick() {
-        return appClick;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setAppClick(String appClick) {
-        this.appClick = appClick;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getAppClickName() {
+        return appClickName;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setAppClickName(String appClickName) {
+        this.appClickName = appClickName;
+    }
+
+    public String getPageName() {
+        return pageName;
+    }
+
+    public void setPageName(String pageName) {
+        this.pageName = pageName;
+    }
+
+    public String getDeviceSDK() {
+        return deviceSDK;
+    }
+
+    public void setDeviceSDK(String deviceSDK) {
+        this.deviceSDK = deviceSDK;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getDeviceModel() {
+        return deviceModel;
+    }
+
+    public void setDeviceModel(String deviceModel) {
+        this.deviceModel = deviceModel;
     }
 }

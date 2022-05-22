@@ -113,8 +113,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
     private void sendTheCMCRequest() {
         progressDialog.setMessage("جاري إرسال البيانات");
         progressDialog.show();
-        LogData.saveLog(cmcID_STR,"TRUE","","FALSE");
-
+        LogData.saveLog("SERVICE_CLICK",cmcID_STR,"CMC","", "CMC_PROCESSING_REQUEST");
 
         //Getting current customer location
 

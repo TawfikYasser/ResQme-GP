@@ -74,7 +74,7 @@ public class CMCDetails extends AppCompatActivity {
                 goToCMCProcessingRequest.putExtra("CMC_STATUS",cmcStatusSTR);
                 goToCMCProcessingRequest.putExtra("CMC_ADDRESS",cmcAddressSTR);
                 startActivity(goToCMCProcessingRequest);
-                LogData.saveLog(cmcID_STR,"TRUE","","FALSE");
+                LogData.saveLog("SERVICE_CLICK",cmcID_STR,"CMC","", "CMC_DETAILS");
             }
         });
 

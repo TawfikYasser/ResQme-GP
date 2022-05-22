@@ -81,8 +81,7 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
                 goToDetailsOfCMC.putExtra("CMC_STATUS",cmc.getCmcStatus());
                 goToDetailsOfCMC.putExtra("CMC_ADDRESS",cmc.getCmcLocation());
                 context.startActivity(goToDetailsOfCMC);
-                LogData.saveLog(cmc.getCmcID(),"TRUE","","FALSE");
-
+                LogData.saveLog("SERVICE_CLICK",cmc.getCmcID(),"CMC","", "CMC_DETAILS");
             }
         });
     }

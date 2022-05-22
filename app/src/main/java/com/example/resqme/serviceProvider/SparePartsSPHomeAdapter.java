@@ -96,12 +96,12 @@ public class SparePartsSPHomeAdapter extends RecyclerView.Adapter<SparePartsSPHo
                     // Make it not available
                     DatabaseReference sparePartsTable = FirebaseDatabase.getInstance().getReference().child("SpareParts");
                     sparePartsTable.child(sparePart.getItemID()).child("itemAvailability").setValue("Not Available");
-                    LogData.saveLog("","FALSE","USER CHANGED SPARE PARTS TO NOT AVAILABLE","TRUE");
+                    LogData.saveLog("APP_CLICK","","","CLICK ON MAKE SPARE PART NOT AVAILABLE", "SERVICE_PROVIDER_SPARE_PARTS_ADAPTER");
                 }else{
                     // Make it available
                     DatabaseReference sparePartsTable = FirebaseDatabase.getInstance().getReference().child("SpareParts");
                     sparePartsTable.child(sparePart.getItemID()).child("itemAvailability").setValue("Available");
-                    LogData.saveLog("","FALSE","USER CHANGED SPARE PARTS TO AVAILABLE","TRUE");
+                    LogData.saveLog("APP_CLICK","","","CLICK ON MAKE SPARE PART AVAILABLE", "SERVICE_PROVIDER_SPARE_PARTS_ADAPTER");
                 }
             }
         });

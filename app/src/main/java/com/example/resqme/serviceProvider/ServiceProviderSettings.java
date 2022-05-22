@@ -66,7 +66,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentAboutUs = new Intent(context, AboutUs.class);
                 startActivity(intentAboutUs);
-                LogData.saveLog("","FALSE","USER CLICKED ON ABOUT US BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON ABOUT US PAGE", "SERVICE_PROVIDER_SETTINGS");
             }
         });
 
@@ -75,7 +75,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentContactUs = new Intent(context, ContactUs.class);
                 startActivity(intentContactUs);
-                LogData.saveLog("","FALSE","USER CLICKED ON CONTACT US BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON CONTACT US PAGE", "SERVICE_PROVIDER_SETTINGS");
             }
         });
 
@@ -87,7 +87,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
                         .setMessage("هل أنت متأكد انك تريد تسجيل الخروج؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                LogData.saveLog("","FALSE","USER CLICKED ON LOGOUT BUTTON","TRUE");
+                                LogData.saveLog("APP_CLICK","","","CLICK ON LOGOUT BUTTON", "SERVICE_PROVIDER_SETTINGS");
                                 mAuth.signOut();
                                 sendToLogin();
                             }
@@ -118,7 +118,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent goToQuestionsPage = new Intent(context, SPQuestions.class);
                 startActivity(goToQuestionsPage);
-                LogData.saveLog("","FALSE","USER CLICKED ON SHOW QUESTIONS BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON SHOW QUESTIONS PAGE", "SERVICE_PROVIDER_SETTINGS");
             }
         });
 
@@ -127,7 +127,8 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent to = new Intent(context, SP_Winch_Requests.class);
                 startActivity(to);
-                LogData.saveLog("","FALSE","USER CLICKED ON SHOW WINCH REQUESTS BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON SHOW WINCH REQUESTS PAGE", "SERVICE_PROVIDER_SETTINGS");
+
             }
         });
 
@@ -136,7 +137,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent to = new Intent(context, SP_Spare_Parts_Requests.class);
                 startActivity(to);
-                LogData.saveLog("","FALSE","USER CLICKED ON SHOW SPARE PARTS REQUESTS BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON SPARE PARTS REQUESTS PAGE", "SERVICE_PROVIDER_SETTINGS");
             }
         });
 
@@ -145,7 +146,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent to = new Intent(context, SP_CMC_Requests.class);
                 startActivity(to);
-                LogData.saveLog("","FALSE","USER CLICKED ON SHOW CMC REQUESTS BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON SHOW CMC REQUESTS PAGE", "SERVICE_PROVIDER_SETTINGS");
             }
         });
 
@@ -186,13 +187,13 @@ public class ServiceProviderSettings extends AppCompatActivity {
     private void sendReport() {
         Intent intent = new Intent(context, SendReport.class);
         startActivity(intent);
-        LogData.saveLog("","FALSE","USER CLICKED ON ADD REPORT BUTTON","TRUE");
+        LogData.saveLog("APP_CLICK","","","CLICK ON ADD REPORT BUTTON", "SERVICE_PROVIDER_SETTINGS");
     }
 
     private void sendToMyReports() {
         Intent intent = new Intent(context, MyReports.class);
         startActivity(intent);
-        LogData.saveLog("","FALSE","USER CLICKED ON SHOW REPORTS BUTTON","TRUE");
+        LogData.saveLog("APP_CLICK","","","CLICK ON SHOW REPORTS BUTTON", "SERVICE_PROVIDER_SETTINGS");
     }
 
     void sendToLogin() {

@@ -2,6 +2,7 @@ package com.example.resqme.customer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.common.MyReportAdapter;
@@ -77,7 +79,6 @@ public class CMCFragment extends Fragment {
         cmcRV.setAdapter(cmcAdapter);
 
 
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -96,12 +97,10 @@ public class CMCFragment extends Fragment {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
                     if(FirebaseAuth.getInstance().getCurrentUser() != null){
-
                         if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
-                            cmcIDs.add(logData.getClickedServiceID());
+                                && logData.getEventType().equals("SERVICE_CLICK") && logData.getServiceName().equals("CMC")){
+                                cmcIDs.add(logData.getServiceID());
                         }
-
                     }
                 }
                 // Count the occurrences of each clicked service ID and get the most frequent one
@@ -150,27 +149,6 @@ public class CMCFragment extends Fragment {
 
             }
         });
-
-
-//        cmcDB.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                cmcs.clear();
-//                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-//                    CMC cmc = dataSnapshot.getValue(CMC.class);
-//                    if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available")){
-//                        cmcs.add(cmc);
-//                        cmcAdapter = new CMCAdapter(context, cmcs);
-//                        cmcRV.setAdapter(cmcAdapter);
-//                    }
-//
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         return view;
     }

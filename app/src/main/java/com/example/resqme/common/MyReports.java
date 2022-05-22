@@ -60,8 +60,6 @@ public class MyReports extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
                         Report report = dataSnapshot.getValue(Report.class);
-//                        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-//                        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                         if(report.getUserID().equals(mAuth.getCurrentUser().getUid()) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
                             reports.add(report);
                             if(reports.size() !=0){

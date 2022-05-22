@@ -33,7 +33,7 @@ public class ContactUs extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
-                LogData.saveLog("","FALSE","USER CLICKED ON WHATSAPP ICON CONTACT US","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON WHATSAPP ICON", "CONTACT_US");
             }
         });
 
@@ -45,7 +45,7 @@ public class ContactUs extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_EMAIL, "ايميل من عميل في تطبيق ResQme");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "نص الايميل...");
                 startActivity(intent);
-                LogData.saveLog("","FALSE","USER CLICKED ON EMAIL ICON CONTACT US","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON EMAIL ICON", "CONTACT_US");
             }
         });
 

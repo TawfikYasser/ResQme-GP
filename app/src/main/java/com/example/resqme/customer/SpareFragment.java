@@ -98,8 +98,8 @@ public class SpareFragment extends Fragment {
                     LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
                     if(FirebaseAuth.getInstance().getCurrentUser() != null){
                         if(logData.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                && logData.getIsService().equals("TRUE") && !logData.getClickedServiceID().isEmpty()){
-                            sparePartsIDs.add(logData.getClickedServiceID());
+                                && logData.getEventType().equals("SERVICE_CLICK") && logData.getServiceName().equals("SPARE_PARTS")){
+                            sparePartsIDs.add(logData.getServiceID());
                         }
                     }
                 }
@@ -115,7 +115,6 @@ public class SpareFragment extends Fragment {
                     if (map.get(s) > max) {
                         max = map.get(s);
                         mostFrequent = s;
-
                     }
                 }
 

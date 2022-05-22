@@ -96,7 +96,7 @@ public class QuestionReplyAdapter extends RecyclerView.Adapter<QuestionReplyAdap
                                 Report report = new Report(questionReply.getQuestionReplyID(), reportID, c_userid,"REPLY_REPORT_PENDING", c_email);
                                 reportsTable.child(reportID).setValue(report); //Entering report in database
                                 Toast.makeText(context, "شكراً لمساعدنا، سنقوم في اسرع وقت بمراجعة هذا البلاغ وإتخاذ الإجراء اللازم.", Toast.LENGTH_LONG).show();
-                                LogData.saveLog("","FALSE","USER CLICKED ON REPORT QUESTION REPLY BUTTON","TRUE");
+                                LogData.saveLog("APP_CLICK","","","CLICK ON REPORT QUESTION REPLY BUTTON", "QUESTION_DETAILS");
                             }
                         })
                         .setNegativeButton("لا", null)

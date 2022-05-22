@@ -86,7 +86,7 @@ public class SparePartsDetails extends AppCompatActivity {
                                     itemStatusSTR, itemOwnerIDSTR, itemCarTypeSTR, itemAvailabilitySTR);
                             shoppingCart.child(itemIdSTR+"-CCC-"+c_userid).setValue(sparePart);
                             Toast.makeText(SparePartsDetails.this,"تم إضافة: "+ itemNameSTR, Toast.LENGTH_SHORT).show();
-                            LogData.saveLog(itemIdSTR,"TRUE","","FALSE");
+                            LogData.saveLog("SERVICE_CLICK",itemIdSTR,"SPARE_PARTS","", "SPARE_PARTS_DETAILS");
                         }else{
                             Toast.makeText(SparePartsDetails.this, "موجود بالفعل", Toast.LENGTH_SHORT).show();
                         }

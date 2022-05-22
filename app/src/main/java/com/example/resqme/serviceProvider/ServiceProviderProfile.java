@@ -119,7 +119,7 @@ public class ServiceProviderProfile extends AppCompatActivity implements View.On
             case R.id.update_sp_profile_button:
                 Intent i = new Intent(ServiceProviderProfile.this, ServicProviderUpdateProfile.class);
                 startActivity(i);
-                LogData.saveLog("","FALSE","USER CLICKED ON UPDATE PROFILE BUTTON","TRUE");
+                LogData.saveLog("APP_CLICK","","","CLICK ON UPDATE PROFILE BUTTON", "SERVICE_PROVIDER_PROFILE");
                 break;
         }
     }
