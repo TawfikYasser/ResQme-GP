@@ -239,6 +239,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                             } else {
                                 showingDataOnTheMap(winchesList, myLat, myLong, 0);
                                 requestWinchBtn.setEnabled(true);
+
+
+
                                 mapFragment.getMapAsync(new OnMapReadyCallback() {
                                     @Override
                                     public void onMapReady(@NonNull GoogleMap googleMap) {
