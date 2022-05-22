@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.SparePartsViewHolder> {
@@ -65,7 +66,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
                     if(serviceProvider.getUserId().equals(sparePart.getItemServiceProviderId())){
-                        holder.itemOwnerRate.setText(serviceProvider.getRate() + " / 5");
+                        holder.itemOwnerRate.setText(new DecimalFormat("##.##").format(Double.valueOf(serviceProvider.getRate())) + " / 5");
                     }
                 }
             }

@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
@@ -55,7 +56,7 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
                     if(serviceProvider.getUserId().equals(cmc.getCmcServiceProviderId())){
-                        holder.cmcOwnerRate.setText(serviceProvider.getRate() + " / 5");
+                        holder.cmcOwnerRate.setText(new DecimalFormat("##.##").format(Double.valueOf(serviceProvider.getRate())) + " / 5");
                     }
                 }
             }

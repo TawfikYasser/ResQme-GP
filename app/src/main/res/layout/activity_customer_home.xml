@@ -57,7 +57,7 @@
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
                 android:src="@drawable/chooseimage"
-                app:civ_border_color="@color/color_gray_3"
+                app:civ_border_color="@color/purple_700"
                 app:civ_border_width="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

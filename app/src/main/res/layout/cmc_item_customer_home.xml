@@ -30,7 +30,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
+                android:gravity="right"
                 android:text="اسم مركز خدمة السيارات"
+                android:textAlignment="gravity"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -43,6 +45,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:gravity="right"
+                android:textAlignment="gravity"
                 android:layout_gravity="right"
                 android:id="@+id/cmc_location_item"
                 android:layout_width="wrap_content"
@@ -52,6 +56,8 @@
                 android:text="عنوان مركز خدمة السيارات"
                 android:textStyle="bold" />
             <TextView
+                android:gravity="right"
+                android:textAlignment="gravity"
                 android:layout_gravity="right"
                 android:id="@+id/cmc_rate_owner_item"
                 android:layout_width="wrap_content"
