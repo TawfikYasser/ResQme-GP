@@ -1,8 +1,10 @@
 package com.example.resqme.customer;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -115,9 +117,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.TrackWinchBtn.setEnabled(true);
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
-
-
-
+            holder.tvWinchRequestOwnerName.setTextColor(Color.BLACK);
+            holder.tvWinchRequestOwnerPhone.setTextColor(Color.BLACK);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             serviceProviders.addValueEventListener(new ValueEventListener() {
@@ -149,7 +150,6 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.tvWinchRequestOwnerName.setTextColor(Color.RED);
             holder.tvWinchRequestOwnerPhone.setText("غير متاح");
             holder.tvWinchRequestOwnerPhone.setTextColor(Color.RED);
-
         }
 
         if(winchRequests.get(position).getWinchRequestStatus().equals("Success")){
@@ -159,6 +159,8 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             holder.TrackWinchBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+            holder.tvWinchRequestOwnerName.setTextColor(Color.BLACK);
+            holder.tvWinchRequestOwnerPhone.setTextColor(Color.BLACK);
 
             serviceProviders.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -217,15 +219,24 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             @Override
             public void onClick(View view) {
                 // Failed
-                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
-                winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Failed");
-                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ.", Toast.LENGTH_SHORT).show();
-                holder.rateBtn.setEnabled(false);
-                holder.TrackWinchBtn.setEnabled(false);
-                holder.CompleteBtn.setEnabled(false);
-                holder.CancelBtn.setEnabled(false);
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من إلغاء الطلب؟")
+                        .setMessage("إلغاء الطلب في حالة حدوث مشكلة مع مقدم الخدمة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
+                                winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Failed");
+                                Toast.makeText(context, "لقد قمت بإنهاء الطلب", Toast.LENGTH_SHORT).show();
+                                holder.rateBtn.setEnabled(false);
+                                holder.TrackWinchBtn.setEnabled(false);
+                                holder.CompleteBtn.setEnabled(false);
+                                holder.CancelBtn.setEnabled(false);
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
         holder.rateBtn.setOnClickListener(new View.OnClickListener() {

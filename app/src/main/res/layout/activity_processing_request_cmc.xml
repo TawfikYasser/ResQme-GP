@@ -35,7 +35,7 @@
                     android:layout_marginRight="24dp"
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="سيتم مشاركة بياناتك مع مالك مركز الخدمة، مثل بريدك الإلكتروني، رقم الواتساب، اسمك، وموقعك الحالي."
+                    android:text="سيتم مشاركة بياناتك مع مالك مركز الخدمة، مثل رقم الواتساب، اسمك، وموقعك الحالي."
                     android:layout_gravity="right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

@@ -1,8 +1,10 @@
 package com.example.resqme.customer;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -69,6 +71,7 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.tvCMCRequestStatus.setTextColor(Color.rgb(255, 166, 53));
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+            holder.rateBtn.setEnabled(false);
             holder.tvCMCRequestOwnerName.setText("غير متاح حتى قبول الطلب");
             holder.tvCMCRequestOwnerName.setTextColor(Color.rgb(255, 166, 53));
             holder.tvCMCRequestOwnerPhone.setText("غير متاح حتى قبول الطلب");
@@ -76,11 +79,11 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
         }else if(cmcRequests.get(position).getCmcRequestStatus().equals("Approved")){
             holder.tvCMCRequestStatus.setText("تم قبول الطلب.");
             holder.tvCMCRequestStatus.setTextColor(Color.GREEN);
+            holder.rateBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
-
-
-
+            holder.tvCMCRequestOwnerName.setTextColor(Color.BLACK);
+            holder.tvCMCRequestOwnerPhone.setTextColor(Color.BLACK);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             referenceSP.addValueEventListener(new ValueEventListener() {
@@ -106,6 +109,7 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.tvCMCRequestStatus.setTextColor(Color.RED);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
+            holder.rateBtn.setEnabled(true);
             holder.tvCMCRequestOwnerName.setText("غير متاح");
             holder.tvCMCRequestOwnerName.setTextColor(Color.RED);
             holder.tvCMCRequestOwnerPhone.setText("غير متاح");
@@ -119,7 +123,8 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             holder.rateBtn.setEnabled(true);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
-
+            holder.tvCMCRequestOwnerName.setTextColor(Color.BLACK);
+            holder.tvCMCRequestOwnerPhone.setTextColor(Color.BLACK);
             referenceSP.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -155,9 +160,21 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
         holder.CompleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
-                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Success");
-                Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من إتمام الطلب؟")
+                        .setMessage("إتمام الطلب في حالة حصولك على الخدمات كاملة من مركز الصيانة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
+                                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Success");
+                                Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
+
+
             }
         });
 
@@ -173,24 +190,34 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
             @Override
             public void onClick(View view) {
                 // Failed
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
-                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Failed");
-                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ.", Toast.LENGTH_SHORT).show();
-                holder.rateBtn.setEnabled(false);
-                holder.CompleteBtn.setEnabled(false);
-                holder.CancelBtn.setEnabled(false);
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من إلغاء الطلب؟")
+                        .setMessage("إلغاء الطلب في حالة حدوث مشكلة مع مقدم الخدمة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
+                                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Failed");
+                                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ.", Toast.LENGTH_SHORT).show();
+                                holder.rateBtn.setEnabled(false);
+                                holder.CompleteBtn.setEnabled(false);
+                                holder.CancelBtn.setEnabled(false);
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
 
 
-         DatabaseReference rate = FirebaseDatabase.getInstance().getReference().child("Rate");
+        DatabaseReference rate = FirebaseDatabase.getInstance().getReference().child("Rate");
         rate.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Rate rate = dataSnapshot.getValue(Rate.class);
                     if(rate.getRequestID().equals(cmcRequests.get(position).getCmcRequestID())
-                            && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())){
+                            && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())
+                            && rate.getRateFrom().equals("Customer")){
                         holder.rateBtn.setEnabled(false);
                     }
                 }

@@ -35,7 +35,7 @@
                     android:layout_marginRight="24dp"
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="سيتم مشاركة بياناتك مع مالك الونش، مثل بريدك الإلكتروني، رقم الواتساب، اسمك، وموقعك الحالي."
+                    android:text="سيتم مشاركة بياناتك مع مالك الونش، مثل رقم الواتساب، اسمك، وموقعك الحالي."
                     android:layout_gravity="right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -51,7 +51,7 @@
                     android:layout_marginRight="24dp"
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="إذا لم يجيب مالك الونش على طلبك في غضون ساعة، سيتم إلغاء الطلب، أما في حاجة قبول الطلب وبعد إتمام الخدمة يمكنك الضغط على تم في صفحة الطلبات ثم يمكنك إعطاء تقييم لمالك مركز الخدمة."
+                    android:text="إذا لم يجيب مالك الونش على طلبك في غضون ساعة، سيتم إلغاء الطلب، أما في حاجة قبول الطلب وبعد إتمام الخدمة يمكنك الضغط على تم في صفحة الطلبات لتقوم بإضافة تفاصيل الإصلاحات ثم يمكنك إعطاء تقييم لمالك مركز الخدمة."
                     android:layout_gravity="right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

@@ -1,8 +1,10 @@
 package com.example.resqme.customer;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -88,6 +90,7 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
         if(sparePartsRequests.get(position).getSparePartsRequestStatus().equals("Pending")){
             holder.tvSpareRequestStatus.setText("قيد المراجعة");
             holder.tvSpareRequestStatus.setTextColor(Color.rgb(255, 166, 53));
+            holder.rateBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
             holder.tvSpareRequestOwnerName.setText("غير متاح حتى قبول الطلب");
@@ -97,12 +100,11 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
         }else if(sparePartsRequests.get(position).getSparePartsRequestStatus().equals("Approved")){
             holder.tvSpareRequestStatus.setText("تم قبول الطلب.");
             holder.tvSpareRequestStatus.setTextColor(Color.GREEN);
+            holder.rateBtn.setEnabled(false);
             holder.CompleteBtn.setEnabled(true);
             holder.CancelBtn.setEnabled(true);
-
-
-
-
+            holder.tvSpareRequestOwnerName.setTextColor(Color.BLACK);
+            holder.tvSpareRequestOwnerPhone.setTextColor(Color.BLACK);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             referenceSP.addValueEventListener(new ValueEventListener() {
@@ -126,13 +128,13 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
         }else if(sparePartsRequests.get(position).getSparePartsRequestStatus().equals("Refused")){
             holder.tvSpareRequestStatus.setText("تم رفض الطلب");
             holder.tvSpareRequestStatus.setTextColor(Color.RED);
+            holder.rateBtn.setEnabled(true);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
             holder.tvSpareRequestOwnerName.setText("غير متاح");
             holder.tvSpareRequestOwnerName.setTextColor(Color.RED);
             holder.tvSpareRequestOwnerPhone.setText("غير متاح");
             holder.tvSpareRequestOwnerPhone.setTextColor(Color.RED);
-
 
         }
 
@@ -143,7 +145,8 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
             holder.rateBtn.setEnabled(true);
             holder.CompleteBtn.setEnabled(false);
             holder.CancelBtn.setEnabled(false);
-
+            holder.tvSpareRequestOwnerName.setTextColor(Color.BLACK);
+            holder.tvSpareRequestOwnerPhone.setTextColor(Color.BLACK);
             referenceSP.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -179,9 +182,18 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
         holder.CompleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
-                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Success");
-                Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من إتمام الطلب؟")
+                        .setMessage("إتمام الطلب في حالة استلامك لقطع الغيار بنجاح")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
+                                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Success");
+                                Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
 
@@ -189,12 +201,21 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
             @Override
             public void onClick(View view) {
                 // Failed
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
-                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Failed");
-                Toast.makeText(context, "لقد قمت بإنهاء الطلب بشكل مفاجئ.", Toast.LENGTH_SHORT).show();
-                holder.rateBtn.setEnabled(false);
-                holder.CompleteBtn.setEnabled(false);
-                holder.CancelBtn.setEnabled(false);
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من إلغاء الطلب؟")
+                        .setMessage("إلغاء الطلب في حالة حدوث مشكلة مع مقدم الخدمة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
+                                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Failed");
+                                Toast.makeText(context, "لقد قمت بإنهاء الطلب", Toast.LENGTH_SHORT).show();
+                                holder.rateBtn.setEnabled(false);
+                                holder.CompleteBtn.setEnabled(false);
+                                holder.CancelBtn.setEnabled(false);
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
 
@@ -218,7 +239,8 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Rate rate = dataSnapshot.getValue(Rate.class);
                     if(rate.getRequestID().equals(sparePartsRequests.get(position).getSparePartsRequestID())
-                            && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())){
+                            && rate.getCustomerID().equals(firebaseAuth.getCurrentUser().getUid())
+                            && rate.getRateFrom().equals("Customer")){
                         holder.rateBtn.setEnabled(false);
                     }
                 }

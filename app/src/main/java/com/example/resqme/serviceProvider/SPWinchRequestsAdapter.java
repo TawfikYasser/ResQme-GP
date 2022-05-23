@@ -1,8 +1,10 @@
 package com.example.resqme.serviceProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -91,11 +93,17 @@ public class SPWinchRequestsAdapter extends RecyclerView.Adapter<SPWinchRequests
             holder.tvSPWinchRequestCustomerName.setTextColor(Color.rgb(255, 166, 53));
             holder.tvSPWinchRequestCustomerPhone.setText("غير متاح حتى قبول الطلب");
             holder.tvSPWinchRequestCustomerPhone.setTextColor(Color.rgb(255, 166, 53));
+            holder.btnRateCustomer.setEnabled(false);
+            holder.btnAcceptWinchRequestSP.setEnabled(true);
+            holder.btnRefuseWinchRequestSP.setEnabled(true);
         }else if(winchRequests.get(position).getWinchRequestStatus().equals("Approved")){
             holder.tvSPWinchRequestStatus.setText("تم قبول الطلب.");
             holder.tvSPWinchRequestStatus.setTextColor(Color.GREEN);
             holder.btnAcceptWinchRequestSP.setEnabled(false);
             holder.btnRefuseWinchRequestSP.setEnabled(false);
+            holder.btnRateCustomer.setEnabled(false);
+            holder.tvSPWinchRequestCustomerName.setTextColor(Color.BLACK);
+            holder.tvSPWinchRequestCustomerPhone.setTextColor(Color.BLACK);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             customerDB.addValueEventListener(new ValueEventListener() {
@@ -125,6 +133,7 @@ public class SPWinchRequestsAdapter extends RecyclerView.Adapter<SPWinchRequests
             holder.tvSPWinchRequestCustomerName.setTextColor(Color.RED);
             holder.tvSPWinchRequestCustomerPhone.setText("غير متاح");
             holder.tvSPWinchRequestCustomerPhone.setTextColor(Color.RED);
+            holder.btnRateCustomer.setEnabled(false);
         }
 
         if(winchRequests.get(position).getWinchRequestStatus().equals("Success")){
@@ -133,6 +142,8 @@ public class SPWinchRequestsAdapter extends RecyclerView.Adapter<SPWinchRequests
             holder.btnAcceptWinchRequestSP.setEnabled(false);
             holder.btnRefuseWinchRequestSP.setEnabled(false);
             holder.btnRateCustomer.setEnabled(true);
+            holder.tvSPWinchRequestCustomerName.setTextColor(Color.BLACK);
+            holder.tvSPWinchRequestCustomerPhone.setTextColor(Color.BLACK);
             customerDB.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -161,25 +172,45 @@ public class SPWinchRequestsAdapter extends RecyclerView.Adapter<SPWinchRequests
             holder.tvSPWinchRequestCustomerName.setTextColor(Color.RED);
             holder.tvSPWinchRequestCustomerPhone.setText("غير متاح");
             holder.tvSPWinchRequestCustomerPhone.setTextColor(Color.RED);
+            holder.btnRateCustomer.setEnabled(true);
         }
 
         holder.btnAcceptWinchRequestSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Approved");
-                Toast.makeText(context, "لقد قمت بقبول الطلب.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من قبول الطلب؟")
+                        .setMessage("قبولك للطلب يعني انك ستقوم بالتواصل مع العميل لإتمام الخدمة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Approved");
+                                Toast.makeText(context, "لقد قمت بقبول الطلب.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
+
             }
         });
 
         holder.btnRefuseWinchRequestSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
-                winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Refused");
-                Toast.makeText(context, "لقد قمت برفض الطلب.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من رفض الطلب؟")
+                        .setMessage("رفض الطلب سيؤدي الى إنقاص تقييمك العام وسيتمكن العميل من تقييمك (تقييم سلبي على الارجح).")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
+                                winches.child(winchRequests.get(position).getWinchID()).child("winchAvailability").setValue("Available");
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                                requestRef.child(winchRequests.get(position).getWinchRequestID()).child("winchRequestStatus").setValue("Refused");
+                                Toast.makeText(context, "لقد قمت برفض الطلب.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
 

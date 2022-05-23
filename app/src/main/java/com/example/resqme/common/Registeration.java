@@ -307,7 +307,6 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                     })
                                     .setNegativeButton("لا", null)
                                     .show();
-
                                 }
                             }
                         }

@@ -1,8 +1,10 @@
 package com.example.resqme.serviceProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -92,11 +94,17 @@ public class SPCMCRequestsAdapter extends RecyclerView.Adapter<SPCMCRequestsAdap
             holder.tvSPCMCCustomerName.setTextColor(Color.rgb(255, 166, 53));
             holder.tvSPCMCCustomerPhone.setText("غير متاح حتى قبول الطلب");
             holder.tvSPCMCCustomerPhone.setTextColor(Color.rgb(255, 166, 53));
+            holder.btnRateCustomer.setEnabled(false);
+            holder.btnAcceptCMCRequestSP.setEnabled(true);
+            holder.btnRefuseCMCRequestSP.setEnabled(true);
         }else if(cmcRequests.get(position).getCmcRequestStatus().equals("Approved")){
             holder.tvSPCMCRequestStatus.setText("تم قبول الطلب.");
             holder.tvSPCMCRequestStatus.setTextColor(Color.GREEN);
             holder.btnAcceptCMCRequestSP.setEnabled(false);
             holder.btnRefuseCMCRequestSP.setEnabled(false);
+            holder.btnRateCustomer.setEnabled(false);
+            holder.tvSPCMCCustomerName.setTextColor(Color.BLACK);
+            holder.tvSPCMCCustomerPhone.setTextColor(Color.BLACK);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             customersDB.addValueEventListener(new ValueEventListener() {
@@ -126,6 +134,7 @@ public class SPCMCRequestsAdapter extends RecyclerView.Adapter<SPCMCRequestsAdap
             holder.tvSPCMCCustomerName.setTextColor(Color.RED);
             holder.tvSPCMCCustomerPhone.setText("غير متاح");
             holder.tvSPCMCCustomerPhone.setTextColor(Color.RED);
+            holder.btnRateCustomer.setEnabled(false);
         }
 
         if(cmcRequests.get(position).getCmcRequestStatus().equals("Success")){
@@ -134,6 +143,8 @@ public class SPCMCRequestsAdapter extends RecyclerView.Adapter<SPCMCRequestsAdap
             holder.btnAcceptCMCRequestSP.setEnabled(false);
             holder.btnRefuseCMCRequestSP.setEnabled(false);
             holder.btnRateCustomer.setEnabled(true);
+            holder.tvSPCMCCustomerName.setTextColor(Color.BLACK);
+            holder.tvSPCMCCustomerPhone.setTextColor(Color.BLACK);
             customersDB.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -162,23 +173,43 @@ public class SPCMCRequestsAdapter extends RecyclerView.Adapter<SPCMCRequestsAdap
             holder.tvSPCMCCustomerName.setTextColor(Color.RED);
             holder.tvSPCMCCustomerPhone.setText("غير متاح");
             holder.tvSPCMCCustomerPhone.setTextColor(Color.RED);
+            holder.btnRateCustomer.setEnabled(true);
         }
 
         holder.btnAcceptCMCRequestSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
-                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Approved");
-                Toast.makeText(context, "لقد قمت بقبول الطلب.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من قبول الطلب؟")
+                        .setMessage("قبولك للطلب يعني انك ستقوم بالتواصل مع العميل لإتمام الخدمة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
+                                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Approved");
+                                Toast.makeText(context, "لقد قمت بقبول الطلب.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
 
         holder.btnRefuseCMCRequestSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
-                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Refused");
-                Toast.makeText(context, "لقد قمت برفض الطلب.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من رفض الطلب؟")
+                        .setMessage("رفض الطلب سيؤدي الى إنقاص تقييمك العام وسيتمكن العميل من تقييمك (تقييم سلبي على الارجح).")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
+                                requestRef.child(cmcRequests.get(position).getCmcRequestID()).child("cmcRequestStatus").setValue("Refused");
+                                Toast.makeText(context, "لقد قمت برفض الطلب.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
+
             }
         });
 

@@ -1,8 +1,10 @@
 package com.example.resqme.serviceProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -94,11 +96,17 @@ public class SPSparePartsRequestsAdapter extends RecyclerView.Adapter<SPSparePar
             holder.tvSPSpareCustomerName.setTextColor(Color.rgb(255, 166, 53));
             holder.tvSPSpareCustomerPhone.setText("غير متاح حتى قبول الطلب");
             holder.tvSPSpareCustomerPhone.setTextColor(Color.rgb(255, 166, 53));
+            holder.btnRateCustomer.setEnabled(false);
+            holder.btnAcceptSpareRequestSP.setEnabled(true);
+            holder.btnRefuseSpareRequestSP.setEnabled(true);
         }else if(sparePartsRequests.get(position).getSparePartsRequestStatus().equals("Approved")){
             holder.tvSPSpareRequestStatus.setText("تم قبول الطلب.");
             holder.tvSPSpareRequestStatus.setTextColor(Color.GREEN);
             holder.btnAcceptSpareRequestSP.setEnabled(false);
             holder.btnRefuseSpareRequestSP.setEnabled(false);
+            holder.btnRateCustomer.setEnabled(false);
+            holder.tvSPSpareCustomerName.setTextColor(Color.BLACK);
+            holder.tvSPSpareCustomerPhone.setTextColor(Color.BLACK);
             //Getting winch name, owner name, owner phone using firebase
             //hide owner name and phone until approval
             customersDB.addValueEventListener(new ValueEventListener() {
@@ -128,6 +136,7 @@ public class SPSparePartsRequestsAdapter extends RecyclerView.Adapter<SPSparePar
             holder.tvSPSpareCustomerName.setTextColor(Color.RED);
             holder.tvSPSpareCustomerPhone.setText("غير متاح");
             holder.tvSPSpareCustomerPhone.setTextColor(Color.RED);
+            holder.btnRateCustomer.setEnabled(false);
         }
 
         if(sparePartsRequests.get(position).getSparePartsRequestStatus().equals("Success")){
@@ -136,6 +145,8 @@ public class SPSparePartsRequestsAdapter extends RecyclerView.Adapter<SPSparePar
             holder.btnAcceptSpareRequestSP.setEnabled(false);
             holder.btnRefuseSpareRequestSP.setEnabled(false);
             holder.btnRateCustomer.setEnabled(true);
+            holder.tvSPSpareCustomerName.setTextColor(Color.BLACK);
+            holder.tvSPSpareCustomerPhone.setTextColor(Color.BLACK);
             customersDB.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -164,25 +175,46 @@ public class SPSparePartsRequestsAdapter extends RecyclerView.Adapter<SPSparePar
             holder.tvSPSpareCustomerName.setTextColor(Color.RED);
             holder.tvSPSpareCustomerPhone.setText("غير متاح");
             holder.tvSPSpareCustomerPhone.setTextColor(Color.RED);
+            holder.btnRateCustomer.setEnabled(true);
         }
 
         holder.btnAcceptSpareRequestSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
-                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Approved");
-                Toast.makeText(context, "لقد قمت بقبول الطلب.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من قبول الطلب؟")
+                        .setMessage("قبولك للطلب يعني انك ستقوم بالتواصل مع العميل لإتمام الخدمة")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
+                                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Approved");
+                                Toast.makeText(context, "لقد قمت بقبول الطلب.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
+
             }
         });
 
         holder.btnRefuseSpareRequestSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("SpareParts");
-                winches.child(sparePartsRequests.get(position).getSparePartItemID()).child("itemAvailability").setValue("Available");
-                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
-                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Refused");
-                Toast.makeText(context, "لقد قمت برفض الطلب.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context_2)
+                        .setTitle("هل أنت متأكد من رفض الطلب؟")
+                        .setMessage("رفض الطلب سيؤدي الى إنقاص تقييمك العام وسيتمكن العميل من تقييمك (تقييم سلبي على الارجح).")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("SpareParts");
+                                winches.child(sparePartsRequests.get(position).getSparePartItemID()).child("itemAvailability").setValue("Available");
+                                DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
+                                requestRef.child(sparePartsRequests.get(position).getSparePartsRequestID()).child("sparePartsRequestStatus").setValue("Refused");
+                                Toast.makeText(context, "لقد قمت برفض الطلب.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
+
             }
         });
 

@@ -177,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="12dp"
-                android:text="بول الطلب"
+                android:text="قبول الطلب"
                 android:backgroundTint="@color/green_color"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
