@@ -61,8 +61,7 @@ public class CarHistory extends AppCompatActivity {
                     String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                     if(requestDetailsModel.getCustomerId().equals(c_userid)){
                         requestDetails.add(requestDetailsModel);
-                        requestDetailsAdapter = new RequestDetailsAdapter(context, requestDetails,winchRequestsDB , view, context_2);
-                        requestDetailsRV.setAdapter(requestDetailsAdapter);
+                        requestDetailsAdapter.notifyDataSetChanged();
                     }
                 }
             }

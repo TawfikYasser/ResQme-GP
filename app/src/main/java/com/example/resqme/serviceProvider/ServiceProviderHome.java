@@ -347,8 +347,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
                         SparePart sparePart = dataSnapshot.getValue(SparePart.class);
                         if(sparePart.getItemServiceProviderId().equals(sp_userid)){
                             spareParts.add(sparePart);
-                            SparePartsAdapter = new SparePartsSPHomeAdapter(context, spareParts);
-                            sparePartsSPHomeRV.setAdapter(SparePartsAdapter);
+                            SparePartsAdapter.notifyDataSetChanged();
                         }
                     }
                 }

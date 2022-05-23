@@ -62,8 +62,7 @@ public class SP_Winch_Requests extends AppCompatActivity {
                     String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
                     if(winchRequest.getWinchOwnerID().equals(sp_userid)){
                         winchRequests.add(winchRequest);
-                        winchRequestsAdapter = new SPWinchRequestsAdapter(winchRequests, context, CustomerDB, context_2, view);
-                        winchRequestRV.setAdapter(winchRequestsAdapter);
+                        winchRequestsAdapter.notifyDataSetChanged();
                     }
                 }
             }

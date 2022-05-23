@@ -63,8 +63,7 @@ public class MyReports extends AppCompatActivity {
                         if(report.getUserID().equals(mAuth.getCurrentUser().getUid()) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
                             reports.add(report);
                             if(reports.size() !=0){
-                                myReportAdapter = new MyReportAdapter(context, reports);
-                                myReportsRV.setAdapter(myReportAdapter);
+                                myReportAdapter.notifyDataSetChanged();
                             }
                         }
 
@@ -99,16 +98,14 @@ public class MyReports extends AppCompatActivity {
                         if(report.getUserID().equals(c_userid) && !report.getReportStatus().equals("REPLY_REPORT_PENDING")){
                             reports.add(report);
                             if(reports.size() !=0){
-                                myReportAdapter = new MyReportAdapter(context, reports);
-                                myReportsRV.setAdapter(myReportAdapter);
+                                myReportAdapter.notifyDataSetChanged();
                             }
                         }
                     }
                 }
                 if(reports.size() == 0){
                     reports.clear();
-                    myReportAdapter = new MyReportAdapter(context, reports);
-                    myReportsRV.setAdapter(myReportAdapter);
+                    myReportAdapter.notifyDataSetChanged();
                 }
             }
 

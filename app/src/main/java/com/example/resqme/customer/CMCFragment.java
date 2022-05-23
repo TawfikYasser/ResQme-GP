@@ -133,7 +133,7 @@ public class CMCFragment extends Fragment {
                                     cmcs.add(cmc);
                                 }
                                 cmcAdapter = new CMCAdapter(context, cmcs);
-                                cmcRV.setAdapter(cmcAdapter);
+                                cmcAdapter.notifyDataSetChanged();
                             }
                         }
                     }

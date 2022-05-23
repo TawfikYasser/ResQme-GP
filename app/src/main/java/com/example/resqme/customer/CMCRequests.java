@@ -63,8 +63,7 @@ public class CMCRequests extends AppCompatActivity {
                     String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                     if(cmcRequest.getCustomerID().equals(c_userid)){
                         cmcRequests.add(cmcRequest);
-                        cmcRequestsAdapter = new CMCRequestsAdapter(context, cmcRequests, serviceProvidersDB, context_2, view);
-                        cmcRequestRV.setAdapter(cmcRequestsAdapter);
+                        cmcRequestsAdapter.notifyDataSetChanged();
                     }
                 }
             }

@@ -60,8 +60,7 @@ public class SP_Spare_Parts_Requests extends AppCompatActivity {
                     String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
                     if(sparePartsRequest.getSparePartOwnerID().equals(sp_userid)){
                         sparePartsRequests.add(sparePartsRequest);
-                        spareRequestsAdapter = new SPSparePartsRequestsAdapter(sparePartsRequests, context, CustomerDB, context_2, view);
-                        spareRequestRV.setAdapter(spareRequestsAdapter);
+                        spareRequestsAdapter.notifyDataSetChanged();
                     }
                 }
             }

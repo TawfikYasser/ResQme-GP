@@ -1,5 +1,6 @@
 package com.example.resqme.customer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -120,6 +121,7 @@ public class SpareFragment extends Fragment {
 
                 String finalMostFrequent = mostFrequent;
                 sparepartsDB.addValueEventListener(new ValueEventListener() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         spareParts.clear();
@@ -132,8 +134,8 @@ public class SpareFragment extends Fragment {
                                 } else {
                                     spareParts.add(sparePart);
                                 }
-                                sparepartsAdapter = new SparePartsAdapter(context, spareParts);
-                                sparepartsRV.setAdapter(sparepartsAdapter);
+//                                sparepartsAdapter = new SparePartsAdapter(context, spareParts);
+                                sparepartsAdapter.notifyDataSetChanged();
                             }
                         }
                     }

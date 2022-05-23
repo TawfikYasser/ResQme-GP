@@ -69,7 +69,7 @@ public class SPQuestions extends AppCompatActivity {
                         questions.add(question);
                         if(questions.size() !=0){
                             questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
-                            questionRV.setAdapter(questionsAdapter);
+                            questionsAdapter.notifyDataSetChanged();
                         }
                     }
                 }
@@ -101,14 +101,14 @@ public class SPQuestions extends AppCompatActivity {
                         questions.add(question);
                         if(questions.size() !=0){
                             questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
-                            questionRV.setAdapter(questionsAdapter);
+                            questionsAdapter.notifyDataSetChanged();
                         }
                     }
                 }
                 if(questions.size() == 0){
                     questions.clear();
                     questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
-                    questionRV.setAdapter(questionsAdapter);
+                    questionsAdapter.notifyDataSetChanged();
                 }
             }
 

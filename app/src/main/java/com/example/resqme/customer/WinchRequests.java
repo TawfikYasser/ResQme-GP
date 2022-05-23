@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -58,6 +59,7 @@ public class WinchRequests extends AppCompatActivity {
         winchRequestsAdapter = new WinchRequestsAdapter(this, winchRequests, serviceProvidersDB, view, context_2);
         winchRequestRV.setAdapter(winchRequestsAdapter);
         winchRequestsDB.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 winchRequests.clear();
@@ -67,8 +69,7 @@ public class WinchRequests extends AppCompatActivity {
                     String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                     if(winchRequest.getCustomerID().equals(c_userid)){
                         winchRequests.add(winchRequest);
-                        winchRequestsAdapter = new WinchRequestsAdapter(context, winchRequests, serviceProvidersDB, view, context_2);
-                        winchRequestRV.setAdapter(winchRequestsAdapter);
+                        winchRequestsAdapter.notifyDataSetChanged();
                     }
                 }
             }

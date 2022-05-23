@@ -72,8 +72,7 @@ public class DetailsQuestion extends AppCompatActivity {
                         if(questionReply.getQuestionReplyQuestionID().equals(questionID)){
                             questionReplies.add(questionReply);
                             if(questionReplies.size() !=0){
-                                questionReplyAdapter = new QuestionReplyAdapter(questionReplies, context);
-                                questionDetailsRV.setAdapter(questionReplyAdapter);
+                                questionReplyAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -108,16 +107,14 @@ public class DetailsQuestion extends AppCompatActivity {
                         if(questionReply.getQuestionReplyQuestionID().equals(questionID)) {
                             questionReplies.add(questionReply);
                             if (questionReplies.size() != 0) {
-                                questionReplyAdapter = new QuestionReplyAdapter(questionReplies, context);
-                                questionDetailsRV.setAdapter(questionReplyAdapter);
+                                questionReplyAdapter.notifyDataSetChanged();
                             }
                         }
                     }
                 }
                 if(questionReplies.size() == 0){
                     questionReplies.clear();
-                    questionReplyAdapter = new QuestionReplyAdapter(questionReplies, context);
-                    questionDetailsRV.setAdapter(questionReplyAdapter);
+                    questionReplyAdapter.notifyDataSetChanged();
                 }
             }
 

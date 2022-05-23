@@ -63,8 +63,7 @@ public class SparePartsRequests extends AppCompatActivity {
                     String c_userid = userData.getString("C_USERID", "C_DEFAULT");
                     if(sparePartsRequest.getCustomerID().equals(c_userid)){
                         sparePartsRequests.add(sparePartsRequest);
-                        sparePartsRequestsAdapter = new SparePartsRequestAdapter(context, sparePartsRequests, serviceProvidersDB, sparePartsItemDB, context_2, view);
-                        sparePartsRequestRV.setAdapter(sparePartsRequestsAdapter);
+                        sparePartsRequestsAdapter.notifyDataSetChanged();
                     }
                 }
             }

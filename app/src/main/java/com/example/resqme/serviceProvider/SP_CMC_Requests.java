@@ -60,8 +60,7 @@ public class SP_CMC_Requests extends AppCompatActivity {
                     String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
                     if(cmcRequest.getCmcOwnerID().equals(sp_userid)){
                         cmcRequests.add(cmcRequest);
-                        cmcRequestsAdapter = new SPCMCRequestsAdapter(cmcRequests, context, context_2, CustomerDB, view);
-                        cmcRequestRV.setAdapter(cmcRequestsAdapter);
+                        cmcRequestsAdapter.notifyDataSetChanged();
                     }
                 }
             }

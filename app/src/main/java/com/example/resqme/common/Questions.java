@@ -64,8 +64,7 @@ public class Questions extends AppCompatActivity {
                         if(question.getQuestionCustomerID().equals(c_userid)){
                             questions.add(question);
                             if(questions.size() !=0){
-                                questionsAdapter = new QuestionsAdapter(questions, context);
-                                questionRV.setAdapter(questionsAdapter);
+                                questionsAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -100,16 +99,14 @@ public class Questions extends AppCompatActivity {
                         if(question.getQuestionCustomerID().equals(c_userid)){
                             questions.add(question);
                             if(questions.size() !=0){
-                                questionsAdapter = new QuestionsAdapter(questions, context);
-                                questionRV.setAdapter(questionsAdapter);
+                                questionsAdapter.notifyDataSetChanged();
                             }
                         }
                     }
                 }
                 if(questions.size() == 0){
                     questions.clear();
-                    questionsAdapter = new QuestionsAdapter(questions, context);
-                    questionRV.setAdapter(questionsAdapter);
+                    questionsAdapter.notifyDataSetChanged();
                 }
             }
 

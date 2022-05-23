@@ -88,7 +88,7 @@ public class CartForCustomer extends AppCompatActivity {
                     if (sparePartInCart.getCustomerID().equals(c_userid)) {
                         sparePartInCarts.add(sparePartInCart);
                         spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts, shoppingDB);
-                        spareCartRV.setAdapter(spareCartAdapter);
+                        spareCartAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -120,14 +120,14 @@ public class CartForCustomer extends AppCompatActivity {
                         if (sparePartInCart.getCustomerID().equals(c_userid)) {
                             sparePartInCarts.add(sparePartInCart);
                             spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts, shoppingDB);
-                            spareCartRV.setAdapter(spareCartAdapter);
+                            spareCartAdapter.notifyDataSetChanged();
                         }
                     }
                 }
                 if(sparePartInCarts.size() == 0){
                     sparePartInCarts.clear();
                     spareCartAdapter = new SpareCartAdapter(context, sparePartInCarts, shoppingDB);
-                    spareCartRV.setAdapter(spareCartAdapter);
+                    spareCartAdapter.notifyDataSetChanged();
                 }
             }
 
