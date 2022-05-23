@@ -331,14 +331,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 }
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 }
-                googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                    @Override
-                    public boolean onMyLocationButtonClick() {
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 18.0f));
-                        return true;
-                    }
-                });
                 if(changed == 0){
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
