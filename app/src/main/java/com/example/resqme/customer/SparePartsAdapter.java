@@ -83,6 +83,23 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
             }
         });
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("ShoppingCart");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.child(sparePart.getItemID()+"-CCC-"+c_userid).exists()) {
+                    holder.addToCart.setEnabled(false);
+                }else{
+                    holder.addToCart.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
