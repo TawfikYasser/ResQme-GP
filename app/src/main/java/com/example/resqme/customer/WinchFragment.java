@@ -50,6 +50,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.CancellationToken;
@@ -240,8 +241,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                 showingDataOnTheMap(winchesList, myLat, myLong, 0);
                                 requestWinchBtn.setEnabled(true);
 
-
-
                                 mapFragment.getMapAsync(new OnMapReadyCallback() {
                                     @Override
                                     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -281,18 +280,33 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
+                //get latlong for corners for specified place
+                LatLng one = new LatLng(30.108990, 31.132619);
+                LatLng two = new LatLng(29.979773, 31.287968);
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                //add them to builder
+                builder.include(one);
+                builder.include(two);
+                LatLngBounds bounds = builder.build();
+                //get width and height to current display screen
+                int width = getResources().getDisplayMetrics().widthPixels;
+                int height = getResources().getDisplayMetrics().heightPixels;
+                // 10% padding
+                int padding = (int) (width * 0.10);
+                //set latlong bounds
+                googleMap.setLatLngBoundsForCameraTarget(bounds);
+                //set zoom to level to current so that you won't be able to zoom out viz. move outside bounds
+                googleMap.setMinZoomPreference(googleMap.getCameraPosition().zoom);
+                // remove any winches from the map to fill them again
                 googleMap.clear();
                 googleMapObj = googleMap;
                 LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
                 googleMap.addMarker(new MarkerOptions()
                         .position(me)
                         .title("موقعك الحالي")).showInfoWindow();
-
-                float zoomLevel = 12.0f; //This goes up to 21
                 for (int i = 0; i < winchesList.size(); i++) {
                     //Get each winch and pin on the map
                     Winch winch = winchesList.get(i);
-
                     //Converting current lat and long to address for snippet showing
                     Geocoder geocoder;
                     List<Address> addresses = null;
@@ -312,12 +326,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     // Put the winch on the map
                     LatLng latLng = new LatLng(Double.valueOf(winch.getWinchCurrentLat()), Double.valueOf(winch.getWinchCurrentLong()));
                     Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng)
-
-
                             .icon(BitmapFromVector(getContext(), R.drawable.winch_marker)));
                     progressBar.setVisibility(View.GONE);
                 }
-
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 }
                 googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {

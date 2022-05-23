@@ -19,6 +19,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
@@ -72,6 +73,26 @@ public class AddressMap extends AppCompatActivity implements OnMapReadyCallback{
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         Toast.makeText(this, "اختار عنوانك...", Toast.LENGTH_LONG).show();
+        //get latlong for corners for specified place
+        LatLng one = new LatLng(30.108990, 31.132619);
+        LatLng two = new LatLng(29.979773, 31.287968);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        //add them to builder
+        builder.include(one);
+        builder.include(two);
+        LatLngBounds bounds = builder.build();
+        //get width and height to current display screen
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        // 10% padding
+        int padding = (int) (width * 0.10);
+        //set latlong bounds
+        googleMap.setLatLngBoundsForCameraTarget(bounds);
+        //move camera to fill the bound to screen
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding));
+        //set zoom to level to current so that you won't be able to zoom out viz. move outside bounds
+        googleMap.setMinZoomPreference(googleMap.getCameraPosition().zoom);
+
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng point) {

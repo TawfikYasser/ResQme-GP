@@ -45,6 +45,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.CancellationToken;
@@ -231,8 +232,25 @@ public class TrackingWinchRequest extends AppCompatActivity {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
+                //get latlong for corners for specified place
+                LatLng one = new LatLng(30.108990, 31.132619);
+                LatLng two = new LatLng(29.979773, 31.287968);
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                //add them to builder
+                builder.include(one);
+                builder.include(two);
+                LatLngBounds bounds = builder.build();
+                //get width and height to current display screen
+                int width = getResources().getDisplayMetrics().widthPixels;
+                int height = getResources().getDisplayMetrics().heightPixels;
+                // 10% padding
+                int padding = (int) (width * 0.10);
+                //set latlong bounds
+                googleMap.setLatLngBoundsForCameraTarget(bounds);
+                //set zoom to level to current so that you won't be able to zoom out viz. move outside bounds
+                googleMap.setMinZoomPreference(googleMap.getCameraPosition().zoom);
+                // remove any winches from the map to fill them again
                 googleMap.clear();
-                float zoomLevel = 12.0f; //This goes up to 21
                 googleMapObj = googleMap;
                 LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
                 googleMap.addMarker(new MarkerOptions()
