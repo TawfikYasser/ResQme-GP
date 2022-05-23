@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -56,12 +58,11 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Customer customer = dataSnapshot.getValue(Customer.class);
                     if (customer.getUserId().equals(mAuth.getCurrentUser().getUid())) {
-                        rateTV.setText(customer.getRate());
+                        rateTV.setText(new DecimalFormat("##.##").format(Double.valueOf(customer.getRate())));
                         SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = cld.edit();
                         editor.putString("C_USERRATE", String.valueOf(customer.getRate()));
                         editor.apply();
-
                     }
                 }
             }
@@ -204,7 +205,7 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
         whatsAppTV.setText(c_whatsapp);
         genderTV.setText(c_usergender);
         userTypeTV.setText(c_usertype);
-        rateTV.setText(c_userrate);
+        rateTV.setText(new DecimalFormat("##.##").format(Double.valueOf(c_userrate)));
         //Car Information
         if (!c_carid.equals("0")) {
             addCarBtn.setVisibility(View.GONE);

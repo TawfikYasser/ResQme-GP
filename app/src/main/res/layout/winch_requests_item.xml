@@ -18,7 +18,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:clickable="true"
                 android:orientation="vertical"
@@ -105,7 +104,6 @@
                 android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
-
             <TextView
                 android:id="@+id/winch_request_item_winchownerphone_1_txt"
                 android:layout_gravity="right"
@@ -129,7 +127,6 @@
                 android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
-
             <TextView
                 android:id="@+id/winch_request_item_cost_1_txt"
                 android:layout_gravity="right"
@@ -153,8 +150,6 @@
                 android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
-
-
             <TextView
                 android:id="@+id/winch_request_item_description_1_txt"
                 android:layout_gravity="right"
@@ -178,7 +173,6 @@
                 android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
-
             <TextView
                 android:id="@+id/winch_request_item_time_1_txt"
                 android:layout_gravity="right"
@@ -202,7 +196,6 @@
                 android:background="@color/color_gray_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/winch_request_tracking_btn"
                 android:layout_width="match_parent"
@@ -212,7 +205,6 @@
                 app:icon="@drawable/ic_baseline_map_24"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/winch_request_complete_btn"
                 android:layout_width="match_parent"
@@ -222,7 +214,6 @@
                 android:backgroundTint="@color/green_color"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/winch_request_cancel_btn"
                 android:layout_width="match_parent"
@@ -232,7 +223,6 @@
                 android:backgroundTint="@color/red_color"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/winch_request_rate_btn"
                 android:enabled="false"
@@ -242,8 +232,6 @@
                 android:text="تقييم الخدمة"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_height="wrap_content"/>
-
-
             <TextView
                 android:drawableRight="@drawable/ic_baseline_info_24"
                 android:drawablePadding="8dp"

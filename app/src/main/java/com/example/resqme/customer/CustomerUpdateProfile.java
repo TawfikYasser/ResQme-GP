@@ -136,10 +136,10 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
         new AlertDialog.Builder(this)
                 .setTitle("تأكيد تغيير البيانات")
-                .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
+                .setMessage("هل أنت متأكد من البيانات التي تم تغييرها؟ ، من فضلك راجع جميع البيانات...(أي بيانات لم يتم تغييرها أو إذا قمت بمسح اسم المستخدم أو كلمة المرور أو رقم الواتساب لن يتم اعتبارها)")
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        progressDialog.setMessage(" يرجى الانتظار قليلاً، جاري تغيير البيانات... ");
+                        progressDialog.setMessage(" يرجى الانتظار قليلاً، جاري تغيير البيانات...");
                         progressDialog.show();
                         // Check if username changed, change it in firebase and local data
                         if(!TextUtils.isEmpty(etUsername.getText())){
