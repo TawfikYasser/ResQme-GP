@@ -56,7 +56,7 @@ public class SpareFragment extends Fragment {
     DatabaseReference sparepartsDB;
     SparePartsAdapter sparepartsAdapter;
     ArrayList<SparePart> spareParts;
-    Context context;
+    Context context, context_2;
     ShimmerFrameLayout shimmerFrameLayoutSpareCustomer;
     ArrayList<String> sparePartsIDs;
     DatabaseReference logDB;
@@ -71,12 +71,13 @@ public class SpareFragment extends Fragment {
         sparePartsIDs = new ArrayList<>();
         sparepartsRV = view.findViewById(R.id.spare_parts_recycler);
         context = getActivity().getApplicationContext();
+        context_2 = getContext();
         sparepartsDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         sparepartsRV.setHasFixedSize(true);
         sparepartsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         spareParts = new ArrayList<>();
-        sparepartsAdapter = new SparePartsAdapter(getActivity(), spareParts);
+        sparepartsAdapter = new SparePartsAdapter(getActivity(), spareParts, context_2, view);
         sparepartsRV.setAdapter(sparepartsAdapter);
 
 

@@ -3,6 +3,7 @@ package com.example.resqme.customer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -35,13 +37,16 @@ import java.util.ArrayList;
 public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.SparePartsViewHolder> {
 
 
-    Context context;
+    Context context, c2;
+    View view;
     ArrayList<SparePart> spareParts;
     String c_userid = "";
     DatabaseReference spDB;
-    public SparePartsAdapter(Context context, ArrayList<SparePart> spareParts) {
+    public SparePartsAdapter(Context context, ArrayList<SparePart> spareParts, Context c2, View view) {
         this.context = context;
         this.spareParts = spareParts;
+        this.c2 = c2;
+        this.view = view;
         SharedPreferences userData = this.context.getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         c_userid = userData.getString("C_USERID", "C_DEFAULT");
         spDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
@@ -136,7 +141,20 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                                     sparePart.getItemNewOrUsed(), sparePart.getItemStatus(), sparePart.getItemServiceProviderId(),
                                     sparePart.getItemCarType(), sparePart.getItemAvailability());
                             reference.child(sparePart.getItemID()+"-CCC-"+c_userid).setValue(sparePartObj);
-                            Toast.makeText(context,"تم إضافة: "+ sparePart.getItemName(), Toast.LENGTH_SHORT).show();
+
+                            Snackbar snackbar = Snackbar
+                                    .make(view, sparePart.getItemName() , Snackbar.LENGTH_LONG)
+                                    .setAction("عربة التسوق", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            //Go to cart
+                                            Intent goToCart = new Intent(context, CartForCustomer.class);
+                                            goToCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            context.startActivity(goToCart);
+                                        }
+                                    })
+                                    .setActionTextColor(c2.getColor(R.color.blue_back));
+                            snackbar.show();
                             LogData.saveLog("SERVICE_CLICK",sparePart.getItemID(),"SPARE_PARTS","", "SPARE_PARTS");
                         }
                     }
