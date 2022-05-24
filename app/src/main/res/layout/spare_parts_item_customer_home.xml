@@ -22,11 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:transitionName="image"
                 android:id="@+id/spare_parts_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
 
             <TextView
+                android:transitionName="description"
                 android:textAlignment="gravity"
                 android:layout_gravity="right"
                 android:id="@+id/spare_parts_item_name"
