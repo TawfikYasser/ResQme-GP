@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.DialogMessages;
 import com.example.resqme.common.LogData;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.SparePartInCart;
@@ -262,7 +263,7 @@ public class CartForCustomer extends AppCompatActivity {
                         .setTextColor(getResources().getColor(R.color.white))
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 progressDialog.dismiss();
-                finish();
+                DialogMessages.showSuccessDialog(CartForCustomer.this);
             }else{
                 progressDialog.dismiss();
                 Snackbar.make(CartForCustomer.this.findViewById(android.R.id.content),"حدث مشكلة اثناء الحصول على عنوانك الحالي، برجاء المحاولة لاحقاً",Snackbar.LENGTH_LONG)

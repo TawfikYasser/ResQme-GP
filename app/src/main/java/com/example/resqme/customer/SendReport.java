@@ -3,8 +3,10 @@ package com.example.resqme.customer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -57,9 +59,6 @@ public class SendReport extends AppCompatActivity {
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
                 else{
-                    progressDialog.setMessage("جاري إرسال البيانات...");
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
                     sendReport(reportDescriptionBtn.getText().toString().trim());
                 }
             }
@@ -90,13 +89,31 @@ public class SendReport extends AppCompatActivity {
 
 
     private void sendReport(String reportDesc) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String reportID = database.getReference("Reports").push().getKey(); // create new id
-        Report report = new Report(reportDesc, reportID, mAuth.getCurrentUser().getUid(),"Pending", mAuth.getCurrentUser().getEmail());
-        reportsTable.child(reportID).setValue(report);//Entering report in database
-        progressDialog.dismiss();
-        Toast.makeText(this, "تم إرسال التقرير وهو في مرحلة المراجعة، سيتم التواصل معك عن طريق البريد الإلكتروني", Toast.LENGTH_LONG).show();
-        LogData.saveLog("APP_CLICK","","","CLICK ON SEND REPORT BUTTON", "SEND_REPORT");
-        finish();
+
+        new AlertDialog.Builder(SendReport.this)
+                .setTitle("إرسال تقرير")
+                .setMessage("هل أنت متأكد من إرسالك لهذا التقرير؟")
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.setMessage("جاري إرسال البيانات...");
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        String reportID = database.getReference("Reports").push().getKey(); // create new id
+                        Report report = new Report(reportDesc, reportID, mAuth.getCurrentUser().getUid(),"Pending", mAuth.getCurrentUser().getEmail());
+                        reportsTable.child(reportID).setValue(report);//Entering report in database
+                        progressDialog.dismiss();
+                        Snackbar.make(SendReport.this.findViewById(android.R.id.content),"تم إرسال التقرير وهو في مرحلة المراجعة، سيتم التواصل معك عن طريق البريد الإلكتروني",Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(getResources().getColor(R.color.blue_back))
+                                .setTextColor(getResources().getColor(R.color.white))
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                        LogData.saveLog("APP_CLICK","","","CLICK ON SEND REPORT BUTTON", "SEND_REPORT");
+                        reportDescriptionBtn.setText("");
+                    }
+                })
+                .setNegativeButton("لا", null)
+                .show();
+
+
     }
 }

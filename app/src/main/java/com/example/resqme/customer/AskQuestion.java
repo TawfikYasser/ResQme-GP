@@ -3,8 +3,10 @@ package com.example.resqme.customer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,9 +52,6 @@ public class AskQuestion extends AppCompatActivity {
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
                 else{
-                    progressDialog.setMessage("جاري إرسال البيانات...");
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
                     sendQuestion(questionET.getText().toString().trim());
                 }
             }
@@ -84,15 +83,31 @@ public class AskQuestion extends AppCompatActivity {
 
 
     private void sendQuestion(String question) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String questionID = database.getReference("Questions").push().getKey();// create new id
-        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
-        String c_userid = userData.getString("C_USERID","C_DEFAULT");
-        Question questionObj = new Question(questionID, c_userid, question);
-        questionDB.child(questionID).setValue(questionObj);//Entering question in database
-        progressDialog.dismiss();
-        Toast.makeText(this, "تم إرسال السؤال وهو الآن في صفحة الاسئلة.", Toast.LENGTH_LONG).show();
-        LogData.saveLog("APP_CLICK","","","CLICK ON SEND QUESTION BUTTON", "ASK_QUESTION");
-        finish();
+
+        new AlertDialog.Builder(AskQuestion.this)
+                .setTitle("إرسال سؤال")
+                .setMessage("هل أنت متأكد من إرسالك لهذا السؤال؟")
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.setMessage("جاري إرسال البيانات...");
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        String questionID = database.getReference("Questions").push().getKey();// create new id
+                        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);//Pointer on local data
+                        String c_userid = userData.getString("C_USERID","C_DEFAULT");
+                        Question questionObj = new Question(questionID, c_userid, question);
+                        questionDB.child(questionID).setValue(questionObj);//Entering question in database
+                        progressDialog.dismiss();
+                        questionET.setText("");
+                        LogData.saveLog("APP_CLICK","","","CLICK ON SEND QUESTION BUTTON", "ASK_QUESTION");
+                        Snackbar.make(AskQuestion.this.findViewById(android.R.id.content),"تم إرسال السؤال وهو الآن في صفحة الاسئلة.",Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(getResources().getColor(R.color.blue_back))
+                                .setTextColor(getResources().getColor(R.color.white))
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                    }
+                })
+                .setNegativeButton("لا", null)
+                .show();
     }
 }

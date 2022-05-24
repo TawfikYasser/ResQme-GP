@@ -2,6 +2,7 @@ package com.example.resqme.customer;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -29,12 +31,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.DialogMessages;
 import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
 import com.example.resqme.model.Winch;
@@ -60,6 +64,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -445,6 +450,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 TextView winchNameInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_name_txt);
                 TextView winchServiceCostInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_cost_txt);
                 TextView winchServiceDistanceInBottomSheet = winchSheetView.findViewById(R.id.winch_bottom_sheet_service_distance_txt);
+                TextView welcometxt = winchSheetView.findViewById(R.id.winch_bottom_welcome_txt);
+                welcometxt.setTextColor(getResources().getColor(R.color.purple_700));
+                welcometxt.setText("مرحباً "+ FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
                 // Recommending the best winch based on the current location of both winch and customer
                 // The nearest winch to the customer is the best
@@ -564,6 +572,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             progressDialog.dismiss();
             winchBottomDialog.cancel();
+            DialogMessages.showSuccessDialog(getActivity());
         }
     }
 }

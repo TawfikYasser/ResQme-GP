@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.DialogMessages;
 import com.example.resqme.common.LogData;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.Winch;
@@ -113,6 +114,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
     private void sendTheCMCRequest() {
         progressDialog.setMessage("جاري إرسال البيانات");
         progressDialog.show();
+        progressDialog.setCancelable(false);
         LogData.saveLog("SERVICE_CLICK",cmcID_STR,"CMC","", "CMC_PROCESSING_REQUEST");
 
         //Getting current customer location
@@ -164,13 +166,15 @@ public class ProcessingRequestCMC extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(ProcessingRequestCMC.this, "تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(ProcessingRequestCMC.this.findViewById(android.R.id.content),"تم إرسال الطلب، يمكن متابعته في صفحة الطلبات الخاصة بك.",Snackbar.LENGTH_LONG)
+                                    .setBackgroundTint(getResources().getColor(R.color.blue_back))
+                                    .setTextColor(getResources().getColor(R.color.white))
+                                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                             progressDialog.dismiss();
-                            finish();
+                            DialogMessages.showSuccessDialog(ProcessingRequestCMC.this);
                         }else{
                             Toast.makeText(ProcessingRequestCMC.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
-                            finish();
                         }
                     }
                 });
