@@ -71,13 +71,8 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ServiceProviderHome extends AppCompatActivity  {
-    LinearLayout cmc_HOME;
-    LinearLayout sp_HOME;
-    LinearLayout winch_HOME;
     Context context;
-    String Type;
     CircleImageView spHomeImage;
-    MaterialButton goToSettingsBtnFromSPHome;
     int GPS = 0;
     int GrantedToWork = 0;
     final boolean[] LocationPermission = {false};
@@ -85,29 +80,9 @@ public class ServiceProviderHome extends AppCompatActivity  {
     FusedLocationProviderClient locationProviderClient;
     LocationRequest locationRequest = null;
     LocationCallback locationCallback = null;
+    TextView SPNAMEWelcome;
+    MaterialCardView settingsMCV, cmcMCV, sparepartsMCV, winchMCV, addWinchMCV, addSparePartsMCV;
 
-
-    // Winch Data
-    ImageView winchLicenceImageSPHome;
-    TextView winchNameSPHome, winchStatusSPHome, winchAvailabilitySPHome, winchCostPerKMSPHome;
-    MaterialButton changeWinchAvailabilityBTN;
-    String winchAvailability = "", winchID = "";
-
-
-    // Spare Parts Data
-    RecyclerView sparePartsSPHomeRV;
-    DatabaseReference sparePartsDB;
-    SparePartsSPHomeAdapter SparePartsAdapter;
-    ArrayList<SparePart> spareParts;
-    MaterialButton addSparePartsSPHome;
-
-
-    // CMC Data
-    ImageView cmcImageSPHome;
-    TextView cmcNameSPHome, cmcLocationSPHome, cmcStatusSPHome, cmcAvailabilitySPHome, cmcBrandSPHome;
-    MaterialButton changeCMCAvailability, cmcAddWinch;
-    String cmcAvailability = "", cmcID = "";
-    MaterialCardView winchCV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,10 +91,6 @@ public class ServiceProviderHome extends AppCompatActivity  {
         initviews();
         DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
         pageDataLoading();
-
-
-
-
 
         // Location Work for Winch and CMC only
         // Condition to be added here
@@ -218,7 +189,33 @@ public class ServiceProviderHome extends AppCompatActivity  {
             };
         }
 
-        goToSettingsBtnFromSPHome.setOnClickListener(new View.OnClickListener() {
+        // Material Card Clicks [will appear based on the condition]
+
+        cmcMCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent go = new Intent(context, ServiceProviderHome_CMC.class);
+                startActivity(go);
+            }
+        });
+
+        sparepartsMCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent go = new Intent(context, ServiceProviderHome_SpareParts.class);
+                startActivity(go);
+            }
+        });
+
+        winchMCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent go = new Intent(context, ServiceProviderHome_Winch.class);
+                startActivity(go);
+            }
+        });
+
+        settingsMCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent goToSettings = new Intent(context, ServiceProviderSettings.class);
@@ -267,95 +264,18 @@ public class ServiceProviderHome extends AppCompatActivity  {
         String sp_winch = userData.getString("SP_WINCH","SP_DEFAULT");
         Glide.with(this).load(sp_userimage).into(spHomeImage);
 
-
+        SPNAMEWelcome = findViewById(R.id.sp_name_home_txt);
+        SPNAMEWelcome.setText("مرحباً "+sp_username);
         if(sp_serviceType.equals("Winch") || sp_winch.equals("True")){
             // Showing the winch data
             // Allow to change winch status to not available
-            winch_HOME.setVisibility(View.VISIBLE);
-            DatabaseReference winchesTable = FirebaseDatabase.getInstance().getReference().child("Winches");
-            winchesTable.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                        Winch winch = dataSnapshot.getValue(Winch.class);
-                        if(winch.getWinchOwnerID().equals(sp_userid)){
-                            // This is the right winch
-                            // Fill the data
-                            winchID = winch.getWinchID();
-                            Glide.with(context).load(winch.getWinchLicence()).into(winchLicenceImageSPHome);
-                            winchNameSPHome.setText(winch.getWinchName());
-                            winchCostPerKMSPHome.setText(winch.getWinchCostPerKM() + " جنيه لكل كيلو متر.");
-                            if(winch.getWinchAvailability().equals("Available")){
-                                winchAvailabilitySPHome.setText("متاح");
-                                winchAvailabilitySPHome.setTextColor(Color.GREEN);
-                                changeWinchAvailabilityBTN.setText("اجعل الونش غير متاح");
-                                winchAvailability = "Available";
-                            }else{
-                                winchAvailabilitySPHome.setText("غير متاح");
-                                winchAvailabilitySPHome.setTextColor(Color.RED);
-                                changeWinchAvailabilityBTN.setText("اجعل الونش متاح");
-                                winchAvailability = "Not Available";
-                            }
-                            if(winch.getWinchStatus().equals("Pending")){
-                                changeWinchAvailabilityBTN.setEnabled(false);
-                                winchAvailabilitySPHome.setText("غير متاح");
-                                winchAvailabilitySPHome.setTextColor(Color.RED);
-
-                                winchStatusSPHome.setText("يتم مراجعة بيانات الونش");
-                                winchStatusSPHome.setTextColor(Color.rgb(255, 166, 53));
-                            }else if(winch.getWinchStatus().equals("Approved")){
-                                changeWinchAvailabilityBTN.setEnabled(true);
-                                winchStatusSPHome.setText("تم قبول الونش");
-                                winchStatusSPHome.setTextColor(Color.GREEN);
-                            }else if(winch.getWinchStatus().equals("Refused")){
-                                winchAvailabilitySPHome.setText("غير متاح");
-                                winchAvailabilitySPHome.setTextColor(Color.RED);
-
-                                changeWinchAvailabilityBTN.setEnabled(false);
-                                winchStatusSPHome.setText("تم رفض الونش");
-                                winchStatusSPHome.setTextColor(Color.RED);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-
+            winchMCV.setVisibility(View.VISIBLE);
         }
         if(sp_serviceType.equals("SpareParts") || sp_spareParts.equals("True")){
             // Show the spare parts (Recycler View)
             // Allow to add more spare parts
             // Allow to change each spare item availability
-            sp_HOME.setVisibility(View.VISIBLE);
-            sparePartsDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
-            sparePartsSPHomeRV.setHasFixedSize(true);
-            sparePartsSPHomeRV.setLayoutManager(new LinearLayoutManager(this));
-            spareParts = new ArrayList<>();
-            SparePartsAdapter = new SparePartsSPHomeAdapter(context, spareParts);
-            sparePartsSPHomeRV.setAdapter(SparePartsAdapter);
-
-            sparePartsDB.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    spareParts.clear();
-                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                        SparePart sparePart = dataSnapshot.getValue(SparePart.class);
-                        if(sparePart.getItemServiceProviderId().equals(sp_userid)){
-                            spareParts.add(sparePart);
-                            SparePartsAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            sparepartsMCV.setVisibility(View.VISIBLE);
         }
         if(sp_serviceType.equals("CMC")){
             //Show the CMC
@@ -364,60 +284,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
             //Allow to add one winch
             //Allow to add different spare parts
             //Allow to change CMC, Winch, Spare Parts Availability
-            cmc_HOME.setVisibility(View.VISIBLE);
-            DatabaseReference cmcTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
-            cmcTable.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                        CMC cmc = dataSnapshot.getValue(CMC.class);
-                        if(cmc.getCmcServiceProviderId().equals(sp_userid)){
-                            cmcID = cmc.getCmcID();
-                            Glide.with(context).load(cmc.getCmcImage()).into(cmcImageSPHome);
-                            cmcNameSPHome.setText(cmc.getCmcName());
-                            cmcLocationSPHome.setText(cmc.getCmcLocation());
-                            cmcBrandSPHome.setText(cmc.getCmcBrand());
-                            if(cmc.getCmcAvailability().equals("Available")){
-                                cmcAvailabilitySPHome.setText("متاح");
-                                cmcAvailabilitySPHome.setTextColor(Color.GREEN);
-                                changeCMCAvailability.setText("اجعل مركز الخدمة غير متاح");
-                                cmcAvailability = "Available";
-                            }else{
-                                cmcAvailabilitySPHome.setText("غير متاح");
-                                cmcAvailabilitySPHome.setTextColor(Color.RED);
-                                changeCMCAvailability.setText("اجعل مركز الخدمة متاح");
-                                cmcAvailability = "Not Available";
-                            }
-
-                            if(cmc.getCmcStatus().equals("Pending")){
-                                changeCMCAvailability.setEnabled(false);
-                                cmcAvailabilitySPHome.setText("غير متاح");
-                                cmcAvailabilitySPHome.setTextColor(Color.RED);
-
-                                cmcStatusSPHome.setText("يتم مراجعة بيانات مركز الخدمة");
-                                cmcStatusSPHome.setTextColor(Color.rgb(255, 166, 53));
-                            }else if(cmc.getCmcStatus().equals("Approved")){
-                                changeCMCAvailability.setEnabled(true);
-                                cmcStatusSPHome.setText("تم قبول مركز الخدمة");
-                                cmcStatusSPHome.setTextColor(Color.GREEN);
-                            }else if(cmc.getCmcStatus().equals("Refused")){
-                                cmcAvailabilitySPHome.setText("غير متاح");
-                                cmcAvailabilitySPHome.setTextColor(Color.RED);
-
-                                changeCMCAvailability.setEnabled(false);
-                                cmcStatusSPHome.setText("تم رفض مركز الخدمة");
-                                cmcStatusSPHome.setTextColor(Color.RED);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
+            cmcMCV.setVisibility(View.VISIBLE);
             DatabaseReference serviceProviders = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
             serviceProviders.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -432,8 +299,8 @@ public class ServiceProviderHome extends AppCompatActivity  {
                             // Check if isSpareParts is false -> show spare parts and can add spare parts
                             if(serviceProvider.getServiceType().equals("CMC")
                             && serviceProvider.getIsWinch().equals("True")){
-                                winch_HOME.setVisibility(View.VISIBLE);
-                                cmcAddWinch.setVisibility(View.GONE);
+                                winchMCV.setVisibility(View.VISIBLE);
+                                addWinchMCV.setVisibility(View.GONE);
 
                                 SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = cld.edit();
@@ -442,6 +309,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
                             }
                             if(serviceProvider.getServiceType().equals("CMC")
                                     && serviceProvider.getIsSpareParts().equals("True")){
+                                addSparePartsMCV.setVisibility(View.VISIBLE);
                                 SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = cld.edit();
                                 editor.putString("SP_SPARE_PARTS", "True");
@@ -451,14 +319,14 @@ public class ServiceProviderHome extends AppCompatActivity  {
                             if(serviceProvider.getServiceType().equals("CMC")
                             && !serviceProvider.getIsWinch().equals("True")){
                                 // Show winch data and allow to add one winch
-                                winch_HOME.setVisibility(View.VISIBLE);
-                                winchCV.setVisibility(View.GONE);
-                                cmcAddWinch.setVisibility(View.VISIBLE);
+                                winchMCV.setVisibility(View.GONE);
+                                addWinchMCV.setVisibility(View.VISIBLE);
                             }
                             if(serviceProvider.getServiceType().equals("CMC")
                             && !serviceProvider.getIsSpareParts().equals("True")){
                                 // Show spare parts and allow to add more items
-                                sp_HOME.setVisibility(View.VISIBLE);
+                                addSparePartsMCV.setVisibility(View.VISIBLE);
+                                sparepartsMCV.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -469,42 +337,19 @@ public class ServiceProviderHome extends AppCompatActivity  {
 
                 }
             });
-
         }
 
 
         // Button Clicks
-
-        // View profile page
         spHomeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(ServiceProviderHome.this, ServiceProviderProfile.class);
                 startActivity(intent);
                 LogData.saveLog("APP_CLICK","","","CLICK ON PROFILE PAGE", "SERVICE_PROVIDER_HOME");
-
             }
         });
-        // Changing winch availability
-        changeWinchAvailabilityBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(winchAvailability.equals("Available")){
-                    // Make it not available
-                    DatabaseReference winchTable = FirebaseDatabase.getInstance().getReference().child("Winches");
-                    winchTable.child(winchID).child("winchAvailability").setValue("Not Available");
-                    LogData.saveLog("APP_CLICK","","","CLICK ON MAKE WINCH NOT AVAILABLE", "SERVICE_PROVIDER_HOME");
-                }else{
-                    // Make it available
-                    DatabaseReference winchTable = FirebaseDatabase.getInstance().getReference().child("Winches");
-                    winchTable.child(winchID).child("winchAvailability").setValue("Available");
-                    LogData.saveLog("APP_CLICK","","","CLICK ON MAKE WINCH AVAILABLE", "SERVICE_PROVIDER_HOME");
-                }
-            }
-        });
-
-        cmcAddWinch.setOnClickListener(new View.OnClickListener() {
+        addWinchMCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toAddWinchintent = new Intent(context, AddWinchData.class);
@@ -512,26 +357,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
                 startActivity(toAddWinchintent);
             }
         });
-
-        // Changing cmc availability
-        changeCMCAvailability.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(cmcAvailability.equals("Available")){
-                    // Make it not available
-                    DatabaseReference cmcTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
-                    cmcTable.child(cmcID).child("cmcAvailability").setValue("Not Available");
-                    LogData.saveLog("APP_CLICK","","","CLICK ON MAKE CMC NOT AVAILABLE", "SERVICE_PROVIDER_HOME");
-                }else{
-                    // Make it available
-                    DatabaseReference cmcTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
-                    cmcTable.child(cmcID).child("cmcAvailability").setValue("Available");
-                    LogData.saveLog("APP_CLICK","","","CLICK ON MAKE CMC AVAILABLE", "SERVICE_PROVIDER_HOME");
-                }
-            }
-        });
-
-        addSparePartsSPHome.setOnClickListener(new View.OnClickListener() {
+        addSparePartsMCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toAddsparepartintent = new Intent(context, AddSpareParts.class);
@@ -541,36 +367,15 @@ public class ServiceProviderHome extends AppCompatActivity  {
                 startActivity(toAddsparepartintent);
             }
         });
-
-
     }
 
     private void initviews() {
-        cmc_HOME = findViewById(R.id.cmc_linear_layout);
-        sp_HOME = findViewById(R.id.spare_parts_linear_layout);
-        winch_HOME = findViewById(R.id.winch_linear_layout);
         spHomeImage = findViewById(R.id.service_provider_home_image);
-        //spHomeImage.setOnClickListener(this);
-        winchLicenceImageSPHome = findViewById(R.id.winch_licence_image_sp_home);
-        winchNameSPHome = findViewById(R.id.winch_name_item_sp_home);
-        winchCostPerKMSPHome = findViewById(R.id.winch_costperkm_sp_home);
-        winchStatusSPHome = findViewById(R.id.winch_status_sp_home);
-        winchAvailabilitySPHome = findViewById(R.id.winch_availability_sp_home);
-        changeWinchAvailabilityBTN = findViewById(R.id.change_winch_availability_sp_home_btn);
-
-        sparePartsSPHomeRV = findViewById(R.id.spare_parts_recycler_sp_home);
-        addSparePartsSPHome = findViewById(R.id.add_spare_parts_sp_home_btn);
-
-        cmcImageSPHome = findViewById(R.id.cmc_item_image_sp_hme);
-        cmcNameSPHome = findViewById(R.id.cmc_name_item_sp_home);
-        cmcLocationSPHome = findViewById(R.id.cmc_location_item_sp_home);
-        cmcStatusSPHome = findViewById(R.id.cmc_item_status_sp_home);
-        cmcAvailabilitySPHome = findViewById(R.id.cmc_item_availability_sp_home);
-        cmcBrandSPHome = findViewById(R.id.cmc_brand_item_sp_home);
-        changeCMCAvailability = findViewById(R.id.change_cmc_availability_btn_sp_home);
-        cmcAddWinch = findViewById(R.id.add_winch_cmc_case_only_BTN);
-        winchCV = findViewById(R.id.winch_sp_home_card_view);
-
-        goToSettingsBtnFromSPHome = findViewById(R.id.sp_home_settings_btn);
+        settingsMCV = findViewById(R.id.sp_home_settings_btn);
+        cmcMCV = findViewById(R.id.sp_home_cmc_btn);
+        sparepartsMCV = findViewById(R.id.sp_home_spare_parts_btn);
+        winchMCV = findViewById(R.id.sp_home_winch_btn);
+        addWinchMCV = findViewById(R.id.sp_home_add_winch_layout_btn);
+        addSparePartsMCV = findViewById(R.id.sp_home_add_spare_parts_layout_btn);
     }
 }

@@ -137,8 +137,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             progressDialog.setMessage("من فضلك انتظر قليلاً...");
-                            progressDialog.show();
                             progressDialog.setCancelable(false);
+                            progressDialog.show();
+
                             mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -183,8 +184,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             String c_email = userData.getString("C_EMAIL","C_DEFAULT");
             if(loginEmail.equals(c_email)){
                 String c_carid = userData.getString("C_CARID","C_DEFAULT");
-                Intent i = new Intent(Login.this, CustomerHome.class);
                 progressDialog.dismiss();
+                Intent i = new Intent(Login.this, CustomerHome.class);
                 startActivity(i);
                 finish();
             }else{
@@ -196,14 +197,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             String serviceType = userDataSP.getString("SP_ServiceType","SP_DEFAULT");
             if(loginEmail.equals(sp_email)){
                 if(serviceType.isEmpty()){
-                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                     progressDialog.dismiss();
+                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                     startActivity(i);
                     finish();
                 }
                 else{
-                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                     progressDialog.dismiss();
+                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                     startActivity(i);
                     finish();
                 }
@@ -288,8 +289,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent i = new Intent(Login.this, CustomerHome.class);
                                     progressDialog.dismiss();
+                                    Intent i = new Intent(Login.this, CustomerHome.class);
                                     startActivity(i);
                                     finish();
                                 }
@@ -353,11 +354,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 @Override
                                 public void run() {
                                     if(serviceType.isEmpty()){
+                                        progressDialog.dismiss();
                                         Intent i = new Intent(Login.this, ServiceProviderAddService.class);
                                         startActivity(i);
                                         finish();
                                     }
                                     else{
+                                        progressDialog.dismiss();
                                         Intent i = new Intent(Login.this, ServiceProviderHome.class);
                                         startActivity(i);
                                         finish();

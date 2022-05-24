@@ -27,6 +27,15 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:supportsRtl">
         <activity
+            android:name=".serviceProvider.ServiceProviderHome_Winch"
+            android:exported="false" />
+        <activity
+            android:name=".serviceProvider.ServiceProviderHome_SpareParts"
+            android:exported="false" />
+        <activity
+            android:name=".serviceProvider.ServiceProviderHome_CMC"
+            android:exported="false" />
+        <activity
             android:name=".customer.CarHistory"
             android:exported="false" />
         <activity
@@ -147,7 +156,8 @@
         <activity
             android:name=".serviceProvider.ServiceProviderHome"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ResQme.Customized" />
         <activity
             android:name=".customer.CustomerHome"
             android:exported="false"

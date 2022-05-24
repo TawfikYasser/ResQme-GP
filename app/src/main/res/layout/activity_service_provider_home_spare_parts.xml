@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".serviceProvider.ServiceProviderHome_SpareParts">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_SPHOMESPARE"
+                android:layout_width="match_parent"
+                android:tooltipText="رجوع"
+                android:layout_height="?attr/actionBarSize"
+                app:title="بيانات قطع الغيار"
+                app:titleTextAppearance="@font/fontlight"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+        </com.google.android.material.appbar.AppBarLayout>
+        <!-- Spare Layout -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/spare_parts_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/spare_parts_recycler_sp_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

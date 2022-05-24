@@ -507,6 +507,8 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 winchNameInBottomSheet.setText(bestWinch.getWinchName());
                 winchServiceCostInBottomSheet.setText("• تكلفة الخدمة " + serviceCost  + " جنيه.");
                 finalBestWinch = bestWinch;
+
+
                 winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
