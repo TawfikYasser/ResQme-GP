@@ -88,7 +88,6 @@ public class ServiceProviderSettings extends AppCompatActivity {
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 LogData.saveLog("APP_CLICK","","","CLICK ON LOGOUT BUTTON", "SERVICE_PROVIDER_SETTINGS");
-                                mAuth.signOut();
                                 sendToLogin();
                             }
                         })
@@ -185,7 +184,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void sendReport() {
-        Intent intent = new Intent(context, SendReport.class);
+        Intent intent = new Intent(ServiceProviderSettings.this, SendReport.class);
         startActivity(intent);
         LogData.saveLog("APP_CLICK","","","CLICK ON ADD REPORT BUTTON", "SERVICE_PROVIDER_SETTINGS");
     }
@@ -197,12 +196,13 @@ public class ServiceProviderSettings extends AppCompatActivity {
     }
 
     void sendToLogin() {
+        mAuth.signOut();
         SharedPreferences settings = context.getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         settings.edit().clear().commit();
         SharedPreferences sp = context.getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
         sp.edit().clear().commit();
         Intent intent = new Intent(ServiceProviderSettings.this, Login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

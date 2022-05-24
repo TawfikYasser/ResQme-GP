@@ -128,7 +128,6 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 LogData.saveLog("APP_CLICK","","","CLICK ON LOGOUT BUTTON", "SETTINGS");
-                                mAuth.signOut();
                                 sendToLogin();
                             }
                         })
@@ -220,11 +219,13 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
 
 
     void sendToLogin() {
+        mAuth.signOut();
         SharedPreferences settings = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         settings.edit().clear().commit();
         SharedPreferences sp = getActivity().getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
         sp.edit().clear().commit();
         Intent intent = new Intent(getActivity(), Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         getActivity().finish();
     }

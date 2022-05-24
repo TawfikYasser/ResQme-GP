@@ -218,7 +218,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
         settingsMCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToSettings = new Intent(context, ServiceProviderSettings.class);
+                Intent goToSettings = new Intent(ServiceProviderHome.this, ServiceProviderSettings.class);
                 startActivity(goToSettings);
                 LogData.saveLog("APP_CLICK","","","CLICK ON SETTINGS PAGE", "SERVICE_PROVIDER_HOME");
             }
