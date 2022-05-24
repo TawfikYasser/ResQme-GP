@@ -102,7 +102,7 @@ public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
     public class CMCViewHolder extends RecyclerView.ViewHolder{
         ImageView cmcImage;
         TextView cmcName, cmcLocation, cmcOwnerRate;
-        LinearLayout masked;
+        TextView masked;
         public CMCViewHolder(@NonNull View itemView) {
             super(itemView);
             cmcImage = itemView.findViewById(R.id.cmc_item_image);

@@ -16,27 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:id="@+id/most_asked_layout_spare_parts"
-            android:visibility="gone"
-            android:background="@color/orange_banner"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="right"
-                android:textAlignment="gravity"
-                android:text="الأكثر طلباً"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:orientation="vertical"
@@ -90,10 +69,41 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_item_to_cart_spare_parts_item_adapter"
                 android:layout_width="wrap_content"
+                app:icon="@drawable/ic_baseline_shopping_cart_24"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:text="أضف الى عربة التسوق"
                 android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_margin="12dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#299F0D"
+                    android:text="موثوق"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:drawableRight="@drawable/ic_baseline_verified_24"
+                    android:drawablePadding="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/most_asked_layout_spare_parts"
+                    android:textColor="#EC780B"
+                    android:text="الأكثر طلباً بناءً على نشاطك"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:drawableRight="@drawable/ic_baseline_whatshot_24"
+                    android:drawablePadding="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

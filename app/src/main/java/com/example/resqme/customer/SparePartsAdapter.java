@@ -180,7 +180,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
         ImageView itemImage;
         TextView itemName, itemPrice, itemOwnerRate;
         MaterialButton addToCart;
-        LinearLayout masked;
+        TextView masked;
         public SparePartsViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.spare_parts_item_image);
