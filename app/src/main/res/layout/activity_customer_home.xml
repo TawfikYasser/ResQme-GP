@@ -13,56 +13,87 @@
         app:cardElevation="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/customer_home_header"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/customer_home_resqme_txt"
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/customer_home_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/resqmefont"
-                android:text="ResQme"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/customer_home_header_text"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/customer_home_resqme_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="ResQme"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/customer_home_header_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/customer_home_header_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/resqmefont"
+                    android:text="ونش"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/customer_home_resqme_txt" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/customer_home_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="right"
+                    android:layout_margin="12dp"
+                    android:src="@drawable/chooseimage"
+                    app:civ_border_color="@color/purple_700"
+                    app:civ_border_width="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-            <TextView
-                android:id="@+id/customer_home_header_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/resqmefont"
-                android:text="ونش"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/customer_home_resqme_txt" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/customer_home_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_gravity="right"
-                android:layout_margin="12dp"
-                android:src="@drawable/chooseimage"
-                app:civ_border_color="@color/purple_700"
-                app:civ_border_width="2dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_orders_customer_home"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="الطلبات"
+                    android:layout_margin="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cart_customer_home"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:text="عربة التسوق"
+                    android:textStyle="bold"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout
@@ -71,19 +102,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_navigation"
         android:layout_below="@id/mcard"
-
-
         />
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/FilterButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_above="@id/bottom_navigation"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:src="@drawable/ic_baseline_filter_alt_24"-->
-<!--        android:visibility="gone"-->
-<!--        />-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

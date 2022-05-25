@@ -53,8 +53,11 @@ public class WinchRequests extends AppCompatActivity {
         view = this.getWindow().getDecorView().getRootView();
         winchRequestsDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
         serviceProvidersDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        winchRequestRV.setLayoutManager(linearLayoutManager);
         winchRequestRV.setHasFixedSize(true);
-        winchRequestRV.setLayoutManager(new LinearLayoutManager(this));
         winchRequests = new ArrayList<>();
         winchRequestsAdapter = new WinchRequestsAdapter(this, winchRequests, serviceProvidersDB, view, context_2);
         winchRequestRV.setAdapter(winchRequestsAdapter);

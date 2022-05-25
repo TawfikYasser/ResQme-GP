@@ -47,7 +47,10 @@ public class SparePartsRequests extends AppCompatActivity {
         serviceProvidersDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         sparePartsItemDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
         sparePartsRequestRV.setHasFixedSize(true);
-        sparePartsRequestRV.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        sparePartsRequestRV.setLayoutManager(linearLayoutManager);
         sparePartsRequests = new ArrayList<>();
         sparePartsRequestsAdapter = new SparePartsRequestAdapter(this, sparePartsRequests, serviceProvidersDB, sparePartsItemDB, context_2, view);
         sparePartsRequestRV.setAdapter(sparePartsRequestsAdapter);

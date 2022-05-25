@@ -1,7 +1,9 @@
 package com.example.resqme.customer;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -21,6 +23,7 @@ import com.example.resqme.R;
 import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,6 +36,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     CircleImageView customerProfile;
     TextView headerTV;
     InternetConnection ic;
+    MaterialButton orders, cart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,21 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
 
+        orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToOrders();
+            }
+        });
+
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentToCart = new Intent(CustomerHome.this, CartForCustomer.class);
+                startActivity(intentToCart);
+                LogData.saveLog("APP_CLICK","","","CLICK ON CART PAGE", "CUSTOMER_HOME");
+            }
+        });
 
     }
 
@@ -66,6 +85,40 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         customerProfile = findViewById(R.id.customer_home_image);
         customerProfile.setOnClickListener(this);
         headerTV = findViewById(R.id.customer_home_header_text);
+        orders = findViewById(R.id.btn_orders_customer_home);
+        cart = findViewById(R.id.btn_cart_customer_home);
+    }
+
+    private void goToOrders(){
+        String[] Requests = {"طلبات الونش", "طلبات مراكز الخدمة", "طلبات قطع الغيار"};
+        final String[] selectedRequestType = {"طلبات الونش"};
+        new AlertDialog.Builder(CustomerHome.this)
+                .setTitle("طلباتك")
+                .setSingleChoiceItems(Requests, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        selectedRequestType[0] = Requests[i];
+                    }
+                })
+                .setPositiveButton("عرض", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(selectedRequestType[0].equals("طلبات الونش")){
+                            Intent goToWinchRequests = new Intent(CustomerHome.this, WinchRequests.class);
+                            startActivity(goToWinchRequests);
+                            LogData.saveLog("APP_CLICK","","","CLICK ON SHOW WINCH REQUESTS PAGE", "CUSTOMER_HOME");
+                        }else if(selectedRequestType[0].equals("طلبات مراكز الخدمة")){
+                            Intent goToCMCRequests = new Intent(CustomerHome.this, CMCRequests.class);
+                            startActivity(goToCMCRequests);
+                            LogData.saveLog("APP_CLICK","","","CLICK ON SHOW CMC REQUESTS PAGE", "CUSTOMER_HOME");
+                        }else if(selectedRequestType[0].equals("طلبات قطع الغيار")){
+                            Intent goToSpareRequests = new Intent(CustomerHome.this, SparePartsRequests.class);
+                            startActivity(goToSpareRequests);
+                            LogData.saveLog("APP_CLICK","","","CLICK ON SHOW SPARE PARTS REQUESTS PAGE", "CUSTOMER_HOME");
+                        }
+                    }
+                })
+                .setNegativeButton("إلغاء", null)
+                .show();
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =

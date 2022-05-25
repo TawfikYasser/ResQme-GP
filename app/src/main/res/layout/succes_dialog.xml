@@ -7,13 +7,28 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true">
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/success_lottie"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="18dp"
+            android:text="تم إرسال الطلب بنجاح، يمكنك متابعة حالة الطلب في صفحة الطلبات."
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/success_lottie"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+    </LinearLayout>
+
 
 </com.google.android.material.card.MaterialCardView>

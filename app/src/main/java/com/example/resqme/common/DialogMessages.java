@@ -8,7 +8,7 @@ import android.view.Window;
 import com.example.resqme.R;
 
 public class DialogMessages {
-    public static void showSuccessDialog(Activity activity){
+    public static void showSuccessDialogWinchRequest(Activity activity){
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.succes_dialog);

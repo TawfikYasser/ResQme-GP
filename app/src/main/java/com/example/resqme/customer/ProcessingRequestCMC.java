@@ -171,7 +171,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
                                     .setTextColor(getResources().getColor(R.color.white))
                                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                             progressDialog.dismiss();
-                            DialogMessages.showSuccessDialog(ProcessingRequestCMC.this);
+                            DialogMessages.showSuccessDialogWinchRequest(ProcessingRequestCMC.this);
                         }else{
                             Toast.makeText(ProcessingRequestCMC.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();

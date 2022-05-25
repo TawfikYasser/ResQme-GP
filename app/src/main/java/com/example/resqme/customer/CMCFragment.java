@@ -98,16 +98,6 @@ public class CMCFragment extends Fragment {
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                shimmerFrameLayoutCMCCustomer.stopShimmer();
-                shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
-                cmcRV.setVisibility(View.VISIBLE);
-            }  //end of run
-        }, 2000);
-
-
         logDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -141,6 +131,11 @@ public class CMCFragment extends Fragment {
                 cmcDB.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!shimmerFrameLayoutCMCCustomer.isShimmerStarted()){
+                            shimmerFrameLayoutCMCCustomer.startShimmer();
+                            shimmerFrameLayoutCMCCustomer.setVisibility(View.VISIBLE);
+                            cmcRV.setVisibility(View.GONE);
+                        }
                         cmcs.clear();
                         for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                             CMC cmc = dataSnapshot.getValue(CMC.class);
@@ -155,6 +150,9 @@ public class CMCFragment extends Fragment {
                                 cmcAdapter.notifyDataSetChanged();
                             }
                         }
+                        shimmerFrameLayoutCMCCustomer.stopShimmer();
+                        shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
+                        cmcRV.setVisibility(View.VISIBLE);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {

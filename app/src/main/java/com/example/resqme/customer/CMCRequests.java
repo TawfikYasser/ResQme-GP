@@ -48,7 +48,10 @@ public class CMCRequests extends AppCompatActivity {
         cmcRequestsDB = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
         serviceProvidersDB = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
         cmcRequestRV.setHasFixedSize(true);
-        cmcRequestRV.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        cmcRequestRV.setLayoutManager(linearLayoutManager);
         cmcRequests = new ArrayList<>();
         cmcRequestsAdapter = new CMCRequestsAdapter(this, cmcRequests, serviceProvidersDB, context_2, view);
         cmcRequestRV.setAdapter(cmcRequestsAdapter);

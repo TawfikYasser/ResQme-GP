@@ -73,7 +73,10 @@ public class CartForCustomer extends AppCompatActivity {
         shoppingDB = FirebaseDatabase.getInstance().getReference().child("ShoppingCart");
         sparePartsRequestsDB = FirebaseDatabase.getInstance().getReference().child("SparePartsRequests");
         spareCartRV.setHasFixedSize(true);
-        spareCartRV.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartForCustomer.this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        spareCartRV.setLayoutManager(linearLayoutManager);
         sparePartInCarts = new ArrayList<>();
         spareCartAdapter = new SpareCartAdapter(this, sparePartInCarts, shoppingDB);
         spareCartRV.setAdapter(spareCartAdapter);
@@ -263,7 +266,7 @@ public class CartForCustomer extends AppCompatActivity {
                         .setTextColor(getResources().getColor(R.color.white))
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 progressDialog.dismiss();
-                DialogMessages.showSuccessDialog(CartForCustomer.this);
+                DialogMessages.showSuccessDialogWinchRequest(CartForCustomer.this);
             }else{
                 progressDialog.dismiss();
                 Snackbar.make(CartForCustomer.this.findViewById(android.R.id.content),"حدث مشكلة اثناء الحصول على عنوانك الحالي، برجاء المحاولة لاحقاً",Snackbar.LENGTH_LONG)

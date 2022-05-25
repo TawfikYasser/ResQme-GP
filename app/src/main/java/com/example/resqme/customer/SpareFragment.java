@@ -95,14 +95,6 @@ public class SpareFragment extends Fragment {
             }
 
         });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                shimmerFrameLayoutSpareCustomer.stopShimmer();
-                shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
-                sparepartsRV.setVisibility(View.VISIBLE);
-            }  //end of run
-        }, 2000);
 
         logDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -138,6 +130,11 @@ public class SpareFragment extends Fragment {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!shimmerFrameLayoutSpareCustomer.isShimmerStarted()){
+                            shimmerFrameLayoutSpareCustomer.startShimmer();
+                            shimmerFrameLayoutSpareCustomer.setVisibility(View.VISIBLE);
+                            sparepartsRV.setVisibility(View.GONE);
+                        }
                         spareParts.clear();
                         for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                             SparePart sparePart = dataSnapshot.getValue(SparePart.class);
@@ -148,10 +145,12 @@ public class SpareFragment extends Fragment {
                                 } else {
                                     spareParts.add(sparePart);
                                 }
-//                                sparepartsAdapter = new SparePartsAdapter(context, spareParts);
                                 sparepartsAdapter.notifyDataSetChanged();
                             }
                         }
+                        shimmerFrameLayoutSpareCustomer.stopShimmer();
+                        shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
+                        sparepartsRV.setVisibility(View.VISIBLE);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {

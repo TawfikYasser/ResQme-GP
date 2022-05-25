@@ -577,7 +577,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             progressDialog.dismiss();
             winchBottomDialog.cancel();
-            DialogMessages.showSuccessDialog(getActivity());
+            DialogMessages.showSuccessDialogWinchRequest(getActivity());
         }
     }
 }
