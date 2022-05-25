@@ -14,6 +14,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import com.example.resqme.R;
@@ -23,6 +25,9 @@ import com.example.resqme.model.LogDataModel;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.SparePart;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,11 +56,13 @@ public class CMCFragment extends Fragment {
 
     //InitViews
     RecyclerView cmcRV;
+    FloatingActionButton FilterBtn;
     DatabaseReference cmcDB;
     CMCAdapter cmcAdapter;
     ArrayList<CMC> cmcs;
-    Context context;
-
+    Context context,context_2;
+    Button Search;
+    ChipGroup FilterGp;
     ShimmerFrameLayout shimmerFrameLayoutCMCCustomer;
     ArrayList<String> cmcIDs;
     DatabaseReference logDB;
@@ -67,8 +74,12 @@ public class CMCFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_c_m_c, container, false);
         shimmerFrameLayoutCMCCustomer = view.findViewById(R.id.cmc_customer_shimmer);
         shimmerFrameLayoutCMCCustomer.startShimmer();
+        FilterBtn = view.findViewById(R.id.FilterButtonCMC);
+        FilterGp = view. findViewById(R.id.chipGroupcmc);
+        Search = view.findViewById(R.id.Get_Search_Result);
         cmcRV = view.findViewById(R.id.cmc_recycler);
         context = getActivity().getApplicationContext();
+        context_2 = CMCFragment.this.getContext();
         cmcDB = FirebaseDatabase.getInstance().getReference().child("CMCs");
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         cmcIDs = new ArrayList<>();
@@ -77,7 +88,15 @@ public class CMCFragment extends Fragment {
         cmcs = new ArrayList<>();
         cmcAdapter = new CMCAdapter(getActivity(), cmcs);
         cmcRV.setAdapter(cmcAdapter);
-
+        FilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog FilterSheet = new BottomSheetDialog(context_2);
+                FilterSheet.setContentView(R.layout.filter_cmc_layout);
+                FilterSheet.setCanceledOnTouchOutside(true);
+                FilterSheet.show();
+            }
+        });
 
         new Handler().postDelayed(new Runnable() {
             @Override
