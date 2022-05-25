@@ -45,6 +45,9 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_servic_provider_update_profile.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_add_service.xml" value="0.136" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home.xml" value="0.144" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home_cmc.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home_spare_parts.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_home_winch.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_profile.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_service_provider_settings.xml" value="0.14802631578947367" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/activity_show_questions_customer.xml" value="0.14802631578947367" />
@@ -62,6 +65,8 @@
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_item_customer_shimmer.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_requests_item.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/cmc_sp_requests_item.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/filter_cmc_layout.xml" value="0.15789473684210525" />
+        <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/filter_spareparts_layout.xml" value="0.15789473684210525" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_c_m_c.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_settings.xml" value="0.152" />
         <entry key="..\:/GP_ResQme_Android_App/app/src/main/res/layout/fragment_spare.xml" value="0.152" />
@@ -96,24 +101,17 @@
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_login.xml" value="0.18" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_questions.xml" value="0.18" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_send_report.xml" value="0.1" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_sp_cmc_requests.xml" value="0.1" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_sp_spare_parts_requests.xml" value="0.18" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_spare_parts_requests.xml" value="0.18" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_spareparts_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/activity_winch_details.xml" value="0.1" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/cmc_sp_requests_item.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/filter_SpareParts_layout.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/filter_cmc_layout.xml" value="0.25" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/filter_layout.xml" value="0.22" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/filter_spareparts_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/fragment_c_m_c.xml" value="0.18" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/fragment_spare.xml" value="0.18" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/fragment_winch.xml" value="0.22" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/rate_bottom_layout.xml" value="0.1" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/reply_bottom_layout.xml" value="0.25" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/spare_parts_requests_item.xml" value="0.25" />
-        <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/layout/succes_dialog.xml" value="0.67" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/menu/customer_home_menu.xml" value="0.20092592592592592" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/menu/spareparts_home_menu.xml" value="0.20092592592592592" />
         <entry key="..\:/Users/Ibrahim/AndroidStudioProjects/ResQme-GP/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1315" />

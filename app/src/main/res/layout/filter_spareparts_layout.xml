@@ -13,7 +13,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <TextView
             android:textColor="@color/black"
             android:drawablePadding="8dp"
@@ -24,10 +23,12 @@
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:padding="18dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupSP"
                 app:singleSelection="true"
@@ -158,8 +159,7 @@
                     android:text="Fiat"/>
 
             </com.google.android.material.chip.ChipGroup>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/Get_Search_Result"
             android:layout_width="match_parent"
