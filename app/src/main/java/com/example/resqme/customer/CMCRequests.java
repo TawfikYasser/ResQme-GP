@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,6 +70,18 @@ public class CMCRequests extends AppCompatActivity {
                         cmcRequests.add(cmcRequest);
                         cmcRequestsAdapter.notifyDataSetChanged();
                     }
+                }
+                if(cmcRequests.isEmpty()){
+                    AlertDialog alertDialog = new AlertDialog.Builder(CMCRequests.this).create();
+                    alertDialog.setTitle("عفوا!!");
+                    alertDialog.setMessage("لم تقم باي طلبات");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
                 }
             }
             @Override

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -74,6 +76,18 @@ public class WinchRequests extends AppCompatActivity {
                         winchRequests.add(winchRequest);
                         winchRequestsAdapter.notifyDataSetChanged();
                     }
+                }
+                if(winchRequests.isEmpty()){
+                    AlertDialog alertDialog = new AlertDialog.Builder(WinchRequests.this).create();
+                    alertDialog.setTitle("عفوا!!");
+                    alertDialog.setMessage("لم تقم باي طلبات");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
                 }
             }
             @Override
