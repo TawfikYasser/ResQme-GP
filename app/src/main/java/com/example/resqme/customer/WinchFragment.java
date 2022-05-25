@@ -227,49 +227,51 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 }
             }).addOnCompleteListener(location -> {
                 if (location.isSuccessful()) {
-                    myLat = String.valueOf(location.getResult().getLatitude());
-                    myLong = String.valueOf(location.getResult().getLongitude());
-                    // Getting winches, pinning current location of the customer.
-                    winches.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            winchesList.clear();
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                Winch winch = dataSnapshot.getValue(Winch.class);
-                                if (winch.getWinchStatus().equals("Approved") && winch.getWinchAvailability().equals("Available")) {
-                                    winchesList.add(winch);
+                    if(location != null){
+                        myLat = String.valueOf(location.getResult().getLatitude());
+                        myLong = String.valueOf(location.getResult().getLongitude());
+                        // Getting winches, pinning current location of the customer.
+                        winches.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                winchesList.clear();
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    Winch winch = dataSnapshot.getValue(Winch.class);
+                                    if (winch.getWinchStatus().equals("Approved") && winch.getWinchAvailability().equals("Available")) {
+                                        winchesList.add(winch);
+                                    }
+                                }
+                                if (winchesList.size() == 0) {
+                                    progressBar.setVisibility(View.GONE);
+
+                                } else {
+                                    showingDataOnTheMap(winchesList, myLat, myLong, 0);
+                                    requestWinchBtn.setEnabled(true);
+
+                                    mapFragment.getMapAsync(new OnMapReadyCallback() {
+                                        @Override
+                                        public void onMapReady(@NonNull GoogleMap googleMap) {
+                                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                            }
+                                            googleMap.setMyLocationEnabled(true);
+                                            googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                                                @Override
+                                                public void onMyLocationChange(@NonNull Location location) {
+                                                    myLat = String.valueOf(location.getLatitude());
+                                                    myLong = String.valueOf(location.getLongitude());
+                                                    showingDataOnTheMap(winchesList, String.valueOf(location.getLatitude()),
+                                                            String.valueOf(location.getLongitude()), 1);
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             }
-                            if (winchesList.size() == 0) {
-                                progressBar.setVisibility(View.GONE);
-
-                            } else {
-                                showingDataOnTheMap(winchesList, myLat, myLong, 0);
-                                requestWinchBtn.setEnabled(true);
-
-                                mapFragment.getMapAsync(new OnMapReadyCallback() {
-                                    @Override
-                                    public void onMapReady(@NonNull GoogleMap googleMap) {
-                                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                        }
-                                        googleMap.setMyLocationEnabled(true);
-                                        googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-                                            @Override
-                                            public void onMyLocationChange(@NonNull Location location) {
-                                                myLat = String.valueOf(location.getLatitude());
-                                                myLong = String.valueOf(location.getLongitude());
-                                                showingDataOnTheMap(winchesList, String.valueOf(location.getLatitude()),
-                                                        String.valueOf(location.getLongitude()), 1);
-                                            }
-                                        });
-                                    }
-                                });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
                             }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
+                        });
+                    }
                 }
             });
 
