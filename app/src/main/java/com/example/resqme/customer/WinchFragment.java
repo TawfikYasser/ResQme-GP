@@ -227,7 +227,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 }
             }).addOnCompleteListener(location -> {
                 if (location.isSuccessful()) {
-                    if(location != null){
+                    if(location.getResult() != null){
                         myLat = String.valueOf(location.getResult().getLatitude());
                         myLong = String.valueOf(location.getResult().getLongitude());
                         // Getting winches, pinning current location of the customer.
