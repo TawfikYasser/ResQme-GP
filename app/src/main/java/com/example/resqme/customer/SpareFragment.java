@@ -69,10 +69,7 @@ public class SpareFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_spare, container, false);
         shimmerFrameLayoutSpareCustomer = view.findViewById(R.id.spare_customer_shimmer);
         shimmerFrameLayoutSpareCustomer.startShimmer();
-
         FilterBtn = view.findViewById(R.id.FilterButtonSpareParts);
-        FilterGp = view.findViewById(R.id.chipGroupSP);
-        Search = view.findViewById(R.id.Get_Search_Result);
         sparePartsIDs = new ArrayList<>();
         sparepartsRV = view.findViewById(R.id.spare_parts_recycler);
         context = getActivity().getApplicationContext();
@@ -91,9 +88,52 @@ public class SpareFragment extends Fragment {
                 BottomSheetDialog FilterSheet = new BottomSheetDialog(context_2);
                 FilterSheet.setContentView(R.layout.filter_spareparts_layout);
                 FilterSheet.setCanceledOnTouchOutside(true);
-                FilterSheet.show();
-            }
+                FilterGp = FilterSheet.findViewById(R.id.chipGroupSP);
+                Search = FilterSheet.findViewById(R.id.Get_Search_SP_Result);
+                DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference("SpareParts");
+                Search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        for(int i=0;i< FilterGp.getChildCount() ;i++){
+                            Chip chip= (Chip) FilterGp.getChildAt(i);
+                            if(chip.isChecked()){
+                                Filter = (String) chip.getText();
+                                spareParts.clear();
+                                DBFilter.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(!shimmerFrameLayoutSpareCustomer.isShimmerStarted()){
+                                            shimmerFrameLayoutSpareCustomer.startShimmer();
+                                            shimmerFrameLayoutSpareCustomer.setVisibility(View.VISIBLE);
+                                            sparepartsRV.setVisibility(View.GONE);
+                                        }
+                                        spareParts.clear();
+                                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                            SparePart sparePart = dataSnapshot.getValue(SparePart.class);
+                                            if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available") && sparePart.getItemCarType().equals(Filter)){
+                                                // Put the spare part with the most frequent ID in the first position
+                                                spareParts.add(sparePart);
+                                                sparepartsAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        shimmerFrameLayoutSpareCustomer.stopShimmer();
+                                        shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
+                                        sparepartsRV.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+                FilterSheet.show();
+
+            }
         });
 
         logDB.addValueEventListener(new ValueEventListener() {

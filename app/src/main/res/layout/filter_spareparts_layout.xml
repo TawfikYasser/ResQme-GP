@@ -40,7 +40,6 @@
                     android:id="@+id/Toyota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     style="@style/CustomChipStyle"
                     android:text="Toyota"
                     />
@@ -161,7 +160,7 @@
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/Get_Search_Result"
+            android:id="@+id/Get_Search_SP_Result"
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_margin="24dp"

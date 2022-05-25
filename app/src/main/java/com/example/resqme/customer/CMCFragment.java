@@ -26,6 +26,7 @@ import com.example.resqme.model.Report;
 import com.example.resqme.model.SparePart;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,6 +56,7 @@ public class CMCFragment extends Fragment {
 
 
     //InitViews
+    String Filter;
     RecyclerView cmcRV;
     FloatingActionButton FilterBtn;
     DatabaseReference cmcDB;
@@ -75,8 +77,6 @@ public class CMCFragment extends Fragment {
         shimmerFrameLayoutCMCCustomer = view.findViewById(R.id.cmc_customer_shimmer);
         shimmerFrameLayoutCMCCustomer.startShimmer();
         FilterBtn = view.findViewById(R.id.FilterButtonCMC);
-        FilterGp = view. findViewById(R.id.chipGroupcmc);
-        Search = view.findViewById(R.id.Get_Search_Result);
         cmcRV = view.findViewById(R.id.cmc_recycler);
         context = getActivity().getApplicationContext();
         context_2 = CMCFragment.this.getContext();
@@ -94,6 +94,48 @@ public class CMCFragment extends Fragment {
                 BottomSheetDialog FilterSheet = new BottomSheetDialog(context_2);
                 FilterSheet.setContentView(R.layout.filter_cmc_layout);
                 FilterSheet.setCanceledOnTouchOutside(true);
+                FilterGp = FilterSheet.findViewById(R.id.chipGroupcmc);
+                Search = FilterSheet.findViewById(R.id.Get_Search_CMC_Result);
+                DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference("CMCs");
+                Search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for(int i=0;i<FilterGp.getChildCount() ;i++){
+                            Chip chip= (Chip) FilterGp.getChildAt(i);
+                            if(chip.isChecked()){
+                                Filter = (String) chip.getText();
+                                DBFilter.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(!shimmerFrameLayoutCMCCustomer.isShimmerStarted()){
+                                            shimmerFrameLayoutCMCCustomer.startShimmer();
+                                            shimmerFrameLayoutCMCCustomer.setVisibility(View.VISIBLE);
+                                            cmcRV.setVisibility(View.GONE);
+                                        }
+                                        cmcs.clear();
+                                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                            CMC cmc = dataSnapshot.getValue(CMC.class);
+                                            if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available") && cmc.getCmcBrand().equals(Filter)){
+                                                cmcs.add(cmc);
+                                                cmcAdapter = new CMCAdapter(context, cmcs);
+                                                cmcAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        shimmerFrameLayoutCMCCustomer.stopShimmer();
+                                        shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
+                                        cmcRV.setVisibility(View.VISIBLE);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
                 FilterSheet.show();
             }
         });

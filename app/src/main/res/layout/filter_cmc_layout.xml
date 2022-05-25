@@ -40,63 +40,63 @@
                 android:layout_height="wrap_content"
                 tools:ignore="MissingConstraints">
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/japanese"
+                    android:id="@+id/ياباني"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="ياباني"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/American"
+                    android:id="@+id/أمريكي"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="أمريكي"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/Chinese"
+                    android:id="@+id/صيني"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="صيني"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/Taiwan"
+                    android:id="@+id/تايواني"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="تايواني"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/German"
+                    android:id="@+id/ألماني"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="ألماني"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/French"
+                    android:id="@+id/فرنسي"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="فرنسي"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/Indian"
+                    android:id="@+id/هندي"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="هندي"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/Italian"
+                    android:id="@+id/إيطالي"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="إيطالي"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/Korea"
+                    android:id="@+id/كوري"
                     android:layout_width="wrap_content"
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
 
         </LinearLayout>
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/Get_Search_Result"
+            android:id="@+id/Get_Search_CMC_Result"
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_margin="24dp"
