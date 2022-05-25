@@ -25,6 +25,8 @@ import com.example.resqme.common.Questions;
 import com.example.resqme.customer.SendReport;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.File;
+
 public class ServiceProviderSettings extends AppCompatActivity {
     Button winchRequests, cmcRequests, sparePartsRequests, questions, sendReports, showReports, aboutUs, contactUs, logoutBtn;
     Context context;
@@ -197,10 +199,8 @@ public class ServiceProviderSettings extends AppCompatActivity {
 
     void sendToLogin() {
         mAuth.signOut();
-        SharedPreferences settings = context.getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        settings.edit().clear().commit();
-        SharedPreferences sp = context.getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-        sp.edit().clear().commit();
+        File deletePrefFile = new File("/data/data/com.example.resqme/shared_prefs/SP_LOCAL_DATA.xml");
+        deletePrefFile.delete();
         Intent intent = new Intent(ServiceProviderSettings.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

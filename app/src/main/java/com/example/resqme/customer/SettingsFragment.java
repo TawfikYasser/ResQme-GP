@@ -26,6 +26,8 @@ import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Questions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.File;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SettingsFragment#newInstance} factory method to
@@ -220,10 +222,11 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
 
     void sendToLogin() {
         mAuth.signOut();
-        SharedPreferences settings = getActivity().getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        settings.edit().clear().commit();
-        SharedPreferences sp = getActivity().getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-        sp.edit().clear().commit();
+        File deletePrefFile = new File("/data/data/com.example.resqme/shared_prefs/CUSTOMER_LOCAL_DATA.xml");
+        deletePrefFile.delete();
+        File deletePref2File = new File("/data/data/com.example.resqme/shared_prefs/CAR_LOCAL_DATA.xml");
+        deletePref2File.delete();
+
         Intent intent = new Intent(getActivity(), Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

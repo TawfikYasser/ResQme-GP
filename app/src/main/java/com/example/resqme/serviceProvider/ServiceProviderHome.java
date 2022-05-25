@@ -276,6 +276,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
             // Allow to add more spare parts
             // Allow to change each spare item availability
             sparepartsMCV.setVisibility(View.VISIBLE);
+            addSparePartsMCV.setVisibility(View.VISIBLE);
         }
         if(sp_serviceType.equals("CMC")){
             //Show the CMC
@@ -310,6 +311,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
                             if(serviceProvider.getServiceType().equals("CMC")
                                     && serviceProvider.getIsSpareParts().equals("True")){
                                 addSparePartsMCV.setVisibility(View.VISIBLE);
+                                sparepartsMCV.setVisibility(View.VISIBLE);
                                 SharedPreferences cld = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = cld.edit();
                                 editor.putString("SP_SPARE_PARTS", "True");
@@ -326,7 +328,6 @@ public class ServiceProviderHome extends AppCompatActivity  {
                             && !serviceProvider.getIsSpareParts().equals("True")){
                                 // Show spare parts and allow to add more items
                                 addSparePartsMCV.setVisibility(View.VISIBLE);
-                                sparepartsMCV.setVisibility(View.VISIBLE);
                             }
                         }
                     }
