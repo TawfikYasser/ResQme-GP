@@ -78,6 +78,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -433,7 +434,9 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
         String car_user_id = carLocalData.getString("CAR_USER_ID", "CAR_DEFAULT");
         String car_status = carLocalData.getString("CAR_STATUS", "CAR_DEFAULT");
-        if(!carLocalData.contains("CAR_ID")){
+
+        File carPrefFile = new File("/data/data/com.example.resqme/shared_prefs/CAR_LOCAL_DATA.xml");
+        if(!carPrefFile.exists()){
             // Car not added yet.
             Snackbar.make(getActivity().findViewById(android.R.id.content),"لم تقم بإضافة عربية حتى الآن.",Snackbar.LENGTH_LONG)
                     .setBackgroundTint(getResources().getColor(R.color.red_color))
