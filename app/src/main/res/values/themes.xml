@@ -18,6 +18,13 @@
 <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
 
     </style>
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor"> @color/chip_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIconTint">@color/white</item>
+
+
+    </style>
     <style name="Theme.ResQme.Customized" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>

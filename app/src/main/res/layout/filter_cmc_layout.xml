@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/Filter_Linear_Layout"
+    android:background="@drawable/winch_bottom_sheet_backgroun"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/black"
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:gravity="right"
+            android:layout_margin="8dp"
+            android:text="ابحث عن نوع سيارتك "
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupcmc"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/japanese"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="ياباني"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/American"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="أمريكي"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Chinese"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="صيني"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Taiwan"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="تايواني"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/German"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="ألماني"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/French"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="فرنسي"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Indian"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="هندي"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Italian"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="إيطالي"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Korea"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="كوري"/>
+
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Get_Search_Result"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="24dp"
+            android:text="بحث"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

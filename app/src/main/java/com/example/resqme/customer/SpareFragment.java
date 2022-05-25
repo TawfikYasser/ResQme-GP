@@ -10,36 +10,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.resqme.R;
-import com.example.resqme.common.MyReportAdapter;
-import com.example.resqme.model.CMC;
 import com.example.resqme.model.LogDataModel;
-import com.example.resqme.model.Report;
 import com.example.resqme.model.SparePart;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class SpareFragment extends Fragment {
+
+
 
     public SpareFragment() {
         // Required empty public constructor
@@ -53,6 +51,9 @@ public class SpareFragment extends Fragment {
 
     //InitViews
     RecyclerView sparepartsRV;
+    String Filter;
+    Button Search;
+    ChipGroup FilterGp;
     DatabaseReference sparepartsDB;
     SparePartsAdapter sparepartsAdapter;
     ArrayList<SparePart> spareParts;
@@ -60,7 +61,7 @@ public class SpareFragment extends Fragment {
     ShimmerFrameLayout shimmerFrameLayoutSpareCustomer;
     ArrayList<String> sparePartsIDs;
     DatabaseReference logDB;
-
+    FloatingActionButton FilterBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,10 +69,14 @@ public class SpareFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_spare, container, false);
         shimmerFrameLayoutSpareCustomer = view.findViewById(R.id.spare_customer_shimmer);
         shimmerFrameLayoutSpareCustomer.startShimmer();
+
+        FilterBtn = view.findViewById(R.id.FilterButtonSpareParts);
+        FilterGp = view.findViewById(R.id.chipGroupSP);
+        Search = view.findViewById(R.id.Get_Search_Result);
         sparePartsIDs = new ArrayList<>();
         sparepartsRV = view.findViewById(R.id.spare_parts_recycler);
         context = getActivity().getApplicationContext();
-        context_2 = getContext();
+        context_2 = SpareFragment.this.getContext();
         sparepartsDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         sparepartsRV.setHasFixedSize(true);
@@ -80,8 +85,16 @@ public class SpareFragment extends Fragment {
         sparepartsAdapter = new SparePartsAdapter(getActivity(), spareParts, context_2, view);
         sparepartsRV.setAdapter(sparepartsAdapter);
 
+        FilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog FilterSheet = new BottomSheetDialog(context_2);
+                FilterSheet.setContentView(R.layout.filter_spareparts_layout);
+                FilterSheet.setCanceledOnTouchOutside(true);
+                FilterSheet.show();
+            }
 
-
+        });
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
