@@ -172,6 +172,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
                                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                             progressDialog.dismiss();
                             DialogMessages.showSuccessDialogWinchRequest(ProcessingRequestCMC.this);
+                            etCMCRequestDescription.setText("");
                         }else{
                             Toast.makeText(ProcessingRequestCMC.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();

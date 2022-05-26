@@ -111,7 +111,8 @@
                     android:layout_marginRight="24dp"
                     android:fontFamily="@font/resqmefont"
                     android:text="عنوان مركز الخدمة"
-
+                    android:gravity="right"
+                    android:textAlignment="gravity"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 

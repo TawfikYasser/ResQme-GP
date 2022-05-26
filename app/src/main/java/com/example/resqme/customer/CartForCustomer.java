@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
@@ -61,13 +62,14 @@ public class CartForCustomer extends AppCompatActivity {
     Context context;
     ProgressDialog progressDialog;
     FloatingActionButton sendSparePartsRequestFromCart;
+    LinearLayout noItemsInCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_for_customer);
         initToolbar();
         forceRTLIfSupported();
-
+        noItemsInCart = findViewById(R.id.no_request_layout_cart);
         spareCartRV = findViewById(R.id.spareparts_cart_recycler);
         context = this.getApplicationContext();
         shoppingDB = FirebaseDatabase.getInstance().getReference().child("ShoppingCart");
@@ -93,6 +95,11 @@ public class CartForCustomer extends AppCompatActivity {
                         sparePartInCarts.add(sparePartInCart);
                         spareCartAdapter.notifyDataSetChanged();
                     }
+                }
+                if(sparePartInCarts.size() == 0){
+                    noItemsInCart.setVisibility(View.VISIBLE);
+                }else{
+                    noItemsInCart.setVisibility(View.GONE);
                 }
             }
 
@@ -129,6 +136,11 @@ public class CartForCustomer extends AppCompatActivity {
                 if(sparePartInCarts.size() == 0){
                     sparePartInCarts.clear();
                     spareCartAdapter.notifyDataSetChanged();
+                }
+                if(sparePartInCarts.size() == 0){
+                    noItemsInCart.setVisibility(View.VISIBLE);
+                }else{
+                    noItemsInCart.setVisibility(View.GONE);
                 }
             }
 

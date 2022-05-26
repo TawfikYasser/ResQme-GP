@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
@@ -34,13 +35,14 @@ public class SparePartsRequests extends AppCompatActivity {
     ArrayList<SparePartsRequest> sparePartsRequests;
     Context context, context_2;
     View view;
+    LinearLayout noRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spare_parts_requests);
         initToolbar();
         forceRTLIfSupported();
-
+        noRequest = findViewById(R.id.no_request_layout_spare_parts);
         sparePartsRequestRV = findViewById(R.id.spareparts_requests_recycler);
         context = this.getApplicationContext();
         context_2 = SparePartsRequests.this;
@@ -71,17 +73,10 @@ public class SparePartsRequests extends AppCompatActivity {
                         sparePartsRequestsAdapter.notifyDataSetChanged();
                     }
                 }
-                if(sparePartsRequests.isEmpty()){
-                    AlertDialog alertDialog = new AlertDialog.Builder(SparePartsRequests.this).create();
-                    alertDialog.setTitle("عفوا!!");
-                    alertDialog.setMessage("لم تقم باي طلبات");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                if(sparePartsRequests.size() == 0){
+                    noRequest.setVisibility(View.VISIBLE);
+                }else{
+                    noRequest.setVisibility(View.GONE);
                 }
             }
             @Override

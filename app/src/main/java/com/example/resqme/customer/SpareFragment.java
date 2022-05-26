@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
@@ -62,6 +63,7 @@ public class SpareFragment extends Fragment {
     ArrayList<String> sparePartsIDs;
     DatabaseReference logDB;
     FloatingActionButton FilterBtn;
+    LinearLayout noFilterResult;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class SpareFragment extends Fragment {
         shimmerFrameLayoutSpareCustomer = view.findViewById(R.id.spare_customer_shimmer);
         shimmerFrameLayoutSpareCustomer.startShimmer();
         FilterBtn = view.findViewById(R.id.FilterButtonSpareParts);
+        noFilterResult = view.findViewById(R.id.no_request_layout_spare_fragment);
         sparePartsIDs = new ArrayList<>();
         sparepartsRV = view.findViewById(R.id.spare_parts_recycler);
         context = getActivity().getApplicationContext();
@@ -94,7 +97,7 @@ public class SpareFragment extends Fragment {
                 Search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        FilterSheet.cancel();
                         for(int i=0;i< FilterGp.getChildCount() ;i++){
                             Chip chip= (Chip) FilterGp.getChildAt(i);
                             if(chip.isChecked()){
@@ -116,6 +119,11 @@ public class SpareFragment extends Fragment {
                                                 spareParts.add(sparePart);
                                                 sparepartsAdapter.notifyDataSetChanged();
                                             }
+                                        }
+                                        if(spareParts.size() == 0){
+                                            noFilterResult.setVisibility(View.VISIBLE);
+                                        }else{
+                                            noFilterResult.setVisibility(View.GONE);
                                         }
                                         shimmerFrameLayoutSpareCustomer.stopShimmer();
                                         shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
@@ -68,7 +69,7 @@ public class CMCFragment extends Fragment {
     ShimmerFrameLayout shimmerFrameLayoutCMCCustomer;
     ArrayList<String> cmcIDs;
     DatabaseReference logDB;
-
+    LinearLayout noFilterResult;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class CMCFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_c_m_c, container, false);
         shimmerFrameLayoutCMCCustomer = view.findViewById(R.id.cmc_customer_shimmer);
         shimmerFrameLayoutCMCCustomer.startShimmer();
+        noFilterResult = view.findViewById(R.id.no_request_layout_cmc_fragment);
         FilterBtn = view.findViewById(R.id.FilterButtonCMC);
         cmcRV = view.findViewById(R.id.cmc_recycler);
         context = getActivity().getApplicationContext();
@@ -100,6 +102,7 @@ public class CMCFragment extends Fragment {
                 Search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        FilterSheet.cancel();
                         for(int i=0;i<FilterGp.getChildCount() ;i++){
                             Chip chip= (Chip) FilterGp.getChildAt(i);
                             if(chip.isChecked()){
@@ -120,6 +123,11 @@ public class CMCFragment extends Fragment {
                                                 cmcAdapter = new CMCAdapter(context, cmcs);
                                                 cmcAdapter.notifyDataSetChanged();
                                             }
+                                        }
+                                        if(cmcs.size() == 0){
+                                            noFilterResult.setVisibility(View.VISIBLE);
+                                        }else{
+                                            noFilterResult.setVisibility(View.GONE);
                                         }
                                         shimmerFrameLayoutCMCCustomer.stopShimmer();
                                         shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);

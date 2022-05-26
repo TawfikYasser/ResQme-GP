@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.common.MyReportAdapter;
@@ -42,6 +43,7 @@ public class WinchRequests extends AppCompatActivity {
     ArrayList<WinchRequest> winchRequests;
     Context context, context_2;
     View view;
+    LinearLayout noRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class WinchRequests extends AppCompatActivity {
         initToolbar();
         forceRTLIfSupported();
         winchRequestRV = findViewById(R.id.winch_requests_recycler);
+        noRequests = findViewById(R.id.no_request_layout);
         context = this.getApplicationContext();
         context_2 = WinchRequests.this;
         view = this.getWindow().getDecorView().getRootView();
@@ -77,17 +80,10 @@ public class WinchRequests extends AppCompatActivity {
                         winchRequestsAdapter.notifyDataSetChanged();
                     }
                 }
-                if(winchRequests.isEmpty()){
-                    AlertDialog alertDialog = new AlertDialog.Builder(WinchRequests.this).create();
-                    alertDialog.setTitle("عفوا!!");
-                    alertDialog.setMessage("لم تقم باي طلبات");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                if(winchRequests.size() == 0){
+                    noRequests.setVisibility(View.VISIBLE);
+                }else{
+                    noRequests.setVisibility(View.GONE);
                 }
             }
             @Override

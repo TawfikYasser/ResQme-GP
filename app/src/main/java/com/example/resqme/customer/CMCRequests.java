@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
@@ -35,14 +36,14 @@ public class CMCRequests extends AppCompatActivity {
     ArrayList<CMCRequest> cmcRequests;
     Context context, context_2;
     View view;
-
+    LinearLayout noRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cmcrequests);
         initToolbar();
         forceRTLIfSupported();
-
+        noRequests = findViewById(R.id.no_request_layout_cmc);
         cmcRequestRV = findViewById(R.id.cmc_requests_recycler);
         context = this.getApplicationContext();
         context_2 = CMCRequests.this;
@@ -71,17 +72,10 @@ public class CMCRequests extends AppCompatActivity {
                         cmcRequestsAdapter.notifyDataSetChanged();
                     }
                 }
-                if(cmcRequests.isEmpty()){
-                    AlertDialog alertDialog = new AlertDialog.Builder(CMCRequests.this).create();
-                    alertDialog.setTitle("عفوا!!");
-                    alertDialog.setMessage("لم تقم باي طلبات");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                if(cmcRequests.size() == 0){
+                    noRequests.setVisibility(View.VISIBLE);
+                }else{
+                    noRequests.setVisibility(View.GONE);
                 }
             }
             @Override
