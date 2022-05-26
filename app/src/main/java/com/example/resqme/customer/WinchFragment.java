@@ -517,7 +517,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 winchSheetView.findViewById(R.id.btnSheet).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        LogData.saveLog("APP_CLICK","","","CLICK ON ORDER WINCH NOW BUTTON", "WINCH");
+                        LogData.saveLog("SERVICE_CLICK",finalBestWinch.getWinchID(),"WINCH","", "WINCH");
                         // Going to processing winch request page to get the description
                         Intent wpr = new Intent(getActivity(), ProcessingRequestWinch.class);
                         wpr.putExtra("PAYMENT_COST",serviceCost);
