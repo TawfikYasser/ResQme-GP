@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.model.Question;
@@ -35,7 +36,7 @@ public class Questions extends AppCompatActivity {
     QuestionsAdapter questionsAdapter;
     ArrayList<Question> questions;
     Context context;
-
+    LinearLayout noQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class Questions extends AppCompatActivity {
         setContentView(R.layout.activity_questions);
         forceRTLIfSupported();
         initToolbar();
+        noQuestions = findViewById(R.id.no_questions_layout);
         questionRV = findViewById(R.id.questions_recycler);
         context = this.getApplicationContext();
         questionDB = FirebaseDatabase.getInstance().getReference().child("Questions");
@@ -68,6 +70,11 @@ public class Questions extends AppCompatActivity {
                             }
                         }
                     }
+                }
+                if(questions.size() == 0){
+                    noQuestions.setVisibility(View.VISIBLE);
+                }else{
+                    noQuestions.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -107,6 +114,11 @@ public class Questions extends AppCompatActivity {
                 if(questions.size() == 0){
                     questions.clear();
                     questionsAdapter.notifyDataSetChanged();
+                }
+                if(questions.size() == 0){
+                    noQuestions.setVisibility(View.VISIBLE);
+                }else{
+                    noQuestions.setVisibility(View.GONE);
                 }
             }
 

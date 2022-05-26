@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.model.Report;
@@ -34,7 +35,7 @@ public class MyReports extends AppCompatActivity {
     MyReportAdapter myReportAdapter;
     ArrayList<Report> reports;
     Context context;
-
+    LinearLayout noReports;
     private FirebaseAuth mAuth;
 
     @Override
@@ -44,6 +45,7 @@ public class MyReports extends AppCompatActivity {
         initToolbar();
         forceRTLIfSupported();
         mAuth = FirebaseAuth.getInstance();
+        noReports = findViewById(R.id.no_reports_layout);
         myReportsRV = findViewById(R.id.myreports_recycler);
         context = this.getApplicationContext();
         myReportsDB = FirebaseDatabase.getInstance().getReference().child("Reports");
@@ -68,6 +70,11 @@ public class MyReports extends AppCompatActivity {
                         }
 
                     }
+                }
+                if(reports.size() == 0){
+                    noReports.setVisibility(View.VISIBLE);
+                }else{
+                    noReports.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -106,6 +113,11 @@ public class MyReports extends AppCompatActivity {
                 if(reports.size() == 0){
                     reports.clear();
                     myReportAdapter.notifyDataSetChanged();
+                }
+                if(reports.size() == 0){
+                    noReports.setVisibility(View.VISIBLE);
+                }else{
+                    noReports.setVisibility(View.GONE);
                 }
             }
 
