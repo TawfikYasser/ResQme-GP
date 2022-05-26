@@ -20,6 +20,7 @@ import com.example.resqme.R;
 import com.example.resqme.common.LogData;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.model.Winch;
+import com.example.resqme.model.WinchRequest;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -122,7 +123,28 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
 
             }
         });
+        // Check if the winch already have an approved request
+        DatabaseReference winchRequests = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+        winchRequests.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    WinchRequest winchReq = dataSnapshot.getValue(WinchRequest.class);
+                    if(winchReq.getWinchOwnerID().equals(sp_userid)
+                            && winchReq.getWinchRequestStatus().equalsIgnoreCase("Pending")
+                            || winchReq.getWinchRequestStatus().equalsIgnoreCase("Approved")){
+                        changeWinchAvailabilityBTN.setEnabled(false);
+                    }else{
+                        changeWinchAvailabilityBTN.setEnabled(true);
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         //Will be moved to the activity
         // Changing winch availability
         changeWinchAvailabilityBTN.setOnClickListener(new View.OnClickListener() {
