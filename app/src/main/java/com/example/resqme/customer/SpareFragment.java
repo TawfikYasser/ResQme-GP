@@ -85,7 +85,7 @@ public class SpareFragment extends Fragment {
         FilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog FilterSheet = new BottomSheetDialog(context_2);
+                BottomSheetDialog FilterSheet = new BottomSheetDialog(context_2, R.style.BottomSheetDialogTheme);
                 FilterSheet.setContentView(R.layout.filter_spareparts_layout);
                 FilterSheet.setCanceledOnTouchOutside(true);
                 FilterGp = FilterSheet.findViewById(R.id.chipGroupSP);
