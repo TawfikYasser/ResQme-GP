@@ -44,16 +44,19 @@ public class ServiceProviderAddService extends AppCompatActivity implements View
                 Intent toAddsparepartintent = new Intent(this,AddSpareParts.class);
                 startActivity(toAddsparepartintent);
                 LogData.saveLog("APP_CLICK","","","CLICK ON ADD SPARE PARTS BUTTON", "ADD_SERVICE");
+                finish();
                 break;
             case R.id.CMC_btn:
                 Intent toAddcmcintent = new Intent(this,AddCmc.class);
                 startActivity(toAddcmcintent);
                 LogData.saveLog("APP_CLICK","","","CLICK ON ADD CMC BUTTON", "ADD_SERVICE");
+                finish();
                 break;
             case R.id.Towing_Car_btn:
                 Intent toAddWinchintent = new Intent(this,AddWinchData.class);
                 startActivity(toAddWinchintent);
                 LogData.saveLog("APP_CLICK","","","CLICK ON ADD WINCH BUTTON", "ADD_SERVICE");
+                finish();
                 break;
         }
     }
