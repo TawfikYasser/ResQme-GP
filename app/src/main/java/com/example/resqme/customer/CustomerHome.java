@@ -26,7 +26,9 @@ import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
+import com.example.resqme.model.CMC;
 import com.example.resqme.model.LogDataModel;
+import com.example.resqme.model.SparePart;
 import com.example.resqme.model.WinchRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -56,7 +58,11 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     DatabaseReference logDB;
     ArrayList<LogDataModel> logs;
     ArrayList<String> times;
-    int avgTime;
+    ArrayList<String> spareList;
+    ArrayList<String> cmcList;
+    int avgTime = 0;
+    String mostFrequentCarType = "", mostSupportedCarType ="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,8 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         logs = new ArrayList<>();
         times = new ArrayList<>();
+        spareList = new ArrayList<>();
+        cmcList = new ArrayList<>();
         infoImage = findViewById(R.id.info_customer_home);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -103,7 +111,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
+        // Winch Request AVG Time
         logDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -170,29 +178,165 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        // Most car type from spare parts
+        logDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
+                    if(logData.getServiceName().equals("SPARE_PARTS")){
+                        DatabaseReference sparePartsDB = FirebaseDatabase.getInstance().getReference("SpareParts");
+                        sparePartsDB.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    SparePart spareParts = dataSnapshot.getValue(SparePart.class);
+                                    if(spareParts.getItemID().equals(logData.getServiceID())){
+                                        spareList.add(spareParts.getItemCarType());
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+                // Most frequent item in spareList
+                if(spareList.size() > 0){
+                    int max = 0;
+                    String mostFrequent = "";
+                    for (String item : spareList) {
+                        int count = Collections.frequency(spareList, item);
+                        if(count > max){
+                            max = count;
+                            mostFrequent = item;
+
+                        }
+
+                    }
+                    carMostType(mostFrequent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        // Most car supported type from cmc
+        logDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
+                    if(logData.getServiceName().equals("CMC")){
+                        DatabaseReference sparePartsDB = FirebaseDatabase.getInstance().getReference("CMCs");
+                        sparePartsDB.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    CMC cmc = dataSnapshot.getValue(CMC.class);
+                                    if(cmc.getCmcID().equals(logData.getServiceID())){
+                                        cmcList.add(cmc.getCmcBrand());
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+                // Most frequent item in cmcList
+                if(cmcList.size() > 0){
+                    int max = 0;
+                    String mostFrequent = "";
+                    for (String item : cmcList) {
+                        int count = Collections.frequency(cmcList, item);
+                        if(count > max){
+                            max = count;
+                            mostFrequent = item;
+
+                        }
+
+                    }
+                    carSupportedMostType(mostFrequent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
         infoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(headerTV.getText().equals("ونش")){
+                    if(avgTime != 0){
+                        final Dialog dialog = new Dialog(CustomerHome.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.info_dialog);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        dialog.setCancelable(true);
+                        dialog.findViewById(R.id.info_dialog_text);
+                        dialog.show();
+                        TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
 
-                final Dialog dialog = new Dialog(CustomerHome.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.info_dialog);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                dialog.setCancelable(true);
-                dialog.findViewById(R.id.info_dialog_text);
-                dialog.show();
-                TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
-
-                if(avgTime == 2){
-                    textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن دقيقتين؟ أطلب الآن في أسرع وقت");
-                }else if(avgTime == 3 || avgTime == 4|| avgTime == 5 || avgTime == 6 || avgTime == 7 || avgTime == 8 || avgTime == 9 || avgTime == 10){
-                    textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن "+avgTime+" دقائق؟ أطلب الآن في أسرع وقت");
-                }else{
-                    textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن "+avgTime+" دقيقة؟ أطلب الآن في أسرع وقت");
+                        if(avgTime == 2){
+                            textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن دقيقتين؟ أطلب الآن في أسرع وقت");
+                        }else if(avgTime == 3 || avgTime == 4|| avgTime == 5 || avgTime == 6 || avgTime == 7 || avgTime == 8 || avgTime == 9 || avgTime == 10){
+                            textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن "+avgTime+" دقائق؟ أطلب الآن في أسرع وقت");
+                        }else{
+                            textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن "+avgTime+" دقيقة؟ أطلب الآن في أسرع وقت");
+                        }
+                    }
+                }else if(headerTV.getText().equals("قطع غيار")){
+                    if(!mostFrequentCarType.equals("")){
+                        final Dialog dialog = new Dialog(CustomerHome.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.info_dialog);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        dialog.setCancelable(true);
+                        dialog.findViewById(R.id.info_dialog_text);
+                        dialog.show();
+                        TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
+                        textInDialog.setText("هل تعلم أن أكثر قطع الغيار طلباً هو لعربيات "+mostFrequentCarType);
+                    }
+                }else if(headerTV.getText().equals("مركز خدمة سيارات")){
+                    if(!mostSupportedCarType.equals("")){
+                        final Dialog dialog = new Dialog(CustomerHome.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.info_dialog);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        dialog.setCancelable(true);
+                        dialog.findViewById(R.id.info_dialog_text);
+                        dialog.show();
+                        TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
+                        textInDialog.setText("هل تعلم أن أكثر مراكز الخدمة طلباً هو لنوع العربيات الـ "+mostSupportedCarType);
+                    }
                 }
             }
         });
 
+    }
+
+    private void carSupportedMostType(String mostFrequent) {
+        mostSupportedCarType = mostFrequent;
+    }
+
+    private void carMostType(String mostFrequent) {
+        mostFrequentCarType = mostFrequent;
     }
 
     private void methodToProcess(int average) {

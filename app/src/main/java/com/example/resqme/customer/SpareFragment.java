@@ -212,6 +212,10 @@ public class SpareFragment extends Fragment {
             }
         });
 
+
+
+
+
         return view;
     }
 }

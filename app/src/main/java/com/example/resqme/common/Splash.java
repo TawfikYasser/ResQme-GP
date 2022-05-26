@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.serviceProvider.ServiceProviderAddService;
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Splash extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class Splash extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     }
-                }, 500);
+                }, 100);
             }
         }
         if(userDataSP.contains("SP_EMAIL")){
@@ -82,7 +82,7 @@ public class Splash extends AppCompatActivity {
                         }
 
                     }
-                }, 500);
+                }, 100);
             }
         }
     }

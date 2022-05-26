@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".common.Splash">
-
         <de.hdodenhof.circleimageview.CircleImageView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -15,21 +14,8 @@
             android:layout_width="300dp"
             android:layout_gravity="center"
             android:layout_marginTop="-24dp"
-
+            android:id="@+id/splash_icon"
             android:src="@drawable/resqme_logo_icon"
             android:layout_height="300dp">
         </de.hdodenhof.circleimageview.CircleImageView>
-<!--        <TextView-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            android:gravity="center"-->
-<!--            android:text="سلامتك تهمنا"-->
-<!--            android:textSize="18dp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textColor="@color/logo_color_3"-->
-<!--            android:fontFamily="@font/fontlight"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--        </TextView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
