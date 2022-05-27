@@ -259,6 +259,27 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                         TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
                         textInDialog.setText("هل تعلم أن أكثر مراكز الخدمة طلباً هو لنوع العربيات الـ "+mostSupportedCarType);
                     }
+                }else if(headerTV.getText().equals("الإعدادات")){
+                    final Dialog dialog = new Dialog(CustomerHome.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.info_dialog);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.setCancelable(true);
+                    dialog.findViewById(R.id.info_dialog_text);
+                    dialog.show();
+                    TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
+                    textInDialog.setText("هل تريد تجربة خدمة الأسئلة الجديدة؟ يمكنك الآن أن تسأل سؤالك وسيجيب عليك أحد مقدمي الخدمة المختصين لمساعدتك في اختيار أفضل خدمة.");
+                    MaterialButton questionBtn = (MaterialButton) dialog.findViewById(R.id.btn_info_dialog);
+                    questionBtn.setVisibility(View.VISIBLE);
+                    questionBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            Intent goToAskQuestionPage = new Intent(CustomerHome.this, AskQuestion.class);
+                            startActivity(goToAskQuestionPage);
+                            LogData.saveLog("APP_CLICK","","","CLICK ON ASK QUESTION PAGE", "CUSTOMER_HOME");
+                        }
+                    });
                 }
             }
         });
