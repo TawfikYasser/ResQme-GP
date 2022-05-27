@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.SparePartsRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,12 +37,16 @@ public class SparePartsRequests extends AppCompatActivity {
     Context context, context_2;
     View view;
     LinearLayout noRequest;
+    ShimmerFrameLayout shimmerCustomerSparePartsRequests;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spare_parts_requests);
         initToolbar();
         forceRTLIfSupported();
+        shimmerCustomerSparePartsRequests = findViewById(R.id.spareparts_requests_customer_shimmer);
+        shimmerCustomerSparePartsRequests.startShimmer();
         noRequest = findViewById(R.id.no_request_layout_spare_parts);
         sparePartsRequestRV = findViewById(R.id.spareparts_requests_recycler);
         context = this.getApplicationContext();
@@ -63,6 +68,11 @@ public class SparePartsRequests extends AppCompatActivity {
         sparePartsRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerCustomerSparePartsRequests.isShimmerStarted()){
+                    shimmerCustomerSparePartsRequests.startShimmer();
+                    shimmerCustomerSparePartsRequests.setVisibility(View.VISIBLE);
+                    sparePartsRequestRV.setVisibility(View.GONE);
+                }
                 sparePartsRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     SparePartsRequest sparePartsRequest = dataSnapshot.getValue(SparePartsRequest.class);
@@ -73,6 +83,9 @@ public class SparePartsRequests extends AppCompatActivity {
                         sparePartsRequestsAdapter.notifyDataSetChanged();
                     }
                 }
+                shimmerCustomerSparePartsRequests.stopShimmer();
+                shimmerCustomerSparePartsRequests.setVisibility(View.GONE);
+                sparePartsRequestRV.setVisibility(View.VISIBLE);
                 if(sparePartsRequests.size() == 0){
                     noRequest.setVisibility(View.VISIBLE);
                 }else{

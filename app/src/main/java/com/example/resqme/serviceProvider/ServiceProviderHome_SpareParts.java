@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.example.resqme.R;
 import com.example.resqme.model.SparePart;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,15 +32,17 @@ public class ServiceProviderHome_SpareParts extends AppCompatActivity {
     DatabaseReference sparePartsDB;
     SparePartsSPHomeAdapter SparePartsAdapter;
     ArrayList<SparePart> spareParts;
+    ShimmerFrameLayout shimmerFrameLayoutSpareSP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_home_spare_parts);
         initToolbar();
         forceRTLIfSupported();
-
+        shimmerFrameLayoutSpareSP = findViewById(R.id.spare_parts_item_sp_shimmer_layout);
+        shimmerFrameLayoutSpareSP.startShimmer();
         sparePartsSPHomeRV = findViewById(R.id.spare_parts_recycler_sp_home);
-
         SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
         String sp_email = userData.getString("SP_EMAIL","SP_DEFAULT");
         String sp_username = userData.getString("SP_USERNAME","SP_DEFAULT");
@@ -67,6 +70,11 @@ public class ServiceProviderHome_SpareParts extends AppCompatActivity {
         sparePartsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerFrameLayoutSpareSP.isShimmerStarted()){
+                    shimmerFrameLayoutSpareSP.startShimmer();
+                    shimmerFrameLayoutSpareSP.setVisibility(View.VISIBLE);
+                    sparePartsSPHomeRV.setVisibility(View.GONE);
+                }
                 spareParts.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     SparePart sparePart = dataSnapshot.getValue(SparePart.class);
@@ -75,6 +83,9 @@ public class ServiceProviderHome_SpareParts extends AppCompatActivity {
                         SparePartsAdapter.notifyDataSetChanged();
                     }
                 }
+                shimmerFrameLayoutSpareSP.stopShimmer();
+                shimmerFrameLayoutSpareSP.setVisibility(View.GONE);
+                sparePartsSPHomeRV.setVisibility(View.VISIBLE);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

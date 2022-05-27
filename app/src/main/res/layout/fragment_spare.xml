@@ -7,7 +7,6 @@
     android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     tools:context=".customer.SpareFragment">
-
        <com.facebook.shimmer.ShimmerFrameLayout
            android:id="@+id/spare_customer_shimmer"
            android:layout_width="match_parent"
@@ -19,7 +18,6 @@
                        <include layout="@layout/spare_parts_item_customer_shimmer" />
                        <include layout="@layout/spare_parts_item_customer_shimmer" />
                        <include layout="@layout/spare_parts_item_customer_shimmer" />
-
                </LinearLayout>
        </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.LogData;
 import com.example.resqme.model.CMC;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.DataSnapshot;
@@ -34,14 +35,15 @@ public class ServiceProviderHome_CMC extends AppCompatActivity {
     MaterialButton changeCMCAvailability, cmcAddWinch;
     String cmcAvailability = "", cmcID = "";
     MaterialCardView winchCV;
-
+    ShimmerFrameLayout shimmerFrameLayoutCMCSP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_home_cmc);
         initToolbar();
         forceRTLIfSupported();
-
+        shimmerFrameLayoutCMCSP = findViewById(R.id.cmc_item_sp_shimmer_layout);
+        shimmerFrameLayoutCMCSP.startShimmer();
         cmcImageSPHome = findViewById(R.id.cmc_item_image_sp_hme);
         cmcNameSPHome = findViewById(R.id.cmc_name_item_sp_home);
         cmcLocationSPHome = findViewById(R.id.cmc_location_item_sp_home);
@@ -74,6 +76,10 @@ public class ServiceProviderHome_CMC extends AppCompatActivity {
         cmcTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerFrameLayoutCMCSP.isShimmerStarted()){
+                    shimmerFrameLayoutCMCSP.startShimmer();
+                    shimmerFrameLayoutCMCSP.setVisibility(View.VISIBLE);
+                }
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     CMC cmc = dataSnapshot.getValue(CMC.class);
                     if(cmc.getCmcServiceProviderId().equals(sp_userid)){
@@ -115,6 +121,8 @@ public class ServiceProviderHome_CMC extends AppCompatActivity {
                         }
                     }
                 }
+                shimmerFrameLayoutCMCSP.stopShimmer();
+                shimmerFrameLayoutCMCSP.setVisibility(View.GONE);
             }
 
             @Override

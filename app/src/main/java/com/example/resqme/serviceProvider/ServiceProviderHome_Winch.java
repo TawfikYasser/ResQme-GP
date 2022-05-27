@@ -21,6 +21,7 @@ import com.example.resqme.common.LogData;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.model.Winch;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +36,7 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
     TextView winchNameSPHome, winchStatusSPHome, winchAvailabilitySPHome, winchCostPerKMSPHome;
     MaterialButton changeWinchAvailabilityBTN;
     String winchAvailability = "", winchID = "";
+    ShimmerFrameLayout shimmerFrameLayoutWinchSP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,8 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
         setContentView(R.layout.activity_service_provider_home_winch);
         initToolbar();
         forceRTLIfSupported();
-
-
+        shimmerFrameLayoutWinchSP = findViewById(R.id.winch_item_sp_shimmer_layout);
+        shimmerFrameLayoutWinchSP.startShimmer();
         winchLicenceImageSPHome = findViewById(R.id.winch_licence_image_sp_home);
         winchNameSPHome = findViewById(R.id.winch_name_item_sp_home);
         winchCostPerKMSPHome = findViewById(R.id.winch_costperkm_sp_home);
@@ -75,6 +77,10 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
         winchesTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerFrameLayoutWinchSP.isShimmerStarted()){
+                    shimmerFrameLayoutWinchSP.startShimmer();
+                    shimmerFrameLayoutWinchSP.setVisibility(View.VISIBLE);
+                }
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Winch winch = dataSnapshot.getValue(Winch.class);
                     if(winch.getWinchOwnerID().equals(sp_userid)){
@@ -116,6 +122,8 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
                         }
                     }
                 }
+                shimmerFrameLayoutWinchSP.stopShimmer();
+                shimmerFrameLayoutWinchSP.setVisibility(View.GONE);
             }
 
             @Override

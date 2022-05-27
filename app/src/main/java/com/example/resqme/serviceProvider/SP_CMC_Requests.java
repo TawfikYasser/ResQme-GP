@@ -13,11 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.SparePartsRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,12 +35,17 @@ public class SP_CMC_Requests extends AppCompatActivity {
     ArrayList<CMCRequest> cmcRequests;
     Context context, context_2;
     View view;
+    LinearLayout noRequests;
+    ShimmerFrameLayout shimmerSPCMCRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_cmc_requests);
         initToolbar();
         forceRTLIfSupported();
+        shimmerSPCMCRequests = findViewById(R.id.cmc_requests_sp_shimmer);
+        shimmerSPCMCRequests.startShimmer();
+        noRequests = findViewById(R.id.no_request_layout_sp_cmc);
         cmcRequestRV = findViewById(R.id.sp_cmc_requests_recycler);
         context = this.getApplicationContext();
         context_2 = SP_CMC_Requests.this;
@@ -53,6 +60,11 @@ public class SP_CMC_Requests extends AppCompatActivity {
         cmcRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerSPCMCRequests.isShimmerStarted()){
+                    shimmerSPCMCRequests.startShimmer();
+                    shimmerSPCMCRequests.setVisibility(View.VISIBLE);
+                    cmcRequestRV.setVisibility(View.GONE);
+                }
                 cmcRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     CMCRequest cmcRequest = dataSnapshot.getValue(CMCRequest.class);
@@ -62,6 +74,14 @@ public class SP_CMC_Requests extends AppCompatActivity {
                         cmcRequests.add(cmcRequest);
                         cmcRequestsAdapter.notifyDataSetChanged();
                     }
+                }
+                shimmerSPCMCRequests.stopShimmer();
+                shimmerSPCMCRequests.setVisibility(View.GONE);
+                cmcRequestRV.setVisibility(View.VISIBLE);
+                if(cmcRequests.size() == 0){
+                    noRequests.setVisibility(View.VISIBLE);
+                }else{
+                    noRequests.setVisibility(View.GONE);
                 }
             }
             @Override

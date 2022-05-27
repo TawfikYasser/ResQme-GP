@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import com.example.resqme.R;
 import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,12 +38,15 @@ public class CMCRequests extends AppCompatActivity {
     Context context, context_2;
     View view;
     LinearLayout noRequests;
+    ShimmerFrameLayout shimmerCustomerCMCRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cmcrequests);
         initToolbar();
         forceRTLIfSupported();
+        shimmerCustomerCMCRequests = findViewById(R.id.cmc_requests_customer_shimmer);
+        shimmerCustomerCMCRequests.startShimmer();
         noRequests = findViewById(R.id.no_request_layout_cmc);
         cmcRequestRV = findViewById(R.id.cmc_requests_recycler);
         context = this.getApplicationContext();
@@ -62,6 +66,11 @@ public class CMCRequests extends AppCompatActivity {
         cmcRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerCustomerCMCRequests.isShimmerStarted()){
+                    shimmerCustomerCMCRequests.startShimmer();
+                    shimmerCustomerCMCRequests.setVisibility(View.VISIBLE);
+                    cmcRequestRV.setVisibility(View.GONE);
+                }
                 cmcRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     CMCRequest cmcRequest = dataSnapshot.getValue(CMCRequest.class);
@@ -72,6 +81,9 @@ public class CMCRequests extends AppCompatActivity {
                         cmcRequestsAdapter.notifyDataSetChanged();
                     }
                 }
+                shimmerCustomerCMCRequests.stopShimmer();
+                shimmerCustomerCMCRequests.setVisibility(View.GONE);
+                cmcRequestRV.setVisibility(View.VISIBLE);
                 if(cmcRequests.size() == 0){
                     noRequests.setVisibility(View.VISIBLE);
                 }else{

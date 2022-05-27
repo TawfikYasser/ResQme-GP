@@ -5,7 +5,22 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".customer.SparePartsRequests">
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/spareparts_requests_customer_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/customer_spareparts_requests_shimmer" />
+            <include layout="@layout/customer_spareparts_requests_shimmer" />
+            <include layout="@layout/customer_spareparts_requests_shimmer" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -62,6 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/spareparts_requests_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>

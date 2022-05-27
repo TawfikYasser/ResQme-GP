@@ -27,6 +27,7 @@ import com.example.resqme.common.MyReportAdapter;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,13 +45,15 @@ public class WinchRequests extends AppCompatActivity {
     Context context, context_2;
     View view;
     LinearLayout noRequests;
-
+    ShimmerFrameLayout shimmerCustomerWinchRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winch_requests);
         initToolbar();
         forceRTLIfSupported();
+        shimmerCustomerWinchRequests = findViewById(R.id.winch_requests_customer_shimmer);
+        shimmerCustomerWinchRequests.startShimmer();
         winchRequestRV = findViewById(R.id.winch_requests_recycler);
         noRequests = findViewById(R.id.no_request_layout);
         context = this.getApplicationContext();
@@ -70,6 +73,11 @@ public class WinchRequests extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerCustomerWinchRequests.isShimmerStarted()){
+                    shimmerCustomerWinchRequests.startShimmer();
+                    shimmerCustomerWinchRequests.setVisibility(View.VISIBLE);
+                    winchRequestRV.setVisibility(View.GONE);
+                }
                 winchRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
@@ -80,6 +88,9 @@ public class WinchRequests extends AppCompatActivity {
                         winchRequestsAdapter.notifyDataSetChanged();
                     }
                 }
+                shimmerCustomerWinchRequests.stopShimmer();
+                shimmerCustomerWinchRequests.setVisibility(View.GONE);
+                winchRequestRV.setVisibility(View.VISIBLE);
                 if(winchRequests.size() == 0){
                     noRequests.setVisibility(View.VISIBLE);
                 }else{

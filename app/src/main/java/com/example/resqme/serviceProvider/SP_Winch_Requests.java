@@ -13,11 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.WinchRequests;
 import com.example.resqme.customer.WinchRequestsAdapter;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,14 +35,17 @@ public class SP_Winch_Requests extends AppCompatActivity {
     ArrayList<WinchRequest> winchRequests;
     Context context, context_2;
     View view;
+    LinearLayout noRequests;
+    ShimmerFrameLayout shimmerSPWinchRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_winch_requests);
-
         initToolbar();
         forceRTLIfSupported();
-
+        shimmerSPWinchRequests = findViewById(R.id.winch_requests_sp_shimmer);
+        shimmerSPWinchRequests.startShimmer();
+        noRequests = findViewById(R.id.no_request_layout_sp_winch);
         winchRequestRV = findViewById(R.id.sp_winch_requests_recycler);
         context = this.getApplicationContext();
         context_2 = SP_Winch_Requests.this;
@@ -55,6 +60,11 @@ public class SP_Winch_Requests extends AppCompatActivity {
         winchRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerSPWinchRequests.isShimmerStarted()){
+                    shimmerSPWinchRequests.startShimmer();
+                    shimmerSPWinchRequests.setVisibility(View.VISIBLE);
+                    winchRequestRV.setVisibility(View.GONE);
+                }
                 winchRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
@@ -64,6 +74,14 @@ public class SP_Winch_Requests extends AppCompatActivity {
                         winchRequests.add(winchRequest);
                         winchRequestsAdapter.notifyDataSetChanged();
                     }
+                }
+                shimmerSPWinchRequests.stopShimmer();
+                shimmerSPWinchRequests.setVisibility(View.GONE);
+                winchRequestRV.setVisibility(View.VISIBLE);
+                if(winchRequests.size() == 0){
+                    noRequests.setVisibility(View.VISIBLE);
+                }else{
+                    noRequests.setVisibility(View.GONE);
                 }
             }
             @Override

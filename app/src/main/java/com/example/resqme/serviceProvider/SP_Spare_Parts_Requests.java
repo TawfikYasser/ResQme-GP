@@ -13,11 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.WinchRequests;
 import com.example.resqme.model.SparePartsRequest;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,12 +35,17 @@ public class SP_Spare_Parts_Requests extends AppCompatActivity {
     ArrayList<SparePartsRequest> sparePartsRequests;
     Context context, context_2;
     View view;
+    LinearLayout noRequests;
+    ShimmerFrameLayout shimmerSPSparePartsRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_spare_parts_requests);
         initToolbar();
         forceRTLIfSupported();
+        shimmerSPSparePartsRequests = findViewById(R.id.spare_parts_requests_sp_shimmer);
+        shimmerSPSparePartsRequests.startShimmer();
+        noRequests = findViewById(R.id.no_request_layout_sp_spareparts);
         spareRequestRV = findViewById(R.id.sp_spare_parts_requests_recycler);
         context = this.getApplicationContext();
         context_2 = SP_Spare_Parts_Requests.this;
@@ -53,6 +60,11 @@ public class SP_Spare_Parts_Requests extends AppCompatActivity {
         spareRequestsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerSPSparePartsRequests.isShimmerStarted()){
+                    shimmerSPSparePartsRequests.startShimmer();
+                    shimmerSPSparePartsRequests.setVisibility(View.VISIBLE);
+                    spareRequestRV.setVisibility(View.GONE);
+                }
                 sparePartsRequests.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     SparePartsRequest sparePartsRequest = dataSnapshot.getValue(SparePartsRequest.class);
@@ -62,6 +74,14 @@ public class SP_Spare_Parts_Requests extends AppCompatActivity {
                         sparePartsRequests.add(sparePartsRequest);
                         spareRequestsAdapter.notifyDataSetChanged();
                     }
+                }
+                shimmerSPSparePartsRequests.stopShimmer();
+                shimmerSPSparePartsRequests.setVisibility(View.GONE);
+                spareRequestRV.setVisibility(View.VISIBLE);
+                if(sparePartsRequests.size() == 0){
+                    noRequests.setVisibility(View.VISIBLE);
+                }else{
+                    noRequests.setVisibility(View.GONE);
                 }
             }
             @Override
