@@ -234,7 +234,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                             LogData.saveLog("APP_CLICK","","","CLICK ON WHATSAPP ICON", "CUSTOMER_HOME");
                         }
                     });
-
+                    LogData.saveLog("APP_CLICK","","","CLICK ON INFO DIALOG ICON FOR WINCH PAGE", "CUSTOMER_HOME");
                 } else if(headerTV.getText().equals("قطع غيار")){
                     if(!mostFrequentCarType.equals("")){
                         final Dialog dialog = new Dialog(CustomerHome.this);
@@ -246,6 +246,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                         dialog.show();
                         TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
                         textInDialog.setText("هل تعلم أن أكثر قطع الغيار طلباً هو لعربيات "+mostFrequentCarType);
+                        LogData.saveLog("APP_CLICK","","","CLICK ON INFO DIALOG ICON FOR SPARE PARTS PAGE", "CUSTOMER_HOME");
                     }
                 }else if(headerTV.getText().equals("مركز خدمة سيارات")){
                     if(!mostSupportedCarType.equals("")){
@@ -258,6 +259,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                         dialog.show();
                         TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
                         textInDialog.setText("هل تعلم أن أكثر مراكز الخدمة طلباً هو لنوع العربيات الـ "+mostSupportedCarType);
+                        LogData.saveLog("APP_CLICK","","","CLICK ON INFO DIALOG ICON FOR CMC PAGE", "CUSTOMER_HOME");
                     }
                 }else if(headerTV.getText().equals("الإعدادات")){
                     final Dialog dialog = new Dialog(CustomerHome.this);
@@ -280,6 +282,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
                             LogData.saveLog("APP_CLICK","","","CLICK ON ASK QUESTION PAGE", "CUSTOMER_HOME");
                         }
                     });
+                    LogData.saveLog("APP_CLICK","","","CLICK ON INFO DIALOG ICON FOR SETTINGS PAGE", "CUSTOMER_HOME");
                 }
             }
         });
