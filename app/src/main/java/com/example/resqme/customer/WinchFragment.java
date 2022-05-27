@@ -80,6 +80,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -506,7 +507,14 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                 + 50
                 );
 
-                winchServiceDistanceInBottomSheet.setText("• المسافة التقريبية "+ (int)Math.round(Double.valueOf(bestDistance)) + " متر.");
+                if((int)Math.round(Double.valueOf(bestDistance)) > 1000){
+                    // convert meters to km
+                    bestDistance = String.valueOf(Double.valueOf(bestDistance) / 1000);
+                    winchServiceDistanceInBottomSheet.setText("• المسافة تقريباً "+ new DecimalFormat("##.##").format(Double.valueOf(bestDistance)) + " كيلو متر.");
+                }else{
+                    winchServiceDistanceInBottomSheet.setText("• المسافة تقريباً "+ (int)Math.round(Double.valueOf(bestDistance)) + " متر.");
+                }
+
 
                 winchRequestServiceCost = serviceCost;
                 winchNameInBottomSheet.setText(bestWinch.getWinchName());
