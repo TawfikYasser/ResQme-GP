@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.common.Questions;
@@ -68,11 +69,11 @@ public class SPQuestions extends AppCompatActivity {
                         Question question = dataSnapshot.getValue(Question.class);
                         questions.add(question);
                         if(questions.size() !=0){
-                            questionsAdapter = new SPQuestionsAdapter(questions, context, context_2, view);
                             questionsAdapter.notifyDataSetChanged();
                         }
                     }
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
