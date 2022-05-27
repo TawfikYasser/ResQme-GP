@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,12 +58,9 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     MaterialButton orders, cart;
     DatabaseReference logDB;
     ArrayList<LogDataModel> logs;
-    ArrayList<String> times;
     ArrayList<String> spareList;
     ArrayList<String> cmcList;
-    int avgTime = 0;
     String mostFrequentCarType = "", mostSupportedCarType ="";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +70,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         forceRTLIfSupported();
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         logs = new ArrayList<>();
-        times = new ArrayList<>();
         spareList = new ArrayList<>();
         cmcList = new ArrayList<>();
         infoImage = findViewById(R.id.info_customer_home);
@@ -111,72 +108,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        // Winch Request AVG Time
-        logDB.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    LogDataModel logData = dataSnapshot.getValue(LogDataModel.class);
-                    if(logData.getEventType().equals("SERVICE_CLICK") && logData.getServiceName().equals("WINCH")){
-                        logs.add(logData);
-                    }
-                }
-
-                DatabaseReference winchRequests = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-                winchRequests.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
-                            // itervate over logs and check if the winch request is in the logs
-                            for (LogDataModel logData : logs) {
-                                if(logData.getServiceID().equals(winchRequest.getWinchID())){
-                                    // Calculate the time difference between the request and the log
-                                    // convert string to date
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    Date logDate = null, requestDate = null;
-                                    try {
-                                        logDate = sdf.parse(logData.getLogTimestamp());
-                                        requestDate = sdf.parse(winchRequest.getWinchRequestInitiationDate());
-                                    }
-                                    catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    // Get the difference in milliseconds
-                                    long diff = requestDate.getTime()- logDate.getTime();
-                                    // Convert to minutes
-                                    long diffMinutes = diff / (60 * 1000) % 60;
-                                    times.add(String.valueOf(diffMinutes));
-                                }
-                            }
-                        }
-                        if(times.size() > 0){
-                            // Calculate the average time
-                            int sum = 0;
-                            for (String time : times) {
-                                sum += Integer.parseInt(time);
-
-                            }
-                            int average = sum / times.size();
-                            methodToProcess(average);
-                            infoImage.setVisibility(View.VISIBLE);
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         // Most car type from spare parts
         logDB.addValueEventListener(new ValueEventListener() {
@@ -227,7 +158,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
         // Most car supported type from cmc
         logDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -277,31 +207,35 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-
         infoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(headerTV.getText().equals("ونش")){
-                    if(avgTime != 0){
-                        final Dialog dialog = new Dialog(CustomerHome.this);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.info_dialog);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                        dialog.setCancelable(true);
-                        dialog.findViewById(R.id.info_dialog_text);
-                        dialog.show();
-                        TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
-
-                        if(avgTime == 2){
-                            textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن دقيقتين؟ أطلب الآن في أسرع وقت");
-                        }else if(avgTime == 3 || avgTime == 4|| avgTime == 5 || avgTime == 6 || avgTime == 7 || avgTime == 8 || avgTime == 9 || avgTime == 10){
-                            textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن "+avgTime+" دقائق؟ أطلب الآن في أسرع وقت");
-                        }else{
-                            textInDialog.setText("هل تعلم أن عملية طلب الونش لا تزيد عن "+avgTime+" دقيقة؟ أطلب الآن في أسرع وقت");
+                    final Dialog dialog = new Dialog(CustomerHome.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.info_dialog);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.setCancelable(true);
+                    dialog.findViewById(R.id.info_dialog_text);
+                    dialog.findViewById(R.id.contactus_whatsapp_dialog_info);
+                    dialog.show();
+                    TextView textInDialog = (TextView) dialog.findViewById(R.id.info_dialog_text);
+                    textInDialog.setText("هل تواجه أي مشكلة في عملية طلب الونش؟ يمكنك الآن التواصل معنا عبر الواتساب حتى يمكننا مساعدتك. ❤️");
+                    CircleImageView whatsAppDialog = dialog.findViewById(R.id.contactus_whatsapp_dialog_info);
+                    whatsAppDialog.setVisibility(View.VISIBLE);
+                    whatsAppDialog.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            String url = "https://api.whatsapp.com/send?phone=201129348206"; // Test Link
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                            LogData.saveLog("APP_CLICK","","","CLICK ON WHATSAPP ICON", "CUSTOMER_HOME");
                         }
-                    }
-                }else if(headerTV.getText().equals("قطع غيار")){
+                    });
+
+                } else if(headerTV.getText().equals("قطع غيار")){
                     if(!mostFrequentCarType.equals("")){
                         final Dialog dialog = new Dialog(CustomerHome.this);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -337,10 +271,6 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
 
     private void carMostType(String mostFrequent) {
         mostFrequentCarType = mostFrequent;
-    }
-
-    private void methodToProcess(int average) {
-        avgTime = average;
     }
 
     void initViews(){

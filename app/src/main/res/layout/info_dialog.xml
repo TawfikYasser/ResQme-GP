@@ -23,6 +23,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <de.hdodenhof.circleimageview.CircleImageView
+            android:visibility="gone"
+            android:layout_width="45dp"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/contactus_whatsapp_dialog_info"
+            android:src="@drawable/whatsapp_icon"
+            android:layout_height="45dp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/info_customer_home"
             android:layout_width="75dp"
             android:layout_height="75dp"
