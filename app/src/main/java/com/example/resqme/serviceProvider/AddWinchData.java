@@ -187,6 +187,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog.setMessage("يرجى الإنتظار قليلاً جاري إرسال البيانات!");
                                 progressDialog.show();
+                                progressDialog.setCancelable(false);
                                 uploadWinchData();
                             }
                         })

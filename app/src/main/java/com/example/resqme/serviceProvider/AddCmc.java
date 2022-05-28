@@ -161,6 +161,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
                         public void onClick(DialogInterface dialog, int which) {
                             progressDialog.setMessage("يرجى الإنتظار قليلاً جاري إرسال البيانات!");
                             progressDialog.show();
+                            progressDialog.setCancelable(false);
                             AddCMC();
                         }
                     })
