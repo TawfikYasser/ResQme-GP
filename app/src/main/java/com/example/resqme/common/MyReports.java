@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 
 import com.example.resqme.R;
 import com.example.resqme.model.Report;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,7 @@ public class MyReports extends AppCompatActivity {
     Context context;
     LinearLayout noReports;
     private FirebaseAuth mAuth;
+    ShimmerFrameLayout shimmerReportsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class MyReports extends AppCompatActivity {
         setContentView(R.layout.activity_my_reports);
         initToolbar();
         forceRTLIfSupported();
+        shimmerReportsLayout = findViewById(R.id.reports_shimmer_layout);
+        shimmerReportsLayout.startShimmer();
         mAuth = FirebaseAuth.getInstance();
         noReports = findViewById(R.id.no_reports_layout);
         myReportsRV = findViewById(R.id.myreports_recycler);
@@ -58,6 +62,11 @@ public class MyReports extends AppCompatActivity {
         myReportsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerReportsLayout.isShimmerStarted()){
+                    shimmerReportsLayout.startShimmer();
+                    shimmerReportsLayout.setVisibility(View.VISIBLE);
+                    myReportsRV.setVisibility(View.GONE);
+                }
                 reports.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
@@ -71,6 +80,9 @@ public class MyReports extends AppCompatActivity {
 
                     }
                 }
+                shimmerReportsLayout.stopShimmer();
+                shimmerReportsLayout.setVisibility(View.GONE);
+                myReportsRV.setVisibility(View.VISIBLE);
                 if(reports.size() == 0){
                     noReports.setVisibility(View.VISIBLE);
                 }else{

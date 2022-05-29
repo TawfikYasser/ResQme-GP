@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import com.example.resqme.R;
 import com.example.resqme.model.Question;
 import com.example.resqme.model.Report;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,13 +38,15 @@ public class Questions extends AppCompatActivity {
     ArrayList<Question> questions;
     Context context;
     LinearLayout noQuestions;
-
+    ShimmerFrameLayout shimmerCustomerQuestions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
         forceRTLIfSupported();
         initToolbar();
+        shimmerCustomerQuestions = findViewById(R.id.questions_layout_customer_shimmer);
+        shimmerCustomerQuestions.startShimmer();
         noQuestions = findViewById(R.id.no_questions_layout);
         questionRV = findViewById(R.id.questions_recycler);
         context = this.getApplicationContext();
@@ -57,6 +60,11 @@ public class Questions extends AppCompatActivity {
         questionDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerCustomerQuestions.isShimmerStarted()){
+                    shimmerCustomerQuestions.startShimmer();
+                    shimmerCustomerQuestions.setVisibility(View.VISIBLE);
+                    questionRV.setVisibility(View.GONE);
+                }
                 questions.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
@@ -71,6 +79,9 @@ public class Questions extends AppCompatActivity {
                         }
                     }
                 }
+                shimmerCustomerQuestions.stopShimmer();
+                shimmerCustomerQuestions.setVisibility(View.GONE);
+                questionRV.setVisibility(View.VISIBLE);
                 if(questions.size() == 0){
                     noQuestions.setVisibility(View.VISIBLE);
                 }else{

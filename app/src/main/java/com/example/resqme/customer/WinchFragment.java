@@ -574,7 +574,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             WinchRequest winchRequest = new WinchRequest(winchRequestID, c_userid, myLat, myLong, c_car_id, finalBestWinch.getWinchOwnerID(),
                      woLat, woLong, finalBestWinch.getWinchID(), winchRequestServiceCost, requestAttachedDescription, requestTimestamp, "Pending");
 
-
             winchRequestDB.child(winchRequestID).setValue(winchRequest);
 
             //Marking the winch as un available
