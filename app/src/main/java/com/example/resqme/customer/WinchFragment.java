@@ -122,12 +122,10 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     String myLat = "", myLong = "";
     String woLat = "", woLong = "";
     String requestAttachedDescription = "";
-    String PaymentStatusArg = "";
     Winch finalBestWinch = null;
     ProgressDialog progressDialog;
     String winchRequestServiceCost = "";
     ProgressBar progressBar;
-    ProgressDialog progressDialogPayment;
 
     /*
      * This fragment works as the follows:
@@ -150,11 +148,11 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
         requestWinchBtn.setOnClickListener((View.OnClickListener) this);
         winchBottomDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
         progressBar = (ProgressBar) view.findViewById(R.id.winchprogressmain);
-        progressDialogPayment = new ProgressDialog(context);
-
-        mapFragment = SupportMapFragment.newInstance();
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
-        mapFragment.setMenuVisibility(false);
+        if (mapFragment == null) {
+            mapFragment = SupportMapFragment.newInstance();
+            getChildFragmentManager().beginTransaction().replace(R.id.fragment_map_winchs, mapFragment).commit();
+            mapFragment.setMenuVisibility(false);
+        }
         // GPS
         try {
             GPS = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
@@ -187,7 +185,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 LocationPermission[0] = true;
-
             }
 
             @Override
@@ -209,7 +206,6 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
             GrantedToWork = 1;
         }
 
-
         if (GrantedToWork != 0) {
             FusedLocationProviderClient locationProviderClient = LocationServices.
                     getFusedLocationProviderClient(getActivity());
@@ -228,7 +224,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 }
             }).addOnCompleteListener(location -> {
                 if (location.isSuccessful()) {
-                    if(location.getResult() != null){
+                    if(location.getResult() != null && winchesList != null) {
                         myLat = String.valueOf(location.getResult().getLatitude());
                         myLong = String.valueOf(location.getResult().getLongitude());
                         // Getting winches, pinning current location of the customer.
@@ -244,7 +240,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                                 }
                                 if (winchesList.size() == 0) {
                                     progressBar.setVisibility(View.GONE);
-
+                                    showMapNoWinches(myLat, myLong);
                                 } else {
                                     showingDataOnTheMap(winchesList, myLat, myLong, 0);
                                     requestWinchBtn.setEnabled(true);
@@ -283,6 +279,43 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         }
         return view;
+    }
+
+    private void showMapNoWinches(String myLat, String myLong) {
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                //get latlong for corners for specified place
+                LatLng one = new LatLng(30.108990, 31.132619);
+                LatLng two = new LatLng(29.979773, 31.287968);
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                //add them to builder
+                builder.include(one);
+                builder.include(two);
+                LatLngBounds bounds = builder.build();
+                //get width and height to current display screen
+                int width = getResources().getDisplayMetrics().widthPixels;
+                int height = getResources().getDisplayMetrics().heightPixels;
+                // 10% padding
+                int padding = (int) (width * 0.10);
+                //set latlong bounds
+                googleMap.setLatLngBoundsForCameraTarget(bounds);
+                //set zoom to level to current so that you won't be able to zoom out viz. move outside bounds
+                googleMap.setMinZoomPreference(googleMap.getCameraPosition().zoom);
+                // remove any winches from the map to fill them again
+                googleMap.clear();
+                googleMapObj = googleMap;
+                LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
+                googleMap.addMarker(new MarkerOptions()
+                        .position(me)
+                        .title("موقعك الحالي")).showInfoWindow();
+
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                }
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(me));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 12.0f));
+            }
+        });
     }
 
     private void showingDataOnTheMap(ArrayList<Winch> winchesList, String myLat, String myLong, int changed) {
@@ -418,7 +451,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                     if(winchesList.size() > 0){
                         requestingWinch(view);
                     }else{
-                        Snackbar.make(getActivity().findViewById(android.R.id.content),"عذراً، الخدمة غير متاحة حالياً.",Snackbar.LENGTH_LONG)
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),"الخدمة غير متاحة.",Snackbar.LENGTH_LONG)
                                 .setBackgroundTint(getResources().getColor(R.color.red_color))
                                 .setTextColor(getResources().getColor(R.color.white))
                                 .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
