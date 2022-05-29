@@ -93,7 +93,7 @@ public class SpareFragment extends Fragment {
                 FilterSheet.setCanceledOnTouchOutside(true);
                 FilterGp = FilterSheet.findViewById(R.id.chipGroupSP);
                 Search = FilterSheet.findViewById(R.id.Get_Search_SP_Result);
-                DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference("SpareParts");
+                DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference().child("SpareParts");
                 Search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

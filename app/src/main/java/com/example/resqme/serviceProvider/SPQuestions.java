@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
@@ -21,6 +22,7 @@ import com.example.resqme.common.Questions;
 import com.example.resqme.common.QuestionsAdapter;
 import com.example.resqme.customer.WinchRequests;
 import com.example.resqme.model.Question;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,14 +42,17 @@ public class SPQuestions extends AppCompatActivity {
     Context context, context_2;;
     View view;
     FirebaseAuth mAuth;
-
-
+    ShimmerFrameLayout shimmerSPQuestions;
+    LinearLayout noQuestions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spquestions);
         initToolbar();
         forceRTLIfSupported();
+        shimmerSPQuestions = findViewById(R.id.questions_layout_sp_shimmer);
+        shimmerSPQuestions.startShimmer();
+        noQuestions = findViewById(R.id.no_questions_layout_sp);
         mAuth = FirebaseAuth.getInstance();
         questionRV = findViewById(R.id.sp_questions_recycler);
         context = SPQuestions.this;
@@ -63,6 +68,11 @@ public class SPQuestions extends AppCompatActivity {
         questionDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerSPQuestions.isShimmerStarted()){
+                    shimmerSPQuestions.startShimmer();
+                    shimmerSPQuestions.setVisibility(View.VISIBLE);
+                    questionRV.setVisibility(View.GONE);
+                }
                 questions.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
@@ -73,7 +83,14 @@ public class SPQuestions extends AppCompatActivity {
                         }
                     }
                 }
-
+                shimmerSPQuestions.stopShimmer();
+                shimmerSPQuestions.setVisibility(View.GONE);
+                questionRV.setVisibility(View.VISIBLE);
+                if(questions.size() == 0){
+                    noQuestions.setVisibility(View.VISIBLE);
+                }else{
+                    noQuestions.setVisibility(View.GONE);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

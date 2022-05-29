@@ -62,7 +62,6 @@ public class ServiceProviderSettings extends AppCompatActivity {
             }
         }
 
-
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

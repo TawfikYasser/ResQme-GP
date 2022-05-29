@@ -1,5 +1,6 @@
 package com.example.resqme.customer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +90,7 @@ public class CMCFragment extends Fragment {
         cmcRV.setHasFixedSize(true);
         cmcRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         cmcs = new ArrayList<>();
-        cmcAdapter = new CMCAdapter(getActivity(), cmcs);
+        cmcAdapter = new CMCAdapter(context_2, cmcs);
         cmcRV.setAdapter(cmcAdapter);
         FilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +100,7 @@ public class CMCFragment extends Fragment {
                 FilterSheet.setCanceledOnTouchOutside(true);
                 FilterGp = FilterSheet.findViewById(R.id.chipGroupcmc);
                 Search = FilterSheet.findViewById(R.id.Get_Search_CMC_Result);
-                DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference("CMCs");
+                DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference().child("CMCs");
                 Search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -108,6 +110,7 @@ public class CMCFragment extends Fragment {
                             if(chip.isChecked()){
                                 Filter = (String) chip.getText();
                                 DBFilter.addValueEventListener(new ValueEventListener() {
+                                    @SuppressLint("NotifyDataSetChanged")
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         if(!shimmerFrameLayoutCMCCustomer.isShimmerStarted()){
@@ -120,7 +123,6 @@ public class CMCFragment extends Fragment {
                                             CMC cmc = dataSnapshot.getValue(CMC.class);
                                             if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available") && cmc.getCmcBrand().equals(Filter)){
                                                 cmcs.add(cmc);
-                                                cmcAdapter = new CMCAdapter(context, cmcs);
                                                 cmcAdapter.notifyDataSetChanged();
                                             }
                                         }
@@ -132,9 +134,7 @@ public class CMCFragment extends Fragment {
                                         shimmerFrameLayoutCMCCustomer.stopShimmer();
                                         shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
                                         cmcRV.setVisibility(View.VISIBLE);
-
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -196,7 +196,6 @@ public class CMCFragment extends Fragment {
                                 } else {
                                     cmcs.add(cmc);
                                 }
-                                cmcAdapter = new CMCAdapter(context, cmcs);
                                 cmcAdapter.notifyDataSetChanged();
                             }
                         }

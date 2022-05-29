@@ -19,10 +19,62 @@
             app:titleTextAppearance="@font/fontlight"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sp_questions_recycler"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/questions_layout_sp_shimmer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+            <include layout="@layout/question_sp_item_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/no_questions_layout_sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/no_questions_no_reports"
+                android:layout_width="200dp"
+                android:layout_height="200dp"/>
+            <TextView
+                android:layout_margin="18dp"
+                android:text="لا توجد أسئلة حتى الآن"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/sp_questions_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

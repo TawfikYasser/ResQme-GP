@@ -88,7 +88,7 @@
                         android:layout_margin="24dp"
                         android:id="@+id/cmc_image_add_cmc_data"
                         android:layout_width="match_parent"
-                        android:src="@drawable/driverlisenceimage"
+                        android:src="@drawable/addimagebk"
                         android:layout_height="200dp"/>
 
                 </LinearLayout>
