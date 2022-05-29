@@ -219,7 +219,7 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
             @Override
             public void onClick(View view) {
                 // Failed
-                new AlertDialog.Builder(context_2)
+                new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
                         .setTitle("هل أنت متأكد من إلغاء الطلب؟")
                         .setMessage("إلغاء الطلب في حالة حدوث مشكلة مع مقدم الخدمة")
                         .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
@@ -292,40 +292,46 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
                     if(String.valueOf(ratingBar.getRating()).equals("0.0")){
                         Toast.makeText(context_2, "من فضلك اختر تقييم من 1 الى 5", Toast.LENGTH_SHORT).show();
                     }else{
-                        // We are service provider
-                        ProgressDialog progressDialog = new ProgressDialog(context_2);
-                        progressDialog.setMessage("انتظر قليلاً...");
-                        progressDialog.show();
+                        new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
+                                .setTitle("تقييم الخدمة")
+                                .setMessage("هل أنت متأكد من إرسال هذا التقييم؟")
+                                .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ProgressDialog progressDialog = new ProgressDialog(context_2);
+                                        progressDialog.setMessage("انتظر قليلاً...");
+                                        progressDialog.show();
 
-                        Query query = FirebaseDatabase.getInstance().getReference("ServiceProviders").
-                                orderByChild("userId").equalTo(winchOwnerID);
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
-                                    double totalNewRate = (Double.parseDouble(serviceProvider.getRate()) + Double.parseDouble(String.valueOf(ratingBar.getRating()))) / 2;
-                                    DatabaseReference spTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
-                                    spTable.child(winchOwnerID).child("rate").setValue(String.valueOf(totalNewRate));
-                                    // Save the rate in the rate table
-                                    DatabaseReference rateTable = FirebaseDatabase.getInstance().getReference().child("Rate");
-                                    String rateID = rateTable.push().getKey();
-                                    Rate rate = new Rate(rateID, customerID, winchOwnerID, String.valueOf(ratingBar.getRating()), rateText.getText().toString().trim(), winchRequestID, "Customer");
-                                    rateTable.child(rateID).setValue(rate);
+                                        Query query = FirebaseDatabase.getInstance().getReference("ServiceProviders").
+                                                orderByChild("userId").equalTo(winchOwnerID);
+                                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                                                    double totalNewRate = (Double.parseDouble(serviceProvider.getRate()) + Double.parseDouble(String.valueOf(ratingBar.getRating()))) / 2;
+                                                    DatabaseReference spTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
+                                                    spTable.child(winchOwnerID).child("rate").setValue(String.valueOf(totalNewRate));
+                                                    // Save the rate in the rate table
+                                                    DatabaseReference rateTable = FirebaseDatabase.getInstance().getReference().child("Rate");
+                                                    String rateID = rateTable.push().getKey();
+                                                    Rate rate = new Rate(rateID, customerID, winchOwnerID, String.valueOf(ratingBar.getRating()), rateText.getText().toString().trim(), winchRequestID, "Customer");
+                                                    rateTable.child(rateID).setValue(rate);
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(context_2, "تمت عملية التقييم بنجاح!", Toast.LENGTH_SHORT).show();
+                                                    rateDialog.cancel();
+                                                }
 
-                                    progressDialog.dismiss();
-                                    Toast.makeText(context_2, "تمت عملية التقييم بنجاح!", Toast.LENGTH_SHORT).show();
-                                    rateDialog.cancel();
-                                }
+                                            }
 
-                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("رجوع", null)
+                                .show();
                     }
                 }else{
                     Toast.makeText(context, "من فضلك قم بكتابة تقييم...", Toast.LENGTH_SHORT).show();
@@ -373,107 +379,116 @@ public class WinchRequestsAdapter extends RecyclerView.Adapter<WinchRequestsAdap
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(fixType.equals("أخرى")){
-                    if(!TextUtils.isEmpty(otherET.getText().toString().trim())){
-                        // Not Empty
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "0", "0", "0", "0", "0", "0",
-                                otherET.getText().toString().trim()
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                        Toast.makeText(context, "تم حفظ تفاصيل الطلب.", Toast.LENGTH_SHORT).show();
-                        // do the work
-                        DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
-                        winches.child(winchID).child("winchAvailability").setValue("Available");
-                        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-                        requestRef.child(winchRequestID).child("winchRequestStatus").setValue("Success");
-                        Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
-                        detailsDialog.cancel();
-                    } else {
-                        // Empty
-                        Toast.makeText(context, "يجب إدخال وصف للإصلاحات في حالة إختيار (أخرى).", Toast.LENGTH_SHORT).show();
-                    }
-                }else if(fixType.equals("إضاءات العربية")
-                || fixType.equals("البطارية")
-                || fixType.equals("المحرك")
-                || fixType.equals("الزيت")
-                || fixType.equals("الفلاتر")
-                || fixType.equals("العجلات")){
-                    if(fixType.equals("إضاءات العربية")){
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "1", "0", "0", "0", "0", "0","0"
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                    }else if(fixType.equals("البطارية")){
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "0", "1", "0", "0", "0", "0","0"
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                    }else if(fixType.equals("الزيت")){
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "0", "0", "1", "0", "0", "0","0"
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                    }else if(fixType.equals("الفلاتر")){
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "0", "0", "0", "1", "0", "0","0"
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                    }else if(fixType.equals("المحرك")){
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "0", "0", "0", "0", "0", "1","0"
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                    }else if(fixType.equals("العجلات")){
-                        // save request details
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
-                        String requestDetailsID = requestDetailsTable.push().getKey();
-                        RequestDetailsModel requestDetails = new RequestDetailsModel(
-                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
-                                "0", "0", "0", "0", "1", "0","0"
-                        );
-                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
-                    }
-                    Toast.makeText(context, "تم حفظ تفاصيل الطلب.", Toast.LENGTH_SHORT).show();
-                    // do the work
-                    DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
-                    winches.child(winchID).child("winchAvailability").setValue("Available");
-                    DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
-                    requestRef.child(winchRequestID).child("winchRequestStatus").setValue("Success");
-                    Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
-                    detailsDialog.cancel();
-                }
+                new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
+                        .setTitle("إصلاحات الطلب")
+                        .setMessage("هل أنت متأكد من إرسال هذه البيانات؟")
+                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(fixType.equals("أخرى")){
+                                    if(!TextUtils.isEmpty(otherET.getText().toString().trim())){
+                                        // Not Empty
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "0", "0", "0", "0", "0", "0",
+                                                otherET.getText().toString().trim()
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                        Toast.makeText(context, "تم حفظ تفاصيل الطلب.", Toast.LENGTH_SHORT).show();
+                                        // do the work
+                                        DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
+                                        winches.child(winchID).child("winchAvailability").setValue("Available");
+                                        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                                        requestRef.child(winchRequestID).child("winchRequestStatus").setValue("Success");
+                                        Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                                        detailsDialog.cancel();
+                                    } else {
+                                        // Empty
+                                        Toast.makeText(context, "يجب إدخال وصف للإصلاحات في حالة إختيار (أخرى).", Toast.LENGTH_SHORT).show();
+                                    }
+                                }else if(fixType.equals("إضاءات العربية")
+                                        || fixType.equals("البطارية")
+                                        || fixType.equals("المحرك")
+                                        || fixType.equals("الزيت")
+                                        || fixType.equals("الفلاتر")
+                                        || fixType.equals("العجلات")){
+                                    if(fixType.equals("إضاءات العربية")){
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "1", "0", "0", "0", "0", "0","0"
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                    }else if(fixType.equals("البطارية")){
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "0", "1", "0", "0", "0", "0","0"
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                    }else if(fixType.equals("الزيت")){
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "0", "0", "1", "0", "0", "0","0"
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                    }else if(fixType.equals("الفلاتر")){
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "0", "0", "0", "1", "0", "0","0"
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                    }else if(fixType.equals("المحرك")){
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "0", "0", "0", "0", "0", "1","0"
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                    }else if(fixType.equals("العجلات")){
+                                        // save request details
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        DatabaseReference requestDetailsTable = FirebaseDatabase.getInstance().getReference().child("RequestDetails");
+                                        String requestDetailsID = requestDetailsTable.push().getKey();
+                                        RequestDetailsModel requestDetails = new RequestDetailsModel(
+                                                requestDetailsID, firebaseAuth.getCurrentUser().getUid().toString(), winchRequestID,
+                                                "0", "0", "0", "0", "1", "0","0"
+                                        );
+                                        requestDetailsTable.child(requestDetailsID).setValue(requestDetails);
+                                    }
+                                    Toast.makeText(context, "تم حفظ تفاصيل الطلب.", Toast.LENGTH_SHORT).show();
+                                    // do the work
+                                    DatabaseReference winches = FirebaseDatabase.getInstance().getReference().child("Winches");
+                                    winches.child(winchID).child("winchAvailability").setValue("Available");
+                                    DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
+                                    requestRef.child(winchRequestID).child("winchRequestStatus").setValue("Success");
+                                    Toast.makeText(context, "لقد قمت بإنهاء الطلب بنجاح، يمكنك تقييم الخدمة الآن.", Toast.LENGTH_SHORT).show();
+                                    detailsDialog.cancel();
+                                }
+                            }
+                        })
+                        .setNegativeButton("رجوع", null)
+                        .show();
             }
         });
     }

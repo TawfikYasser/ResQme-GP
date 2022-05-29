@@ -84,7 +84,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(ServiceProviderSettings.this)
+                new AlertDialog.Builder(ServiceProviderSettings.this, R.style.AlertDialogCustom)
                         .setTitle("تسجيل الخروج")
                         .setMessage("هل أنت متأكد انك تريد تسجيل الخروج؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

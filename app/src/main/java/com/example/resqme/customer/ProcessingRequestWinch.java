@@ -75,12 +75,6 @@ public class ProcessingRequestWinch extends AppCompatActivity{
         Intent intent = getIntent();
         serviceCost = intent.getStringExtra("PAYMENT_COST");
         progressDialogPayment = new ProgressDialog(this);
-
-        PaymentConfiguration.init(ProcessingRequestWinch.this, PUBLISH_KEY);
-        paymentSheet = new PaymentSheet(ProcessingRequestWinch.this, paymentSheetResult -> {
-            onPaymentResult(paymentSheetResult);
-        });
-
         sendDescriptionOfWinchRequest = findViewById(R.id.send_winch_request_btn);
         etWinchRequestDescription = findViewById(R.id.send_winch_request_description_et);
         sendDescriptionOfWinchRequest.setOnClickListener(new View.OnClickListener() {
@@ -88,13 +82,13 @@ public class ProcessingRequestWinch extends AppCompatActivity{
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(etWinchRequestDescription.getText().toString().trim())){
                     if(ic.checkInternetConnection()){
-                        new AlertDialog.Builder(ProcessingRequestWinch.this)
+                        new AlertDialog.Builder(ProcessingRequestWinch.this, R.style.AlertDialogCustom)
                                 .setTitle("طلب ونش")
-                                .setMessage("هل تريد المتابعة الى عملية الدفع؟")
+                                .setMessage("هل تريد المتابعة؟ تكلفة الخدمة: "+serviceCost+" جنيه مصري.")
                                 .setPositiveButton("متابعة", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         //Send desc to payment page
-                                        progressDialogPayment.setMessage("تفعيل خدمات الدفع...");
+                                        progressDialogPayment.setMessage("جاري تشغيل خدمة الدفع الإلكتروني...");
                                         progressDialogPayment.show();
                                         progressDialogPayment.setCancelable(false);
                                         goToPay();
@@ -115,6 +109,10 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                 }
             }
+        });
+        PaymentConfiguration.init(ProcessingRequestWinch.this, PUBLISH_KEY);
+        paymentSheet = new PaymentSheet(ProcessingRequestWinch.this, paymentSheetResult -> {
+            onPaymentResult(paymentSheetResult);
         });
     }
 
@@ -146,7 +144,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                         try {
                             JSONObject object = new JSONObject(response);
                             customerID = object.getString("id");
-                            Toast.makeText(context, "الحصول على معلومات التوثيق...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "جاري الحصول على معلومات التوثيق...", Toast.LENGTH_SHORT).show();
                             getEphericalKey(customerID);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -183,7 +181,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                         try {
                             JSONObject object = new JSONObject(response);
                             EphericalKey = object.getString("id");
-                            Toast.makeText(context, "الحصول على معلومات الإتصال...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "جاري الحصول على معلومات الإتصال...", Toast.LENGTH_SHORT).show();
                             getClientSecret(customerID, EphericalKey);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -230,7 +228,7 @@ public class ProcessingRequestWinch extends AppCompatActivity{
                         try {
                             JSONObject object = new JSONObject(response);
                             ClientSecret = object.getString("client_secret");
-                            Toast.makeText(context, "نجح الإتصال...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "نجح الإتصال", Toast.LENGTH_SHORT).show();
                             progressDialogPayment.dismiss();
                             paymentFlowStarting();
                         } catch (JSONException e) {

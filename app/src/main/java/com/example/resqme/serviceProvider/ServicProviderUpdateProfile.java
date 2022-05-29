@@ -124,7 +124,7 @@ public class ServicProviderUpdateProfile extends AppCompatActivity implements Vi
     }
     void updateProfileClick(){
         databaseServiceProvider = FirebaseDatabase.getInstance().getReference("ServiceProviders");
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                 .setTitle("تأكيد تغيير البيانات")
                 .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

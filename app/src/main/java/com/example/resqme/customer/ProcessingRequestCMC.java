@@ -89,7 +89,7 @@ public class ProcessingRequestCMC extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(etCMCRequestDescription.getText().toString().trim())){
-                    new AlertDialog.Builder(ProcessingRequestCMC.this)
+                    new AlertDialog.Builder(ProcessingRequestCMC.this, R.style.AlertDialogCustom)
                             .setTitle("طلب مركز خدمة سيارات")
                             .setMessage("هل أنت متأكد من المتابعة؟")
                             .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

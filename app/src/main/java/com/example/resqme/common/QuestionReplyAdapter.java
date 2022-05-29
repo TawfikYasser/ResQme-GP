@@ -82,7 +82,7 @@ public class QuestionReplyAdapter extends RecyclerView.Adapter<QuestionReplyAdap
             @Override
             public void onClick(View view) {
 
-                new AlertDialog.Builder(context)
+                new AlertDialog.Builder(context, R.style.AlertDialogCustom)
                         .setTitle("إبلاغ عن الرد")
                         .setMessage("هل أنت متأكد من الإبلاغ عن هذا الرد؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

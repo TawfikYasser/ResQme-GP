@@ -31,6 +31,7 @@ import com.example.resqme.model.CMCRequest;
 import com.example.resqme.model.SparePartInCart;
 import com.example.resqme.model.SparePartsRequest;
 import com.example.resqme.model.WinchRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -63,12 +64,15 @@ public class CartForCustomer extends AppCompatActivity {
     ProgressDialog progressDialog;
     FloatingActionButton sendSparePartsRequestFromCart;
     LinearLayout noItemsInCart;
+    ShimmerFrameLayout shimmerCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_for_customer);
         initToolbar();
         forceRTLIfSupported();
+        shimmerCart = findViewById(R.id.cart_shimmer);
+        shimmerCart.startShimmer();
         noItemsInCart = findViewById(R.id.no_request_layout_cart);
         spareCartRV = findViewById(R.id.spareparts_cart_recycler);
         context = this.getApplicationContext();
@@ -88,6 +92,11 @@ public class CartForCustomer extends AppCompatActivity {
         shoppingDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerCart.isShimmerStarted()){
+                    shimmerCart.startShimmer();
+                    shimmerCart.setVisibility(View.VISIBLE);
+                    spareCartRV.setVisibility(View.GONE);
+                }
                 sparePartInCarts.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     SparePartInCart sparePartInCart = dataSnapshot.getValue(SparePartInCart.class);
@@ -96,10 +105,15 @@ public class CartForCustomer extends AppCompatActivity {
                         spareCartAdapter.notifyDataSetChanged();
                     }
                 }
+                shimmerCart.stopShimmer();
+                shimmerCart.setVisibility(View.GONE);
+                spareCartRV.setVisibility(View.VISIBLE);
                 if(sparePartInCarts.size() == 0){
                     noItemsInCart.setVisibility(View.VISIBLE);
+                    sendSparePartsRequestFromCart.setEnabled(false);
                 }else{
                     noItemsInCart.setVisibility(View.GONE);
+                    sendSparePartsRequestFromCart.setEnabled(true);
                 }
             }
 
@@ -121,8 +135,11 @@ public class CartForCustomer extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-
+                if(!shimmerCart.isShimmerStarted()){
+                    shimmerCart.startShimmer();
+                    shimmerCart.setVisibility(View.VISIBLE);
+                    spareCartRV.setVisibility(View.GONE);
+                }
                 sparePartInCarts.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(!(dataSnapshot.getValue() instanceof String)){
@@ -133,6 +150,9 @@ public class CartForCustomer extends AppCompatActivity {
                         }
                     }
                 }
+                shimmerCart.stopShimmer();
+                shimmerCart.setVisibility(View.GONE);
+                spareCartRV.setVisibility(View.VISIBLE);
                 if(sparePartInCarts.size() == 0){
                     sparePartInCarts.clear();
                     spareCartAdapter.notifyDataSetChanged();
@@ -161,7 +181,7 @@ public class CartForCustomer extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(sparePartInCarts.size() != 0){
-                    new AlertDialog.Builder(CartForCustomer.this)
+                    new AlertDialog.Builder(CartForCustomer.this, R.style.AlertDialogCustom)
                             .setTitle("طلب قطع غيار")
                             .setMessage("هل أنت متأكد من المتابعة؟ سيتم إرسال طلب بقطع الغيار التي اخترتها ويمكنك متابعة الطلبات في صفحة طلبات قطع الغيار.")
                             .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

@@ -204,7 +204,7 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
         && driverLicence != null && carLicence != null
         && !TextUtils.isEmpty(rbtnAuto.getText().toString())){
 
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                     .setTitle("تأكيد إدخال البيانات")
                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

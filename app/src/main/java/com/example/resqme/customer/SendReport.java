@@ -90,7 +90,7 @@ public class SendReport extends AppCompatActivity {
 
     private void sendReport(String reportDesc) {
 
-        new AlertDialog.Builder(SendReport.this)
+        new AlertDialog.Builder(SendReport.this, R.style.AlertDialogCustom)
                 .setTitle("إرسال تقرير")
                 .setMessage("هل أنت متأكد من إرسالك لهذا التقرير؟")
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

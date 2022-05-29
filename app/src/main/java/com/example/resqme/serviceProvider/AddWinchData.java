@@ -180,7 +180,7 @@ public class AddWinchData  extends AppCompatActivity implements View.OnClickList
         if(!TextUtils.isEmpty(winchNameET.getText().toString()) && !TextUtils.isEmpty(winchCostPerKMET.getText().toString())
         && !TextUtils.isEmpty(winchAddressTV.getText()) && winchLicenceUri != null && driverLicenceUri != null){
             if(Integer.parseInt( winchCostPerKMET.getText().toString() ) >= 5 && Integer.parseInt( winchCostPerKMET.getText().toString() ) <= 30  ){
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle("تأكيد إدخال البيانات")
                         .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

@@ -308,7 +308,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     private void goToOrders(){
         String[] Requests = {"طلبات الونش", "طلبات مراكز الخدمة", "طلبات قطع الغيار"};
         final String[] selectedRequestType = {"طلبات الونش"};
-        new AlertDialog.Builder(CustomerHome.this)
+        new AlertDialog.Builder(CustomerHome.this, R.style.AlertDialogCustom)
                 .setTitle("طلباتك")
                 .setSingleChoiceItems(Requests, 0, new DialogInterface.OnClickListener() {
                     @Override

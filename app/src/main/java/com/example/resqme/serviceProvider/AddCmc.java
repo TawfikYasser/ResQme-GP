@@ -154,7 +154,7 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
     private void submitCMCData() {
         if(!TextUtils.isEmpty(cmcname.getText().toString())
                 &&!TextUtils.isEmpty(CarMfgCountry) && !TextUtils.isEmpty(cmcAddressTV.getText())  && cmcImageURI != null ){
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                     .setTitle("تأكيد إدخال البيانات")
                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

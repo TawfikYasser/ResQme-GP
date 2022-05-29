@@ -153,7 +153,7 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
 
         if(!TextUtils.isEmpty(sparepartname.getText()) && !TextUtils.isEmpty(Pricesparepart.getText().toString())
         && !TextUtils.isEmpty(Cartype) && sparePartsUri != null){
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                     .setTitle("تأكيد إدخال البيانات")
                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

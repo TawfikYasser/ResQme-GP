@@ -25,7 +25,20 @@
                 app:titleTextAppearance="@font/fontlight"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
         </com.google.android.material.appbar.AppBarLayout>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/cart_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/spare_cart_item_shimmer" />
+                <include layout="@layout/spare_cart_item_shimmer" />
+                <include layout="@layout/spare_cart_item_shimmer" />
 
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -63,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/spareparts_cart_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
@@ -75,6 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:enabled="false"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_baseline_send_24"

@@ -134,7 +134,7 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
 
     void updateProfileClick(){
         databaseCustomers = FirebaseDatabase.getInstance().getReference("Customer");
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                 .setTitle("تأكيد تغيير البيانات")
                 .setMessage("هل أنت متأكد من البيانات التي تم تغييرها؟ ، من فضلك راجع جميع البيانات...(أي بيانات لم يتم تغييرها أو إذا قمت بمسح اسم المستخدم أو كلمة المرور أو رقم الواتساب لن يتم اعتبارها)")
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

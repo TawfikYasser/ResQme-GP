@@ -84,7 +84,7 @@ public class AskQuestion extends AppCompatActivity {
 
     private void sendQuestion(String question) {
 
-        new AlertDialog.Builder(AskQuestion.this)
+        new AlertDialog.Builder(AskQuestion.this, R.style.AlertDialogCustom)
                 .setTitle("إرسال سؤال")
                 .setMessage("هل أنت متأكد من إرسالك لهذا السؤال؟")
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

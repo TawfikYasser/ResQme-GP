@@ -124,7 +124,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.logout_customer_profile:
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom)
                         .setTitle("تسجيل الخروج")
                         .setMessage("هل أنت متأكد انك تريد تسجيل الخروج؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
@@ -180,7 +180,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     private void goToRequests() {
         String[] Requests = {"طلبات الونش", "طلبات مراكز الخدمة", "طلبات قطع الغيار"};
         final String[] selectedRequestType = {"طلبات الونش"};
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom)
                 .setTitle("طلباتك")
                 .setSingleChoiceItems(Requests, 0, new DialogInterface.OnClickListener() {
                     @Override

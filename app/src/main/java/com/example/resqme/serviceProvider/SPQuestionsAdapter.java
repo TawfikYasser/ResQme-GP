@@ -91,15 +91,24 @@ public class SPQuestionsAdapter extends RecyclerView.Adapter<SPQuestionsAdapter.
                     public void onClick(View view) {
 
                         if(!TextUtils.isEmpty(etReplyToQuestion.getText().toString().trim())){
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            String questionReplyID = database.getReference("Replies").push().getKey();// create new id
-                            QuestionReply questionReplyObj = new QuestionReply(questionReplyID, question.getQuestionID(),
-                                    FirebaseAuth.getInstance().getCurrentUser().getUid(), etReplyToQuestion.getText().toString().trim());
-                            DatabaseReference repliesDB = FirebaseDatabase.getInstance().getReference().child("Replies");
-                            repliesDB.child(questionReplyID).setValue(questionReplyObj);//Entering question in database
-                            Toast.makeText(context, "تم إرسال الرد", Toast.LENGTH_LONG).show();
-                            LogData.saveLog("APP_CLICK","","","CLICK ON SEND QUESTION REPLY BUTTON", "SERVICE_PROVIDER_SETTINGS");
-                            replyDialog.cancel();
+                            new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
+                                    .setTitle("إرسال رد على السؤال")
+                                    .setMessage("هل أنت متأكد من إرسال هذا الرد؟")
+                                    .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                            String questionReplyID = database.getReference("Replies").push().getKey();// create new id
+                                            QuestionReply questionReplyObj = new QuestionReply(questionReplyID, question.getQuestionID(),
+                                                    FirebaseAuth.getInstance().getCurrentUser().getUid(), etReplyToQuestion.getText().toString().trim());
+                                            DatabaseReference repliesDB = FirebaseDatabase.getInstance().getReference().child("Replies");
+                                            repliesDB.child(questionReplyID).setValue(questionReplyObj);//Entering question in database
+                                            Toast.makeText(context, "تم إرسال الرد", Toast.LENGTH_LONG).show();
+                                            LogData.saveLog("APP_CLICK","","","CLICK ON SEND QUESTION REPLY BUTTON", "SERVICE_PROVIDER_SETTINGS");
+                                            replyDialog.cancel();
+                                        }
+                                    })
+                                    .setNegativeButton("رجوع", null)
+                                    .show();
                         }else{
                             Toast.makeText(context, "يجب إدخال رد قبل الضغط على إرسال.", Toast.LENGTH_SHORT).show();
                         }

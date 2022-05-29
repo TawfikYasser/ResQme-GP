@@ -182,7 +182,7 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
         holder.CompleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(context_2)
+                new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
                         .setTitle("هل أنت متأكد من إتمام الطلب؟")
                         .setMessage("إتمام الطلب في حالة استلامك لقطع الغيار بنجاح")
                         .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
@@ -201,7 +201,7 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
             @Override
             public void onClick(View view) {
                 // Failed
-                new AlertDialog.Builder(context_2)
+                new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
                         .setTitle("هل أنت متأكد من إلغاء الطلب؟")
                         .setMessage("إلغاء الطلب في حالة حدوث مشكلة مع مقدم الخدمة")
                         .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
@@ -278,40 +278,47 @@ public class SparePartsRequestAdapter extends RecyclerView.Adapter<SparePartsReq
                     if(String.valueOf(ratingBar.getRating()).equals("0.0")){
                         Toast.makeText(context_2, "من فضلك اختر تقييم من 1 الى 5", Toast.LENGTH_SHORT).show();
                     }else{
-                        // We are service provider
-                        ProgressDialog progressDialog = new ProgressDialog(context_2);
-                        progressDialog.setMessage("انتظر قليلاً...");
-                        progressDialog.show();
+                        new AlertDialog.Builder(context_2, R.style.AlertDialogCustom)
+                                .setTitle("تقييم الخدمة")
+                                .setMessage("هل أنت متأكد من إرسال هذا التقييم؟")
+                                .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ProgressDialog progressDialog = new ProgressDialog(context_2);
+                                        progressDialog.setMessage("انتظر قليلاً...");
+                                        progressDialog.show();
 
-                        Query query = FirebaseDatabase.getInstance().getReference("ServiceProviders").
-                                orderByChild("userId").equalTo(sparePartOwnerID);
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
-                                    double totalNewRate = (Double.parseDouble(serviceProvider.getRate()) + Double.parseDouble(String.valueOf(ratingBar.getRating()))) / 2;
-                                    DatabaseReference spTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
-                                    spTable.child(sparePartOwnerID).child("rate").setValue(String.valueOf(totalNewRate));
-                                    // Save the rate in the rate table
-                                    DatabaseReference rateTable = FirebaseDatabase.getInstance().getReference().child("Rate");
-                                    String rateID = rateTable.push().getKey();
-                                    Rate rate = new Rate(rateID, customerID, sparePartOwnerID, String.valueOf(ratingBar.getRating()), rateText.getText().toString().trim(), sparePartsRequestID, "Customer");
-                                    rateTable.child(rateID).setValue(rate);
+                                        Query query = FirebaseDatabase.getInstance().getReference("ServiceProviders").
+                                                orderByChild("userId").equalTo(sparePartOwnerID);
+                                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
+                                                    double totalNewRate = (Double.parseDouble(serviceProvider.getRate()) + Double.parseDouble(String.valueOf(ratingBar.getRating()))) / 2;
+                                                    DatabaseReference spTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");
+                                                    spTable.child(sparePartOwnerID).child("rate").setValue(String.valueOf(totalNewRate));
+                                                    // Save the rate in the rate table
+                                                    DatabaseReference rateTable = FirebaseDatabase.getInstance().getReference().child("Rate");
+                                                    String rateID = rateTable.push().getKey();
+                                                    Rate rate = new Rate(rateID, customerID, sparePartOwnerID, String.valueOf(ratingBar.getRating()), rateText.getText().toString().trim(), sparePartsRequestID, "Customer");
+                                                    rateTable.child(rateID).setValue(rate);
 
-                                    progressDialog.dismiss();
-                                    Toast.makeText(context_2, "تمت عملية التقييم بنجاح!", Toast.LENGTH_SHORT).show();
-                                    rateDialog.cancel();
-                                }
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(context_2, "تمت عملية التقييم بنجاح!", Toast.LENGTH_SHORT).show();
+                                                    rateDialog.cancel();
+                                                }
 
-                            }
+                                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("رجوع", null)
+                                .show();
                     }
                 }else{
                     Toast.makeText(context, "من فضلك قم بكتابة تقييم...", Toast.LENGTH_SHORT).show();
