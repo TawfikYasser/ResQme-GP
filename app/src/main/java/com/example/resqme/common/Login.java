@@ -131,7 +131,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         String LoginEmail = mEmailLogin.getText().toString().trim();
         String LoginPass = mPasswordLogin.getText().toString().trim();
         if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                     .setTitle("تأكيد تسجيل الدخول")
                     .setMessage("متابعة؟")
                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

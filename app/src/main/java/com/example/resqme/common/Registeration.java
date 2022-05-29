@@ -294,7 +294,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                 }else{
                                     //Everything is ok
-                                    new AlertDialog.Builder(this)
+                                    new AlertDialog.Builder(this, R.style.AlertDialogCustom)
                                     .setTitle("تأكيد إنشاء الحساب")
                                     .setMessage("هل أنت متأكد من البيانات التي تم إدخالها؟ ، من فضلك راجع جميع البيانات...")
                                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {

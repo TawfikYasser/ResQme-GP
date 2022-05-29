@@ -13,8 +13,9 @@
 
     </style>
 
-    <style name="AlertDialogCustom" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="AlertDialogCustom" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:layoutDirection">rtl</item>
+
     </style>
 
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
