@@ -68,9 +68,11 @@
                     android:id="@+id/cmc_rate_owner_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/ic_round_star_24"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="12dp"
-                    android:textColor="@color/green_color"
+                    android:textColor="@color/black"
                     android:text="تقييم مالك مركز الخدمة"
                     android:layout_marginBottom="12dp"
                     android:textStyle="bold" />
