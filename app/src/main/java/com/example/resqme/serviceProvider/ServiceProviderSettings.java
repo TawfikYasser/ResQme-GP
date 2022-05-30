@@ -214,7 +214,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
         logoutDialog.setCancelable(false);
         logoutDialog.show();
         DatabaseReference spareDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
-        spareDB.addValueEventListener(new ValueEventListener() {
+        spareDB.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -225,7 +225,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
                 }
 
                 DatabaseReference winchDB = FirebaseDatabase.getInstance().getReference().child("Winches");
-                winchDB.addValueEventListener(new ValueEventListener() {
+                winchDB.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -236,7 +236,7 @@ public class ServiceProviderSettings extends AppCompatActivity {
                         }
 
                         DatabaseReference cmcDB = FirebaseDatabase.getInstance().getReference().child("CMCs");
-                        cmcDB.addValueEventListener(new ValueEventListener() {
+                        cmcDB.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

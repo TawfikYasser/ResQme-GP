@@ -390,8 +390,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                                         }
                                                     }
 
-                                                    // continue login
-
+                                                    // Continue login
                                                     new Handler().postDelayed(new Runnable() {
                                                         @Override
                                                         public void run() {
