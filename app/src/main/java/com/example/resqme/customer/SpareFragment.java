@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +121,6 @@ public class SpareFragment extends Fragment {
                                         for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                                             SparePart sparePart = dataSnapshot.getValue(SparePart.class);
                                             if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available") && sparePart.getItemCarType().equals(Filter)){
-                                                // Put the spare part with the most frequent ID in the first position
                                                 spareParts.add(sparePart);
                                                 sparepartsAdapter.notifyDataSetChanged();
                                             }
