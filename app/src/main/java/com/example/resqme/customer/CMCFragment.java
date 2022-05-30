@@ -221,7 +221,6 @@ public class CMCFragment extends Fragment {
 
             }
         });
-
         cmcSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -233,6 +232,7 @@ public class CMCFragment extends Fragment {
                 searchCMC(query);
                 return true;
             }
+
         });
 
         return view;

@@ -137,6 +137,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                         if (snapshot.child(sparePart.getItemID()+"-CCC-"+c_userid).exists()) {
                             Toast.makeText(context, "موجود بالفعل", Toast.LENGTH_SHORT).show();
                         }else{
+                            holder.addToCart.setEnabled(false);
                             SparePartInCart sparePartObj = new SparePartInCart(sparePart.getItemID()+"-CCC-"+c_userid, sparePart.getItemID(), c_userid, sparePart.getItemName(), sparePart.getItemImage(), sparePart.getItemPrice(),
                                     sparePart.getItemNewOrUsed(), sparePart.getItemStatus(), sparePart.getItemServiceProviderId(),
                                     sparePart.getItemCarType(), sparePart.getItemAvailability());
@@ -153,7 +154,7 @@ public class SparePartsAdapter extends RecyclerView.Adapter<SparePartsAdapter.Sp
                                             context.startActivity(goToCart);
                                         }
                                     })
-                                    .setActionTextColor(c2.getColor(R.color.blue_back));
+                                    .setActionTextColor(c2.getColor(R.color.white));
                             snackbar.show();
                             LogData.saveLog("SERVICE_CLICK",sparePart.getItemID(),"SPARE_PARTS","", "SPARE_PARTS");
                         }
