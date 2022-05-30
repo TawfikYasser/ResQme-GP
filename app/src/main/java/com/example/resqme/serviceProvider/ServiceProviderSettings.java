@@ -197,7 +197,6 @@ public class ServiceProviderSettings extends AppCompatActivity {
     }
 
     void sendToLogin() {
-        //Logout
         mAuth.signOut();
         File deletePrefFile = new File("/data/data/com.example.resqme/shared_prefs/SP_LOCAL_DATA.xml");
         deletePrefFile.delete();
