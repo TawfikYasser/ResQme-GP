@@ -356,83 +356,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("SP_WINCH", isWinch);
                             editor.putString("SP_SPARE_PARTS", isSpareParts);
                             editor.apply();
-
-                            DatabaseReference spareDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
-                            spareDB.addValueEventListener(new ValueEventListener() {
+                            // Continue login
+                            new Handler().postDelayed(new Runnable() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                        SparePart sparePart = dataSnapshot.getValue(SparePart.class);
-                                        if(sparePart.getItemServiceProviderId().equals(userId)){
-                                            spareDB.child(sparePart.getItemID()).child("itemAvailability").setValue("Available");
-                                        }
+                                public void run() {
+                                    if(serviceType.isEmpty()){
+                                        progressDialog.dismiss();
+                                        Intent i = new Intent(Login.this, ServiceProviderAddService.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                    else{
+                                        progressDialog.dismiss();
+                                        Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                                        startActivity(i);
+                                        finish();
                                     }
 
-                                    DatabaseReference winchDB = FirebaseDatabase.getInstance().getReference().child("Winches");
-                                    winchDB.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                Winch winch = dataSnapshot.getValue(Winch.class);
-                                                if (winch.getWinchOwnerID().equals(userId)) {
-                                                    winchDB.child(winch.getWinchID()).child("winchAvailability").setValue("Available");
-                                                }
-                                            }
-
-                                            DatabaseReference cmcDB = FirebaseDatabase.getInstance().getReference().child("CMCs");
-                                            cmcDB.addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                        CMC cmc = dataSnapshot.getValue(CMC.class);
-                                                        if (cmc.getCmcServiceProviderId().equals(userId)) {
-                                                            cmcDB.child(cmc.getCmcID()).child("cmcAvailability").setValue("Available");
-                                                        }
-                                                    }
-
-                                                    // Continue login
-                                                    new Handler().postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            if(serviceType.isEmpty()){
-                                                                progressDialog.dismiss();
-                                                                Intent i = new Intent(Login.this, ServiceProviderAddService.class);
-                                                                startActivity(i);
-                                                                finish();
-                                                            }
-                                                            else{
-                                                                progressDialog.dismiss();
-                                                                Intent i = new Intent(Login.this, ServiceProviderHome.class);
-                                                                startActivity(i);
-                                                                finish();
-                                                            }
-
-                                                        }
-                                                    }, 1000);
-
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
                                 }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
+                            }, 1000);
                             break;
                         }
                     }
