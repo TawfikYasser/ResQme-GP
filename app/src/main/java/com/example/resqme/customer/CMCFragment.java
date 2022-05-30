@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.common.MyReportAdapter;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.LogDataModel;
@@ -72,6 +74,8 @@ public class CMCFragment extends Fragment {
     ArrayList<String> cmcIDs;
     DatabaseReference logDB;
     LinearLayout noFilterResult;
+    SearchView cmcSearchView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +84,8 @@ public class CMCFragment extends Fragment {
         shimmerFrameLayoutCMCCustomer = view.findViewById(R.id.cmc_customer_shimmer);
         shimmerFrameLayoutCMCCustomer.startShimmer();
         noFilterResult = view.findViewById(R.id.no_request_layout_cmc_fragment);
+        cmcSearchView = view.findViewById(R.id.search_cmc);
+        cmcSearchView.clearFocus();
         FilterBtn = view.findViewById(R.id.FilterButtonCMC);
         cmcRV = view.findViewById(R.id.cmc_recycler);
         context = getActivity().getApplicationContext();
@@ -216,6 +222,53 @@ public class CMCFragment extends Fragment {
             }
         });
 
+        cmcSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                searchCMC(query);
+                return true;
+            }
+        });
+
         return view;
+    }
+
+    private void searchCMC(String query) {
+        cmcDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerFrameLayoutCMCCustomer.isShimmerStarted()){
+                    shimmerFrameLayoutCMCCustomer.startShimmer();
+                    shimmerFrameLayoutCMCCustomer.setVisibility(View.VISIBLE);
+                    cmcRV.setVisibility(View.GONE);
+                }
+                cmcs.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    CMC cmc = dataSnapshot.getValue(CMC.class);
+                    if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available")
+                        && cmc.getCmcName().toLowerCase().contains(query.toLowerCase())){
+                        cmcs.add(cmc);
+                        cmcAdapter.notifyDataSetChanged();
+                    }
+                }
+                shimmerFrameLayoutCMCCustomer.stopShimmer();
+                shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
+                cmcRV.setVisibility(View.VISIBLE);
+                if(cmcs.size() == 0){
+                    noFilterResult.setVisibility(View.VISIBLE);
+                }else{
+                    noFilterResult.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

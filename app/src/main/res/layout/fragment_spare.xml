@@ -7,6 +7,14 @@
     android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     tools:context=".customer.SpareFragment">
+    <androidx.appcompat.widget.SearchView
+        android:layout_margin="8dp"
+        android:background="@drawable/search_background"
+        android:id="@+id/search_spare_parts"
+        app:iconifiedByDefault="false"
+        app:queryHint="ابحث بالاسم..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
        <com.facebook.shimmer.ShimmerFrameLayout
            android:id="@+id/spare_customer_shimmer"
            android:layout_width="match_parent"
@@ -20,6 +28,7 @@
                        <include layout="@layout/spare_parts_item_customer_shimmer" />
                </LinearLayout>
        </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

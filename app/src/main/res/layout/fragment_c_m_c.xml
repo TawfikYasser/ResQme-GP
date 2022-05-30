@@ -7,6 +7,14 @@
     android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     tools:context=".customer.CMCFragment">
+    <androidx.appcompat.widget.SearchView
+        android:layout_margin="8dp"
+        android:background="@drawable/search_background"
+        android:id="@+id/search_cmc"
+        app:iconifiedByDefault="false"
+        app:queryHint="ابحث بالاسم..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/cmc_customer_shimmer"
         android:layout_width="match_parent"

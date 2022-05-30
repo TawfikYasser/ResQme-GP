@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.resqme.R;
+import com.example.resqme.common.LogData;
 import com.example.resqme.model.LogDataModel;
 import com.example.resqme.model.SparePart;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -64,6 +66,7 @@ public class SpareFragment extends Fragment {
     DatabaseReference logDB;
     FloatingActionButton FilterBtn;
     LinearLayout noFilterResult;
+    SearchView spareSearchView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class SpareFragment extends Fragment {
         shimmerFrameLayoutSpareCustomer.startShimmer();
         FilterBtn = view.findViewById(R.id.FilterButtonSpareParts);
         noFilterResult = view.findViewById(R.id.no_request_layout_spare_fragment);
+        spareSearchView = view.findViewById(R.id.search_spare_parts);
+        spareSearchView.clearFocus();
         sparePartsIDs = new ArrayList<>();
         sparepartsRV = view.findViewById(R.id.spare_parts_recycler);
         context = getActivity().getApplicationContext();
@@ -199,6 +204,11 @@ public class SpareFragment extends Fragment {
                         shimmerFrameLayoutSpareCustomer.stopShimmer();
                         shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
                         sparepartsRV.setVisibility(View.VISIBLE);
+                        if(spareParts.size() == 0){
+                            noFilterResult.setVisibility(View.VISIBLE);
+                        }else{
+                            noFilterResult.setVisibility(View.GONE);
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -212,10 +222,53 @@ public class SpareFragment extends Fragment {
             }
         });
 
+        spareSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-
-
-
+            @Override
+            public boolean onQueryTextChange(String query) {
+                searchSpareParts(query);
+                return true;
+            }
+        });
         return view;
+    }
+
+    private void searchSpareParts(String query) {
+        sparepartsDB.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!shimmerFrameLayoutSpareCustomer.isShimmerStarted()){
+                    shimmerFrameLayoutSpareCustomer.startShimmer();
+                    shimmerFrameLayoutSpareCustomer.setVisibility(View.VISIBLE);
+                    sparepartsRV.setVisibility(View.GONE);
+                }
+                spareParts.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    SparePart sparePart = dataSnapshot.getValue(SparePart.class);
+                    if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available")
+                    && sparePart.getItemName().toLowerCase().contains(query.toLowerCase())){
+                        spareParts.add(sparePart);
+                        sparepartsAdapter.notifyDataSetChanged();
+                    }
+                }
+                shimmerFrameLayoutSpareCustomer.stopShimmer();
+                shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
+                sparepartsRV.setVisibility(View.VISIBLE);
+                if(spareParts.size() == 0){
+                    noFilterResult.setVisibility(View.VISIBLE);
+                }else{
+                    noFilterResult.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
