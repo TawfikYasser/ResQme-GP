@@ -1,12 +1,10 @@
 package com.example.resqme.serviceProvider;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,15 +23,7 @@ import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Questions;
 import com.example.resqme.customer.SendReport;
-import com.example.resqme.model.CMC;
-import com.example.resqme.model.SparePart;
-import com.example.resqme.model.Winch;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 
@@ -207,73 +197,13 @@ public class ServiceProviderSettings extends AppCompatActivity {
     }
 
     void sendToLogin() {
-        SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-        String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
-        ProgressDialog logoutDialog = new ProgressDialog(ServiceProviderSettings.this);
-        logoutDialog.setMessage("جاري تسجيل الخروج...");
-        logoutDialog.setCancelable(false);
-        logoutDialog.show();
-        DatabaseReference spareDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
-        spareDB.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    SparePart sparePart = dataSnapshot.getValue(SparePart.class);
-                    if(sparePart.getItemServiceProviderId().equals(sp_userid)){
-                        spareDB.child(sparePart.getItemID()).child("itemAvailability").setValue("Not Available");
-                    }
-                }
-
-                DatabaseReference winchDB = FirebaseDatabase.getInstance().getReference().child("Winches");
-                winchDB.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Winch winch = dataSnapshot.getValue(Winch.class);
-                            if (winch.getWinchOwnerID().equals(sp_userid)) {
-                                winchDB.child(winch.getWinchID()).child("winchAvailability").setValue("Not Available");
-                            }
-                        }
-
-                        DatabaseReference cmcDB = FirebaseDatabase.getInstance().getReference().child("CMCs");
-                        cmcDB.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    CMC cmc = dataSnapshot.getValue(CMC.class);
-                                    if (cmc.getCmcServiceProviderId().equals(sp_userid)) {
-                                        cmcDB.child(cmc.getCmcID()).child("cmcAvailability").setValue("Not Available");
-                                    }
-                                }
-                                logoutDialog.dismiss();
-                                mAuth.signOut();
-                                File deletePrefFile = new File("/data/data/com.example.resqme/shared_prefs/SP_LOCAL_DATA.xml");
-                                deletePrefFile.delete();
-                                Intent intent = new Intent(ServiceProviderSettings.this, Login.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        //Logout
+        mAuth.signOut();
+        File deletePrefFile = new File("/data/data/com.example.resqme/shared_prefs/SP_LOCAL_DATA.xml");
+        deletePrefFile.delete();
+        Intent intent = new Intent(ServiceProviderSettings.this, Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
