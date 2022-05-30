@@ -21,11 +21,15 @@ import android.widget.Toast;
 
 import com.example.resqme.R;
 import com.example.resqme.customer.CustomerHome;
+import com.example.resqme.model.CMC;
 import com.example.resqme.model.Car;
 import com.example.resqme.model.Customer;
 import com.example.resqme.model.ServiceProvider;
+import com.example.resqme.model.SparePart;
+import com.example.resqme.model.Winch;
 import com.example.resqme.serviceProvider.ServiceProviderAddService;
 import com.example.resqme.serviceProvider.ServiceProviderHome;
+import com.example.resqme.serviceProvider.ServiceProviderSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -39,6 +43,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -350,24 +356,83 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("SP_WINCH", isWinch);
                             editor.putString("SP_SPARE_PARTS", isSpareParts);
                             editor.apply();
-                            new Handler().postDelayed(new Runnable() {
+
+                            DatabaseReference spareDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
+                            spareDB.addValueEventListener(new ValueEventListener() {
                                 @Override
-                                public void run() {
-                                    if(serviceType.isEmpty()){
-                                        progressDialog.dismiss();
-                                        Intent i = new Intent(Login.this, ServiceProviderAddService.class);
-                                        startActivity(i);
-                                        finish();
-                                    }
-                                    else{
-                                        progressDialog.dismiss();
-                                        Intent i = new Intent(Login.this, ServiceProviderHome.class);
-                                        startActivity(i);
-                                        finish();
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        SparePart sparePart = dataSnapshot.getValue(SparePart.class);
+                                        if(sparePart.getItemServiceProviderId().equals(userId)){
+                                            spareDB.child(sparePart.getItemID()).child("itemAvailability").setValue("Available");
+                                        }
                                     }
 
+                                    DatabaseReference winchDB = FirebaseDatabase.getInstance().getReference().child("Winches");
+                                    winchDB.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                Winch winch = dataSnapshot.getValue(Winch.class);
+                                                if (winch.getWinchOwnerID().equals(userId)) {
+                                                    winchDB.child(winch.getWinchID()).child("winchAvailability").setValue("Available");
+                                                }
+                                            }
+
+                                            DatabaseReference cmcDB = FirebaseDatabase.getInstance().getReference().child("CMCs");
+                                            cmcDB.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                        CMC cmc = dataSnapshot.getValue(CMC.class);
+                                                        if (cmc.getCmcServiceProviderId().equals(userId)) {
+                                                            cmcDB.child(cmc.getCmcID()).child("cmcAvailability").setValue("Available");
+                                                        }
+                                                    }
+
+                                                    // continue login
+
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            if(serviceType.isEmpty()){
+                                                                progressDialog.dismiss();
+                                                                Intent i = new Intent(Login.this, ServiceProviderAddService.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }
+                                                            else{
+                                                                progressDialog.dismiss();
+                                                                Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }
+
+                                                        }
+                                                    }, 1000);
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
-                            }, 1000);
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
 
                             break;
                         }
