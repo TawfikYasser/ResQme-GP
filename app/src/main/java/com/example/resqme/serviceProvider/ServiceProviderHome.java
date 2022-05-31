@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -91,6 +92,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
         initviews();
         DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
         pageDataLoading();
+        Log.d("Login",FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         // Location Work for Winch and CMC only
         // Condition to be added here

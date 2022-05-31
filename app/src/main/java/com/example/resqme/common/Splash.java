@@ -39,9 +39,16 @@ public class Splash extends AppCompatActivity {
         if(currentUser != null){ // User is logged in, get the user type from local data and go to home.
             goToHome(currentUser);
         }else{ // User is logged out, go to login/registration.
-            Intent loginIntent = new Intent(Splash.this, Login.class);
-            startActivity(loginIntent);
-            finish();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent loginIntent = new Intent(Splash.this, Login.class);
+                    loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(loginIntent);
+                    finish();
+                }
+            }, 100);
+
         }
     }
 
@@ -55,6 +62,7 @@ public class Splash extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent i = new Intent(Splash.this, CustomerHome.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         finish();
                     }
@@ -71,11 +79,13 @@ public class Splash extends AppCompatActivity {
                     public void run() {
                         if(serviceType.isEmpty()){
                             Intent i = new Intent(Splash.this, ServiceProviderAddService.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(i);
                             finish();
                         }
                         else{
                             Intent i = new Intent(Splash.this, ServiceProviderHome.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(i);
                             finish();
                         }

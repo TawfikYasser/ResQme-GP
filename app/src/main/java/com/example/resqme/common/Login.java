@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -150,15 +151,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
-                                        SharedPreferences c_data = getSharedPreferences("CUSTOMER_LOCAL_DATA", MODE_PRIVATE);
-                                        SharedPreferences sp_data = getSharedPreferences("SP_LOCAL_DATA", MODE_PRIVATE);
-                                        if(c_data.contains("C_EMAIL") || sp_data.contains("SP_EMAIL")){
-                                            if(!checkUserData(LoginEmail)){
-                                                getUserData(LoginEmail);
-                                            }
-                                        }else{
-                                            getUserData(LoginEmail);
-                                        }
+                                        Log.d("Login",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        getUserData(LoginEmail);
                                     }else{
                                         progressDialog.dismiss();
                                         String errorMessage = task.getException().getMessage();
@@ -182,47 +176,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    boolean checkUserData(String loginEmail) {
-        boolean found = true;
-        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
-        SharedPreferences userDataSP = getSharedPreferences("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-        if(userData.contains("C_EMAIL")){
-            String c_email = userData.getString("C_EMAIL","C_DEFAULT");
-            if(loginEmail.equals(c_email)){
-                String c_carid = userData.getString("C_CARID","C_DEFAULT");
-                progressDialog.dismiss();
-                Intent i = new Intent(Login.this, CustomerHome.class);
-                startActivity(i);
-                finish();
-            }else{
-                found =  false;
-            }
-        }
-        if(userDataSP.contains("SP_EMAIL")){
-            String sp_email = userDataSP.getString("SP_EMAIL","SP_DEFAULT");
-            String serviceType = userDataSP.getString("SP_ServiceType","SP_DEFAULT");
-            if(loginEmail.equals(sp_email)){
-                if(serviceType.isEmpty()){
-                    progressDialog.dismiss();
-                    Intent i = new Intent(Login.this, ServiceProviderAddService.class);
-                    startActivity(i);
-                    finish();
-                }
-                else{
-                    progressDialog.dismiss();
-                    Intent i = new Intent(Login.this, ServiceProviderHome.class);
-                    startActivity(i);
-                    finish();
-                }
-            }else{
-                found =  false;
-            }
-        }
-        return found;
-    }
-
-
-    //UDPDATE
     void getUserData(String email) {
         databaseCustomers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -232,7 +185,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     if (customer != null) {
                         if (customer.getEmail().equals(email)) {
                             userType.append(customer.getUserType());
-
                             username = customer.getUsername();
                             carID = customer.getCarID();
                             password = customer.getPassword();
@@ -243,7 +195,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             userId = customer.getUserId();
                             rate = customer.getRate();
                             gender = customer.getGender();
-
                             SharedPreferences cld = getSharedPreferences ("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = cld.edit();
                             editor.putString("C_USERNAME", username);
@@ -296,12 +247,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 @Override
                                 public void run() {
                                     progressDialog.dismiss();
+                                    Log.d("TAG", "LOGIN SUCCESS");
                                     Intent i = new Intent(Login.this, CustomerHome.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(i);
                                     finish();
                                 }
                             }, 1000);
-
                             break;
                         }
                     }
@@ -313,8 +265,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
             }
         });
-
-
 
         databaseServiceProviders.addValueEventListener(new ValueEventListener() {
             @Override
@@ -356,19 +306,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             editor.putString("SP_WINCH", isWinch);
                             editor.putString("SP_SPARE_PARTS", isSpareParts);
                             editor.apply();
-                            // Continue login
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if(serviceType.isEmpty()){
                                         progressDialog.dismiss();
                                         Intent i = new Intent(Login.this, ServiceProviderAddService.class);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(i);
                                         finish();
                                     }
                                     else{
                                         progressDialog.dismiss();
                                         Intent i = new Intent(Login.this, ServiceProviderHome.class);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(i);
                                         finish();
                                     }
@@ -388,5 +339,4 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         });
 
     }
-
 }

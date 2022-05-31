@@ -36,6 +36,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,6 +74,7 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
         spareList = new ArrayList<>();
         cmcList = new ArrayList<>();
         infoImage = findViewById(R.id.info_customer_home);
+        Log.d("Login", FirebaseAuth.getInstance().getCurrentUser().getUid());
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         if (savedInstanceState == null) {

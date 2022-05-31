@@ -6,8 +6,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,8 +46,13 @@ public class OnAppStartLogic extends android.app.Application{
         /* Enable disk persistence  */
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
+        SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
+        String c_userid = userData.getString("C_USERID", "C_DEFAULT");
+
+
         // Notification Work
-        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if(c_userid != "C_DEFAULT" && c_userid != null){
+            Log.d("C_USERID", c_userid);
             // Needed for notification history
 
             DatabaseReference nhref = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
@@ -75,7 +82,7 @@ public class OnAppStartLogic extends android.app.Application{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Report report = dataSnapshot.getValue(Report.class);
-                        if (report.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        if (report.getUserID().equals(c_userid)
                                 && report.getReportStatus().equals("Approved")) {
 
                             // Checking if the notification already sent
@@ -142,9 +149,8 @@ public class OnAppStartLogic extends android.app.Application{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
-                        if (winchRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        if (winchRequest.getCustomerID().equals(c_userid)
                                 && winchRequest.getWinchRequestStatus().equals("Approved")) {
-
 
                             // Checking if the notification already sent
                             // if yes, don't send, else, send it
@@ -210,7 +216,7 @@ public class OnAppStartLogic extends android.app.Application{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         CMCRequest cmcRequest = dataSnapshot.getValue(CMCRequest.class);
-                        if (cmcRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        if (cmcRequest.getCustomerID().equals(c_userid)
                                 && cmcRequest.getCmcRequestStatus().equals("Approved")) {
 
 
@@ -278,8 +284,10 @@ public class OnAppStartLogic extends android.app.Application{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         SparePartsRequest sparePartsRequest = dataSnapshot.getValue(SparePartsRequest.class);
-                        if (sparePartsRequest.getCustomerID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+
+                        if (sparePartsRequest.getCustomerID().equals(c_userid)
                                 && sparePartsRequest.getSparePartsRequestStatus().equals("Approved")) {
+
 
                             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
                             rootRef.addValueEventListener(new ValueEventListener() {
@@ -343,7 +351,7 @@ public class OnAppStartLogic extends android.app.Application{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Car car = dataSnapshot.getValue(Car.class);
-                        if (car.getUserID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        if (car.getUserID().equals(c_userid)) {
                             if (car.getCarStatus().equals("Approved")) {
 
 
@@ -462,7 +470,7 @@ public class OnAppStartLogic extends android.app.Application{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot ds : snapshot.getChildren()){
                         RequestDetailsModel requestDetails = ds.getValue(RequestDetailsModel.class);
-                        if(requestDetails.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        if(requestDetails.getCustomerId().equals(c_userid)){
                             //For each type, check if the related winch request timestamp overpassed certain period based on the type
                             if(requestDetails.getBattery().equals("1")){
 
@@ -473,7 +481,8 @@ public class OnAppStartLogic extends android.app.Application{
                                         if(snapshot.exists()){
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
-                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
+                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())
+                                                    && winchRequest.getCustomerID().equals(c_userid)){
 
                                                     // After 2 year we have to send a notification
 
@@ -565,7 +574,8 @@ public class OnAppStartLogic extends android.app.Application{
                                         if(snapshot.exists()){
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
-                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
+                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())
+                                                        && winchRequest.getCustomerID().equals(c_userid)){
 
 
                                                     // Filter after 8 months
@@ -658,7 +668,8 @@ public class OnAppStartLogic extends android.app.Application{
                                         if(snapshot.exists()){
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
-                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
+                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())
+                                                        && winchRequest.getCustomerID().equals(c_userid)){
                                                     // Get the difference between the current time and the time of the request in months
                                                     // convert the date from string to date
                                                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -746,7 +757,8 @@ public class OnAppStartLogic extends android.app.Application{
                                         if(snapshot.exists()){
                                             for (DataSnapshot issue : snapshot.getChildren()) {
                                                 WinchRequest winchRequest = issue.getValue(WinchRequest.class);
-                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())){
+                                                if(winchRequest.getWinchRequestID().equals(requestDetails.getWinchRequestId())
+                                                        && winchRequest.getCustomerID().equals(c_userid)){
 
                                                     // After 4 year
 

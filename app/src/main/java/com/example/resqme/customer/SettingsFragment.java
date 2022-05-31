@@ -24,9 +24,11 @@ import com.example.resqme.common.LogData;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Questions;
+import com.example.resqme.serviceProvider.ServiceProviderSettings;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -226,10 +228,9 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
         deletePrefFile.delete();
         File deletePref2File = new File("/data/data/com.example.resqme/shared_prefs/CAR_LOCAL_DATA.xml");
         deletePref2File.delete();
-
         Intent intent = new Intent(getActivity(), Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        getActivity().finish();
+        requireActivity().finish();
     }
 }
