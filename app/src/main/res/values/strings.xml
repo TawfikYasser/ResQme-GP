@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">ResQme</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="cartypes">
         <item>Mercedes</item>
@@ -20,6 +18,7 @@
         <item>Honda</item>
         <item>Skoda</item>
         <item>Fiat</item>
+        <item>كل الأنوع</item>
     </string-array>
 
 
@@ -44,6 +43,7 @@
         <item>فرنسي</item>
         <item>هندي</item>
         <item>إيطالي</item>
+        <item>عام</item>
     </string-array>
 
     <string-array name="carmodelyears">

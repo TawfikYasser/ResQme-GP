@@ -49,12 +49,10 @@ public class OnAppStartLogic extends android.app.Application{
         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
 
-
         // Notification Work
         if(c_userid != "C_DEFAULT" && c_userid != null){
-            Log.d("C_USERID", c_userid);
-            // Needed for notification history
 
+            // Needed for notification history
             DatabaseReference nhref = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
             nhref.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -354,7 +352,6 @@ public class OnAppStartLogic extends android.app.Application{
                         if (car.getUserID().equals(c_userid)) {
                             if (car.getCarStatus().equals("Approved")) {
 
-
                                 DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
                                 rootRef.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -401,8 +398,6 @@ public class OnAppStartLogic extends android.app.Application{
 
                             }
                             if (car.getCarStatus().equals("Refused")) {
-
-
                                 DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("NotificationHistory");
                                 rootRef.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -458,12 +453,10 @@ public class OnAppStartLogic extends android.app.Application{
                 }
             });
 
-
             // Customer Profile History
             // For each record in request details db, if the customer id is the same as current user
             // for each type [battery, engine, filter, lights, oil, or tier] check if the timestamp from
             // the related winch request is reached based on the type, send notification
-
             DatabaseReference requestDetailsRef = FirebaseDatabase.getInstance().getReference("RequestDetails");
             requestDetailsRef.addValueEventListener(new ValueEventListener() {
                 @Override
