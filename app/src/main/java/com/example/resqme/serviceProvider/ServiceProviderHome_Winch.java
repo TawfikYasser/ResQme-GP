@@ -138,9 +138,8 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     WinchRequest winchReq = dataSnapshot.getValue(WinchRequest.class);
-                    if(winchReq.getWinchOwnerID().equals(sp_userid)
-                            && winchReq.getWinchRequestStatus().equalsIgnoreCase("Pending")
-                            || winchReq.getWinchRequestStatus().equalsIgnoreCase("Approved")){
+                    if(winchReq.getWinchOwnerID().equalsIgnoreCase(sp_userid)
+                            && winchReq.getWinchRequestStatus().equalsIgnoreCase("Approved")){
                         changeWinchAvailabilityBTN.setEnabled(false);
                     }else{
                         changeWinchAvailabilityBTN.setEnabled(true);
