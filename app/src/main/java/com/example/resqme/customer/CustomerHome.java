@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -27,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.InternetConnection;
 import com.example.resqme.common.LogData;
+import com.example.resqme.common.Registeration;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.LogDataModel;
 import com.example.resqme.model.SparePart;
@@ -62,19 +65,28 @@ public class CustomerHome extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> spareList;
     ArrayList<String> cmcList;
     String mostFrequentCarType = "", mostSupportedCarType ="";
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         initViews();
         forceRTLIfSupported();
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = CustomerHome.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         logs = new ArrayList<>();
         spareList = new ArrayList<>();
         cmcList = new ArrayList<>();
         infoImage = findViewById(R.id.info_customer_home);
-        Log.d("Login", FirebaseAuth.getInstance().getCurrentUser().getUid());
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         if (savedInstanceState == null) {

@@ -72,7 +72,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Registeration extends AppCompatActivity implements View.OnClickListener{
 
-
     // Views Initiation
     CircleImageView iUserImage;
     TextInputEditText etUsername, etEmailAddress, etWhatsApp, etPassword, etAddress;
@@ -80,18 +79,13 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     RadioGroup rgUserType, rgUserGender;
     RadioButton rbtnCustomer, rbtnServiceProvider, rbtnMale, rbtnFemale;
     TextView tvLogin, tvAddress;
-
     String bod = "";
-
     Uri mainImageUri = null;
-
     //Firebase Initiation
     FirebaseAuth registrationFirebase;
     FirebaseUser theUser;
     DatabaseReference databaseTableCustomers, databaseTableSP; // Reference on database
     StorageReference mStorageReference;
-
-
     //More views
     ProgressDialog progressDialog;
     InternetConnection ic;
@@ -103,7 +97,6 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         initViews();
         firebaseData();
         forceRTLIfSupported();
-
         if(Locale.getDefault().getLanguage().equals("ar")){
             locale = new Locale("en");
             Locale.setDefault(locale);
