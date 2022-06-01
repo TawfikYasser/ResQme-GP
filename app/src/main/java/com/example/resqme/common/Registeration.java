@@ -15,12 +15,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -92,7 +95,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
     //More views
     ProgressDialog progressDialog;
     InternetConnection ic;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +103,17 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
         initViews();
         firebaseData();
         forceRTLIfSupported();
+
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = Registeration.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         ic = new InternetConnection(this);
         MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("اختار تاريخ الميلاد");
@@ -251,42 +265,63 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
             // Check if number is not less than 11 digit
             if(whatsApp.length() == 11){
                 if(whatsApp.startsWith("012")||whatsApp.startsWith("011")||whatsApp.startsWith("010")|| whatsApp.startsWith("015")){
-                    // Convert bod to date
-                    SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy");
                     Date date = null;
-                    try {
-                        date = sdf.parse(bod);
-                    }   catch (ParseException e) {
-                        e.printStackTrace();
+                    Date currentDate_attr_date = null;
+                    if(locale.getLanguage().equals("ar")){
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+                        try {
+                            date = sdf.parse(bod);
+                        }   catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Date currentDate_attr = new Date();
+                        // change currentDate_attr to MMM dd, yyyy
+                        SimpleDateFormat sdf_attr = new SimpleDateFormat("MMM dd, yyyy",Locale.ENGLISH);
+                        String currentDate_attr_str = sdf_attr.format(currentDate_attr);
+                        //convert currentDate_attr_str to Date
+                        try {
+                            currentDate_attr_date = sdf_attr.parse(currentDate_attr_str);
+                        }
+                        catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }else if(locale.getLanguage().equals("en")){
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+                        try {
+                            date = sdf.parse(bod);
+                        }   catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Date currentDate_attr = new Date();
+                        // change currentDate_attr to MMM dd, yyyy
+                        SimpleDateFormat sdf_attr = new SimpleDateFormat("dd MMM yyyy",Locale.ENGLISH);
+                        String currentDate_attr_str = sdf_attr.format(currentDate_attr);
+                        //convert currentDate_attr_str to Date
+                        try {
+                            currentDate_attr_date = sdf_attr.parse(currentDate_attr_str);
+                        }
+                        catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                     //check if date is not today or in the future
-                    if(date.after(new Date())){
+                    if(date.after(currentDate_attr_date)){
                         Snackbar.make(findViewById(android.R.id.content),"لا يمكن أن يكون تاريخ الميلاد في المستقبل",Snackbar.LENGTH_LONG)
                                 .setBackgroundTint(getResources().getColor(R.color.red_color))
                                 .setTextColor(getResources().getColor(R.color.white))
                                 .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                     }else{
                         // Validate if the date is today
-                        //get current date in the same format of date
-                        Date currentDate = new Date();
-                        SimpleDateFormat sdf2 = new SimpleDateFormat("d MMMM yyyy");
-                        String currentDateString = sdf2.format(currentDate);
-                        Date currentDate2 = null;
-                        try {
-                            currentDate2 = sdf.parse(currentDateString);
-                        }   catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if(date.equals(currentDate2)){
+                        if(date.equals(currentDate_attr_date)){
                             Snackbar.make(findViewById(android.R.id.content),"لا يمكن أن يكون تاريخ الميلاد هو تاريخ اليوم",Snackbar.LENGTH_LONG)
                                     .setBackgroundTint(getResources().getColor(R.color.red_color))
                                     .setTextColor(getResources().getColor(R.color.white))
                                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                         }else{
                             // based on date and currentDate2, check if age is less than 18
-                            if(date.before(currentDate2)){
+                            if(date.before(currentDate_attr_date)){
                                 //check if age is less than 18
-                                int age = currentDate2.getYear() - date.getYear();
+                                int age = currentDate_attr_date.getYear() - date.getYear();
                                 if(age < 18){
                                     Snackbar.make(findViewById(android.R.id.content),"لا يمكن أن يكون السن أقل من 18 سنة",Snackbar.LENGTH_LONG)
                                             .setBackgroundTint(getResources().getColor(R.color.red_color))
@@ -310,9 +345,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                                 }
                             }
                         }
-
                     }
-
                 }else{
                     Snackbar.make(findViewById(android.R.id.content),"يجب أن يبدء رقم الواتساب بـ 012/011/010/015",Snackbar.LENGTH_LONG)
                             .setBackgroundTint(getResources().getColor(R.color.red_color))
