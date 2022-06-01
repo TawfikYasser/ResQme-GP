@@ -64,8 +64,8 @@ public class CMCRequestsAdapter extends RecyclerView.Adapter<CMCRequestsAdapter.
         // Whatever status
         holder.tvCMCRequestTimestamp.setText(cmcRequests.get(position).getRequestCMCTimestamp());
         holder.tvCMCRequestDescription.setText(cmcRequests.get(position).getCmcRequestDescription());
-
         // Status depending
+        holder.tvCMCRequestName.setText(cmcRequests.get(position).getCmcName());
         if(cmcRequests.get(position).getCmcRequestStatus().equals("Pending")){
             holder.tvCMCRequestStatus.setText("قيد المراجعة");
             holder.tvCMCRequestStatus.setTextColor(Color.rgb(255, 166, 53));

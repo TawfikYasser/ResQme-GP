@@ -27,7 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
+public class
+CMCAdapter extends RecyclerView.Adapter<CMCAdapter.CMCViewHolder> {
 
     Context context;
     ArrayList<CMC> cmcs;
