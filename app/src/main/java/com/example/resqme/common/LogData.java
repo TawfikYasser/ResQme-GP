@@ -1,5 +1,7 @@
 package com.example.resqme.common;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.example.resqme.R;
@@ -17,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class LogData {
+
     // LOGID - TIMESTAMP - USERID - EVENTTYPE - SERVICEID - SERVICENAME - APPCLICKNAME - PAGENAME - DEVICESDK - DEVICENAME - DEVICEMODEL
     public static void saveLog(
             String eventType, String serviceID, String serviceName, String appClickName, String pageName){
@@ -32,9 +35,13 @@ public class LogData {
         String sdk_version = String.valueOf(Build.VERSION.SDK_INT);
         String device_name = android.os.Build.DEVICE;
         String device_model = android.os.Build.MODEL;
-        // Saving the log
-        logTable.child(logRecordID).setValue(new LogDataModel(logRecordID, logTimestamp,
-                FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                eventType, serviceID, serviceName, appClickName, pageName, sdk_version, device_name, device_model));
+        // User Data
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            // Saving the log
+            logTable.child(logRecordID).setValue(new LogDataModel(logRecordID, logTimestamp,
+                    userID, eventType, serviceID, serviceName, appClickName, pageName, sdk_version, device_name, device_model));
+        }
+
     }
 }

@@ -1,7 +1,9 @@
 package com.example.resqme.serviceProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +14,10 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +41,7 @@ import com.example.resqme.common.MyReportAdapter;
 import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.customer.CustomerProfile;
 import com.example.resqme.customer.SparePartsAdapter;
+import com.example.resqme.customer.WinchFragment;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.Report;
 import com.example.resqme.model.ServiceProvider;
@@ -53,6 +59,8 @@ import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -92,7 +100,9 @@ public class ServiceProviderHome extends AppCompatActivity  {
         initviews();
         DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");
         pageDataLoading();
-        Log.d("Login",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        String sp_serviceType = userData.getString("SP_ServiceType","SP_DEFAULT");
+        String sp_winch = userData.getString("SP_WINCH","SP_DEFAULT");
 
         // Location Work for Winch and CMC only
         // Condition to be added here
@@ -103,7 +113,7 @@ public class ServiceProviderHome extends AppCompatActivity  {
             e.printStackTrace();
         }
         if (GPS == 0) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(ServiceProviderHome.this, R.style.AlertDialogCustom);
             alertDialog.setTitle("إعدادات الموقع");
             alertDialog.setMessage("الـ GPS غير مُفعل، لإستخدام التطبيق يجب تفعيله هل انت موافق؟");
             alertDialog.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
@@ -148,47 +158,49 @@ public class ServiceProviderHome extends AppCompatActivity  {
             GrantedToWork = 1;
         }
         if (GrantedToWork != 0) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            }
-            locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-            locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(20000);
-            locationCallback = new LocationCallback(){
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    if (locationResult == null) {
-                        return;
-                    }
-                    for (Location location : locationResult.getLocations()) {
-                         if (location != null) {
-
-                             myLat = String.valueOf(location.getLatitude());
-                             myLong = String.valueOf(location.getLongitude());
-                             // Change winch dimensions of this service provider
-                             SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
-                             String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
-                             winchesData.addValueEventListener(new ValueEventListener() {
-                                 @Override
-                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                         Winch winch = dataSnapshot.getValue(Winch.class);
-                                         if(winch.getWinchOwnerID().equals(sp_userid)){
-                                             winchesData.child(winch.getWinchID()).child("winchCurrentLat").setValue(myLat);
-                                             winchesData.child(winch.getWinchID()).child("winchCurrentLong").setValue(myLong);
-                                         }
-                                     }
-                                 }
-                                 @Override
-                                 public void onCancelled(@NonNull DatabaseError error) {
-
-                                 }
-                             });
-
-                         }
-                    }
+            if (sp_serviceType.equals("Winch") || sp_winch.equals("True")){
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 }
-            };
+                locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                locationRequest = LocationRequest.create();
+                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                locationRequest.setInterval(20000);
+                locationCallback = new LocationCallback(){
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        if (locationResult == null) {
+                            return;
+                        }else{
+                            for (Location location : locationResult.getLocations()) {
+                                if (location != null) {
+                                    myLat = String.valueOf(location.getLatitude());
+                                    myLong = String.valueOf(location.getLongitude());
+                                    // Change winch dimensions of this service provider
+                                    SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+                                    String sp_userid = userData.getString("SP_USERID","SP_DEFAULT");
+                                    winchesData.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                                Winch winch = dataSnapshot.getValue(Winch.class);
+                                                if(winch.getWinchOwnerID().equals(sp_userid)){
+                                                    winchesData.child(winch.getWinchID()).child("winchCurrentLat").setValue(myLat);
+                                                    winchesData.child(winch.getWinchID()).child("winchCurrentLong").setValue(myLong);
+                                                }
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+                                }
+                            }
+                        }
+                    }
+                };
+            }
         }
 
         // Material Card Clicks [will appear based on the condition]
@@ -227,24 +239,25 @@ public class ServiceProviderHome extends AppCompatActivity  {
         });
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onStart() {
         super.onStart();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
+        SharedPreferences userData = getSharedPreferences ("SP_LOCAL_DATA", Context.MODE_PRIVATE);
+        String sp_serviceType = userData.getString("SP_ServiceType","SP_DEFAULT");
+        String sp_winch = userData.getString("SP_WINCH","SP_DEFAULT");
+        if(locationProviderClient != null && GrantedToWork != 0){
+            if(sp_serviceType.equals("Winch") || sp_winch.equals("True")){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                locationProviderClient.requestLocationUpdates(locationRequest,
+                        locationCallback,
+                        Looper.getMainLooper());
             }
         }
-        locationProviderClient.requestLocationUpdates(locationRequest,
-                locationCallback,
-                Looper.getMainLooper());
     }
 
     private void pageDataLoading() {
@@ -370,6 +383,25 @@ public class ServiceProviderHome extends AppCompatActivity  {
                 startActivity(toAddsparepartintent);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 150) {
+            try {
+                GPS = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (GPS != 0) {
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(context, "إعادة تشغيل التطبيق...", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context, "لم يتم تفعيل الـ GPS.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void initviews() {
