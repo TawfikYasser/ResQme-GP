@@ -115,11 +115,16 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        locale = new Locale("en");
+                        Locale.setDefault(locale);
+                        Resources resources = Registeration.this.getResources();
+                        Configuration config = resources.getConfiguration();
+                        config.setLocale(locale);
+                        resources.updateConfiguration(config, resources.getDisplayMetrics());
                         materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
 
                     }
                 });
-
         materialDatePicker.addOnPositiveButtonClickListener(
                 (MaterialPickerOnPositiveButtonClickListener) selection -> bod = materialDatePicker.getHeaderText());
 
@@ -279,7 +284,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                             e.printStackTrace();
                         }
                     }else if(locale.getLanguage().equals("en")){
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
                         try {
                             date = sdf.parse(bod);
                         }   catch (ParseException e) {
@@ -287,7 +292,7 @@ public class Registeration extends AppCompatActivity implements View.OnClickList
                         }
                         Date currentDate_attr = new Date();
                         // change currentDate_attr to MMM dd, yyyy
-                        SimpleDateFormat sdf_attr = new SimpleDateFormat("dd MMM yyyy",Locale.ENGLISH);
+                        SimpleDateFormat sdf_attr = new SimpleDateFormat("MMM dd, yyyy",Locale.ENGLISH);
                         String currentDate_attr_str = sdf_attr.format(currentDate_attr);
                         //convert currentDate_attr_str to Date
                         try {
