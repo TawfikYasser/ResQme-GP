@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class ServiceProviderHome_Winch extends AppCompatActivity {
@@ -95,6 +97,7 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
                             winchAvailabilitySPHome.setTextColor(Color.GREEN);
                             changeWinchAvailabilityBTN.setText("اجعل الونش غير متاح");
                             winchAvailability = "Available";
+                            changeWinchAvailabilityBTN.setEnabled(true);
                         }else{
                             winchAvailabilitySPHome.setText("غير متاح");
                             winchAvailabilitySPHome.setTextColor(Color.RED);
@@ -102,23 +105,24 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
                             winchAvailability = "Not Available";
                         }
                         if(winch.getWinchStatus().equals("Pending")){
-                            changeWinchAvailabilityBTN.setEnabled(false);
                             winchAvailabilitySPHome.setText("غير متاح");
                             winchAvailabilitySPHome.setTextColor(Color.RED);
-
                             winchStatusSPHome.setText("يتم مراجعة بيانات الونش");
                             winchStatusSPHome.setTextColor(Color.rgb(255, 166, 53));
-                        }else if(winch.getWinchStatus().equals("Approved")){
+                        }else if(winch.getWinchStatus().equals("Approved")
+                        && winch.getWinchAvailability().equals("Available")){
                             changeWinchAvailabilityBTN.setEnabled(true);
                             winchStatusSPHome.setText("تم قبول الونش");
                             winchStatusSPHome.setTextColor(Color.GREEN);
                         }else if(winch.getWinchStatus().equals("Refused")){
                             winchAvailabilitySPHome.setText("غير متاح");
                             winchAvailabilitySPHome.setTextColor(Color.RED);
-
-                            changeWinchAvailabilityBTN.setEnabled(false);
                             winchStatusSPHome.setText("تم رفض الونش");
                             winchStatusSPHome.setTextColor(Color.RED);
+                        }
+                        if(winch.getWinchStatus().equals("Approved")){
+                            winchStatusSPHome.setText("تم قبول الونش");
+                            winchStatusSPHome.setTextColor(Color.GREEN);
                         }
                     }
                 }
@@ -131,18 +135,20 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
 
             }
         });
-        // Check if the winch already have an approved request
+
+
+
         DatabaseReference winchRequests = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
         winchRequests.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    WinchRequest winchReq = dataSnapshot.getValue(WinchRequest.class);
-                    if(winchReq.getWinchOwnerID().equalsIgnoreCase(sp_userid)
-                            && winchReq.getWinchRequestStatus().equalsIgnoreCase("Approved")){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    WinchRequest winchRequest = dataSnapshot.getValue(WinchRequest.class);
+                    if(winchRequest.getWinchID().equals(winchID)
+                    && winchRequest.getWinchRequestStatus().equals("Approved")){
+                        // If the winch request is related to my winch and the status = Approved
+                        // I can not change the winch availability
                         changeWinchAvailabilityBTN.setEnabled(false);
-                    }else{
-                        changeWinchAvailabilityBTN.setEnabled(true);
                     }
                 }
             }
@@ -152,7 +158,9 @@ public class ServiceProviderHome_Winch extends AppCompatActivity {
 
             }
         });
-        //Will be moved to the activity
+
+
+
         // Changing winch availability
         changeWinchAvailabilityBTN.setOnClickListener(new View.OnClickListener() {
             @Override

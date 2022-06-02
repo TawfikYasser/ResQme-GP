@@ -278,8 +278,6 @@ public class SPWinchRequestsAdapter extends RecyclerView.Adapter<SPWinchRequests
                                         ProgressDialog progressDialog = new ProgressDialog(context_2);
                                         progressDialog.setMessage("انتظر قليلاً...");
                                         progressDialog.show();
-
-
                                         Query query = FirebaseDatabase.getInstance().getReference("Customer").
                                                 orderByChild("userId").equalTo(customerID);
                                         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -295,20 +293,18 @@ public class SPWinchRequestsAdapter extends RecyclerView.Adapter<SPWinchRequests
                                                     String rateID = rateTable.push().getKey();
                                                     Rate rate = new Rate(rateID, customerID, firebaseAuth.getCurrentUser().getUid(), String.valueOf(ratingBar.getRating()), rateText.getText().toString().trim(), winchRequestID, "ServiceProvider");
                                                     rateTable.child(rateID).setValue(rate);
-
                                                     progressDialog.dismiss();
                                                     Toast.makeText(context_2, "تمت عملية التقييم بنجاح!", Toast.LENGTH_SHORT).show();
                                                     rateDialog.cancel();
                                                 }
-
                                             }
-
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError error) {
 
                                             }
                                         });
                                     }
+                                    
                                 })
                                 .setNegativeButton("رجوع", null)
                                 .show();

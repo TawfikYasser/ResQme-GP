@@ -112,6 +112,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <com.google.android.material.button.MaterialButton
+                            android:enabled="false"
                             android:layout_width="match_parent"
                             android:id="@+id/change_winch_availability_sp_home_btn"
                             android:text="تغيير حالة الونش"
