@@ -36,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class WinchRequests extends AppCompatActivity {
 
     RecyclerView winchRequestRV;
@@ -66,6 +68,7 @@ public class WinchRequests extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         winchRequestRV.setLayoutManager(linearLayoutManager);
         winchRequestRV.setHasFixedSize(true);
+        OverScrollDecoratorHelper.setUpOverScroll(winchRequestRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         winchRequests = new ArrayList<>();
         winchRequestsAdapter = new WinchRequestsAdapter(this, winchRequests, serviceProvidersDB, view, context_2);
         winchRequestRV.setAdapter(winchRequestsAdapter);

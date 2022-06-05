@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class SP_CMC_Requests extends AppCompatActivity {
     RecyclerView cmcRequestRV;
     DatabaseReference cmcRequestsDB, CustomerDB;
@@ -54,6 +56,7 @@ public class SP_CMC_Requests extends AppCompatActivity {
         CustomerDB = FirebaseDatabase.getInstance().getReference().child("Customer");
         cmcRequestRV.setHasFixedSize(true);
         cmcRequestRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(cmcRequestRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         cmcRequests = new ArrayList<>();
         cmcRequestsAdapter = new SPCMCRequestsAdapter(cmcRequests, context, context_2, CustomerDB, view);
         cmcRequestRV.setAdapter(cmcRequestsAdapter);

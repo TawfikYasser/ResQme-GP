@@ -66,4 +66,6 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     //Lottie
     implementation 'com.airbnb.android:lottie:3.4.0'
+    //Over scroll
+    implementation 'io.github.everythingme:overscroll-decor-android:1.1.1'
 }

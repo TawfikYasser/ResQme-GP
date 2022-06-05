@@ -31,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class DetailsQuestion extends AppCompatActivity {
 
 
@@ -64,6 +66,7 @@ public class DetailsQuestion extends AppCompatActivity {
         repliesDB = FirebaseDatabase.getInstance().getReference().child("Replies");
         questionDetailsRV.setHasFixedSize(true);
         questionDetailsRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(questionDetailsRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         questionReplies = new ArrayList<>();
         questionReplyAdapter = new QuestionReplyAdapter(questionReplies, this);
         questionDetailsRV.setAdapter(questionReplyAdapter);

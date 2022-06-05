@@ -26,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class ServiceProviderHome_SpareParts extends AppCompatActivity {
     // Spare Parts Data
     RecyclerView sparePartsSPHomeRV;
@@ -64,6 +66,7 @@ public class ServiceProviderHome_SpareParts extends AppCompatActivity {
         sparePartsDB = FirebaseDatabase.getInstance().getReference().child("SpareParts");
         sparePartsSPHomeRV.setHasFixedSize(true);
         sparePartsSPHomeRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(sparePartsSPHomeRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         spareParts = new ArrayList<>();
         SparePartsAdapter = new SparePartsSPHomeAdapter(ServiceProviderHome_SpareParts.this, spareParts);
         sparePartsSPHomeRV.setAdapter(SparePartsAdapter);

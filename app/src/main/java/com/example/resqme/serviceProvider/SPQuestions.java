@@ -33,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class SPQuestions extends AppCompatActivity {
 
     RecyclerView questionRV;
@@ -61,6 +63,7 @@ public class SPQuestions extends AppCompatActivity {
         questionDB = FirebaseDatabase.getInstance().getReference().child("Questions");
         questionRV.setHasFixedSize(true);
         questionRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(questionRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         questions = new ArrayList<>();
         questionsAdapter = new SPQuestionsAdapter(questions, this, context_2, view);
         questionRV.setAdapter(questionsAdapter);

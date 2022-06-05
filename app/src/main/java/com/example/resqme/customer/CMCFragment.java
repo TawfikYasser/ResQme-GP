@@ -44,6 +44,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class CMCFragment extends Fragment {
 
 
@@ -95,6 +97,7 @@ public class CMCFragment extends Fragment {
         cmcIDs = new ArrayList<>();
         cmcRV.setHasFixedSize(true);
         cmcRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        OverScrollDecoratorHelper.setUpOverScroll(cmcRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         cmcs = new ArrayList<>();
         cmcAdapter = new CMCAdapter(context_2, cmcs);
         cmcRV.setAdapter(cmcAdapter);

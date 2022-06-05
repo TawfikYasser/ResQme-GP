@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class CMCRequests extends AppCompatActivity {
 
     RecyclerView cmcRequestRV;
@@ -59,6 +61,7 @@ public class CMCRequests extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         cmcRequestRV.setLayoutManager(linearLayoutManager);
+        OverScrollDecoratorHelper.setUpOverScroll(cmcRequestRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         cmcRequests = new ArrayList<>();
         cmcRequestsAdapter = new CMCRequestsAdapter(this, cmcRequests, serviceProvidersDB, context_2, view);
         cmcRequestRV.setAdapter(cmcRequestsAdapter);

@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class MyReports extends AppCompatActivity {
 
     RecyclerView myReportsRV;
@@ -55,6 +57,7 @@ public class MyReports extends AppCompatActivity {
         myReportsDB = FirebaseDatabase.getInstance().getReference().child("Reports");
         myReportsRV.setHasFixedSize(true);
         myReportsRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(myReportsRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         reports = new ArrayList<>();
         myReportAdapter = new MyReportAdapter(this, reports);
         myReportsRV.setAdapter(myReportAdapter);

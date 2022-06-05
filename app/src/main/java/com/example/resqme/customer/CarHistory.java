@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class CarHistory extends AppCompatActivity {
     RecyclerView requestDetailsRV;
     DatabaseReference requestDetailsDB,winchRequestsDB;
@@ -48,6 +50,7 @@ public class CarHistory extends AppCompatActivity {
         winchRequestsDB = FirebaseDatabase.getInstance().getReference().child("WinchRequests");
         requestDetailsRV.setHasFixedSize(true);
         requestDetailsRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(requestDetailsRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         requestDetails = new ArrayList<>();
         requestDetailsAdapter = new RequestDetailsAdapter(this, requestDetails, winchRequestsDB, view, context_2);
         requestDetailsRV.setAdapter(requestDetailsAdapter);

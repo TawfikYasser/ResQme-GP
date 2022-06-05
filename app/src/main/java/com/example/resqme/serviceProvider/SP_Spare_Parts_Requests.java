@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class SP_Spare_Parts_Requests extends AppCompatActivity {
     RecyclerView spareRequestRV;
     DatabaseReference spareRequestsDB, CustomerDB;
@@ -54,6 +56,7 @@ public class SP_Spare_Parts_Requests extends AppCompatActivity {
         CustomerDB = FirebaseDatabase.getInstance().getReference().child("Customer");
         spareRequestRV.setHasFixedSize(true);
         spareRequestRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(spareRequestRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         sparePartsRequests = new ArrayList<>();
         spareRequestsAdapter = new SPSparePartsRequestsAdapter(sparePartsRequests, context, CustomerDB, context_2, view);
         spareRequestRV.setAdapter(spareRequestsAdapter);

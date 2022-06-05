@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class SP_Winch_Requests extends AppCompatActivity {
     RecyclerView winchRequestRV;
     DatabaseReference winchRequestsDB, CustomerDB;
@@ -54,6 +56,7 @@ public class SP_Winch_Requests extends AppCompatActivity {
         CustomerDB = FirebaseDatabase.getInstance().getReference().child("Customer");
         winchRequestRV.setHasFixedSize(true);
         winchRequestRV.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(winchRequestRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         winchRequests = new ArrayList<>();
         winchRequestsAdapter = new SPWinchRequestsAdapter(winchRequests, this, CustomerDB, context_2, view);
         winchRequestRV.setAdapter(winchRequestsAdapter);

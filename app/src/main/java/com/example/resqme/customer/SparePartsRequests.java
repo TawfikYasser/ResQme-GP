@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class SparePartsRequests extends AppCompatActivity {
     RecyclerView sparePartsRequestRV;
     DatabaseReference sparePartsRequestsDB, serviceProvidersDB, sparePartsItemDB;
@@ -60,6 +62,7 @@ public class SparePartsRequests extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         sparePartsRequestRV.setLayoutManager(linearLayoutManager);
+        OverScrollDecoratorHelper.setUpOverScroll(sparePartsRequestRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         sparePartsRequests = new ArrayList<>();
         sparePartsRequestsAdapter = new SparePartsRequestAdapter(this, sparePartsRequests, serviceProvidersDB, sparePartsItemDB, context_2, view);
         sparePartsRequestRV.setAdapter(sparePartsRequestsAdapter);

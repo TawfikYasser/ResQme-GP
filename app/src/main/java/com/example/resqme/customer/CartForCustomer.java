@@ -55,6 +55,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class CartForCustomer extends AppCompatActivity {
     RecyclerView spareCartRV;
     DatabaseReference shoppingDB, sparePartsRequestsDB;
@@ -83,6 +85,7 @@ public class CartForCustomer extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         spareCartRV.setLayoutManager(linearLayoutManager);
+        OverScrollDecoratorHelper.setUpOverScroll(spareCartRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         sparePartInCarts = new ArrayList<>();
         spareCartAdapter = new SpareCartAdapter(this, sparePartInCarts, shoppingDB);
         spareCartRV.setAdapter(spareCartAdapter);

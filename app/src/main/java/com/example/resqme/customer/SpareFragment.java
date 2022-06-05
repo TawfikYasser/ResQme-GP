@@ -38,6 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 
 public class SpareFragment extends Fragment {
 
@@ -87,6 +89,7 @@ public class SpareFragment extends Fragment {
         logDB = FirebaseDatabase.getInstance().getReference().child("LOG");
         sparepartsRV.setHasFixedSize(true);
         sparepartsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        OverScrollDecoratorHelper.setUpOverScroll(sparepartsRV, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         spareParts = new ArrayList<>();
         sparepartsAdapter = new SparePartsAdapter(getActivity(), spareParts, context_2, view);
         sparepartsRV.setAdapter(sparepartsAdapter);
