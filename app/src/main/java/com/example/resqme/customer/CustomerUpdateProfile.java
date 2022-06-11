@@ -16,6 +16,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +58,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerUpdateProfile extends AppCompatActivity implements View.OnClickListener{
@@ -69,10 +73,21 @@ public class CustomerUpdateProfile extends AppCompatActivity implements View.OnC
     SharedPreferences c_data;
     FirebaseUser user;
     InternetConnection ic;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_update_profile);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = CustomerUpdateProfile.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initViews();
         initToolbar();
         forceRTLIfSupported();

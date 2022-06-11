@@ -5,6 +5,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,15 +14,29 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.resqme.R;
+import com.example.resqme.customer.CustomerHome;
+
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ContactUs extends AppCompatActivity {
     CircleImageView contactUsWhatsApp, contactUsFacebook;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ContactUs.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         contactUsWhatsApp = findViewById(R.id.contactus_whatsapp);

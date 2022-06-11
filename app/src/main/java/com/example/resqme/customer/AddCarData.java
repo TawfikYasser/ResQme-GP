@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +42,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Locale;
+
 public class AddCarData extends AppCompatActivity implements View.OnClickListener{
 
     AutoCompleteTextView aCarType, aCarModelYear, aCarMaintenance;
@@ -54,11 +58,23 @@ public class AddCarData extends AppCompatActivity implements View.OnClickListene
     StorageReference carImages;
 
     ProgressDialog progressDialog;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_car_data);
+
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = AddCarData.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
+
         // Initialization of cars table
         carTable = FirebaseDatabase.getInstance().getReference().child("Cars");
         // Initialization of cars images

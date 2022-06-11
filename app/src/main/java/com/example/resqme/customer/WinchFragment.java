@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
@@ -127,7 +129,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
     ProgressDialog progressDialog;
     String winchRequestServiceCost = "";
     ProgressBar progressBar;
-
+    Locale locale;
     /*
      * This fragment works as the follows:
      * Check if Location & GPS are enabled
@@ -142,6 +144,16 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_winch, container, false);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = getActivity().getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         context = container.getContext();
         winches = FirebaseDatabase.getInstance().getReference().child("Winches");
         winchesList = new ArrayList<>();

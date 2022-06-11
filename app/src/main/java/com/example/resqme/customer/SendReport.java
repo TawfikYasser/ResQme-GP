@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
+
 public class SendReport extends AppCompatActivity {
 
     Button sendButn;
@@ -38,11 +42,21 @@ public class SendReport extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_report);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = SendReport.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         initToolbar();

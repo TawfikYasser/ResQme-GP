@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.resqme.R;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.Question;
 import com.example.resqme.model.Report;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -28,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -40,11 +44,22 @@ public class Questions extends AppCompatActivity {
     ArrayList<Question> questions;
     Context context;
     LinearLayout noQuestions;
+    Locale locale;
     ShimmerFrameLayout shimmerCustomerQuestions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = Questions.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         forceRTLIfSupported();
         initToolbar();
         shimmerCustomerQuestions = findViewById(R.id.questions_layout_customer_shimmer);

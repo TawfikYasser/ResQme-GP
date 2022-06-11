@@ -3,6 +3,8 @@ package com.example.resqme.customer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -43,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -77,12 +80,22 @@ public class CMCFragment extends Fragment {
     DatabaseReference logDB;
     LinearLayout noFilterResult;
     SearchView cmcSearchView;
-
+    Locale locale;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_c_m_c, container, false);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = getActivity().getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         shimmerFrameLayoutCMCCustomer = view.findViewById(R.id.cmc_customer_shimmer);
         shimmerFrameLayoutCMCCustomer.startShimmer();
         noFilterResult = view.findViewById(R.id.no_request_layout_cmc_fragment);

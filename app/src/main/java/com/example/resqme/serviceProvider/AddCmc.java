@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +36,7 @@ import com.example.resqme.R;
 import com.example.resqme.common.AddressMap;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Splash;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.CMC;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -52,6 +55,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddCmc extends AppCompatActivity implements View.OnClickListener{
@@ -66,11 +71,21 @@ public class AddCmc extends AppCompatActivity implements View.OnClickListener{
     DatabaseReference ServicesTable,ServiceProvidersTable;
     AutoCompleteTextView cartype;
     String  CarMfgCountry = "";
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_cmc);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = AddCmc.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         context = this.getApplicationContext();
         ServicesTable = FirebaseDatabase.getInstance().getReference().child("CMCs");
         ServiceProvidersTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");

@@ -11,6 +11,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProcessingRequestWinch extends AppCompatActivity{
@@ -63,11 +66,21 @@ public class ProcessingRequestWinch extends AppCompatActivity{
     String ClientSecret;
     InternetConnection ic;
 
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_processing_request_winch);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ProcessingRequestWinch.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         context = this;

@@ -8,6 +8,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,9 +49,20 @@ public class CustomerProfile extends AppCompatActivity implements View.OnClickLi
     DatabaseReference customerTable, customers;
     ImageView ivDriverLicence, ivCarLicence;
     Context context;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = CustomerProfile.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         context = this.getApplicationContext();
         customerTable = FirebaseDatabase.getInstance().getReference().child("Cars");
         customers = FirebaseDatabase.getInstance().getReference().child("Customer");

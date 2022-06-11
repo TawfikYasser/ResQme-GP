@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +48,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+import java.util.Locale;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -74,13 +77,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     String rate = "";
     String gender = "";
     String isCMC ="", isWinch = "", isSpareParts = "";
-
+    Locale locale;
     InternetConnection ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = Login.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         /// System Data START ************************************************************///
         mAuth = FirebaseAuth.getInstance();
         /// System Data END ************************************************************///

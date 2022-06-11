@@ -2,6 +2,8 @@ package com.example.resqme.customer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -70,11 +73,22 @@ public class SpareFragment extends Fragment {
     FloatingActionButton FilterBtn;
     LinearLayout noFilterResult;
     SearchView spareSearchView;
+    Locale locale;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_spare, container, false);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = getActivity().getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         shimmerFrameLayoutSpareCustomer = view.findViewById(R.id.spare_customer_shimmer);
         shimmerFrameLayoutSpareCustomer.startShimmer();
         FilterBtn = view.findViewById(R.id.FilterButtonSpareParts);

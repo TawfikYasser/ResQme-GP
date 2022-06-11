@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.resqme.R;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.customer.WinchRequests;
 import com.example.resqme.customer.WinchRequestsAdapter;
 import com.example.resqme.model.WinchRequest;
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -39,10 +43,21 @@ public class SP_Winch_Requests extends AppCompatActivity {
     View view;
     LinearLayout noRequests;
     ShimmerFrameLayout shimmerSPWinchRequests;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_winch_requests);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = SP_Winch_Requests.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         shimmerSPWinchRequests = findViewById(R.id.winch_requests_sp_shimmer);

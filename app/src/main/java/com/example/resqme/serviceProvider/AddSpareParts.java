@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.resqme.R;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.CMC;
 import com.example.resqme.model.SparePart;
 import com.example.resqme.model.Winch;
@@ -41,6 +44,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,12 +63,22 @@ public class AddSpareParts extends AppCompatActivity implements View.OnClickList
     Uri sparePartsUri = null;
     ProgressDialog progressDialog;
 
-
+    Locale locale;
     String fromSTR = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_add_spareparts_data);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = AddSpareParts.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         context = this.getApplicationContext();
         ServicesTable = FirebaseDatabase.getInstance().getReference().child("SpareParts");
         ServiceProvidersTable = FirebaseDatabase.getInstance().getReference().child("ServiceProviders");

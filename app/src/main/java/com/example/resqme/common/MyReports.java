@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.resqme.R;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.Report;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -41,11 +45,21 @@ public class MyReports extends AppCompatActivity {
     LinearLayout noReports;
     private FirebaseAuth mAuth;
     ShimmerFrameLayout shimmerReportsLayout;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_reports);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = MyReports.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         shimmerReportsLayout = findViewById(R.id.reports_shimmer_layout);

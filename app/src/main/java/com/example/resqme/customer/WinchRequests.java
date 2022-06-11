@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -48,10 +50,21 @@ public class WinchRequests extends AppCompatActivity {
     View view;
     LinearLayout noRequests;
     ShimmerFrameLayout shimmerCustomerWinchRequests;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winch_requests);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = WinchRequests.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         shimmerCustomerWinchRequests = findViewById(R.id.winch_requests_customer_shimmer);

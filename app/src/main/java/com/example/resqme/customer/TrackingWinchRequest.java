@@ -14,6 +14,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -66,6 +68,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TrackingWinchRequest extends AppCompatActivity {
     private SupportMapFragment mapFragment = null;
@@ -83,11 +86,21 @@ public class TrackingWinchRequest extends AppCompatActivity {
     FusedLocationProviderClient locationProviderClient;
     LocationRequest locationRequest = null;
     LocationCallback locationCallback = null;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking_winch_request);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = TrackingWinchRequest.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         Intent intent = getIntent();
         myLat = intent.getStringExtra("CUSTOMER_LAT");
         myLong = intent.getStringExtra("CUSTOMER_LONG");

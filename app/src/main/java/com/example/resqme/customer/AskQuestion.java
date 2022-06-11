@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,16 +29,28 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
+
 public class AskQuestion extends AppCompatActivity {
     Button sendQuestion;
     TextInputEditText questionET;
     DatabaseReference questionDB;
     ProgressDialog progressDialog;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_question);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = AskQuestion.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         forceRTLIfSupported();
         initToolbar();
         progressDialog = new ProgressDialog(this);

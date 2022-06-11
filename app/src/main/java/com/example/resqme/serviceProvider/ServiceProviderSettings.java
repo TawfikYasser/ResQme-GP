@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,19 +24,32 @@ import com.example.resqme.common.LogData;
 import com.example.resqme.common.Login;
 import com.example.resqme.common.MyReports;
 import com.example.resqme.common.Questions;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.customer.SendReport;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
+import java.util.Locale;
 
 public class ServiceProviderSettings extends AppCompatActivity {
     Button winchRequests, cmcRequests, sparePartsRequests, questions, sendReports, showReports, aboutUs, contactUs, logoutBtn;
     Context context;
     FirebaseAuth mAuth;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_settings);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ServiceProviderSettings.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initViews();
         initToolbar();
         forceRTLIfSupported();

@@ -2,6 +2,8 @@ package com.example.resqme.customer;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.Locale;
+
 public class CMCDetails extends AppCompatActivity {
     ImageView cmcImageView;
     TextView cmcName, cmcAddress, cmcAvailability, cmcCarType;
@@ -27,10 +31,21 @@ public class CMCDetails extends AppCompatActivity {
     //CMC Data
     String cmcID_STR, cmcNameSTR, cmcAvailabilitySTR, cmcOwnerID,
             cmcCarTypeSTR, cmcImageSTR, cmcStatusSTR, cmcAddressSTR;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cmcdetails);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = CMCDetails.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         initViews();
         forceRTLIfSupported();

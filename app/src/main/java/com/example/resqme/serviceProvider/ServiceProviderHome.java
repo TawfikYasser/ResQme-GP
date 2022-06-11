@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
@@ -76,6 +78,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -91,11 +94,21 @@ public class ServiceProviderHome extends AppCompatActivity  {
     LocationCallback locationCallback = null;
     TextView SPNAMEWelcome;
     MaterialCardView settingsMCV, cmcMCV, sparepartsMCV, winchMCV, addWinchMCV, addSparePartsMCV;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_home);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ServiceProviderHome.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         context = getApplicationContext();
         initviews();
         DatabaseReference winchesData = FirebaseDatabase.getInstance().getReference().child("Winches");

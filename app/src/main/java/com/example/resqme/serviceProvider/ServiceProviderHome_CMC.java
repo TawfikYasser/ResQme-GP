@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.LogData;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.model.CMC;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
@@ -28,6 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class ServiceProviderHome_CMC extends AppCompatActivity {
     // CMC Data
     ImageView cmcImageSPHome;
@@ -36,10 +41,21 @@ public class ServiceProviderHome_CMC extends AppCompatActivity {
     String cmcAvailability = "", cmcID = "";
     MaterialCardView winchCV;
     ShimmerFrameLayout shimmerFrameLayoutCMCSP;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_home_cmc);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ServiceProviderHome_CMC.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         shimmerFrameLayoutCMCSP = findViewById(R.id.cmc_item_sp_shimmer_layout);

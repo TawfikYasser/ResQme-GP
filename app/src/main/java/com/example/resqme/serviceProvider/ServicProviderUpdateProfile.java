@@ -16,6 +16,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.example.resqme.R;
 import com.example.resqme.common.AddressMap;
 import com.example.resqme.common.InternetConnection;
+import com.example.resqme.customer.CustomerHome;
 import com.example.resqme.customer.CustomerUpdateProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +55,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ServicProviderUpdateProfile extends AppCompatActivity implements View.OnClickListener{
@@ -65,10 +70,21 @@ public class ServicProviderUpdateProfile extends AppCompatActivity implements Vi
     SharedPreferences sp_data;
     FirebaseUser user;
     InternetConnection ic;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servic_provider_update_profile);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ServicProviderUpdateProfile.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initViews();
         initToolbar();
         forceRTLIfSupported();

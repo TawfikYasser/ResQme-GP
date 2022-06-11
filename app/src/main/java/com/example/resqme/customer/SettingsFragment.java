@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -28,6 +30,7 @@ import com.example.resqme.serviceProvider.ServiceProviderSettings;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -44,6 +47,7 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
     FirebaseAuth mAuth;
     Button logoutBtn, reportsBtn, aboutusBtn, contactusBtn, viewReportsBtn, requestsBTN, cartBTN,
     askQuestionSettingsBtn, showQuestionsSettingsCustomer;
+    Locale locale;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -86,6 +90,18 @@ public class SettingsFragment extends Fragment implements  View.OnClickListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_settings, container, false);
+
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = getActivity().getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
+
         mAuth = FirebaseAuth.getInstance();
         //logoutBtn = logoutBtn.findViewById(R.id.logout_customer_profile);
         logoutBtn = (Button) v.findViewById(R.id.logout_customer_profile);

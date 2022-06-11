@@ -128,6 +128,13 @@
                     android:layout_height="wrap_content"
                     android:text="Nissan"/>
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/Lada"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="Lada"/>
+
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/Volkswagen"
@@ -156,6 +163,13 @@
                     style="@style/CustomChipStyle"
                     android:layout_height="wrap_content"
                     android:text="Fiat"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/all_car_types_filter"
+                    android:layout_width="wrap_content"
+                    style="@style/CustomChipStyle"
+                    android:layout_height="wrap_content"
+                    android:text="كل الأنواع"/>
 
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>

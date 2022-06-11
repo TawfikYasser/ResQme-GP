@@ -3,6 +3,8 @@ package com.example.resqme.serviceProvider;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,16 +15,30 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.resqme.R;
 import com.example.resqme.common.LogData;
+import com.example.resqme.customer.CustomerHome;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.Locale;
 
 public class ServiceProviderAddService extends AppCompatActivity implements View.OnClickListener {
     ImageView sp,cmc,winch;
     Context context;
+    Locale locale;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_add_service);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ServiceProviderAddService.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         context = getApplicationContext();
         initViews();
     }

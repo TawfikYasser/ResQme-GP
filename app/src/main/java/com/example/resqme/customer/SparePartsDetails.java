@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class SparePartsDetails extends AppCompatActivity {
     ImageView itemImageView;
     TextView itemName, itemPrice, itemNewOrUsed, itemAvailability, itemCarType;
@@ -41,10 +45,21 @@ public class SparePartsDetails extends AppCompatActivity {
     //Item Data
     String itemIdSTR, itemNameSTR, itemAvailabilitySTR, itemPriceSTR,
             itemCarTypeSTR, itemImageSTR, itemOwnerIDSTR, itemStatusSTR, itemNewOrUsedSTR;
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spareparts_details);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = SparePartsDetails.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         SharedPreferences userData = getSharedPreferences("CUSTOMER_LOCAL_DATA", Context.MODE_PRIVATE);
         String c_userid = userData.getString("C_USERID", "C_DEFAULT");
         initViews();

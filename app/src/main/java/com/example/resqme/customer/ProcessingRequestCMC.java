@@ -14,6 +14,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,6 +52,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ProcessingRequestCMC extends AppCompatActivity {
 
@@ -62,11 +65,21 @@ public class ProcessingRequestCMC extends AppCompatActivity {
 
     DatabaseReference cmcRequestsDB;
     ProgressDialog progressDialog;
-
+    Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_processing_request_cmc);
+        if(Locale.getDefault().getLanguage().equals("ar")){
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+            Resources resources = ProcessingRequestCMC.this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }else{
+            locale = new Locale("en");
+        }
         initToolbar();
         forceRTLIfSupported();
         cmcRequestsDB = FirebaseDatabase.getInstance().getReference().child("CMCRequests");
