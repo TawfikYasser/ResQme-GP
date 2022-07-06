@@ -150,35 +150,26 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         String LoginEmail = mEmailLogin.getText().toString().trim();
         String LoginPass = mPasswordLogin.getText().toString().trim();
         if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
-            new AlertDialog.Builder(this, R.style.AlertDialogCustom)
-                    .setTitle("تأكيد تسجيل الدخول")
-                    .setMessage("متابعة؟")
-                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            progressDialog.setMessage("من فضلك انتظر قليلاً...");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
+            progressDialog.setMessage("من فضلك انتظر قليلاً...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
-                            mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
-                                        Log.d("Login",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        getUserData(LoginEmail);
-                                    }else{
-                                        progressDialog.dismiss();
-                                        String errorMessage = task.getException().getMessage();
-                                        Snackbar.make(findViewById(android.R.id.content),errorMessage,Snackbar.LENGTH_LONG)
-                                                .setBackgroundTint(getResources().getColor(R.color.red_color))
-                                                .setTextColor(getResources().getColor(R.color.white))
-                                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                                    }
-                                }
-                            });
-                        }
-                    })
-                    .setNegativeButton("لا", null)
-                    .show();
+            mAuth.signInWithEmailAndPassword(LoginEmail,LoginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Log.d("Login",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        getUserData(LoginEmail);
+                    }else{
+                        progressDialog.dismiss();
+                        String errorMessage = task.getException().getMessage();
+                        Snackbar.make(findViewById(android.R.id.content),errorMessage,Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(getResources().getColor(R.color.red_color))
+                                .setTextColor(getResources().getColor(R.color.white))
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                    }
+                }
+            });
         }else{
             progressDialog.dismiss();
             Snackbar.make(findViewById(android.R.id.content),"يجب إدخال جميع البيانات!",Snackbar.LENGTH_LONG)

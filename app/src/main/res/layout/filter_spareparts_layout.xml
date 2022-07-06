@@ -31,7 +31,7 @@
             android:layout_height="wrap_content">
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupSP"
-                app:singleSelection="true"
+                app:singleSelection="false"
                 app:selectionRequired="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

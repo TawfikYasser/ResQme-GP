@@ -38,7 +38,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
@@ -116,53 +118,64 @@ public class SpareFragment extends Fragment {
                 FilterSheet.setCanceledOnTouchOutside(true);
                 FilterGp = FilterSheet.findViewById(R.id.chipGroupSP);
                 Search = FilterSheet.findViewById(R.id.Get_Search_SP_Result);
+                FilterSheet.show();
                 DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference().child("SpareParts");
+                ArrayList<String> filters = new ArrayList<>();
+                FilterGp.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+                    @Override
+                    public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+                        filters.clear();
+                        for (int i = 0; i < checkedIds.size(); i++) {
+                            Chip chip = group.findViewById(checkedIds.get(i));
+                            filters.add(chip.getText().toString());
+                        }
+                    }
+                });
+
                 Search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         FilterSheet.cancel();
-                        for(int i=0;i< FilterGp.getChildCount() ;i++){
-                            Chip chip= (Chip) FilterGp.getChildAt(i);
-                            if(chip.isChecked()){
-                                Filter = (String) chip.getText();
+                        spareParts.clear();
+                        DBFilter.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(!shimmerFrameLayoutSpareCustomer.isShimmerStarted()){
+                                    shimmerFrameLayoutSpareCustomer.startShimmer();
+                                    shimmerFrameLayoutSpareCustomer.setVisibility(View.VISIBLE);
+                                    sparepartsRV.setVisibility(View.GONE);
+                                }
                                 spareParts.clear();
-                                DBFilter.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(!shimmerFrameLayoutSpareCustomer.isShimmerStarted()){
-                                            shimmerFrameLayoutSpareCustomer.startShimmer();
-                                            shimmerFrameLayoutSpareCustomer.setVisibility(View.VISIBLE);
-                                            sparepartsRV.setVisibility(View.GONE);
+                                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                    SparePart sparePart = dataSnapshot.getValue(SparePart.class);
+                                    for(int i =0; i<filters.size();i++){
+                                        if(filters.get(i).equals(sparePart.getItemCarType())
+                                                && sparePart.getItemStatus().equals("Approved")
+                                                && sparePart.getItemAvailability().equals("Available")){
+                                            spareParts.add(sparePart);
+                                            sparepartsAdapter.notifyDataSetChanged();
+                                            break;
                                         }
-                                        spareParts.clear();
-                                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                                            SparePart sparePart = dataSnapshot.getValue(SparePart.class);
-                                            if(sparePart.getItemStatus().equals("Approved") && sparePart.getItemAvailability().equals("Available") && sparePart.getItemCarType().equals(Filter)){
-                                                spareParts.add(sparePart);
-                                                sparepartsAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                        if(spareParts.size() == 0){
-                                            noFilterResult.setVisibility(View.VISIBLE);
-                                        }else{
-                                            noFilterResult.setVisibility(View.GONE);
-                                        }
-                                        shimmerFrameLayoutSpareCustomer.stopShimmer();
-                                        shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
-                                        sparepartsRV.setVisibility(View.VISIBLE);
                                     }
+                                }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
+                                if(spareParts.size() == 0){
+                                    noFilterResult.setVisibility(View.VISIBLE);
+                                }else{
+                                    noFilterResult.setVisibility(View.GONE);
+                                }
+                                shimmerFrameLayoutSpareCustomer.stopShimmer();
+                                shimmerFrameLayoutSpareCustomer.setVisibility(View.GONE);
+                                sparepartsRV.setVisibility(View.VISIBLE);
                             }
-                        }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
-                FilterSheet.show();
-
             }
         });
 

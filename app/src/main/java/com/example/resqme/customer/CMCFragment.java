@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
@@ -122,51 +123,62 @@ public class CMCFragment extends Fragment {
                 FilterSheet.setCanceledOnTouchOutside(true);
                 FilterGp = FilterSheet.findViewById(R.id.chipGroupcmc);
                 Search = FilterSheet.findViewById(R.id.Get_Search_CMC_Result);
+                FilterSheet.show();
                 DatabaseReference DBFilter = FirebaseDatabase.getInstance().getReference().child("CMCs");
+                ArrayList<String> filters = new ArrayList<>();
+                FilterGp.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+                    @Override
+                    public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+                        filters.clear();
+                        for (int i = 0; i < checkedIds.size(); i++) {
+                            Chip chip = group.findViewById(checkedIds.get(i));
+                            filters.add(chip.getText().toString());
+                        }
+                    }
+                });
                 Search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         FilterSheet.cancel();
-                        for(int i=0;i<FilterGp.getChildCount() ;i++){
-                            Chip chip= (Chip) FilterGp.getChildAt(i);
-                            if(chip.isChecked()){
-                                Filter = (String) chip.getText();
-                                DBFilter.addValueEventListener(new ValueEventListener() {
-                                    @SuppressLint("NotifyDataSetChanged")
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(!shimmerFrameLayoutCMCCustomer.isShimmerStarted()){
-                                            shimmerFrameLayoutCMCCustomer.startShimmer();
-                                            shimmerFrameLayoutCMCCustomer.setVisibility(View.VISIBLE);
-                                            cmcRV.setVisibility(View.GONE);
-                                        }
-                                        cmcs.clear();
-                                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                                            CMC cmc = dataSnapshot.getValue(CMC.class);
-                                            if(cmc.getCmcStatus().equals("Approved") && cmc.getCmcAvailability().equals("Available") && cmc.getCmcBrand().equals(Filter)){
-                                                cmcs.add(cmc);
-                                                cmcAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                        if(cmcs.size() == 0){
-                                            noFilterResult.setVisibility(View.VISIBLE);
-                                        }else{
-                                            noFilterResult.setVisibility(View.GONE);
-                                        }
-                                        shimmerFrameLayoutCMCCustomer.stopShimmer();
-                                        shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
-                                        cmcRV.setVisibility(View.VISIBLE);
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                        DBFilter.addValueEventListener(new ValueEventListener() {
+                            @SuppressLint("NotifyDataSetChanged")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(!shimmerFrameLayoutCMCCustomer.isShimmerStarted()){
+                                    shimmerFrameLayoutCMCCustomer.startShimmer();
+                                    shimmerFrameLayoutCMCCustomer.setVisibility(View.VISIBLE);
+                                    cmcRV.setVisibility(View.GONE);
+                                }
+                                cmcs.clear();
+                                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                    CMC cmc = dataSnapshot.getValue(CMC.class);
 
+                                    for(int i =0; i<filters.size();i++){
+                                        if(filters.get(i).equals(cmc.getCmcBrand())
+                                                && cmc.getCmcStatus().equals("Approved")
+                                                && cmc.getCmcAvailability().equals("Available")){
+                                            cmcs.add(cmc);
+                                            cmcAdapter.notifyDataSetChanged();
+                                            break;
+                                        }
                                     }
-                                });
+                                }
+                                if(cmcs.size() == 0){
+                                    noFilterResult.setVisibility(View.VISIBLE);
+                                }else{
+                                    noFilterResult.setVisibility(View.GONE);
+                                }
+                                shimmerFrameLayoutCMCCustomer.stopShimmer();
+                                shimmerFrameLayoutCMCCustomer.setVisibility(View.GONE);
+                                cmcRV.setVisibility(View.VISIBLE);
                             }
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
-                FilterSheet.show();
             }
         });
 
