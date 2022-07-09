@@ -150,7 +150,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         String LoginEmail = mEmailLogin.getText().toString().trim();
         String LoginPass = mPasswordLogin.getText().toString().trim();
         if (!TextUtils.isEmpty(LoginEmail) && !TextUtils.isEmpty(LoginPass)) {
-            progressDialog.setMessage("من فضلك انتظر قليلاً...");
+            progressDialog.setMessage("جاري تسجيل الدخول...");
             progressDialog.setCancelable(false);
             progressDialog.show();
 

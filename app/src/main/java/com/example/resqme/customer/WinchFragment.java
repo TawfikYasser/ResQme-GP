@@ -357,7 +357,7 @@ public class WinchFragment extends Fragment implements View.OnClickListener {
                 LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
                 googleMap.addMarker(new MarkerOptions()
                         .position(me)
-                        .title("موقعك الحالي")).showInfoWindow();
+                        .title("موقعك الحالي").icon(BitmapFromVector(getContext(), R.drawable.car_marker))).showInfoWindow();
                 for (int i = 0; i < winchesList.size(); i++) {
                     //Get each winch and pin on the map
                     Winch winch = winchesList.get(i);

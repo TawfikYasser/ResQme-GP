@@ -268,7 +268,7 @@ public class TrackingWinchRequest extends AppCompatActivity {
                 LatLng me = new LatLng(Double.valueOf(myLat), Double.valueOf(myLong));
                 googleMap.addMarker(new MarkerOptions()
                         .position(me)
-                        .title("موقعك الحالي")).showInfoWindow();
+                        .title("موقعك الحالي").icon(BitmapFromVector(TrackingWinchRequest.this, R.drawable.car_marker))).showInfoWindow();
 
                 // Put the winch on the map
                 LatLng latLng = new LatLng(Double.valueOf(winchesList.get(0).getWinchCurrentLat()),
